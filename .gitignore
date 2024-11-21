@@ -69,3 +69,4 @@ tags
 *.orig
 .cache
 compile_commands.json
+sfuse_filesystem
