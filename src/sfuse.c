@@ -5,6 +5,8 @@
  * Version: 0.0.1
  */
 
+#include "fuse_opt.h"
+#include <stddef.h>
 #define FUSE_USE_VERSION 31
 
 #include <errno.h>
@@ -46,6 +48,7 @@ static const char *file_content = "Hello, World!";
  */
 static int sfuse_getattr(const char *path, struct stat *stbuf,
                          struct fuse_file_info *fi) {
+  // printf("sfuse_getattr called...");
   (void)fi; /* 사용하지 않음 */
 
   memset(stbuf, 0, sizeof(struct stat));
@@ -53,11 +56,13 @@ static int sfuse_getattr(const char *path, struct stat *stbuf,
     /* 루트 디렉토리 속성 설정 */
     stbuf->st_mode = S_IFDIR | 0755; /* 디렉토리, 읽기/실행 권한 */
     stbuf->st_nlink = 2;             /* 링크 개수: "."와 ".." */
+    return 0;
   } else if (strcmp(path, file_name) == 0) {
     /* "hello.txt" 파일 속성 설정 */
-    stbuf->st_mode = S_IFREG | 0444; /* 일반 파일, 읽기 전용 권한 */
-    stbuf->st_nlink = 1;             /* 단일 파일 링크 */
+    stbuf->st_mode = S_IFREG | 0444;       /* 일반 파일, 읽기 전용 권한 */
+    stbuf->st_nlink = 1;                   /* 단일 파일 링크 */
     stbuf->st_size = strlen(file_content); /* 파일 크기 */
+    return 0;
   } else {
     return -ENOENT; /* 파일 또는 디렉토리가 없음 */
   }
@@ -100,9 +105,9 @@ static int sfuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   }
 
   /* 디렉토리 항목 추가 */
-  filler(buf, ".", NULL, 0, 0);           /* 현재 디렉토리 */
-  filler(buf, "..", NULL, 0, 0);          /* 부모 디렉토리 */
-  filler(buf, file_name + 1, NULL, 0, 0); /* "hello.txt" 파일 */
+  filler(buf, ".", NULL, 0, FUSE_FILL_DIR_PLUS); /* 현재 디렉토리 */
+  filler(buf, "..", NULL, 0, 0);                 /* 부모 디렉토리 */
+  filler(buf, file_name + 1, NULL, 0, 0);        /* "hello.txt" 파일 */
 
   return 0;
 }
@@ -172,6 +177,13 @@ static int sfuse_read(const char *path, char *buf, size_t size, off_t offset,
   return size; /* 읽은 바이트 수 반환 */
 }
 
+// TODO: sfuse_write 함수 정의 작성하기
+static int sfuse_write(const char *path, const char *buf, size_t size,
+                       off_t offset, struct fuse_file_info *fi) {
+
+  return 0;
+}
+
 /*
  * op (fuse_operations)
  * : FUSE 파일 시스템 동작을 정의하는 구조체
@@ -203,6 +215,7 @@ static const struct fuse_operations op = {
     .readdir = sfuse_readdir, /* 디렉토리 내용 반환 */
     .open = sfuse_open,       /* 파일 열기 요청 처리 */
     .read = sfuse_read,       /* 파일 읽기 요청 처리 */
+    .write = sfuse_write,     /* 파일 쓰기 요청 처리*/
 };
 
 /*
@@ -218,4 +231,11 @@ static const struct fuse_operations op = {
  *   - 사용자 정의 동작(op)을 등록하여 파일 시스템 요청 처리.
  *   - 실행 중 발생하는 파일 시스템 요청을 적절한 핸들러로 전달.
  */
-int main(int argc, char *argv[]) { return fuse_main(argc, argv, &op, NULL); }
+int main(int argc, char *argv[]) {
+  int ret;
+  struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+
+  ret = fuse_main(argc, argv, &op, NULL);
+
+  return ret;
+}
