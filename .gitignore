@@ -70,3 +70,4 @@ tags
 .cache
 compile_commands.json
 sfuse_filesystem
+build
