@@ -6,12 +6,14 @@
  */
 
 #include "fuse_opt.h"
-#include <stddef.h>
 #define FUSE_USE_VERSION 31
+#define FILE_MAX_SIZE 1024 /* 가상 파일 최대 크기 */
 
 #include <errno.h>
 #include <fuse.h>
+#include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 
@@ -23,7 +25,8 @@
  * 해당 파일은 "Hello, World!"라는 내용을 가지고 있습니다.
  */
 static const char *file_name = "/hello.txt";
-static const char *file_content = "Hello, World!";
+static char *file_content = "Hello, World!";
+static size_t file_len;
 
 /*
  * sfuse_getattr
@@ -48,7 +51,7 @@ static const char *file_content = "Hello, World!";
  */
 static int sfuse_getattr(const char *path, struct stat *stbuf,
                          struct fuse_file_info *fi) {
-  // printf("sfuse_getattr called...");
+  printf("sfuse_getattr called...");
   (void)fi; /* 사용하지 않음 */
 
   memset(stbuf, 0, sizeof(struct stat));
@@ -59,9 +62,9 @@ static int sfuse_getattr(const char *path, struct stat *stbuf,
     return 0;
   } else if (strcmp(path, file_name) == 0) {
     /* "hello.txt" 파일 속성 설정 */
-    stbuf->st_mode = S_IFREG | 0444;       /* 일반 파일, 읽기 전용 권한 */
-    stbuf->st_nlink = 1;                   /* 단일 파일 링크 */
-    stbuf->st_size = strlen(file_content); /* 파일 크기 */
+    stbuf->st_mode = S_IFREG | 0444; /* 일반 파일, 읽기 전용 권한 */
+    stbuf->st_nlink = 1;             /* 단일 파일 링크 */
+    stbuf->st_size = file_len;       /* 파일 크기 */
     return 0;
   } else {
     return -ENOENT; /* 파일 또는 디렉토리가 없음 */
@@ -96,6 +99,7 @@ static int sfuse_getattr(const char *path, struct stat *stbuf,
 static int sfuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                          off_t offset, struct fuse_file_info *fi,
                          enum fuse_readdir_flags flags) {
+  printf("sfuse_readdir called...");
   (void)offset; /* 사용하지 않음 */
   (void)fi;     /* 사용하지 않음 */
   (void)flags;  /* 사용하지 않음 */
@@ -105,9 +109,9 @@ static int sfuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
   }
 
   /* 디렉토리 항목 추가 */
-  filler(buf, ".", NULL, 0, FUSE_FILL_DIR_PLUS); /* 현재 디렉토리 */
-  filler(buf, "..", NULL, 0, 0);                 /* 부모 디렉토리 */
-  filler(buf, file_name + 1, NULL, 0, 0);        /* "hello.txt" 파일 */
+  filler(buf, ".", NULL, 0, 0);           /* 현재 디렉토리 */
+  filler(buf, "..", NULL, 0, 0);          /* 부모 디렉토리 */
+  filler(buf, file_name + 1, NULL, 0, 0); /* "hello.txt" 파일 */
 
   return 0;
 }
@@ -127,6 +131,7 @@ static int sfuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
  *  -ENOENT: 파일이 없음
  */
 static int sfuse_open(const char *path, struct fuse_file_info *fi) {
+  printf("sfuse_open called...");
   (void)fi; /* 사용하지 않음 */
 
   if (strcmp(path, file_name) != 0) {
@@ -157,31 +162,57 @@ static int sfuse_open(const char *path, struct fuse_file_info *fi) {
  */
 static int sfuse_read(const char *path, char *buf, size_t size, off_t offset,
                       struct fuse_file_info *fi) {
+  printf("sfuse_read called...");
   (void)fi; /* 사용하지 않음 */
 
   if (strcmp(path, file_name) != 0) {
     return -ENOENT; /* 파일이 없음 */
   }
 
-  size_t len = strlen(file_content);
-  if (offset >= len) {
+  if (offset >= file_len) {
     return 0; /* 파일 끝을 초과한 경우 */
   }
 
-  if (offset + size > len) {
-    size = len - offset; /* 읽기 크기 조정 (파일 끝까지만 읽음) */
+  if (offset + size > file_len) {
+    size = file_len - offset; /* 읽기 크기 조정 (파일 끝까지만 읽음) */
   }
 
   memcpy(buf, file_content + offset, size);
 
   return size; /* 읽은 바이트 수 반환 */
 }
+/*
+ * sfuse_write
+ */
 
-// TODO: sfuse_write 함수 정의 작성하기
 static int sfuse_write(const char *path, const char *buf, size_t size,
                        off_t offset, struct fuse_file_info *fi) {
+  printf("sfuse_write called...");
+  (void)fi;
 
-  return 0;
+  if (strcmp(path, file_name) != 0) {
+    return -ENOENT; /* 파일이 없음 */
+  }
+
+  /* 오프셋이 파일 크기를 초과하면 실패 */
+  if (offset > FILE_MAX_SIZE) {
+    return -EFBIG; /* 파일 크기 초과 */
+  }
+
+  /* 쓰기 크기 제한 (file_content의 최대 크기 초과 방지) */
+  if (offset + size > FILE_MAX_SIZE) {
+    size = FILE_MAX_SIZE - offset; /* 남은 크기만큼 조정 */
+  }
+
+  /* 데이터 복사 */
+  memcpy(file_content + offset, buf, size);
+
+  /* 파일 크기 업데이트 */
+  if (offset + size > file_len) {
+    file_len = offset + size;
+  }
+
+  return size; /* 성공적으로 복사된 바이트 수 반환 */
 }
 
 /*
@@ -232,10 +263,13 @@ static const struct fuse_operations op = {
  *   - 실행 중 발생하는 파일 시스템 요청을 적절한 핸들러로 전달.
  */
 int main(int argc, char *argv[]) {
+  file_len = strlen(file_content); // 런타임 초기화
+
   int ret;
   struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
 
   ret = fuse_main(argc, argv, &op, NULL);
+  fuse_opt_free_args(&args);
 
   return ret;
 }
