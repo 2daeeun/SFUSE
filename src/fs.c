@@ -495,6 +495,7 @@ int fs_create(struct sfuse_fs *fs, const char *path, mode_t mode,
       // Place new entry at first position
       entries[0].inode = new_ino;
       strncpy(entries[0].name, name, SFUSE_NAME_MAX);
+      entries[0].name[SFUSE_NAME_MAX - 1] = '\0'; /* null-termination 보장 */
       write_block(fs->backing_fd, parent_inode.direct[i], entries);
       parent_inode.size += SFUSE_BLOCK_SIZE;
       added = 1;
@@ -507,6 +508,8 @@ int fs_create(struct sfuse_fs *fs, const char *path, mode_t mode,
         if (entries[j].inode == 0) {
           entries[j].inode = new_ino;
           strncpy(entries[j].name, name, SFUSE_NAME_MAX);
+          entries[j].name[SFUSE_NAME_MAX - 1] =
+              '\0'; /* ensure null-termination */
           write_block(fs->backing_fd, parent_inode.direct[i], entries);
           added = 1;
           break;
@@ -605,6 +608,8 @@ int fs_mkdir(struct sfuse_fs *fs, const char *path, mode_t mode) {
         if (entries[j].inode == 0) {
           entries[j].inode = new_ino;
           strncpy(entries[j].name, name, SFUSE_NAME_MAX);
+          entries[j].name[SFUSE_NAME_MAX - 1] =
+              '\0'; /* ensure null-termination */
           write_block(fs->backing_fd, parent_inode.direct[i], entries);
           added = 1;
           break;
@@ -830,6 +835,7 @@ removed_src:
       }
       entries[0].inode = src_ino;
       strncpy(entries[0].name, to_name, SFUSE_NAME_MAX);
+      entries[0].name[SFUSE_NAME_MAX - 1] = '\0'; /* ensure null-termination */
       write_block(fs->backing_fd, to_parent_inode.direct[i], entries);
       to_parent_inode.size += SFUSE_BLOCK_SIZE;
       break;
@@ -977,6 +983,45 @@ int fs_truncate(struct sfuse_fs *fs, const char *path, off_t size) {
   inode.mtime = (uint32_t)now_time;
   inode.ctime = (uint32_t)now_time;
   inode_sync(fs->backing_fd, &fs->sb, ino, &inode);
+  return 0;
+}
+
+/**
+ * @brief Synchronize file data and metadata to disk.
+ *
+ * @param fs 파일 시스템 컨텍스트
+ * @param path 파일 경로 (사용되지 않음)
+ * @param datasync 데이터만 동기화할지 여부
+ * @param fi FUSE 파일 정보 (사용되지 않음)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
+int fs_fsync(struct sfuse_fs *fs, const char *path, int datasync,
+             struct fuse_file_info *fi) {
+  (void)path;
+  (void)fi;
+  if (datasync) {
+    if (fdatasync(fs->backing_fd) < 0)
+      return -errno;
+  } else {
+    if (fsync(fs->backing_fd) < 0)
+      return -errno;
+  }
+  return 0;
+}
+
+/**
+ * @brief 파일 데이터와 메타데이터를 디스크에 기록(flush)
+ *
+ * @param fs 파일 시스템 컨텍스트
+ * @param path 파일 경로(사용되지 않음)
+ * @param fi FUSE 파일 정보(사용되지 않음)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
+int fs_flush(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi) {
+  (void)path;
+  (void)fi;
+  if (fsync(fs->backing_fd) < 0)
+    return -errno;
   return 0;
 }
 
