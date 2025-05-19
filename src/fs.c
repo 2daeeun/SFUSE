@@ -1042,6 +1042,24 @@ int fs_utimens(struct sfuse_fs *fs, const char *path,
   return 0;
 }
 
+/**
+ * @brief 파일 접근 권한 검사
+ *
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param path 검사할 경로 (null-terminated 문자열)
+ * @param mask 접근 마스크 (R_OK, W_OK, X_OK)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
+int fs_access(struct sfuse_fs *fs, const char *path, int mask) {
+  uint32_t ino;
+  /* 경로 → inode 변환 실패 시 ENOENT 반환 */
+  if (fs_resolve_path(fs, path, &ino) < 0)
+    return -ENOENT;
+  /* mask에 따른 실제 권한 검사는 필요 시 구현 가능 */
+  (void)mask;
+  return 0;
+}
+
 int fs_flush(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi) {
   (void)path;
   (void)fi;
