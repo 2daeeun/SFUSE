@@ -1,9 +1,15 @@
-// SPDX-License-Identifier: GPL-2.0
-// SFUSE filesystem implementation
+// File: src/fs.c
 
-#include <errno.h> // 추가
+#include "fs.h"
+#include "bitmap.h"
+#include "block.h"
+#include "dir.h"
+#include "inode.h"
+#include "super.h"
+#include <errno.h>
 #include <fuse3/fuse.h>
-#include <stdbool.h> // 추가
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,23 +17,18 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "bitmap.h"
-#include "block.h"
-#include "dir.h"
-#include "fs.h"
-#include "inode.h"
-#include "super.h"
-
-// main.c 에 선언된 플래그를 외부 참조
+/** @brief 전역: 포맷 강제 여부 (-F 옵션) */
 extern bool g_force_format;
 
-// VSFS 최대 inode 개수 (super.h에도 정의되어 있을 수 있습니다)
-#define SFUSE_MAX_INODES 1024
-
 /**
- * 빈 이미지 파일을 VSFS 구조로 초기화(포맷)합니다.
- * - fd: 열린 이미지 파일 디스크립터
- * - sb: 수퍼블록 구조체를 채워놓을 버퍼
+ * @brief 빈 이미지 파일을 VSFS 구조로 포맷
+ *
+ * 디스크 이미지 파일을 초기화하여 슈퍼블록, 비트맵, 루트 아이노드를 설정하고
+ * 기록한다.
+ *
+ * @param fd      디스크 이미지 파일 디스크립터
+ * @param sb      초기화된 슈퍼블록 정보를 저장할 구조체 포인터
+ * @return 성공 시 0, 실패 시 -1
  */
 static int fs_format_filesystem(int fd, struct sfuse_superblock *sb) {
   struct stat st;
@@ -35,17 +36,17 @@ static int fs_format_filesystem(int fd, struct sfuse_superblock *sb) {
     return -1;
   uint32_t total_all = st.st_size / SFUSE_BLOCK_SIZE;
 
-  // 메타데이터 블록 수 계산
+  /* 비트맵 블록 수 계산 */
   uint32_t bm_blocks = (total_all > 32768 ? 2 : 1);
   uint32_t inodes_per_block = SFUSE_BLOCK_SIZE / sizeof(struct sfuse_inode);
   uint32_t it_blocks =
       (SFUSE_MAX_INODES + inodes_per_block - 1) / inodes_per_block;
 
-  // 충분한 용량 확인
+  /* 디스크 용량 체크 */
   if (total_all <= 1 + 1 + bm_blocks + it_blocks)
     return -1;
 
-  // 수퍼블록 설정
+  /* 슈퍼블록 설정 */
   sb->magic = SFUSE_MAGIC;
   sb->total_inodes = SFUSE_MAX_INODES;
   sb->inode_bitmap_start = 1;
@@ -56,14 +57,14 @@ static int fs_format_filesystem(int fd, struct sfuse_superblock *sb) {
   sb->free_inodes = SFUSE_MAX_INODES;
   sb->free_blocks = sb->total_blocks;
 
-  // 비트맵 초기화
+  /* 비트맵 초기화 (0으로 채움) */
   struct sfuse_bitmaps bmaps;
   memset(&bmaps, 0, sizeof(bmaps));
-  // inode 0,1 예약
+  /* 아이노드 0,1 예약 (루트) */
   bmaps.inode.map[0] |= 0x03;
   sb->free_inodes -= 2;
 
-  // 루트 inode 구성
+  /* 루트 inode 초기화 */
   struct sfuse_inode root;
   memset(&root, 0, sizeof(root));
   root.mode = S_IFDIR | 0755;
@@ -73,31 +74,43 @@ static int fs_format_filesystem(int fd, struct sfuse_superblock *sb) {
   time_t now = time(NULL);
   root.atime = root.mtime = root.ctime = (uint32_t)now;
 
-  // 디스크에 기록
-  // 1) 수퍼블록
+  /* 디스크에 기록 */
+  /* 1) 슈퍼블록 */
   if (pwrite(fd, sb, SFUSE_BLOCK_SIZE, 0) != SFUSE_BLOCK_SIZE)
     return -1;
-  // 2) inode 비트맵
+  /* 2) 아이노드 비트맵 */
   if (pwrite(fd, &bmaps.inode, SFUSE_BLOCK_SIZE,
              sb->inode_bitmap_start * SFUSE_BLOCK_SIZE) < 0)
     return -1;
-  // 3) block 비트맵
+  /* 3) 블록 비트맵 */
   if (pwrite(fd, &bmaps.block, bm_blocks * SFUSE_BLOCK_SIZE,
              sb->block_bitmap_start * SFUSE_BLOCK_SIZE) < 0)
     return -1;
-  // 4) 루트 inode
+  /* 4) 루트 아이노드 */
   if (inode_sync(fd, sb, 1, &root) < 0)
     return -1;
 
   return 0;
 }
 
+/**
+ * @brief 파일 시스템 초기화
+ *
+ * 디스크 이미지 파일을 열고 슈퍼블록, 비트맵, 아이노드 테이블을 메모리에
+ * 로드한다.
+ *
+ * @param image_path 디스크 이미지 파일 경로
+ * @param error_out  오류 코드를 저장할 포인터 (NULL이 아닌 경우에만 설정됨)
+ * @return 초기화된 sfuse_fs 포인터, 실패 시 NULL (error_out에 오류 코드 설정)
+ */
 struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
   struct sfuse_fs *fs = calloc(1, sizeof(struct sfuse_fs));
   if (!fs) {
     *error_out = ENOMEM;
     return NULL;
   }
+
+  /* 디스크 이미지 열기 */
   fs->backing_fd = open(image_path, O_RDWR);
   if (fs->backing_fd < 0) {
     *error_out = errno;
@@ -105,10 +118,11 @@ struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
     return NULL;
   }
 
+  /* 슈퍼블록 로드 */
   int r = sb_load(fs->backing_fd, &fs->sb);
   if (r < 0) {
     if (r == -EINVAL && g_force_format) {
-      // 빈 이미지 자동 포맷
+      /* 포맷되지 않았으면 자동 포맷 수행 */
       fprintf(stderr, "SFUSE: 이미지 미포맷 감지, 자동 포맷 수행\n");
       if (fs_format_filesystem(fs->backing_fd, &fs->sb) < 0) {
         *error_out = EIO;
@@ -117,7 +131,7 @@ struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
         return NULL;
       }
     } else {
-      // 포맷 필요 없거나 다른 I/O 에러
+      /* 기타 오류 */
       *error_out = (r == -EINVAL ? EINVAL : EIO);
       close(fs->backing_fd);
       free(fs);
@@ -125,7 +139,7 @@ struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
     }
   }
 
-  // Allocate and load bitmaps
+  /* 비트맵 구조체 할당 */
   fs->bmaps = malloc(sizeof(struct sfuse_bitmaps));
   if (!fs->bmaps) {
     *error_out = ENOMEM;
@@ -133,6 +147,8 @@ struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
     free(fs);
     return NULL;
   }
+
+  /* 비트맵 블록 수 계산 및 로드 */
   uint32_t bits_per_block = SFUSE_BLOCK_SIZE * 8;
   uint32_t im_blocks =
       (fs->sb.total_inodes + bits_per_block - 1) / bits_per_block;
@@ -146,6 +162,8 @@ struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
     free(fs);
     return NULL;
   }
+
+  /* 아이노드 테이블 블록 수 계산 및 메모리 할당 */
   uint32_t inode_blocks = (fs->sb.total_inodes + SFUSE_INODES_PER_BLOCK - 1) /
                           SFUSE_INODES_PER_BLOCK;
   fs->inode_table = malloc(inode_blocks * SFUSE_BLOCK_SIZE);
@@ -156,6 +174,8 @@ struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
     free(fs);
     return NULL;
   }
+
+  /* 아이노드 테이블 읽기 */
   for (uint32_t i = 0; i < inode_blocks; ++i) {
     if (read_block(fs->backing_fd, fs->sb.inode_table_start + i,
                    &fs->inode_table[i]) < 0) {
@@ -167,14 +187,27 @@ struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
       return NULL;
     }
   }
+
   *error_out = 0;
   return fs;
 }
 
+/**
+ * @brief 파일 시스템 해제
+ *
+ * 슈퍼블록과 비트맵을 디스크에 동기화하고, 할당된 메모리 및 파일 디스크립터
+ * 정리
+ *
+ * @param fs 해제할 파일 시스템 컨텍스트 포인터
+ */
 void fs_teardown(struct sfuse_fs *fs) {
   if (!fs)
     return;
+
+  /* 슈퍼블록 동기화 */
   sb_sync(fs->backing_fd, &fs->sb);
+
+  /* 비트맵 동기화 */
   uint32_t bits_per_block = SFUSE_BLOCK_SIZE * 8;
   uint32_t im_blocks =
       (fs->sb.total_inodes + bits_per_block - 1) / bits_per_block;
@@ -182,21 +215,36 @@ void fs_teardown(struct sfuse_fs *fs) {
       (fs->sb.total_blocks + bits_per_block - 1) / bits_per_block;
   bitmap_sync(fs->backing_fd, fs->sb.inode_bitmap_start, fs->bmaps,
               im_blocks + bm_blocks);
+
+  /* 메모리 및 파일 디스크립터 정리 */
   free(fs->inode_table);
   free(fs->bmaps);
   close(fs->backing_fd);
   free(fs);
 }
 
+/**
+ * @brief 경로 문자열을 inode 번호로 변환
+ *
+ * 루트("/")는 inode 1로 처리하며, 경로를 '/' 구분자로 분할하여 순차 검색
+ *
+ * @param fs 파일 시스템 컨텍스트 포인터
+ * @param path 변환할 경로 문자열 (null-terminated)
+ * @param out_ino 변환된 inode 번호를 저장할 포인터
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_resolve_path(struct sfuse_fs *fs, const char *path, uint32_t *out_ino) {
   if (strcmp(path, "/") == 0) {
-    *out_ino = 1; // root inode
+    *out_ino = 1; /* 루트 inode */
     return 0;
   }
+
+  /* 경로 복사 및 분할 */
   char *path_copy = strdup(path);
   if (!path_copy)
     return -ENOMEM;
-  uint32_t current = 1; // start at root
+
+  uint32_t current = 1; /* 루트부터 시작 */
   char *token = strtok(path_copy, "/");
   while (token) {
     uint32_t next;
@@ -209,18 +257,32 @@ int fs_resolve_path(struct sfuse_fs *fs, const char *path, uint32_t *out_ino) {
     token = strtok(NULL, "/");
   }
   free(path_copy);
+
   *out_ino = current;
   return 0;
 }
 
+/**
+ * @brief 파일 또는 디렉터리 속성 가져오기 (stat)
+ *
+ * 지정 경로의 inode를 조회하여 stat 구조체에 채움
+ *
+ * @param fs 파일 시스템 컨텍스트 포인터
+ * @param path 대상 경로 문자열
+ * @param stbuf 속성 정보를 채울 stat 구조체 포인터
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_getattr(struct sfuse_fs *fs, const char *path, struct stat *stbuf) {
   uint32_t ino;
   int ret = fs_resolve_path(fs, path, &ino);
   if (ret < 0)
     return ret;
+
   struct sfuse_inode inode;
   if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0)
     return -EIO;
+
+  /* stat 구조체 초기화 및 채우기 */
   memset(stbuf, 0, sizeof(*stbuf));
   stbuf->st_mode = inode.mode;
   stbuf->st_nlink = S_ISDIR(inode.mode) ? 2 : 1;
@@ -233,210 +295,317 @@ int fs_getattr(struct sfuse_fs *fs, const char *path, struct stat *stbuf) {
   return 0;
 }
 
+/**
+ * @brief 디렉터리 목록 가져오기
+ *
+ * 지정 경로의 디렉터리 엔트리를 FUSE callback에 전달
+ *
+ * @param fs 파일 시스템 컨텍스트 포인터
+ * @param path 디렉터리 경로 문자열
+ * @param buf FUSE가 제공하는 버퍼 포인터
+ * @param filler FUSE 디렉터리 엔트리 추가 콜백
+ * @param offset 읽기 시작 오프셋 (사용되지 않음)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_readdir(struct sfuse_fs *fs, const char *path, void *buf,
                fuse_fill_dir_t filler, off_t offset) {
   uint32_t ino;
-  if (fs_resolve_path(fs, path, &ino) < 0) {
+  if (fs_resolve_path(fs, path, &ino) < 0)
     return -ENOENT;
-  }
-  // List entries using helper
   return dir_list(fs, ino, buf, filler, offset);
 }
 
+/**
+ * @brief 파일 열기 (존재 여부만 확인)
+ *
+ * path가 유효한 파일인지 확인
+ *
+ * @param fs 파일 시스템 컨텍스트 포인터
+ * @param path 열고자 하는 파일 경로 문자열
+ * @param fi FUSE 파일 정보 구조체 (사용하지 않음)
+ * @return 성공 시 0, 실패 시 -ENOENT
+ */
 int fs_open(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi) {
   (void)fi;
   uint32_t ino;
-  if (fs_resolve_path(fs, path, &ino) < 0) {
+  if (fs_resolve_path(fs, path, &ino) < 0)
     return -ENOENT;
-  }
-  // No special state to set; just succeed if file exists
   return 0;
 }
 
+/**
+ * @brief 파일 읽기
+ *
+ * 지정된 경로의 파일 데이터를 읽어 사용자 버퍼에 복사한다.
+ *
+ * @param fs     파일 시스템 컨텍스트 포인터
+ * @param path   읽을 파일 경로 (null-terminated 문자열)
+ * @param buf    데이터를 저장할 사용자 버퍼 포인터
+ * @param size   요청한 읽기 크기 (바이트 단위)
+ * @param offset 파일 내 시작 오프셋 (바이트 단위)
+ * @return 읽은 바이트 수 (>=0), 실패 시 음수 오류 코드
+ */
 int fs_read(struct sfuse_fs *fs, const char *path, char *buf, size_t size,
             off_t offset) {
   uint32_t ino;
   if (fs_resolve_path(fs, path, &ino) < 0)
     return -ENOENT;
+
   struct sfuse_inode inode;
   if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0)
     return -EIO;
+
+  /* 디렉터리는 읽을 수 없음 */
   if ((inode.mode & S_IFDIR) == S_IFDIR)
     return -EISDIR;
+
+  /* 오프셋이 파일 크기를 넘으면 0 리턴 */
   if ((size_t)offset >= inode.size)
     return 0;
+
+  /* 요청 크기가 파일 끝을 넘으면 조정 */
   if ((size_t)offset + size > inode.size)
     size = inode.size - offset;
+
   size_t bytes_read = 0;
   uint8_t block_buf[SFUSE_BLOCK_SIZE];
+
+  /* 필요한 블록을 반복해서 읽음 */
   while (bytes_read < size) {
-    uint32_t block_index = (offset + bytes_read) / SFUSE_BLOCK_SIZE;
-    uint32_t block_offset = (offset + bytes_read) % SFUSE_BLOCK_SIZE;
-    uint32_t to_read = SFUSE_BLOCK_SIZE - block_offset;
+    uint32_t block_index =
+        (offset + bytes_read) / SFUSE_BLOCK_SIZE; /**< 논리 블록 인덱스 */
+    uint32_t block_offset =
+        (offset + bytes_read) % SFUSE_BLOCK_SIZE; /**< 블록 내 오프셋 */
+    uint32_t to_read =
+        SFUSE_BLOCK_SIZE - block_offset; /**< 이터레이션당 최대 읽기 바이트 */
+
     if (to_read > size - bytes_read)
       to_read = size - bytes_read;
+
     uint32_t disk_block = 0;
+
+    /* 직접 블록 참조 */
     if (block_index < 12U) {
       disk_block = inode.direct[block_index];
-    } else if (block_index < 12U + SFUSE_PTRS_PER_BLOCK) {
+    }
+    /* 단일 간접 블록 참조 */
+    else if (block_index < 12U + SFUSE_PTRS_PER_BLOCK) {
       if (!inode.indirect)
         break;
       uint32_t ptrs[SFUSE_PTRS_PER_BLOCK];
       if (read_block(fs->backing_fd, inode.indirect, ptrs) < 0)
         return -EIO;
-      disk_block = ptrs[block_index - 12];
-    } else {
+      disk_block = ptrs[block_index - 12U];
+    }
+    /* 이중 간접 블록 참조 */
+    else {
       if (!inode.double_indirect)
         break;
       uint32_t l1[SFUSE_PTRS_PER_BLOCK];
       if (read_block(fs->backing_fd, inode.double_indirect, l1) < 0)
         return -EIO;
-      uint32_t dbl_index = block_index - (12 + SFUSE_PTRS_PER_BLOCK);
+      uint32_t dbl_index = block_index - (12U + SFUSE_PTRS_PER_BLOCK);
       uint32_t l1_idx = dbl_index / SFUSE_PTRS_PER_BLOCK;
       uint32_t l2_idx = dbl_index % SFUSE_PTRS_PER_BLOCK;
-      if (l1_idx >= SFUSE_PTRS_PER_BLOCK)
-        break;
-      if (l1[l1_idx] == 0)
+      if (l1_idx >= SFUSE_PTRS_PER_BLOCK || l1[l1_idx] == 0)
         break;
       uint32_t l2[SFUSE_PTRS_PER_BLOCK];
       if (read_block(fs->backing_fd, l1[l1_idx], l2) < 0)
         return -EIO;
       disk_block = l2[l2_idx];
     }
+
+    /* 할당되지 않은 블록이면 0으로 채움 */
     if (disk_block == 0) {
       memset(buf + bytes_read, 0, to_read);
     } else {
+      /* 실제 디스크 읽기 */
       if (read_block(fs->backing_fd, disk_block, block_buf) < 0)
         return -EIO;
       memcpy(buf + bytes_read, block_buf + block_offset, to_read);
     }
     bytes_read += to_read;
   }
+
   return bytes_read;
 }
 
+/**
+ * @brief 파일 쓰기
+ *
+ * 지정된 경로의 파일에 사용자 버퍼의 데이터를 기록한다.
+ *
+ * @param fs     파일 시스템 컨텍스트 포인터
+ * @param path   쓰기 대상 파일 경로 (null-terminated 문자열)
+ * @param buf    기록할 데이터가 담긴 버퍼 포인터
+ * @param size   기록할 바이트 수
+ * @param offset 파일 내 시작 오프셋 (바이트 단위)
+ * @return 기록된 바이트 수 (>=0), 실패 시 음수 오류 코드
+ */
 int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
              size_t size, off_t offset) {
   uint32_t ino;
   if (fs_resolve_path(fs, path, &ino) < 0)
     return -ENOENT;
+
   struct sfuse_inode inode;
   if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0)
     return -EIO;
+
+  /*< 디렉터리에는 쓰기 불가 */
   if ((inode.mode & S_IFDIR) == S_IFDIR)
     return -EISDIR;
+
   size_t bytes_written = 0;
   uint8_t block_buf[SFUSE_BLOCK_SIZE];
+
+  /*< 요청한 크기만큼 반복 처리 */
   while (bytes_written < size) {
-    off_t cur_offset = offset + bytes_written;
-    uint32_t block_index = cur_offset / SFUSE_BLOCK_SIZE;
-    uint32_t block_offset = cur_offset % SFUSE_BLOCK_SIZE;
-    size_t to_write = SFUSE_BLOCK_SIZE - block_offset;
+    off_t cur_offset = offset + bytes_written; /**< 현재 오프셋 */
+    uint32_t block_index =
+        cur_offset / SFUSE_BLOCK_SIZE; /**< 논리 블록 인덱스 */
+    uint32_t block_offset =
+        cur_offset % SFUSE_BLOCK_SIZE; /**< 블록 내 오프셋 */
+    size_t to_write =
+        SFUSE_BLOCK_SIZE - block_offset; /**< 블록 경계까지 쓸 바이트 */
     if (to_write > size - bytes_written)
       to_write = size - bytes_written;
-    uint32_t *target = NULL;
-    uint32_t disk_block = 0;
+
+    uint32_t *target = NULL; /**< 대상 블록 포인터 위치 */
+    uint32_t disk_block = 0; /**< 실제 할당된 디스크 블록 번호 */
+
+    /*< 직접 블록 */
     if (block_index < 12U) {
       target = &inode.direct[block_index];
-    } else if (block_index < 12U + SFUSE_PTRS_PER_BLOCK) {
+    }
+    /*< 단일 간접 블록 */
+    else if (block_index < 12U + SFUSE_PTRS_PER_BLOCK) {
       if (inode.indirect == 0) {
+        /* 간접 블록이 없으면 새 할당 */
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
-        if (new_block < 0) {
+        if (new_block < 0)
           return -ENOSPC;
-        }
         inode.indirect = (uint32_t)new_block;
         uint32_t tmp[SFUSE_PTRS_PER_BLOCK] = {0};
         write_block(fs->backing_fd, inode.indirect, tmp);
       }
+      /* 기존 간접 블록에서 포인터 읽기 */
       uint32_t ptrs[SFUSE_PTRS_PER_BLOCK];
       read_block(fs->backing_fd, inode.indirect, ptrs);
-      target = &ptrs[block_index - 12];
+
+      target = &ptrs[block_index - 12U];
       disk_block = *target;
+
+      /* 새 데이터 블록 할당 */
       if (disk_block == 0) {
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
-        if (new_block < 0) {
+        if (new_block < 0)
           return -ENOSPC;
-        }
         disk_block = (uint32_t)new_block;
         *target = disk_block;
         write_block(fs->backing_fd, inode.indirect, ptrs);
       }
-    } else {
-      uint32_t dbl_index = block_index - (12 + SFUSE_PTRS_PER_BLOCK);
-      uint32_t l1_idx = dbl_index / SFUSE_PTRS_PER_BLOCK;
-      uint32_t l2_idx = dbl_index % SFUSE_PTRS_PER_BLOCK;
+    }
+    /*< 이중 간접 블록 */
+    else {
+      uint32_t dbl_index = block_index - (12U + SFUSE_PTRS_PER_BLOCK);
+      uint32_t l1_idx = dbl_index / SFUSE_PTRS_PER_BLOCK; /**< 1차 인덱스 */
+      uint32_t l2_idx = dbl_index % SFUSE_PTRS_PER_BLOCK; /**< 2차 인덱스 */
+
       if (inode.double_indirect == 0) {
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
-        if (new_block < 0) {
+        if (new_block < 0)
           return -ENOSPC;
-        }
         inode.double_indirect = (uint32_t)new_block;
         uint32_t tmp[SFUSE_PTRS_PER_BLOCK] = {0};
         write_block(fs->backing_fd, inode.double_indirect, tmp);
       }
+
       uint32_t l1[SFUSE_PTRS_PER_BLOCK];
       read_block(fs->backing_fd, inode.double_indirect, l1);
+
       if (l1[l1_idx] == 0) {
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
-        if (new_block < 0) {
+        if (new_block < 0)
           return -ENOSPC;
-        }
         l1[l1_idx] = (uint32_t)new_block;
         uint32_t tmp[SFUSE_PTRS_PER_BLOCK] = {0};
         write_block(fs->backing_fd, l1[l1_idx], tmp);
         write_block(fs->backing_fd, inode.double_indirect, l1);
       }
+
       uint32_t l2[SFUSE_PTRS_PER_BLOCK];
       read_block(fs->backing_fd, l1[l1_idx], l2);
+
       if (l2[l2_idx] == 0) {
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
-        if (new_block < 0) {
+        if (new_block < 0)
           return -ENOSPC;
-        }
         l2[l2_idx] = (uint32_t)new_block;
         write_block(fs->backing_fd, l1[l1_idx], l2);
       }
+
       disk_block = l2[l2_idx];
       target = &l2[l2_idx];
     }
+
+    /*< 아직 할당되지 않았으면 새로 할당 */
     if (target && *target == 0) {
       int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
-      if (new_block < 0) {
+      if (new_block < 0)
         return -ENOSPC;
-      }
       *target = (uint32_t)new_block;
       disk_block = *target;
-    } else {
-      disk_block = *target;
     }
+
+    /*< 기존 블록 읽기 */
     if (read_block(fs->backing_fd, disk_block, block_buf) < 0)
       return -EIO;
+
+    /*< 데이터 쓰기 */
     memcpy(block_buf + block_offset, buf + bytes_written, to_write);
     if (write_block(fs->backing_fd, disk_block, block_buf) < 0)
       return -EIO;
+
     bytes_written += to_write;
   }
+
+  /*< 파일 크기 갱신 */
   if ((uint32_t)(offset + bytes_written) > inode.size)
     inode.size = offset + bytes_written;
-  inode.mtime = time(NULL);
-  inode.ctime = inode.mtime;
+  inode.mtime = time(NULL);  /**< 수정 시간 갱신 */
+  inode.ctime = inode.mtime; /**< 변경 시간 갱신 */
   if (inode_sync(fs->backing_fd, &fs->sb, ino, &inode) < 0)
     return -EIO;
+
   return bytes_written;
 }
 
+/**
+ * @brief 새 파일 생성
+ *
+ * 지정된 경로에 새 파일을 생성하고 상위 디렉터리에 디렉터리 엔트리를 추가한다.
+ *
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param path 생성할 파일 경로 (null-terminated 문자열)
+ * @param mode 파일 모드 및 권한 (하위 12비트 사용)
+ * @param fi   FUSE 파일 정보 구조체 (사용되지 않음)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_create(struct sfuse_fs *fs, const char *path, mode_t mode,
               struct fuse_file_info *fi) {
   (void)fi;
+
   uint32_t dummy;
+  /* 이미 존재하면 실패 */
   if (fs_resolve_path(fs, path, &dummy) == 0) {
     return -EEXIST;
   }
-  // Separate parent directory and filename
+
+  /* 상위 디렉터리와 새 파일 이름 분리 */
   char *path_copy = strdup(path);
-  if (!path_copy) {
+  if (!path_copy)
     return -ENOMEM;
-  }
   char *name = strrchr(path_copy, '/');
   if (!name || *(name + 1) == '\0') {
     free(path_copy);
@@ -445,26 +614,33 @@ int fs_create(struct sfuse_fs *fs, const char *path, mode_t mode,
   *name = '\0';
   char *parent_path = (*path_copy == '\0') ? "/" : path_copy;
   name++;
+
+  /* 상위 디렉터리 inode 찾기 */
   uint32_t parent_ino;
   if (fs_resolve_path(fs, parent_path, &parent_ino) < 0) {
     free(path_copy);
     return -ENOENT;
   }
+
   struct sfuse_inode parent_inode;
   inode_load(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
+  /* 상위가 디렉터리인지 확인 */
   if ((parent_inode.mode & S_IFDIR) == 0) {
     free(path_copy);
     return -ENOTDIR;
   }
-  // Allocate a new inode
+
+  /* 새 아이노드 할당 */
   int new_ino = alloc_inode(&fs->sb, &fs->bmaps->inode);
   if (new_ino < 0) {
     free(path_copy);
     return new_ino;
   }
+
+  /* 새 아이노드 초기화 */
   struct sfuse_inode new_inode;
   memset(&new_inode, 0, sizeof(new_inode));
-  new_inode.mode = (mode & 0xFFF) | S_IFREG;
+  new_inode.mode = (mode & 0xFFF) | S_IFREG; /**< 일반 파일로 설정 */
   new_inode.uid = getuid();
   new_inode.gid = getgid();
   new_inode.size = 0;
@@ -472,78 +648,93 @@ int fs_create(struct sfuse_fs *fs, const char *path, mode_t mode,
   new_inode.atime = (uint32_t)now;
   new_inode.mtime = (uint32_t)now;
   new_inode.ctime = (uint32_t)now;
-  // Find a free directory entry in parent and add the new entry
+
+  /* 상위 디렉터리에 엔트리 추가 */
   uint8_t dir_block[SFUSE_BLOCK_SIZE];
-  int added = 0;
-  for (uint32_t i = 0; i < 12U && !added; ++i) {
+  bool added = false;
+  for (int i = 0; i < 12 && !added; ++i) {
     if (parent_inode.direct[i] == 0) {
-      // Allocate a new block for the directory entries
+      /* 새 디렉터리 블록 할당 및 초기화 */
       int new_dir_block = alloc_block(&fs->sb, &fs->bmaps->block);
       if (new_dir_block < 0) {
-        // Roll back inode allocation
         free_inode(&fs->sb, &fs->bmaps->inode, new_ino);
         free(path_copy);
         return -ENOSPC;
       }
-      parent_inode.direct[i] = new_dir_block;
-      // Initialize new directory block
+      parent_inode.direct[i] =
+          fs->sb.data_block_start + (uint32_t)new_dir_block;
+
+      memset(dir_block, 0, SFUSE_BLOCK_SIZE);
       struct sfuse_dirent *entries = (struct sfuse_dirent *)dir_block;
-      for (int j = 0; j < DENTS_PER_BLOCK; ++j) {
-        entries[j].inode = 0;
-        entries[j].name[0] = '\0';
-      }
-      // Place new entry at first position
       entries[0].inode = new_ino;
-      strncpy(entries[0].name, name, SFUSE_NAME_MAX);
-      entries[0].name[SFUSE_NAME_MAX - 1] = '\0'; /* null-termination 보장 */
-      write_block(fs->backing_fd, parent_inode.direct[i], entries);
+      strncpy(entries[0].name, name, SFUSE_NAME_MAX - 1);
+      entries[0].name[SFUSE_NAME_MAX - 1] = '\0';
+
+      write_block(fs->backing_fd, parent_inode.direct[i], dir_block);
       parent_inode.size += SFUSE_BLOCK_SIZE;
-      added = 1;
+      added = true;
     } else {
+      /* 기존 블록에서 빈 슬롯 검색 */
       if (read_block(fs->backing_fd, parent_inode.direct[i], dir_block) < 0) {
-        continue;
+        free_inode(&fs->sb, &fs->bmaps->inode, new_ino);
+        free(path_copy);
+        return -EIO;
       }
       struct sfuse_dirent *entries = (struct sfuse_dirent *)dir_block;
-      for (int j = 0; j < DENTS_PER_BLOCK; ++j) {
+      for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
         if (entries[j].inode == 0) {
           entries[j].inode = new_ino;
-          strncpy(entries[j].name, name, SFUSE_NAME_MAX);
-          entries[j].name[SFUSE_NAME_MAX - 1] =
-              '\0'; /* ensure null-termination */
-          write_block(fs->backing_fd, parent_inode.direct[i], entries);
-          added = 1;
+          strncpy(entries[j].name, name, SFUSE_NAME_MAX - 1);
+          entries[j].name[SFUSE_NAME_MAX - 1] = '\0';
+          write_block(fs->backing_fd, parent_inode.direct[i], dir_block);
+          added = true;
           break;
         }
       }
     }
   }
+
   if (!added) {
-    // Directory is full (no free entry)
-    // Roll back allocation
+    /* 공간 부족 시 롤백 */
     free_inode(&fs->sb, &fs->bmaps->inode, new_ino);
     free(path_copy);
     return -ENOSPC;
   }
-  // Write new inode to disk
+
+  /* 새 아이노드를 디스크에 기록 */
   inode_sync(fs->backing_fd, &fs->sb, new_ino, &new_inode);
-  // Update parent directory metadata and sync
+
+  /* 상위 디렉터리 메타데이터 갱신 */
   parent_inode.mtime = (uint32_t)now;
   parent_inode.ctime = (uint32_t)now;
   inode_sync(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
+
   free(path_copy);
   return 0;
 }
 
+/**
+ * @brief 새 디렉터리 생성
+ *
+ * 지정된 경로에 새 디렉터리를 생성하고 상위 디렉터리에 디렉터리 엔트리를
+ * 추가한다.
+ *
+ * @param fs    파일 시스템 컨텍스트 포인터
+ * @param path  생성할 디렉터리 경로 (null-terminated 문자열)
+ * @param mode  디렉터리 모드 및 권한 (하위 12비트 사용)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_mkdir(struct sfuse_fs *fs, const char *path, mode_t mode) {
   uint32_t dummy;
+  /* 이미 존재하면 실패 */
   if (fs_resolve_path(fs, path, &dummy) == 0) {
     return -EEXIST;
   }
-  // Separate parent directory and name
+
+  /* 상위 디렉터리와 새 이름 분리 */
   char *path_copy = strdup(path);
-  if (!path_copy) {
+  if (!path_copy)
     return -ENOMEM;
-  }
   char *name = strrchr(path_copy, '/');
   if (!name || *(name + 1) == '\0') {
     free(path_copy);
@@ -552,26 +743,33 @@ int fs_mkdir(struct sfuse_fs *fs, const char *path, mode_t mode) {
   *name = '\0';
   char *parent_path = (*path_copy == '\0') ? "/" : path_copy;
   name++;
+
+  /* 상위 디렉터리 inode 조회 */
   uint32_t parent_ino;
   if (fs_resolve_path(fs, parent_path, &parent_ino) < 0) {
     free(path_copy);
     return -ENOENT;
   }
+
   struct sfuse_inode parent_inode;
   inode_load(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
+  /* 상위가 디렉터리가 아니면 오류 */
   if ((parent_inode.mode & S_IFDIR) == 0) {
     free(path_copy);
     return -ENOTDIR;
   }
-  // Allocate new inode for directory
+
+  /* 새 아이노드 할당 */
   int new_ino = alloc_inode(&fs->sb, &fs->bmaps->inode);
   if (new_ino < 0) {
     free(path_copy);
     return new_ino;
   }
+
+  /* 새 아이노드 초기화 */
   struct sfuse_inode new_inode;
   memset(&new_inode, 0, sizeof(new_inode));
-  new_inode.mode = (mode & 0xFFF) | S_IFDIR;
+  new_inode.mode = (mode & 0xFFF) | S_IFDIR; /**< 디렉터리 타입 설정 */
   new_inode.uid = getuid();
   new_inode.gid = getgid();
   new_inode.size = 0;
@@ -579,111 +777,142 @@ int fs_mkdir(struct sfuse_fs *fs, const char *path, mode_t mode) {
   new_inode.atime = (uint32_t)now;
   new_inode.mtime = (uint32_t)now;
   new_inode.ctime = (uint32_t)now;
-  // Add entry to parent directory
+
+  /* 상위 디렉터리에 엔트리 추가 (메모리 안전성: 블록 전체 초기화) */
   uint8_t dir_block[SFUSE_BLOCK_SIZE];
-  int added = 0;
-  for (uint32_t i = 0; i < 12U && !added; ++i) {
+  bool added = false;
+  for (int i = 0; i < 12 && !added; ++i) {
     if (parent_inode.direct[i] == 0) {
+      /* 새 디렉터리 블록 할당 */
       int new_dir_block = alloc_block(&fs->sb, &fs->bmaps->block);
       if (new_dir_block < 0) {
         free_inode(&fs->sb, &fs->bmaps->inode, new_ino);
         free(path_copy);
         return -ENOSPC;
       }
-      parent_inode.direct[i] = new_dir_block;
+      parent_inode.direct[i] =
+          fs->sb.data_block_start + (uint32_t)new_dir_block;
+
+      memset(dir_block, 0, SFUSE_BLOCK_SIZE);
       struct sfuse_dirent *entries = (struct sfuse_dirent *)dir_block;
-      for (int j = 0; j < DENTS_PER_BLOCK; ++j) {
-        entries[j].inode = 0;
-        entries[j].name[0] = '\0';
-      }
-      entries[0].inode = new_ino;
-      strncpy(entries[0].name, name, SFUSE_NAME_MAX);
-      write_block(fs->backing_fd, parent_inode.direct[i], entries);
-      parent_inode.size += SFUSE_BLOCK_SIZE;
-      added = 1;
+      entries[0].inode = new_ino; /**< 첫 엔트리에 새 inode 설정 */
+      strncpy(entries[0].name, name, SFUSE_NAME_MAX - 1);
+      entries[0].name[SFUSE_NAME_MAX - 1] = '\0';
+
+      write_block(fs->backing_fd, parent_inode.direct[i], dir_block);
+      parent_inode.size += SFUSE_BLOCK_SIZE; /**< 디렉터리 크기 갱신 */
+      added = true;
     } else {
-      read_block(fs->backing_fd, parent_inode.direct[i], dir_block);
+      /* 기존 블록에서 빈 슬롯 검색 */
+      if (read_block(fs->backing_fd, parent_inode.direct[i], dir_block) < 0) {
+        free_inode(&fs->sb, &fs->bmaps->inode, new_ino);
+        free(path_copy);
+        return -EIO;
+      }
       struct sfuse_dirent *entries = (struct sfuse_dirent *)dir_block;
-      for (int j = 0; j < DENTS_PER_BLOCK; ++j) {
+      for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
         if (entries[j].inode == 0) {
-          entries[j].inode = new_ino;
-          strncpy(entries[j].name, name, SFUSE_NAME_MAX);
-          entries[j].name[SFUSE_NAME_MAX - 1] =
-              '\0'; /* ensure null-termination */
-          write_block(fs->backing_fd, parent_inode.direct[i], entries);
-          added = 1;
+          entries[j].inode = new_ino; /**< 빈 슬롯에 inode 설정 */
+          strncpy(entries[j].name, name, SFUSE_NAME_MAX - 1);
+          entries[j].name[SFUSE_NAME_MAX - 1] = '\0';
+          write_block(fs->backing_fd, parent_inode.direct[i], dir_block);
+          added = true;
           break;
         }
       }
     }
   }
+
+  /* 공간 부족 시 롤백 */
   if (!added) {
     free_inode(&fs->sb, &fs->bmaps->inode, new_ino);
     free(path_copy);
     return -ENOSPC;
   }
+
+  /* 새 아이노드 디스크에 기록 */
   inode_sync(fs->backing_fd, &fs->sb, new_ino, &new_inode);
-  parent_inode.mtime = (uint32_t)now;
-  parent_inode.ctime = (uint32_t)now;
+
+  /* 상위 디렉터리 메타데이터 갱신 */
+  parent_inode.mtime = (uint32_t)now; /**< 수정 시간 갱신 */
+  parent_inode.ctime = (uint32_t)now; /**< 변경 시간 갱신 */
   inode_sync(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
+
   free(path_copy);
   return 0;
 }
 
+/**
+ * @brief 파일 삭제
+ *
+ * 지정된 경로의 파일을 삭제하고, 관련 데이터 블록 및 아이노드를 해제한다.
+ *
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param path 삭제할 파일 경로 (null-terminated 문자열)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_unlink(struct sfuse_fs *fs, const char *path) {
   uint32_t ino;
   if (fs_resolve_path(fs, path, &ino) < 0) {
     return -ENOENT;
   }
+
   struct sfuse_inode inode;
   inode_load(fs->backing_fd, &fs->sb, ino, &inode);
+  /* 디렉터리는 삭제 불가 */
   if ((inode.mode & S_IFDIR) == S_IFDIR) {
     return -EISDIR;
   }
-  // Determine parent directory and filename
+
+  /* 상위 디렉터리 및 파일 이름 분리 */
   char *path_copy = strdup(path);
-  if (!path_copy) {
+  if (!path_copy)
     return -ENOMEM;
-  }
   char *name = strrchr(path_copy, '/');
   *name = '\0';
   char *parent_path = (*path_copy == '\0') ? "/" : path_copy;
   name++;
+
+  /* 상위 디렉터리 inode 조회 */
   uint32_t parent_ino;
   fs_resolve_path(fs, parent_path, &parent_ino);
-  // Remove entry from parent directory
+
   uint8_t dir_block[SFUSE_BLOCK_SIZE];
   struct sfuse_inode parent_inode;
   inode_load(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
-  // Find and remove entry from parent directory
-  for (uint32_t i = 0; i < 12U; ++i) {
+
+  /* 상위 디렉터리에서 디렉터리 엔트리 제거 */
+  for (uint32_t i = 0; i < 12; ++i) {
     if (parent_inode.direct[i] == 0)
       continue;
     if (read_block(fs->backing_fd, parent_inode.direct[i], dir_block) < 0)
       continue;
     struct sfuse_dirent *entries = (struct sfuse_dirent *)dir_block;
-    for (int j = 0; j < DENTS_PER_BLOCK; ++j) {
+    for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
       if (entries[j].inode == ino &&
           strncmp(entries[j].name, name, SFUSE_NAME_MAX) == 0) {
         entries[j].inode = 0;
         entries[j].name[0] = '\0';
-        write_block(fs->backing_fd, parent_inode.direct[i], entries);
+        write_block(fs->backing_fd, parent_inode.direct[i], dir_block);
         goto found_entry;
       }
     }
   }
 found_entry:
-  // Free all blocks of the file
+
+  /* 직접 데이터 블록 해제 */
   for (int i = 0; i < 12; ++i) {
     if (inode.direct[i] != 0) {
       free_block(&fs->sb, &fs->bmaps->block, inode.direct[i]);
       inode.direct[i] = 0;
     }
   }
+
+  /* 단일 간접 블록 해제 */
   if (inode.indirect != 0) {
     uint32_t ptrs[SFUSE_PTRS_PER_BLOCK];
     if (read_block(fs->backing_fd, inode.indirect, ptrs) >= 0) {
-      for (int k = 0; k < SFUSE_PTRS_PER_BLOCK; ++k) {
+      for (uint32_t k = 0; k < SFUSE_PTRS_PER_BLOCK; ++k) {
         if (ptrs[k] != 0) {
           free_block(&fs->sb, &fs->bmaps->block, ptrs[k]);
           ptrs[k] = 0;
@@ -693,14 +922,16 @@ found_entry:
     free_block(&fs->sb, &fs->bmaps->block, inode.indirect);
     inode.indirect = 0;
   }
+
+  /* 이중 간접 블록 해제 */
   if (inode.double_indirect != 0) {
     uint32_t level1[SFUSE_PTRS_PER_BLOCK];
     if (read_block(fs->backing_fd, inode.double_indirect, level1) >= 0) {
-      for (int a = 0; a < SFUSE_PTRS_PER_BLOCK; ++a) {
+      for (uint32_t a = 0; a < SFUSE_PTRS_PER_BLOCK; ++a) {
         if (level1[a] != 0) {
           uint32_t level2[SFUSE_PTRS_PER_BLOCK];
           if (read_block(fs->backing_fd, level1[a], level2) >= 0) {
-            for (int b = 0; b < SFUSE_PTRS_PER_BLOCK; ++b) {
+            for (uint32_t b = 0; b < SFUSE_PTRS_PER_BLOCK; ++b) {
               if (level2[b] != 0) {
                 free_block(&fs->sb, &fs->bmaps->block, level2[b]);
                 level2[b] = 0;
@@ -714,31 +945,47 @@ found_entry:
     free_block(&fs->sb, &fs->bmaps->block, inode.double_indirect);
     inode.double_indirect = 0;
   }
-  // Free the inode itself
+
+  /* 아이노드 비트맵 해제 및 아이노드 초기화 */
   free_inode(&fs->sb, &fs->bmaps->inode, ino);
   struct sfuse_inode empty_inode;
   memset(&empty_inode, 0, sizeof(empty_inode));
   inode_sync(fs->backing_fd, &fs->sb, ino, &empty_inode);
-  // Update parent directory metadata
+
+  /* 상위 디렉터리 메타데이터 갱신 */
   time_t now_time = time(NULL);
   parent_inode.mtime = (uint32_t)now_time;
   parent_inode.ctime = (uint32_t)now_time;
   inode_sync(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
+
   free(path_copy);
   return 0;
 }
 
+/**
+ * @brief 비어 있는 디렉터리 삭제
+ *
+ * 지정된 경로의 디렉터리가 비어 있는지 확인한 후, fs_unlink 로직을 재사용하여
+ * 디렉터리를 제거한다.
+ *
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param path 삭제할 디렉터리 경로 (null-terminated 문자열)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_rmdir(struct sfuse_fs *fs, const char *path) {
   uint32_t ino;
   if (fs_resolve_path(fs, path, &ino) < 0) {
     return -ENOENT;
   }
+
   struct sfuse_inode inode;
   inode_load(fs->backing_fd, &fs->sb, ino, &inode);
+  /* 디렉터리인지 확인 */
   if ((inode.mode & S_IFDIR) == 0) {
     return -ENOTDIR;
   }
-  // Check directory is empty (no entries)
+
+  /* 비어 있는지 확인 */
   uint8_t block[SFUSE_BLOCK_SIZE];
   for (int i = 0; i < 12; ++i) {
     if (inode.direct[i] == 0)
@@ -746,13 +993,14 @@ int fs_rmdir(struct sfuse_fs *fs, const char *path) {
     if (read_block(fs->backing_fd, inode.direct[i], block) < 0)
       continue;
     struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
-    for (int j = 0; j < DENTS_PER_BLOCK; ++j) {
+    for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
       if (entries[j].inode != 0) {
         return -ENOTEMPTY;
       }
     }
   }
-  // Use fs_unlink logic to remove directory entry and free inode & blocks
+
+  /* fs_unlink 로직 재사용 */
   char *dummy_path = strdup(path);
   if (!dummy_path)
     return -ENOMEM;
@@ -761,16 +1009,29 @@ int fs_rmdir(struct sfuse_fs *fs, const char *path) {
   return res;
 }
 
+/**
+ * @brief 파일 또는 디렉터리 이름 변경 (이동)
+ *
+ * 지정된 경로의 엔트리를 원본 디렉터리에서 제거하고, 대상 디렉터리에 새
+ * 엔트리를 추가한다.
+ *
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param from 원본 경로 (null-terminated 문자열)
+ * @param to   대상 경로 (null-terminated 문자열)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_rename(struct sfuse_fs *fs, const char *from, const char *to) {
   uint32_t src_ino;
   if (fs_resolve_path(fs, from, &src_ino) < 0) {
     return -ENOENT;
   }
   uint32_t dummy;
+  /* 대상이 이미 존재하면 실패 */
   if (fs_resolve_path(fs, to, &dummy) == 0) {
     return -EEXIST;
   }
-  // Parse paths
+
+  /* 경로 복사 및 분할 */
   char *from_copy = strdup(from);
   char *to_copy = strdup(to);
   if (!from_copy || !to_copy) {
@@ -786,6 +1047,8 @@ int fs_rename(struct sfuse_fs *fs, const char *from, const char *to) {
   char *to_parent_path = (*to_copy == '\0') ? "/" : to_copy;
   from_name++;
   to_name++;
+
+  /* 부모 디렉터리 inode 조회 */
   uint32_t from_parent_ino, to_parent_ino;
   fs_resolve_path(fs, from_parent_path, &from_parent_ino);
   if (fs_resolve_path(fs, to_parent_path, &to_parent_ino) < 0) {
@@ -793,23 +1056,26 @@ int fs_rename(struct sfuse_fs *fs, const char *from, const char *to) {
     free(to_copy);
     return -ENOENT;
   }
+
   struct sfuse_inode from_parent_inode, to_parent_inode;
   inode_load(fs->backing_fd, &fs->sb, from_parent_ino, &from_parent_inode);
   inode_load(fs->backing_fd, &fs->sb, to_parent_ino, &to_parent_inode);
+  /* 디렉터리 여부 확인 */
   if ((from_parent_inode.mode & S_IFDIR) == 0 ||
       (to_parent_inode.mode & S_IFDIR) == 0) {
     free(from_copy);
     free(to_copy);
     return -ENOTDIR;
   }
-  // Remove entry from source parent
+
   uint8_t buf_block[SFUSE_BLOCK_SIZE];
+  /* 원본 부모 디렉터리에서 엔트리 제거 */
   for (uint32_t i = 0; i < 12U; ++i) {
     if (from_parent_inode.direct[i] == 0)
       continue;
     read_block(fs->backing_fd, from_parent_inode.direct[i], buf_block);
     struct sfuse_dirent *entries = (struct sfuse_dirent *)buf_block;
-    for (int j = 0; j < DENTS_PER_BLOCK; ++j) {
+    for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
       if (entries[j].inode == src_ino &&
           strncmp(entries[j].name, from_name, SFUSE_NAME_MAX) == 0) {
         entries[j].inode = 0;
@@ -820,32 +1086,29 @@ int fs_rename(struct sfuse_fs *fs, const char *from, const char *to) {
     }
   }
 removed_src:
-  // Add entry to target parent
+
+  /* 대상 부모 디렉터리에 엔트리 추가 */
   for (uint32_t i = 0; i < 12U; ++i) {
     if (to_parent_inode.direct[i] == 0) {
-      // allocate new block if needed
       int new_blk = alloc_block(&fs->sb, &fs->bmaps->block);
       if (new_blk < 0)
         break;
       to_parent_inode.direct[i] = new_blk;
       struct sfuse_dirent *entries = (struct sfuse_dirent *)buf_block;
-      for (int k = 0; k < DENTS_PER_BLOCK; ++k) {
-        entries[k].inode = 0;
-        entries[k].name[0] = '\0';
-      }
+      memset(entries, 0, sizeof(buf_block));
       entries[0].inode = src_ino;
-      strncpy(entries[0].name, to_name, SFUSE_NAME_MAX);
-      entries[0].name[SFUSE_NAME_MAX - 1] = '\0'; /* ensure null-termination */
+      strncpy(entries[0].name, to_name, SFUSE_NAME_MAX - 1);
+      entries[0].name[SFUSE_NAME_MAX - 1] = '\0';
       write_block(fs->backing_fd, to_parent_inode.direct[i], entries);
       to_parent_inode.size += SFUSE_BLOCK_SIZE;
       break;
     } else {
       read_block(fs->backing_fd, to_parent_inode.direct[i], buf_block);
       struct sfuse_dirent *entries = (struct sfuse_dirent *)buf_block;
-      for (int k = 0; k < DENTS_PER_BLOCK; ++k) {
+      for (uint32_t k = 0; k < DENTS_PER_BLOCK; ++k) {
         if (entries[k].inode == 0) {
           entries[k].inode = src_ino;
-          strncpy(entries[k].name, to_name, SFUSE_NAME_MAX);
+          strncpy(entries[k].name, to_name, SFUSE_NAME_MAX - 1);
           write_block(fs->backing_fd, to_parent_inode.direct[i], entries);
           goto added_dst;
         }
@@ -853,39 +1116,64 @@ removed_src:
     }
   }
 added_dst:
-  // Update metadata
+
+  /* 메타데이터 갱신 */
   time_t now_time = time(NULL);
   from_parent_inode.mtime = from_parent_inode.ctime = (uint32_t)now_time;
   to_parent_inode.mtime = to_parent_inode.ctime = (uint32_t)now_time;
+
   struct sfuse_inode src_inode;
   inode_load(fs->backing_fd, &fs->sb, src_ino, &src_inode);
   src_inode.ctime = (uint32_t)now_time;
+
   inode_sync(fs->backing_fd, &fs->sb, src_ino, &src_inode);
   inode_sync(fs->backing_fd, &fs->sb, from_parent_ino, &from_parent_inode);
   inode_sync(fs->backing_fd, &fs->sb, to_parent_ino, &to_parent_inode);
+
   free(from_copy);
   free(to_copy);
   return 0;
 }
 
+/**
+ * @brief 파일 크기 조정
+ *
+ * 지정된 경로의 파일 크기를 주어진 크기로 변경.
+ * 크기 축소 시 불필요한 데이터 블록을 해제하고,
+ * 크기 확장 시 필요한 경우 단일 바이트 쓰기를 통해 공간을 확보.
+ *
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param path 대상 파일 경로 (null-terminated 문자열)
+ * @param size 새 파일 크기 (바이트 단위)
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_truncate(struct sfuse_fs *fs, const char *path, off_t size) {
   uint32_t ino;
   if (fs_resolve_path(fs, path, &ino) < 0) {
     return -ENOENT;
   }
+
   struct sfuse_inode inode;
   inode_load(fs->backing_fd, &fs->sb, ino, &inode);
+
+  /* 디렉터리인 경우 오류 반환 */
   if ((inode.mode & S_IFDIR) == S_IFDIR) {
     return -EISDIR;
   }
+
   off_t old_size = inode.size;
+  /* 변경할 크기가 동일하면 즉시 반환 */
   if (size == old_size) {
     return 0;
-  } else if (size < old_size) {
-    // Shrink file
-    uint32_t keep_blocks = (size + SFUSE_BLOCK_SIZE - 1) / SFUSE_BLOCK_SIZE;
-    uint32_t old_blocks = (old_size + SFUSE_BLOCK_SIZE - 1) / SFUSE_BLOCK_SIZE;
-    // Free blocks beyond keep_blocks-1
+  }
+  /* 크기 축소 */
+  else if (size < old_size) {
+    uint32_t keep_blocks =
+        (size + SFUSE_BLOCK_SIZE - 1) / SFUSE_BLOCK_SIZE; /**< 유지할 블록 수 */
+    uint32_t old_blocks = (old_size + SFUSE_BLOCK_SIZE - 1) /
+                          SFUSE_BLOCK_SIZE; /**< 기존 블록 수 */
+
+    /* 축소되어야 할 블록 해제 */
     for (uint32_t i = keep_blocks; i < old_blocks; ++i) {
       if (i < 12) {
         if (inode.direct[i] != 0) {
@@ -908,8 +1196,9 @@ int fs_truncate(struct sfuse_fs *fs, const char *path, off_t size) {
           uint32_t level1_arr[SFUSE_PTRS_PER_BLOCK];
           read_block(fs->backing_fd, inode.double_indirect, level1_arr);
           uint32_t idx = i - (12 + SFUSE_PTRS_PER_BLOCK);
-          uint32_t l1_idx = idx / SFUSE_PTRS_PER_BLOCK;
-          uint32_t l2_idx = idx % SFUSE_PTRS_PER_BLOCK;
+          uint32_t l1_idx = idx / SFUSE_PTRS_PER_BLOCK; /**< 1차 인덱스 */
+          uint32_t l2_idx = idx % SFUSE_PTRS_PER_BLOCK; /**< 2차 인덱스 */
+
           if (level1_arr[l1_idx] != 0) {
             uint32_t level2_arr[SFUSE_PTRS_PER_BLOCK];
             read_block(fs->backing_fd, level1_arr[l1_idx], level2_arr);
@@ -922,12 +1211,13 @@ int fs_truncate(struct sfuse_fs *fs, const char *path, off_t size) {
         }
       }
     }
-    // If indirect block became empty, free it
+
+    /* 단일 간접 블록 전체가 비었는지 확인 후 해제 */
     if (inode.indirect != 0) {
       uint32_t ptrs[SFUSE_PTRS_PER_BLOCK];
       read_block(fs->backing_fd, inode.indirect, ptrs);
       int all_empty = 1;
-      for (int j = 0; j < SFUSE_PTRS_PER_BLOCK; ++j) {
+      for (uint32_t j = 0; j < SFUSE_PTRS_PER_BLOCK; ++j) {
         if (ptrs[j] != 0) {
           all_empty = 0;
           break;
@@ -938,17 +1228,18 @@ int fs_truncate(struct sfuse_fs *fs, const char *path, off_t size) {
         inode.indirect = 0;
       }
     }
-    // If double-indirect became empty, free it
+
+    /* 이중 간접 블록 전체가 비었는지 확인 후 해제 */
     if (inode.double_indirect != 0) {
       uint32_t level1[SFUSE_PTRS_PER_BLOCK];
       read_block(fs->backing_fd, inode.double_indirect, level1);
       int all_l1_empty = 1;
-      for (int a = 0; a < SFUSE_PTRS_PER_BLOCK; ++a) {
+      for (uint32_t a = 0; a < SFUSE_PTRS_PER_BLOCK; ++a) {
         if (level1[a] != 0) {
           uint32_t level2[SFUSE_PTRS_PER_BLOCK];
           read_block(fs->backing_fd, level1[a], level2);
           int all_l2_empty = 1;
-          for (int b = 0; b < SFUSE_PTRS_PER_BLOCK; ++b) {
+          for (uint32_t b = 0; b < SFUSE_PTRS_PER_BLOCK; ++b) {
             if (level2[b] != 0) {
               all_l2_empty = 0;
               break;
@@ -969,30 +1260,33 @@ int fs_truncate(struct sfuse_fs *fs, const char *path, off_t size) {
         write_block(fs->backing_fd, inode.double_indirect, level1);
       }
     }
-    inode.size = size;
-  } else {
-    // Extend file by writing a byte at new_size-1
+
+    inode.size = size; /**< 파일 크기 갱신 */
+  }
+  /* 크기 확장 */
+  else {
     char zero = 0;
     if (fs_write(fs, path, &zero, 1, size - 1) < 0) {
       return -EIO;
     }
-    // After fs_write, inode size should be updated to new size
     return 0;
   }
+
+  /* 시간 정보 갱신 및 동기화 */
   time_t now_time = time(NULL);
-  inode.mtime = (uint32_t)now_time;
-  inode.ctime = (uint32_t)now_time;
+  inode.mtime = (uint32_t)now_time; /**< 수정 시간 갱신 */
+  inode.ctime = (uint32_t)now_time; /**< 변경 시간 갱신 */
   inode_sync(fs->backing_fd, &fs->sb, ino, &inode);
   return 0;
 }
 
 /**
- * @brief Synchronize file data and metadata to disk.
+ * @brief 파일 시스템 동기화 (flush/fsync)
  *
- * @param fs 파일 시스템 컨텍스트
- * @param path 파일 경로 (사용되지 않음)
- * @param datasync 데이터만 동기화할지 여부
- * @param fi FUSE 파일 정보 (사용되지 않음)
+ * @param fs        파일 시스템 컨텍스트 포인터
+ * @param path      대상 경로 (사용되지 않음)
+ * @param datasync  데이터만 동기화할지 여부
+ * @param fi        FUSE 파일 정보 구조체 (사용되지 않음)
  * @return 성공 시 0, 실패 시 음수 오류 코드
  */
 int fs_fsync(struct sfuse_fs *fs, const char *path, int datasync,
@@ -1010,11 +1304,11 @@ int fs_fsync(struct sfuse_fs *fs, const char *path, int datasync,
 }
 
 /**
- * @brief 파일 데이터와 메타데이터를 디스크에 기록(flush)
+ * @brief FUSE의 flush 호출 처리
  *
- * @param fs 파일 시스템 컨텍스트
- * @param path 파일 경로(사용되지 않음)
- * @param fi FUSE 파일 정보(사용되지 않음)
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param path 대상 경로 (사용되지 않음)
+ * @param fi   FUSE 파일 정보 구조체 (사용되지 않음)
  * @return 성공 시 0, 실패 시 음수 오류 코드
  */
 int fs_flush(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi) {
@@ -1025,6 +1319,14 @@ int fs_flush(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi) {
   return 0;
 }
 
+/**
+ * @brief 파일 접근/수정 시간 업데이트
+ *
+ * @param fs   파일 시스템 컨텍스트 포인터
+ * @param path 대상 경로 (null-terminated 문자열)
+ * @param tv   tv[0]=접근 시간, tv[1]=수정 시간
+ * @return 성공 시 0, 실패 시 음수 오류 코드
+ */
 int fs_utimens(struct sfuse_fs *fs, const char *path,
                const struct timespec tv[2]) {
   uint32_t ino;
@@ -1035,9 +1337,9 @@ int fs_utimens(struct sfuse_fs *fs, const char *path,
   if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0) {
     return -EIO;
   }
-  inode.atime = (uint32_t)tv[0].tv_sec;
-  inode.mtime = (uint32_t)tv[1].tv_sec;
-  inode.ctime = (uint32_t)time(NULL);
+  inode.atime = (uint32_t)tv[0].tv_sec; /**< 접근 시간 설정 */
+  inode.mtime = (uint32_t)tv[1].tv_sec; /**< 수정 시간 설정 */
+  inode.ctime = (uint32_t)time(NULL);   /**< 메타데이터 변경 시간 갱신 */
   inode_sync(fs->backing_fd, &fs->sb, ino, &inode);
   return 0;
 }
@@ -1058,22 +1360,4 @@ int fs_access(struct sfuse_fs *fs, const char *path, int mask) {
   /* mask에 따른 실제 권한 검사는 필요 시 구현 가능 */
   (void)mask;
   return 0;
-}
-
-int fs_flush(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi) {
-  (void)path;
-  (void)fi;
-  // Flush backing file (ensure data is written to disk)
-  return (fsync(fs->backing_fd) < 0) ? -errno : 0;
-}
-
-int fs_fsync(struct sfuse_fs *fs, const char *path, int datasync,
-             struct fuse_file_info *fi) {
-  (void)path;
-  (void)fi;
-  if (datasync) {
-    return (fdatasync(fs->backing_fd) < 0) ? -errno : 0;
-  } else {
-    return (fsync(fs->backing_fd) < 0) ? -errno : 0;
-  }
 }
