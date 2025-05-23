@@ -55,7 +55,7 @@ COMPILE() {
   # cmake 실행
   echo -e "\n"
   echo "cmake 실행 중..."
-  cmake -S . -B build
+  cmake -DCMAKE_BUILD_TYPE=Debug -S . -B build
 
   # make 실행
   echo -e "\n"
