@@ -74,22 +74,22 @@ MOUNT() {
     echo "디스크 이미지(.img) 파일이 이미 존재합니다."
   else
     mkdir -p ./build
-    truncate -s 10M ./build/sfuse.img
+    truncate -s 200M ./build/sfuse.img
     echo -e "\n"
-    echo -e "10MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
+    echo -e "200MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
     echo -e "(이미지 파일 위치: ./build/sfuse.img) "
   fi
 
   # 마운트 포인트 생성
-  if [[ -d /tmp/sfuse ]]; then
+  if [[ -d /run/media/leedaeeun/sfuse ]]; then
     echo -e "\n"
     echo -e "마운트 포인트에 디렉토리가 이미 존재합니다"
     echo -e "(마운트 포인트 위치: /tmp/sfuse) "
   else
-    mkdir -p /tmp/sfuse
+    mkdir -p /run/media/leedaeeun/sfuse
     echo -e "\n"
     echo -e "마운트 포인트 생성이 완료되었습니다!"
-    echo -e "(마운트 포인트 위치: /tmp/sfuse) "
+    echo -e "(마운트 포인트 위치: /run/media/leedaeeun/sfuse) "
   fi
 
   # 마운트 실행
@@ -97,9 +97,9 @@ MOUNT() {
   echo -e "마운트를 실행합니다."
   echo -e "\n"
   echo -e "마운트 명령어:"
-  echo -e "cd build && sudo ./sfuse -F sfuse.img /tmp/sfuse -f -s -d"
+  echo -e "cd build && sudo ./sfuse -F sfuse.img /run/media/leedaeeun/sfuse -f -s -d"
   echo -e "\n"
-  sudo ./build/sfuse -F ./build/sfuse.img /tmp/sfuse -f -s -d
+  sudo ./build/sfuse -F ./build/sfuse.img /run/media/leedaeeun/sfuse -f -s -d
 
   # 언마운트
   # sudo fusermount3 -u /tmp/sfuse
