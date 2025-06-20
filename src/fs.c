@@ -477,6 +477,7 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
     /*< 직접 블록 */
     if (block_index < 12U) {
       target = &inode.direct[block_index];
+      disk_block = *target; /* direct 블록 포인터로 disk_block 초기화 */
     }
     /*< 단일 간접 블록 */
     else if (block_index < 12U + SFUSE_PTRS_PER_BLOCK) {
@@ -485,7 +486,9 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
         if (new_block < 0)
           return -ENOSPC;
-        inode.indirect = (uint32_t)new_block;
+        inode.indirect =
+            (uint32_t)(fs->sb.data_block_start +
+                       new_block); /* 간접 블록 주소도 절대 번호로 변환 */
         uint32_t tmp[SFUSE_PTRS_PER_BLOCK] = {0};
         write_block(fs->backing_fd, inode.indirect, tmp);
       }
@@ -501,7 +504,9 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
         if (new_block < 0)
           return -ENOSPC;
-        disk_block = (uint32_t)new_block;
+        disk_block = (uint32_t)(fs->sb.data_block_start +
+                                new_block); /* 새 블록 인덱스를 데이터 영역
+                                               오프셋과 합산 */
         *target = disk_block;
         write_block(fs->backing_fd, inode.indirect, ptrs);
       }
@@ -516,7 +521,9 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
         if (new_block < 0)
           return -ENOSPC;
-        inode.double_indirect = (uint32_t)new_block;
+        inode.double_indirect =
+            (uint32_t)(fs->sb.data_block_start +
+                       new_block); /* 이중 간접 블록도 절대 번호로 변환 */
         uint32_t tmp[SFUSE_PTRS_PER_BLOCK] = {0};
         write_block(fs->backing_fd, inode.double_indirect, tmp);
       }
@@ -528,7 +535,9 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
         if (new_block < 0)
           return -ENOSPC;
-        l1[l1_idx] = (uint32_t)new_block;
+        l1[l1_idx] = (uint32_t)(fs->sb.data_block_start +
+                                new_block); /* 레벨1 인덱스에도 데이터 영역 시작
+                                               오프셋 적용 */
         uint32_t tmp[SFUSE_PTRS_PER_BLOCK] = {0};
         write_block(fs->backing_fd, l1[l1_idx], tmp);
         write_block(fs->backing_fd, inode.double_indirect, l1);
@@ -541,7 +550,9 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
         int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
         if (new_block < 0)
           return -ENOSPC;
-        l2[l2_idx] = (uint32_t)new_block;
+        l2[l2_idx] = (uint32_t)(fs->sb.data_block_start +
+                                new_block); /* 레벨2 인덱스에도 오프셋을 더해
+                                               절대 주소로 */
         write_block(fs->backing_fd, l1[l1_idx], l2);
       }
 
@@ -554,7 +565,9 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
       int new_block = alloc_block(&fs->sb, &fs->bmaps->block);
       if (new_block < 0)
         return -ENOSPC;
-      *target = (uint32_t)new_block;
+      *target = (uint32_t)(fs->sb.data_block_start +
+                           new_block); /* 상대 인덱스에 데이터 영역 시작 블록
+                                          번호 더해 절대 블록 번호로 저장 */
       disk_block = *target;
     }
 
@@ -878,6 +891,7 @@ int fs_unlink(struct sfuse_fs *fs, const char *path) {
   fs_resolve_path(fs, parent_path, &parent_ino);
 
   uint8_t dir_block[SFUSE_BLOCK_SIZE];
+  uint8_t zero_block[SFUSE_BLOCK_SIZE] = {0}; /* 블록 초기화용 제로 버퍼 */
   struct sfuse_inode parent_inode;
   inode_load(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
 
@@ -891,8 +905,8 @@ int fs_unlink(struct sfuse_fs *fs, const char *path) {
     for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
       if (entries[j].inode == ino &&
           strncmp(entries[j].name, name, SFUSE_NAME_MAX) == 0) {
-        entries[j].inode = 0;
-        entries[j].name[0] = '\0';
+        /* 삭제 시 디렉터리 엔트리 전체를 0으로 초기화 */
+        memset(&entries[j], 0, sizeof(entries[j]));
         write_block(fs->backing_fd, parent_inode.direct[i], dir_block);
         goto found_entry;
       }
@@ -900,49 +914,61 @@ int fs_unlink(struct sfuse_fs *fs, const char *path) {
   }
 found_entry:
 
-  /* 직접 데이터 블록 해제 */
+  /* 직접 데이터 블록 해제: 내용 제로화 후 상대 인덱스로 비트맵 해제 */
   for (int i = 0; i < 12; ++i) {
-    if (inode.direct[i] != 0) {
-      free_block(&fs->sb, &fs->bmaps->block, inode.direct[i]);
-      inode.direct[i] = 0;
-    }
+    if (inode.direct[i] == 0)
+      continue;
+    write_block(fs->backing_fd, inode.direct[i],
+                zero_block); // 블록 내용 모두 0으로 덮어쓰기
+    free_block(&fs->sb, &fs->bmaps->block,
+               inode.direct[i] -
+                   fs->sb.data_block_start); // 상대 블록 번호로 비트맵 해제
+    inode.direct[i] = 0;
   }
 
-  /* 단일 간접 블록 해제 */
+  /* 단일 간접 블록 해제: 데이터 블록과 포인터 블록 모두 제로화 후 해제 */
   if (inode.indirect != 0) {
     uint32_t ptrs[SFUSE_PTRS_PER_BLOCK];
-    if (read_block(fs->backing_fd, inode.indirect, ptrs) >= 0) {
-      for (uint32_t k = 0; k < SFUSE_PTRS_PER_BLOCK; ++k) {
-        if (ptrs[k] != 0) {
-          free_block(&fs->sb, &fs->bmaps->block, ptrs[k]);
-          ptrs[k] = 0;
-        }
-      }
+    read_block(fs->backing_fd, inode.indirect, ptrs);
+    for (uint32_t k = 0; k < SFUSE_PTRS_PER_BLOCK; ++k) {
+      if (ptrs[k] == 0)
+        continue;
+      write_block(fs->backing_fd, ptrs[k], zero_block);
+      free_block(&fs->sb, &fs->bmaps->block, ptrs[k] - fs->sb.data_block_start);
+      ptrs[k] = 0;
     }
-    free_block(&fs->sb, &fs->bmaps->block, inode.indirect);
+    write_block(fs->backing_fd, inode.indirect,
+                zero_block); // 포인터 블록도 제로화
+    free_block(&fs->sb, &fs->bmaps->block,
+               inode.indirect - fs->sb.data_block_start);
     inode.indirect = 0;
   }
 
-  /* 이중 간접 블록 해제 */
+  /* 이중 간접 블록 해제: 이중 레벨 순회하며 제로화 후 해제 */
   if (inode.double_indirect != 0) {
-    uint32_t level1[SFUSE_PTRS_PER_BLOCK];
-    if (read_block(fs->backing_fd, inode.double_indirect, level1) >= 0) {
-      for (uint32_t a = 0; a < SFUSE_PTRS_PER_BLOCK; ++a) {
-        if (level1[a] != 0) {
-          uint32_t level2[SFUSE_PTRS_PER_BLOCK];
-          if (read_block(fs->backing_fd, level1[a], level2) >= 0) {
-            for (uint32_t b = 0; b < SFUSE_PTRS_PER_BLOCK; ++b) {
-              if (level2[b] != 0) {
-                free_block(&fs->sb, &fs->bmaps->block, level2[b]);
-                level2[b] = 0;
-              }
-            }
-          }
-          free_block(&fs->sb, &fs->bmaps->block, level1[a]);
-        }
+    uint32_t l1[SFUSE_PTRS_PER_BLOCK];
+    read_block(fs->backing_fd, inode.double_indirect, l1);
+    for (uint32_t i1 = 0; i1 < SFUSE_PTRS_PER_BLOCK; ++i1) {
+      if (l1[i1] == 0)
+        continue;
+      uint32_t l2[SFUSE_PTRS_PER_BLOCK];
+      read_block(fs->backing_fd, l1[i1], l2);
+      for (uint32_t i2 = 0; i2 < SFUSE_PTRS_PER_BLOCK; ++i2) {
+        if (l2[i2] == 0)
+          continue;
+        write_block(fs->backing_fd, l2[i2], zero_block);
+        free_block(&fs->sb, &fs->bmaps->block,
+                   l2[i2] - fs->sb.data_block_start);
+        l2[i2] = 0;
       }
+      write_block(fs->backing_fd, l1[i1], zero_block); // 2차 포인터 블록 제로화
+      free_block(&fs->sb, &fs->bmaps->block, l1[i1] - fs->sb.data_block_start);
+      l1[i1] = 0;
     }
-    free_block(&fs->sb, &fs->bmaps->block, inode.double_indirect);
+    write_block(fs->backing_fd, inode.double_indirect,
+                zero_block); // 1차 포인터 블록 제로화
+    free_block(&fs->sb, &fs->bmaps->block,
+               inode.double_indirect - fs->sb.data_block_start);
     inode.double_indirect = 0;
   }
 

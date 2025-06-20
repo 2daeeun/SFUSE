@@ -86,7 +86,7 @@ MOUNT() {
     echo -e "마운트 포인트에 디렉토리가 이미 존재합니다"
     echo -e "(마운트 포인트 위치: /tmp/sfuse) "
   else
-    mkdir -p /run/media/leedaeeun/sfuse
+    sudo mkdir -p /run/media/leedaeeun/sfuse
     echo -e "\n"
     echo -e "마운트 포인트 생성이 완료되었습니다!"
     echo -e "(마운트 포인트 위치: /run/media/leedaeeun/sfuse) "
