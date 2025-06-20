@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SFUSE_Documentation: include/inode.h 소스 파일</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<script type="text/javascript" src="../../clipboard.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript" src="../../cookie.js"></script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SFUSE_Documentation
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 다음에 의해 생성됨 :  Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('../../',true,false,'search.php','검색',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('d3/d73/inode_8h_source.html','../../',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">로딩중...</div>
+<div class="SRStatus" id="Searching">검색중...</div>
+<div class="SRStatus" id="NoMatches">일치하는것 없음</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">inode.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d3/d73/inode_8h.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// File: include/inode.h</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#ifndef SFUSE_INODE_H</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#define SFUSE_INODE_H</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="../../db/d98/super_8h.html">super.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../d3/d73/inode_8h.html#aea4db50e3f5dc442fde11ac9955ffeb4">   12</a></span><span class="preprocessor">#define SFUSE_INODES_PER_BLOCK (SFUSE_BLOCK_SIZE / sizeof(struct sfuse_inode))</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../d3/d73/inode_8h.html#a113396e915a4441e2d49df4b7bb6d26c">   17</a></span><span class="preprocessor">#define SFUSE_PTRS_PER_BLOCK (SFUSE_BLOCK_SIZE / sizeof(uint32_t))</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span></div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html">   22</a></span><span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#a399b204af355418f3faa7cde72389973">   23</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a399b204af355418f3faa7cde72389973">mode</a>;            </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#aab36aa5aefcc9628ca9c71966e120176">   24</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#aab36aa5aefcc9628ca9c71966e120176">uid</a>;             </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#ae37bd41b2122093c21e0ea1debebf57f">   25</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#ae37bd41b2122093c21e0ea1debebf57f">gid</a>;             </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#a8f67762b0e63a291da0db528b627922c">   26</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a8f67762b0e63a291da0db528b627922c">size</a>;            </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#a4ec8882c06d3f0935c3af6d551aee955">   27</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a4ec8882c06d3f0935c3af6d551aee955">atime</a>;           </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#ade8b0f59d2f96573797e6421d2a6e475">   28</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#ade8b0f59d2f96573797e6421d2a6e475">mtime</a>;           </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#aff44930617e832c1a93af6b44de8059e">   29</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#aff44930617e832c1a93af6b44de8059e">ctime</a>;           </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#a3ef3b4aabd3bccb64773d12ebc0617e7">   30</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a3ef3b4aabd3bccb64773d12ebc0617e7">direct</a>[12];      </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#a7bf0a3ca57adf077b272e29d40c1c45b">   31</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a7bf0a3ca57adf077b272e29d40c1c45b">indirect</a>;        </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="../../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e">   32</a></span>  uint32_t <a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e">double_indirect</a>; </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>};</div>
+</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span></div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="};">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="../../d5/d6b/structsfuse__inode__block.html">   38</a></span><span class="keyword">struct </span><a class="code hl_struct" href="../../d5/d6b/structsfuse__inode__block.html">sfuse_inode_block</a> {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../d5/d6b/structsfuse__inode__block.html#a5e54c21b8a79aec5f9d9bbee27c85059">   39</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> <a class="code hl_variable" href="../../d5/d6b/structsfuse__inode__block.html#a5e54c21b8a79aec5f9d9bbee27c85059">inodes</a>[<a class="code hl_define" href="../../d3/d73/inode_8h.html#aea4db50e3f5dc442fde11ac9955ffeb4">SFUSE_INODES_PER_BLOCK</a>]; </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>};</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keywordtype">int</span> <a class="code hl_function" href="../../d3/d73/inode_8h.html#a490b41738be882c224282cb0873c4185">inode_load</a>(<span class="keywordtype">int</span> fd, <span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *sb, uint32_t ino,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>               <span class="keyword">struct</span> <a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *out);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keywordtype">int</span> <a class="code hl_function" href="../../d3/d73/inode_8h.html#abbb03a523d329cec86d9473e1a6ff70b">inode_sync</a>(<span class="keywordtype">int</span> fd, <span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *sb, uint32_t ino,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>               <span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *in);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#endif </span><span class="comment">/* SFUSE_INODE_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="ainode_8h_html_a490b41738be882c224282cb0873c4185"><div class="ttname"><a href="../../d3/d73/inode_8h.html#a490b41738be882c224282cb0873c4185">inode_load</a></div><div class="ttdeci">int inode_load(int fd, const struct sfuse_superblock *sb, uint32_t ino, struct sfuse_inode *out)</div><div class="ttdoc">디스크 이미지에서 아이노드를 읽어 구조체에 로드</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d2b/inode_8c_source.html#l00032">inode.c:32</a></div></div>
+<div class="ttc" id="ainode_8h_html_abbb03a523d329cec86d9473e1a6ff70b"><div class="ttname"><a href="../../d3/d73/inode_8h.html#abbb03a523d329cec86d9473e1a6ff70b">inode_sync</a></div><div class="ttdeci">int inode_sync(int fd, const struct sfuse_superblock *sb, uint32_t ino, const struct sfuse_inode *in)</div><div class="ttdoc">아이노드 구조체 내용을 디스크 이미지에 동기화</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d2b/inode_8c_source.html#l00051">inode.c:51</a></div></div>
+<div class="ttc" id="ainode_8h_html_aea4db50e3f5dc442fde11ac9955ffeb4"><div class="ttname"><a href="../../d3/d73/inode_8h.html#aea4db50e3f5dc442fde11ac9955ffeb4">SFUSE_INODES_PER_BLOCK</a></div><div class="ttdeci">#define SFUSE_INODES_PER_BLOCK</div><div class="ttdoc">한 블록에 담을 수 있는 아이노드 수</div><div class="ttdef"><b>Definition</b> <a href="#l00012">inode.h:12</a></div></div>
+<div class="ttc" id="astructsfuse__inode__block_html"><div class="ttname"><a href="../../d5/d6b/structsfuse__inode__block.html">sfuse_inode_block</a></div><div class="ttdoc">아이노드 블록: 여러 아이노드를 담는 블록</div><div class="ttdef"><b>Definition</b> <a href="#l00038">inode.h:38</a></div></div>
+<div class="ttc" id="astructsfuse__inode__block_html_a5e54c21b8a79aec5f9d9bbee27c85059"><div class="ttname"><a href="../../d5/d6b/structsfuse__inode__block.html#a5e54c21b8a79aec5f9d9bbee27c85059">sfuse_inode_block::inodes</a></div><div class="ttdeci">struct sfuse_inode inodes[(4096/sizeof(struct sfuse_inode))]</div><div class="ttdef"><b>Definition</b> <a href="#l00039">inode.h:39</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a></div><div class="ttdoc">디스크에 저장되는 아이노드 구조체</div><div class="ttdef"><b>Definition</b> <a href="#l00022">inode.h:22</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a22386050768744617549779e3845fa0e"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e">sfuse_inode::double_indirect</a></div><div class="ttdeci">uint32_t double_indirect</div><div class="ttdef"><b>Definition</b> <a href="#l00032">inode.h:32</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a399b204af355418f3faa7cde72389973"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a399b204af355418f3faa7cde72389973">sfuse_inode::mode</a></div><div class="ttdeci">uint32_t mode</div><div class="ttdef"><b>Definition</b> <a href="#l00023">inode.h:23</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a3ef3b4aabd3bccb64773d12ebc0617e7"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a3ef3b4aabd3bccb64773d12ebc0617e7">sfuse_inode::direct</a></div><div class="ttdeci">uint32_t direct[12]</div><div class="ttdef"><b>Definition</b> <a href="#l00030">inode.h:30</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a4ec8882c06d3f0935c3af6d551aee955"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a4ec8882c06d3f0935c3af6d551aee955">sfuse_inode::atime</a></div><div class="ttdeci">uint32_t atime</div><div class="ttdef"><b>Definition</b> <a href="#l00027">inode.h:27</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a7bf0a3ca57adf077b272e29d40c1c45b"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a7bf0a3ca57adf077b272e29d40c1c45b">sfuse_inode::indirect</a></div><div class="ttdeci">uint32_t indirect</div><div class="ttdef"><b>Definition</b> <a href="#l00031">inode.h:31</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a8f67762b0e63a291da0db528b627922c"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a8f67762b0e63a291da0db528b627922c">sfuse_inode::size</a></div><div class="ttdeci">uint32_t size</div><div class="ttdef"><b>Definition</b> <a href="#l00026">inode.h:26</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_aab36aa5aefcc9628ca9c71966e120176"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#aab36aa5aefcc9628ca9c71966e120176">sfuse_inode::uid</a></div><div class="ttdeci">uint32_t uid</div><div class="ttdef"><b>Definition</b> <a href="#l00024">inode.h:24</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_ade8b0f59d2f96573797e6421d2a6e475"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#ade8b0f59d2f96573797e6421d2a6e475">sfuse_inode::mtime</a></div><div class="ttdeci">uint32_t mtime</div><div class="ttdef"><b>Definition</b> <a href="#l00028">inode.h:28</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_ae37bd41b2122093c21e0ea1debebf57f"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#ae37bd41b2122093c21e0ea1debebf57f">sfuse_inode::gid</a></div><div class="ttdeci">uint32_t gid</div><div class="ttdef"><b>Definition</b> <a href="#l00025">inode.h:25</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_aff44930617e832c1a93af6b44de8059e"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#aff44930617e832c1a93af6b44de8059e">sfuse_inode::ctime</a></div><div class="ttdeci">uint32_t ctime</div><div class="ttdef"><b>Definition</b> <a href="#l00029">inode.h:29</a></div></div>
+<div class="ttc" id="astructsfuse__superblock_html"><div class="ttname"><a href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a></div><div class="ttdoc">슈퍼블록 구조체</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00051">super.h:51</a></div></div>
+<div class="ttc" id="asuper_8h_html"><div class="ttname"><a href="../../db/d98/super_8h.html">super.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="../../d3/d73/inode_8h.html">inode.h</a></li>
+    <li class="footer">다음에 의해 생성됨 :  <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.14.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SFUSE_Documentation: sfuse_inode 구조체 참조</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<script type="text/javascript" src="../../clipboard.js"></script>
+<link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript" src="../../cookie.js"></script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">SFUSE_Documentation
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 다음에 의해 생성됨 :  Doxygen 1.14.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('../../',true,false,'search.php','검색',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('d2/d13/structsfuse__inode.html','../../',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">로딩중...</div>
+<div class="SRStatus" id="Searching">검색중...</div>
+<div class="SRStatus" id="NoMatches">일치하는것 없음</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">sfuse_inode 구조체 참조</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>디스크에 저장되는 아이노드 구조체  
+ <a href="#details">더 자세히 ...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+데이터 필드</h2></td></tr>
+<tr class="memitem:a399b204af355418f3faa7cde72389973" id="r_a399b204af355418f3faa7cde72389973"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a399b204af355418f3faa7cde72389973">mode</a></td></tr>
+<tr class="memitem:aab36aa5aefcc9628ca9c71966e120176" id="r_aab36aa5aefcc9628ca9c71966e120176"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab36aa5aefcc9628ca9c71966e120176">uid</a></td></tr>
+<tr class="memitem:ae37bd41b2122093c21e0ea1debebf57f" id="r_ae37bd41b2122093c21e0ea1debebf57f"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae37bd41b2122093c21e0ea1debebf57f">gid</a></td></tr>
+<tr class="memitem:a8f67762b0e63a291da0db528b627922c" id="r_a8f67762b0e63a291da0db528b627922c"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f67762b0e63a291da0db528b627922c">size</a></td></tr>
+<tr class="memitem:a4ec8882c06d3f0935c3af6d551aee955" id="r_a4ec8882c06d3f0935c3af6d551aee955"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ec8882c06d3f0935c3af6d551aee955">atime</a></td></tr>
+<tr class="memitem:ade8b0f59d2f96573797e6421d2a6e475" id="r_ade8b0f59d2f96573797e6421d2a6e475"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade8b0f59d2f96573797e6421d2a6e475">mtime</a></td></tr>
+<tr class="memitem:aff44930617e832c1a93af6b44de8059e" id="r_aff44930617e832c1a93af6b44de8059e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff44930617e832c1a93af6b44de8059e">ctime</a></td></tr>
+<tr class="memitem:a3ef3b4aabd3bccb64773d12ebc0617e7" id="r_a3ef3b4aabd3bccb64773d12ebc0617e7"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ef3b4aabd3bccb64773d12ebc0617e7">direct</a> [12]</td></tr>
+<tr class="memitem:a7bf0a3ca57adf077b272e29d40c1c45b" id="r_a7bf0a3ca57adf077b272e29d40c1c45b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bf0a3ca57adf077b272e29d40c1c45b">indirect</a></td></tr>
+<tr class="memitem:a22386050768744617549779e3845fa0e" id="r_a22386050768744617549779e3845fa0e"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22386050768744617549779e3845fa0e">double_indirect</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">상세한 설명</h2>
+<div class="textblock"><p>디스크에 저장되는 아이노드 구조체 </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00022">22</a> 번째 라인에서 정의되었습니다.</p>
+</div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">필드 문서화</h2>
+<a id="a4ec8882c06d3f0935c3af6d551aee955" name="a4ec8882c06d3f0935c3af6d551aee955"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ec8882c06d3f0935c3af6d551aee955">&#9670;&#160;</a></span>atime</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::atime</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>마지막 접근 시간 (epoch) </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00027">27</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="aff44930617e832c1a93af6b44de8059e" name="aff44930617e832c1a93af6b44de8059e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff44930617e832c1a93af6b44de8059e">&#9670;&#160;</a></span>ctime</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::ctime</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>메타데이터 변경 시간 (epoch) </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00029">29</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a3ef3b4aabd3bccb64773d12ebc0617e7" name="a3ef3b4aabd3bccb64773d12ebc0617e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ef3b4aabd3bccb64773d12ebc0617e7">&#9670;&#160;</a></span>direct</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::direct[12]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>직접 데이터 블록 포인터 배열 </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00030">30</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a22386050768744617549779e3845fa0e" name="a22386050768744617549779e3845fa0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22386050768744617549779e3845fa0e">&#9670;&#160;</a></span>double_indirect</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::double_indirect</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>이중 간접 블록 포인터 </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00032">32</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="ae37bd41b2122093c21e0ea1debebf57f" name="ae37bd41b2122093c21e0ea1debebf57f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae37bd41b2122093c21e0ea1debebf57f">&#9670;&#160;</a></span>gid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::gid</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>소유자 그룹 ID </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00025">25</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a7bf0a3ca57adf077b272e29d40c1c45b" name="a7bf0a3ca57adf077b272e29d40c1c45b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bf0a3ca57adf077b272e29d40c1c45b">&#9670;&#160;</a></span>indirect</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::indirect</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>단일 간접 블록 포인터 </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00031">31</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a399b204af355418f3faa7cde72389973" name="a399b204af355418f3faa7cde72389973"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a399b204af355418f3faa7cde72389973">&#9670;&#160;</a></span>mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::mode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>파일 타입 및 권한 </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00023">23</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="ade8b0f59d2f96573797e6421d2a6e475" name="ade8b0f59d2f96573797e6421d2a6e475"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade8b0f59d2f96573797e6421d2a6e475">&#9670;&#160;</a></span>mtime</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::mtime</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>마지막 수정 시간 (epoch) </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00028">28</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="a8f67762b0e63a291da0db528b627922c" name="a8f67762b0e63a291da0db528b627922c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f67762b0e63a291da0db528b627922c">&#9670;&#160;</a></span>size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>파일 크기 (바이트 단위) </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00026">26</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<a id="aab36aa5aefcc9628ca9c71966e120176" name="aab36aa5aefcc9628ca9c71966e120176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab36aa5aefcc9628ca9c71966e120176">&#9670;&#160;</a></span>uid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sfuse_inode::uid</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>소유자 사용자 ID </p>
+
+<p class="definition"><a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a> 파일의 <a class="el" href="../../d3/d73/inode_8h_source.html#l00024">24</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
+<hr/>이 구조체에 대한 문서화 페이지는 다음의 파일로부터 생성되었습니다.:<ul>
+<li>include/<a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a></li>
+    <li class="footer">다음에 의해 생성됨 :  <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.14.0 </li>
+  </ul>
+</div>
+</body>
+</html>
