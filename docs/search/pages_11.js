@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['사용_20방법_0',['사용 방법',['../index.html#autotoc_md5',1,'']]]
+  ['미리보기_0',['SFUSE 미리보기',['../index.html#autotoc_md6',1,'']]]
 ];

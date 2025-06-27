@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['github_0',['참조 (Github)',['../index.html#autotoc_md9',1,'']]]
+  ['change_20log_0',['SFUSE Change Log',['../d7/d43/md_HISTORY.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['그래프_0',['실험 결과 그래프',['../dd/db0/md_benchmark_2result.html#autotoc_md18',1,'']]]
+  ['v0_200_201_202024년_2012월_2030일_0',['v0.0.1 (2024년 12월 30일)',['../d7/d43/md_HISTORY.html#autotoc_md1',1,'']]]
 ];

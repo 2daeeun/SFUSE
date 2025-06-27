@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['주요_20기능_0',['2. 주요 기능',['../index.html#autotoc_md3',1,'']]]
+  ['실험_20결과_0',['실험 결과',['../dd/db0/md_benchmark_2result.html',1,'']]],
+  ['실험_20결과_20그래프_1',['실험 결과 그래프',['../dd/db0/md_benchmark_2result.html#autotoc_md17',1,'']]]
 ];

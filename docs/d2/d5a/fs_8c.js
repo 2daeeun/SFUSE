@@ -6,7 +6,7 @@ var fs_8c =
     [ "fs_format_filesystem", "d2/d5a/fs_8c.html#a36d02c17ab05553ae865cae9f1c85abc", null ],
     [ "fs_fsync", "d2/d5a/fs_8c.html#ab503c5dc5cb6a0dc77f0b6d92bfccf5f", null ],
     [ "fs_getattr", "d2/d5a/fs_8c.html#a012d00e6eafc0bb7c9402e3f36cee00a", null ],
-    [ "fs_initialize", "d2/d5a/fs_8c.html#a585a14f482e0d9dc375d2f10808be104", null ],
+    [ "fs_initialize", "d2/d5a/fs_8c.html#a2647416442bb14c576015d7afa69ac81", null ],
     [ "fs_mkdir", "d2/d5a/fs_8c.html#a0e6c18058ed432a1b33962e1f7fda11f", null ],
     [ "fs_open", "d2/d5a/fs_8c.html#a9741976c80c2167280c9a0c3ff856d2d", null ],
     [ "fs_read", "d2/d5a/fs_8c.html#a28b88e33bc2ea2e1f024968f35073824", null ],
