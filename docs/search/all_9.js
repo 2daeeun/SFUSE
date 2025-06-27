@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['name_0',['name',['../d8/d1a/structsfuse__dirent.html#a9b38e50447844882ddaaacb947f3d5dc',1,'sfuse_dirent']]]
+  ['g_5fforce_5fformat_0',['g_force_format',['../d2/d5a/fs_8c.html#a0771760ee8a223b01c598e70420cef0c',1,'g_force_format:&#160;main.c'],['../d0/d29/main_8c.html#a0771760ee8a223b01c598e70420cef0c',1,'g_force_format:&#160;main.c']]],
+  ['gid_1',['gid',['../d2/d13/structsfuse__inode.html#ae37bd41b2122093c21e0ea1debebf57f',1,'sfuse_inode']]],
+  ['github_2',['참조 (Github)',['../index.html#autotoc_md9',1,'']]]
 ];

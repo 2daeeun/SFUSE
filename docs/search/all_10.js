@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['결과_0',['결과',['../dd/db0/md_benchmark_2result.html',1,'실험 결과'],['../db/d1d/md_benchmark_2workflow.html#autotoc_md7',1,'Ext4의 워크플로우 결과'],['../db/d1d/md_benchmark_2workflow.html#autotoc_md5',1,'SFUSE의 워크플로우 결과']]],
-  ['결과_20그래프_1',['실험 결과 그래프',['../dd/db0/md_benchmark_2result.html#autotoc_md2',1,'']]]
+  ['total_5fblocks_0',['total_blocks',['../d7/d75/structsfuse__superblock.html#af5c413e0bf39804304cad2b659941dd3',1,'sfuse_superblock']]],
+  ['total_5finodes_1',['total_inodes',['../d7/d75/structsfuse__superblock.html#a0b37cfe3235e397d42dddc21183f688b',1,'sfuse_superblock']]]
 ];

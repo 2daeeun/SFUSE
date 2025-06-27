@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['data_5fblock_5fstart_0',['data_block_start',['../d7/d75/structsfuse__superblock.html#a85add9a4b064a3a048d7580e1ecd9a85',1,'sfuse_superblock']]],
-  ['dents_5fper_5fblock_1',['DENTS_PER_BLOCK',['../df/d9c/dir_8h.html#aea073931da657513026982c1aac99b4d',1,'dir.h']]],
-  ['dir_2ec_2',['dir.c',['../de/d32/dir_8c.html',1,'']]],
-  ['dir_2eh_3',['dir.h',['../df/d9c/dir_8h.html',1,'']]],
-  ['dir_5flist_4',['dir_list',['../df/d9c/dir_8h.html#aca2f1f6050fc83a31ced84d12a96b4cb',1,'dir_list(const struct sfuse_fs *fs, uint32_t dir_ino, void *buf, fuse_fill_dir_t filler, off_t offset):&#160;dir.c'],['../de/d32/dir_8c.html#aca2f1f6050fc83a31ced84d12a96b4cb',1,'dir_list(const struct sfuse_fs *fs, uint32_t dir_ino, void *buf, fuse_fill_dir_t filler, off_t offset):&#160;dir.c']]],
-  ['dir_5flookup_5',['dir_lookup',['../df/d9c/dir_8h.html#acd690811815cf7e33fb3ab6f8b95216e',1,'dir_lookup(const struct sfuse_fs *fs, uint32_t dir_ino, const char *name, uint32_t *out_ino):&#160;dir.c'],['../de/d32/dir_8c.html#acd690811815cf7e33fb3ab6f8b95216e',1,'dir_lookup(const struct sfuse_fs *fs, uint32_t dir_ino, const char *name, uint32_t *out_ino):&#160;dir.c']]],
-  ['direct_6',['direct',['../d2/d13/structsfuse__inode.html#a3ef3b4aabd3bccb64773d12ebc0617e7',1,'sfuse_inode']]],
-  ['double_5findirect_7',['double_indirect',['../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e',1,'sfuse_inode']]]
+  ['alloc_5fbit_0',['alloc_bit',['../da/dcb/bitmap_8h.html#ad195af185232b43149a1d9442e28d077',1,'alloc_bit(uint8_t *map, uint32_t total_bits):&#160;bitmap.c'],['../df/d9a/bitmap_8c.html#ad195af185232b43149a1d9442e28d077',1,'alloc_bit(uint8_t *map, uint32_t total_bits):&#160;bitmap.c']]],
+  ['alloc_5fblock_1',['alloc_block',['../da/dcb/bitmap_8h.html#a7342a6b6280af158749416ff1fffadfc',1,'alloc_block(struct sfuse_superblock *sb, struct sfuse_block_bitmap *bmap):&#160;bitmap.c'],['../df/d9a/bitmap_8c.html#a7342a6b6280af158749416ff1fffadfc',1,'alloc_block(struct sfuse_superblock *sb, struct sfuse_block_bitmap *bmap):&#160;bitmap.c']]],
+  ['alloc_5finode_2',['alloc_inode',['../da/dcb/bitmap_8h.html#a08b712b2489ab7b3346f82316300c6b3',1,'alloc_inode(struct sfuse_superblock *sb, struct sfuse_inode_bitmap *imap):&#160;bitmap.c'],['../df/d9a/bitmap_8c.html#a08b712b2489ab7b3346f82316300c6b3',1,'alloc_inode(struct sfuse_superblock *sb, struct sfuse_inode_bitmap *imap):&#160;bitmap.c']]],
+  ['atime_3',['atime',['../d2/d13/structsfuse__inode.html#a4ec8882c06d3f0935c3af6d551aee955',1,'sfuse_inode']]]
 ];

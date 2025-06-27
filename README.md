@@ -48,7 +48,16 @@ mount_sfuse.sh는 컴파일과 마운트를 자동으로 해주는 셸 스크립
 umount sfuse_filesystem && rmdir sfuse_filesystem
 ```
 
-##### NOTE
-* 본 프로젝트의 실험은 Arch Linux의 FUSE v3.16.2에서 진행하였으며, Ubuntu 24.04의 FUSE v3.14에서도 작동을 확인하였습니다.  
+##### 참조 (Github)
+* **참조한 소스코드**
+  * [OS-Simple-File-System](https://github.com/leo-tronic/OS-Simple-File-System)
+  * [tiny-file-system](https://github.com/macauleyp/tiny-file-system)
+  * [fisopfs (Origin)](https://github.com/jmdieguez/fisopfs)
+  * [fisopfs (Korean)](https://github.com/2daeeun/fisopfs)
 
+* **참조한 VSFS 관련 문서**
+  * [**Project 06: Simple File System**: 노터데임 대학교 CSE 30341 운영 체제 원리(2024년 가을)](https://www3.nd.edu/~pbui/teaching/cse.30341.fa18/project06.html)
+
+##### NOTE
+* 본 프로젝트의 실험은 Arch Linux의 FUSE v3.16.2에서 진행하였으며, Ubuntu 24.04의 FUSE v3.14에서도 작동을 확인하였습니다.
 * 본 프로젝트는 추후 파일 쓰기와 삭제 기능을 추가 할 예정이며, 더 나아가 I/O 최적화와 로그 시스템 연구에 쓰일 예정입니다.

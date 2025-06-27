@@ -25,6 +25,7 @@
 var NAVTREE =
 [
   [ "SFUSE_Documentation", "index.html", [
+    [ "SFUSE", "index.html", null ],
     [ "실험 결과", "dd/db0/md_benchmark_2result.html", null ],
     [ "fio 워크플로우", "db/d1d/md_benchmark_2workflow.html", null ],
     [ "데이터 구조", "annotated.html", [

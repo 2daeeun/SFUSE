@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ctime_0',['ctime',['../d2/d13/structsfuse__inode.html#aff44930617e832c1a93af6b44de8059e',1,'sfuse_inode']]]
+  ['3_20미리보기_0',['3. 미리보기',['../index.html#autotoc_md4',1,'']]],
+  ['3_20언마운트_20방법_1',['3. 언마운트 방법',['../index.html#autotoc_md8',1,'']]]
 ];
