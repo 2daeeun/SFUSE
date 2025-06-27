@@ -5,6 +5,9 @@ GENERATE_COMPILE_COMMANDS() {
   # 스크립트 실행 중 오류 발생 시 중단
   set -e
 
+  # 기존 build 디렉토리 삭제
+  rm -r build
+
   # 빌드 디렉토리 이름
   BUILD_DIR="build"
 

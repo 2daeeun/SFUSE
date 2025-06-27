@@ -8,11 +8,13 @@
 #include "super.h"
 #include <errno.h>
 #include <fuse3/fuse.h>
+#include <linux/fs.h> /* BLKGETSIZE64 */
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
@@ -20,185 +22,131 @@
 /** @brief 전역: 포맷 강제 여부 (-F 옵션) */
 extern bool g_force_format;
 
-/**
- * @brief 빈 이미지 파일을 VSFS 구조로 포맷
- *
- * 디스크 이미지 파일을 초기화하여 슈퍼블록, 비트맵, 루트 아이노드를 설정하고
- * 기록한다.
- *
- * @param fd      디스크 이미지 파일 디스크립터
- * @param sb      초기화된 슈퍼블록 정보를 저장할 구조체 포인터
- * @return 성공 시 0, 실패 시 -1
- */
-static int fs_format_filesystem(int fd, struct sfuse_superblock *sb) {
-  struct stat st;
-  if (fstat(fd, &st) < 0)
-    return -1;
-  uint32_t total_all = st.st_size / SFUSE_BLOCK_SIZE;
+#ifndef SFUSE_ROOT_INO
+#define SFUSE_ROOT_INO 1
+#endif
 
-  /* 비트맵 블록 수 계산 */
-  uint32_t bm_blocks = (total_all > 32768 ? 2 : 1);
+/**
+ * @brief VSFS 파일 시스템 포맷 및 초기 비트맵 구성
+ *
+ * @param fd    블록 디바이스 파일 디스크립터
+ * @param sb    생성된 슈퍼블록을 저장할 구조체 포인터
+ * @param bmaps 초기 비트맵을 저장할 구조체 포인터
+ * @return      성공(0), 실패(-1) (errno 설정)
+ */
+static int fs_format_filesystem(int fd, struct sfuse_superblock *sb,
+                                struct sfuse_bitmaps *bmaps) {
+  uint64_t size64;
+  if (ioctl(fd, BLKGETSIZE64, &size64) < 0)
+    return -1;
+
+  uint32_t total_blocks_all = size64 / SFUSE_BLOCK_SIZE;
+  uint32_t bm_blocks = (total_blocks_all > 32768 ? 2 : 1);
   uint32_t inodes_per_block = SFUSE_BLOCK_SIZE / sizeof(struct sfuse_inode);
   uint32_t it_blocks =
       (SFUSE_MAX_INODES + inodes_per_block - 1) / inodes_per_block;
 
-  /* 디스크 용량 체크 */
-  if (total_all <= 1 + 1 + bm_blocks + it_blocks)
+  if (total_blocks_all <= 1 + 1 + bm_blocks + it_blocks) {
+    errno = ENOSPC;
     return -1;
+  }
 
   /* 슈퍼블록 설정 */
   sb->magic = SFUSE_MAGIC;
   sb->total_inodes = SFUSE_MAX_INODES;
+  sb->total_blocks = total_blocks_all - (1 + 1 + bm_blocks + it_blocks);
+  sb->free_inodes = SFUSE_MAX_INODES - 1; // 루트 inode 1개 예약
+  sb->free_blocks = sb->total_blocks;
   sb->inode_bitmap_start = 1;
   sb->block_bitmap_start = 2;
-  sb->inode_table_start = 2 + bm_blocks;
+  sb->inode_table_start = sb->block_bitmap_start + bm_blocks;
   sb->data_block_start = sb->inode_table_start + it_blocks;
-  sb->total_blocks = total_all - sb->data_block_start;
-  sb->free_inodes = SFUSE_MAX_INODES;
-  sb->free_blocks = sb->total_blocks;
 
-  /* 비트맵 초기화 (0으로 채움) */
-  struct sfuse_bitmaps bmaps;
-  memset(&bmaps, 0, sizeof(bmaps));
-  /* 아이노드 0,1 예약 (루트) */
-  bmaps.inode.map[0] |= 0x03;
-  sb->free_inodes -= 2;
+  /* 비트맵 초기화 (모두 0으로) */
+  memset(bmaps, 0, sizeof(*bmaps));
+  /* 루트 아이노드 예약 */
+  bmaps->inode.map[0] |= (1 << SFUSE_ROOT_INO);
 
-  /* 루트 inode 초기화 */
-  struct sfuse_inode root;
-  memset(&root, 0, sizeof(root));
-  root.mode = S_IFDIR | 0755;
-  root.uid = getuid();
-  root.gid = getgid();
-  root.size = 0;
-  time_t now = time(NULL);
-  root.atime = root.mtime = root.ctime = (uint32_t)now;
-
-  /* 디스크에 기록 */
-  /* 1) 슈퍼블록 */
+  /* 슈퍼블록 디스크 기록 */
   if (pwrite(fd, sb, SFUSE_BLOCK_SIZE, 0) != SFUSE_BLOCK_SIZE)
     return -1;
-  /* 2) 아이노드 비트맵 */
-  if (pwrite(fd, &bmaps.inode, SFUSE_BLOCK_SIZE,
-             sb->inode_bitmap_start * SFUSE_BLOCK_SIZE) < 0)
+  /* 아이노드 비트맵 기록 */
+  if (pwrite(fd, &bmaps->inode, SFUSE_BLOCK_SIZE,
+             sb->inode_bitmap_start * SFUSE_BLOCK_SIZE) != SFUSE_BLOCK_SIZE)
     return -1;
-  /* 3) 블록 비트맵 */
-  if (pwrite(fd, &bmaps.block, bm_blocks * SFUSE_BLOCK_SIZE,
-             sb->block_bitmap_start * SFUSE_BLOCK_SIZE) < 0)
+  /* 데이터 블록 비트맵 기록 */
+  if (pwrite(fd, &bmaps->block, bm_blocks * SFUSE_BLOCK_SIZE,
+             sb->block_bitmap_start * SFUSE_BLOCK_SIZE) !=
+      (ssize_t)(bm_blocks * SFUSE_BLOCK_SIZE))
     return -1;
-  /* 4) 루트 아이노드 */
-  if (inode_sync(fd, sb, 1, &root) < 0)
+
+  /* 루트 디렉토리 아이노드 초기화 */
+  struct sfuse_inode root_inode;
+  memset(&root_inode, 0, sizeof(root_inode));
+  root_inode.mode = S_IFDIR | 0755;
+  root_inode.uid = getuid();
+  root_inode.gid = getgid();
+  root_inode.size = 0;
+  uint32_t now = (uint32_t)time(NULL);
+  root_inode.atime = now;
+  root_inode.mtime = now;
+  root_inode.ctime = now;
+  /* 루트 아이노드 디스크 기록 */
+  if (inode_sync(fd, sb, SFUSE_ROOT_INO, &root_inode) < 0)
     return -1;
 
   return 0;
 }
 
 /**
- * @brief 파일 시스템 초기화
+ * @brief 파일 시스템 초기화 및 자동 포맷
  *
- * 디스크 이미지 파일을 열고 슈퍼블록, 비트맵, 아이노드 테이블을 메모리에
- * 로드한다.
- *
- * @param image_path 디스크 이미지 파일 경로
- * @param error_out  오류 코드를 저장할 포인터 (NULL이 아닌 경우에만 설정됨)
- * @return 초기화된 sfuse_fs 포인터, 실패 시 NULL (error_out에 오류 코드 설정)
+ * @param path      블록 디바이스 경로
+ * @param error_out 에러 발생 시 errno 저장 위치
+ * @return          성공 시 sfuse_fs 객체, 실패 시 NULL
  */
-struct sfuse_fs *fs_initialize(const char *image_path, int *error_out) {
-  struct sfuse_fs *fs = calloc(1, sizeof(struct sfuse_fs));
+struct sfuse_fs *fs_initialize(const char *path, int *error_out) {
+  int fd = open(path, O_RDWR);
+  if (fd < 0) {
+    *error_out = errno;
+    return NULL;
+  }
+
+  struct sfuse_superblock sb;
+  struct sfuse_bitmaps *bmaps = malloc(sizeof(*bmaps));
+  if (!bmaps) {
+    *error_out = ENOMEM;
+    close(fd);
+    return NULL;
+  }
+
+  if (fs_format_filesystem(fd, &sb, bmaps) < 0) {
+    *error_out = errno;
+    free(bmaps);
+    close(fd);
+    return NULL;
+  }
+
+  struct sfuse_fs *fs = malloc(sizeof(*fs));
   if (!fs) {
     *error_out = ENOMEM;
+    free(bmaps);
+    close(fd);
     return NULL;
   }
 
-  /* 디스크 이미지 열기 */
-  fs->backing_fd = open(image_path, O_RDWR);
-  if (fs->backing_fd < 0) {
-    *error_out = errno;
-    free(fs);
-    return NULL;
-  }
+  fs->backing_fd = fd;
+  fs->sb = sb;
+  fs->bmaps = bmaps;
+  fs->inode_table = NULL;
 
-  /* 슈퍼블록 로드 */
-  int r = sb_load(fs->backing_fd, &fs->sb);
-  if (r < 0) {
-    if (r == -EINVAL && g_force_format) {
-      /* 포맷되지 않았으면 자동 포맷 수행 */
-      fprintf(stderr, "SFUSE: 이미지 미포맷 감지, 자동 포맷 수행\n");
-      if (fs_format_filesystem(fs->backing_fd, &fs->sb) < 0) {
-        *error_out = EIO;
-        close(fs->backing_fd);
-        free(fs);
-        return NULL;
-      }
-    } else {
-      /* 기타 오류 */
-      *error_out = (r == -EINVAL ? EINVAL : EIO);
-      close(fs->backing_fd);
-      free(fs);
-      return NULL;
-    }
-  }
-
-  /* 비트맵 구조체 할당 */
-  fs->bmaps = malloc(sizeof(struct sfuse_bitmaps));
-  if (!fs->bmaps) {
-    *error_out = ENOMEM;
-    close(fs->backing_fd);
-    free(fs);
-    return NULL;
-  }
-
-  /* 비트맵 블록 수 계산 및 로드 */
-  uint32_t bits_per_block = SFUSE_BLOCK_SIZE * 8;
-  uint32_t im_blocks =
-      (fs->sb.total_inodes + bits_per_block - 1) / bits_per_block;
-  uint32_t bm_blocks =
-      (fs->sb.total_blocks + bits_per_block - 1) / bits_per_block;
-  if (bitmap_load(fs->backing_fd, fs->sb.inode_bitmap_start, fs->bmaps,
-                  im_blocks + bm_blocks) < 0) {
-    *error_out = EIO;
-    free(fs->bmaps);
-    close(fs->backing_fd);
-    free(fs);
-    return NULL;
-  }
-
-  /* 아이노드 테이블 블록 수 계산 및 메모리 할당 */
-  uint32_t inode_blocks = (fs->sb.total_inodes + SFUSE_INODES_PER_BLOCK - 1) /
-                          SFUSE_INODES_PER_BLOCK;
-  fs->inode_table = malloc(inode_blocks * SFUSE_BLOCK_SIZE);
-  if (!fs->inode_table) {
-    *error_out = ENOMEM;
-    free(fs->bmaps);
-    close(fs->backing_fd);
-    free(fs);
-    return NULL;
-  }
-
-  /* 아이노드 테이블 읽기 */
-  for (uint32_t i = 0; i < inode_blocks; ++i) {
-    if (read_block(fs->backing_fd, fs->sb.inode_table_start + i,
-                   &fs->inode_table[i]) < 0) {
-      *error_out = EIO;
-      free(fs->inode_table);
-      free(fs->bmaps);
-      close(fs->backing_fd);
-      free(fs);
-      return NULL;
-    }
-  }
-
-  *error_out = 0;
   return fs;
 }
 
 /**
- * @brief 파일 시스템 해제
+ * @brief 파일 시스템 종료 및 동기화
  *
- * 슈퍼블록과 비트맵을 디스크에 동기화하고, 할당된 메모리 및 파일 디스크립터
- * 정리
- *
- * @param fs 해제할 파일 시스템 컨텍스트 포인터
+ * @param fs 해제할 파일 시스템 컨텍스트
  */
 void fs_teardown(struct sfuse_fs *fs) {
   if (!fs)
@@ -209,16 +157,15 @@ void fs_teardown(struct sfuse_fs *fs) {
 
   /* 비트맵 동기화 */
   uint32_t bits_per_block = SFUSE_BLOCK_SIZE * 8;
-  uint32_t im_blocks =
+  uint32_t inode_blocks =
       (fs->sb.total_inodes + bits_per_block - 1) / bits_per_block;
-  uint32_t bm_blocks =
+  uint32_t data_blocks =
       (fs->sb.total_blocks + bits_per_block - 1) / bits_per_block;
   bitmap_sync(fs->backing_fd, fs->sb.inode_bitmap_start, fs->bmaps,
-              im_blocks + bm_blocks);
+              inode_blocks + data_blocks);
 
-  /* 메모리 및 파일 디스크립터 정리 */
-  free(fs->inode_table);
   free(fs->bmaps);
+  free(fs->inode_table);
   close(fs->backing_fd);
   free(fs);
 }

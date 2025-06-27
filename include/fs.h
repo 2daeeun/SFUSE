@@ -17,10 +17,10 @@ struct sfuse_inode_block;
  * @brief SFUSE 파일 시스템 컨텍스트 구조체
  */
 struct sfuse_fs {
-  int backing_fd;                        /**< 디스크 이미지 파일 디스크립터 */
-  struct sfuse_superblock sb;            /**< 슈퍼블록 정보 */
-  struct sfuse_bitmaps *bmaps;           /**< 아이노드/블록 비트맵 포인터 */
-  struct sfuse_inode_block *inode_table; /**< 아이노드 테이블 블록들 */
+  int backing_fd;              /**< 블록 디바이스 파일 디스크립터 */
+  struct sfuse_superblock sb;  /**< 슈퍼블록 정보 */
+  struct sfuse_bitmaps *bmaps; /**< 아이노드/데이터 블록 할당 비트맵 */
+  struct sfuse_inode_block *inode_table; /**< 아이노드 테이블 (사용하지 않음) */
 };
 
 /**
