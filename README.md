@@ -8,7 +8,7 @@ SFUSE의 버전별 설명은 [HISTORY.md](./) 문서를 참고바랍니다.
 
 #### SFUSE 미리보기
 <p align="center">
-  <img src="./img/preview.gif">
+  <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/main/img/preview.gif">
 </p>
 
 ---
