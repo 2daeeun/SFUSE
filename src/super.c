@@ -1,6 +1,7 @@
 // File: src/super.c
 
 #include "super.h"
+#include "img.h"
 #include <errno.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -16,8 +17,8 @@
  * @return 성공 시 0, 매직 넘버 불일치 시 -EINVAL, 읽기 오류 시 -errno
  */
 int sb_load(int fd, struct sfuse_superblock *sb_out) {
-  /* 디스크 시작에서 읽기 */
-  ssize_t n = pread(fd, sb_out, sizeof(*sb_out), 0);
+  /* 슈퍼블록 오프셋에서 읽기 */
+  ssize_t n = img_read(sb_out, sizeof(*sb_out), SFUSE_SUPERBLOCK_OFFSET);
   if (n < 0) {
     return -errno;
   }
@@ -38,7 +39,8 @@ int sb_load(int fd, struct sfuse_superblock *sb_out) {
  * @return 성공 시 0, 쓰기 오류 시 -errno 또는 -EIO
  */
 int sb_sync(int fd, const struct sfuse_superblock *sb) {
-  ssize_t n = pwrite(fd, sb, sizeof(*sb), 0);
+  /* 슈퍼블록 오프셋에 기록 */
+  ssize_t n = img_write(sb, sizeof(*sb), SFUSE_SUPERBLOCK_OFFSET);
   if (n < 0) {
     return -errno;
   }

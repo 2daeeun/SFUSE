@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
   const char *device_path = argv[1];
   const char *mountpoint = argv[2];
 
+  /* 파일 시스템 초기화 (디바이스 열기, 슈퍼블록 검사 및 자동 포맷) */
   int err = 0;
   struct sfuse_fs *fs = fs_initialize(device_path, &err);
   if (!fs) {
@@ -40,22 +41,32 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
+  /* FUSE 인자 재구성 */
   int remaining = argc - 3;
   int fuse_argc = 2 + remaining;
   char **fuse_argv = malloc(sizeof(char *) * fuse_argc);
+  if (!fuse_argv) {
+    perror("malloc");
+    fs_teardown(fs);
+    return EXIT_FAILURE;
+  }
+
   fuse_argv[0] = argv[0];
   fuse_argv[1] = (char *)mountpoint;
   for (int i = 0; i < remaining; i++) {
     fuse_argv[2 + i] = argv[3 + i];
   }
+
   struct fuse_args fuse_args = FUSE_ARGS_INIT(fuse_argc, fuse_argv);
 
+  /* FUSE 메인 루프 실행 */
   int ret =
       fuse_main(fuse_args.argc, fuse_args.argv, sfuse_get_operations(), fs);
 
-  /* 정리 작업 */
+  /* 종료 처리 */
   fs_teardown(fs);
   free(fuse_argv);
   fuse_opt_free_args(&fuse_args);
+
   return ret;
 }

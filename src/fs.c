@@ -20,7 +20,7 @@
 #include <unistd.h>
 
 /** @brief 전역: 포맷 강제 여부 (-F 옵션) */
-extern bool g_force_format;
+bool g_force_format = false;
 
 #ifndef SFUSE_ROOT_INO
 #define SFUSE_ROOT_INO 1
@@ -120,11 +120,39 @@ struct sfuse_fs *fs_initialize(const char *path, int *error_out) {
     return NULL;
   }
 
-  if (fs_format_filesystem(fd, &sb, bmaps) < 0) {
-    *error_out = errno;
-    free(bmaps);
-    close(fd);
-    return NULL;
+  int ret = sb_load(fd, &sb);
+  if (ret < 0 || sb.magic != SFUSE_MAGIC || g_force_format) {
+    if (fs_format_filesystem(fd, &sb, bmaps) < 0) {
+      *error_out = errno;
+      free(bmaps);
+      close(fd);
+      return NULL;
+    }
+  } else {
+    /* 기존 VSFS 감지 → 비트맵만 로드 */
+    if (bitmap_load(fd, sb.inode_bitmap_start, bmaps, 1) < 0) {
+      *error_out = errno;
+      free(bmaps);
+      close(fd);
+      return NULL;
+    }
+
+    unsigned long long dev_size = 0;
+    if (ioctl(fd, BLKGETSIZE64, &dev_size) < 0) {
+      *error_out = errno;
+      free(bmaps);
+      close(fd);
+      return NULL;
+    }
+    uint32_t total_blocks_all = dev_size / SFUSE_BLOCK_SIZE;
+    uint32_t bm_blocks = (total_blocks_all > 32768U ? 2U : 1U);
+
+    if (bitmap_load(fd, sb.block_bitmap_start, bmaps, bm_blocks) < 0) {
+      *error_out = errno;
+      free(bmaps);
+      close(fd);
+      return NULL;
+    }
   }
 
   struct sfuse_fs *fs = malloc(sizeof(*fs));
@@ -134,39 +162,42 @@ struct sfuse_fs *fs_initialize(const char *path, int *error_out) {
     close(fd);
     return NULL;
   }
-
   fs->backing_fd = fd;
   fs->sb = sb;
   fs->bmaps = bmaps;
-  fs->inode_table = NULL;
-
+  *error_out = 0;
   return fs;
 }
 
 /**
- * @brief 파일 시스템 종료 및 동기화
+ * @brief SFUSE 파일 시스템 해제
  *
- * @param fs 해제할 파일 시스템 컨텍스트
+ * sb_sync(), bitmap_sync()를 호출하여 디스크에 메타데이터를 동기화하고
+ * 할당된 리소스를 해제합니다.
  */
 void fs_teardown(struct sfuse_fs *fs) {
   if (!fs)
     return;
 
-  /* 슈퍼블록 동기화 */
+  /* 1) 슈퍼블록 동기화 */
   sb_sync(fs->backing_fd, &fs->sb);
 
-  /* 비트맵 동기화 */
-  uint32_t bits_per_block = SFUSE_BLOCK_SIZE * 8;
-  uint32_t inode_blocks =
-      (fs->sb.total_inodes + bits_per_block - 1) / bits_per_block;
-  uint32_t data_blocks =
-      (fs->sb.total_blocks + bits_per_block - 1) / bits_per_block;
-  bitmap_sync(fs->backing_fd, fs->sb.inode_bitmap_start, fs->bmaps,
-              inode_blocks + data_blocks);
+  /* 2) 아이노드 비트맵 동기화 (항상 1 블록) */
+  bitmap_sync(fs->backing_fd, fs->sb.inode_bitmap_start, fs->bmaps, 1);
 
-  free(fs->bmaps);
-  free(fs->inode_table);
+  /* 3) 데이터 블록 비트맵 동기화 */
+  unsigned long long dev_size = 0;
+  if (ioctl(fs->backing_fd, BLKGETSIZE64, &dev_size) < 0) {
+    perror("BLKGETSIZE64");
+  } else {
+    uint32_t total_blocks_all = dev_size / SFUSE_BLOCK_SIZE;
+    uint32_t bm_blocks = (total_blocks_all > 32768U ? 2U : 1U);
+    bitmap_sync(fs->backing_fd, fs->sb.block_bitmap_start, fs->bmaps,
+                bm_blocks);
+  }
+
   close(fs->backing_fd);
+  free(fs->bmaps);
   free(fs);
 }
 
