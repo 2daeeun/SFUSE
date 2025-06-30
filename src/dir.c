@@ -1,90 +1,134 @@
-// File: src/dir.c
-
+// dir.c: 디렉터리 엔트리 관리 구현
 #include "dir.h"
+#include "bitmap.h"
 #include "block.h"
+#include "img.h"
 #include "inode.h"
+#include "super.h"
 #include <errno.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
+#include <unistd.h>
 
 /**
- * @brief 디렉터리 내에서 지정한 이름의 엔트리를 검색하여 inode 번호 반환
- * @param fs SFUSE 파일 시스템 컨텍스트
- * @param dir_ino 검색 대상 디렉터리의 inode 번호
- * @param name 찾을 파일/디렉터리 이름 (null-terminated)
- * @param out_ino 검색된 inode 번호를 저장할 포인터
- * @return 성공 시 0, 실패 시 -ENOENT 또는 -EIO
+ * dir_load: 디렉터리 데이터 블록들을 모두 읽어서 버퍼에 로드
  */
-int dir_lookup(const struct sfuse_fs *fs, uint32_t dir_ino, const char *name,
-               uint32_t *out_ino) {
-  struct sfuse_inode dir_inode;
-  if (inode_load(fs->backing_fd, &fs->sb, dir_ino, &dir_inode) < 0) {
-    return -ENOENT;
+int dir_load(int fd, const struct sfuse_super *sb, uint32_t ino, void *buf) {
+  struct sfuse_inode inode;
+  int res = inode_load(fd, sb, ino, &inode);
+  if (res < 0)
+    return res;
+  for (uint32_t i = 0; i < SFUSE_NDIR_BLOCKS; i++) {
+    if (inode.direct[i] == 0)
+      continue;
+    res = read_block(fd, inode.direct[i], (char *)buf + i * SFUSE_BLOCK_SIZE);
+    if (res < 0)
+      return res;
   }
-
-  /* 모든 direct 블록 순회 */
-  for (uint32_t i = 0; i < 12; i++) {
-    uint32_t blk = dir_inode.direct[i];
-    if (blk == 0)
-      continue; /**< 할당된 블록이 없으면 건너뜀 */
-
-    uint8_t block[SFUSE_BLOCK_SIZE]; /**< 블록 데이터를 읽어올 버퍼 */
-    if (read_block(fs->backing_fd, blk, block) < 0) {
-      return -EIO;
-    }
-
-    struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
-    for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
-      if (entries[j].inode == 0)
-        continue; /**< 빈 엔트리 건너뜀 */
-      if (strncmp(entries[j].name, name, SFUSE_NAME_MAX) == 0) {
-        *out_ino = entries[j].inode;
-        return 0;
-      }
-    }
-  }
-  return -ENOENT;
+  return 0;
 }
 
 /**
- * @brief 디렉터리 엔트리 목록을 FUSE에 전달하여 나열
- * @param fs SFUSE 파일 시스템 컨텍스트
- * @param dir_ino 목록을 읽을 디렉터리의 inode 번호
- * @param buf FUSE가 제공하는 버퍼 포인터
- * @param filler FUSE의 디렉터리 엔트리 추가 콜백
- * @param offset 읽기 시작 오프셋 (사용되지 않음)
- * @return 성공 시 0, 실패 시 -ENOENT 또는 -EIO
+ * dir_add_entry: 디렉터리에 새 엔트리 추가
  */
-int dir_list(const struct sfuse_fs *fs, uint32_t dir_ino, void *buf,
-             fuse_fill_dir_t filler, off_t offset) {
-  struct sfuse_inode dir_inode;
-  if (inode_load(fs->backing_fd, &fs->sb, dir_ino, &dir_inode) < 0) {
-    return -ENOENT;
+int dir_add_entry(int fd, const struct sfuse_super *sb, uint32_t ino,
+                  const char *name, uint32_t child_ino, uint8_t *block_map,
+                  uint8_t *inode_map, struct sfuse_super *supermap) {
+  // 디렉터리 아이노드 로드
+  struct sfuse_inode inode;
+  int res = inode_load(fd, sb, ino, &inode);
+  if (res < 0)
+    return res;
+
+  // 디렉터리 블록 전체 로드
+  size_t buf_size = SFUSE_NDIR_BLOCKS * SFUSE_BLOCK_SIZE;
+  void *buf = malloc(buf_size);
+  if (!buf)
+    return -ENOMEM;
+  res = dir_load(fd, sb, ino, buf);
+  if (res < 0) {
+    free(buf);
+    return res;
   }
 
-  /* "." 및 ".." 기본 엔트리 추가 */
-  filler(buf, ".", NULL, 0, 0);
-  filler(buf, "..", NULL, 0, 0);
+  struct sfuse_dirent *ents = (struct sfuse_dirent *)buf;
+  uint32_t max_entries = buf_size / sizeof(*ents);
 
-  /* 저장된 디렉터리 엔트리 나열 */
-  for (uint32_t i = 0; i < 12; i++) {
-    uint32_t blk = dir_inode.direct[i];
-    if (blk == 0)
-      break; /**< 더 이상 블록이 없으면 종료 */
+  // 빈 슬롯 찾기
+  for (uint32_t i = 0; i < max_entries; i++) {
+    if (ents[i].ino == 0) {
+      ents[i].ino = child_ino;
+      strncpy(ents[i].name, name, sizeof(ents[i].name) - 1);
+      ents[i].name[sizeof(ents[i].name) - 1] = '\0';
 
-    uint8_t block[SFUSE_BLOCK_SIZE]; /**< 블록 데이터를 읽어올 버퍼 */
-    if (read_block(fs->backing_fd, blk, block) < 0) {
-      return -EIO;
-    }
+      // 모든 블록에 다시 기록
+      for (uint32_t b = 0; b < SFUSE_NDIR_BLOCKS; b++) {
+        if (inode.direct[b] == 0)
+          continue;
+        res = write_block(fd, inode.direct[b],
+                          (char *)buf + b * SFUSE_BLOCK_SIZE);
+        if (res < 0) {
+          free(buf);
+          return res;
+        }
+      }
 
-    struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
-    for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
-      if (entries[j].inode == 0)
-        continue; /**< 빈 엔트리 건너뜀 */
-      if (entries[j].name[0] == '\0')
-        continue; /**< 이름이 비어있으면 건너뜀 */
-      filler(buf, entries[j].name, NULL, 0, 0);
+      // 슈퍼블록 및 비트맵 동기화
+      sb_sync(fd, supermap);
+      bitmap_sync(fd, sb->block_bitmap_start, block_map, sb->blocks_count / 8);
+      bitmap_sync(fd, sb->inode_bitmap_start, inode_map, sb->inodes_count / 8);
+      free(buf);
+      return 0;
     }
   }
-  return 0;
+  free(buf);
+  return -ENOSPC;
+}
+
+/**
+ * dir_remove_entry: 디렉터리에서 엔트리 삭제
+ */
+int dir_remove_entry(int fd, const struct sfuse_super *sb, uint32_t ino,
+                     const char *name) {
+  struct sfuse_inode inode;
+  int res = inode_load(fd, sb, ino, &inode);
+  if (res < 0)
+    return res;
+
+  size_t buf_size = SFUSE_NDIR_BLOCKS * SFUSE_BLOCK_SIZE;
+  void *buf = malloc(buf_size);
+  if (!buf)
+    return -ENOMEM;
+  res = dir_load(fd, sb, ino, buf);
+  if (res < 0) {
+    free(buf);
+    return res;
+  }
+
+  struct sfuse_dirent *ents = (struct sfuse_dirent *)buf;
+  uint32_t max_entries = buf_size / sizeof(*ents);
+
+  for (uint32_t i = 0; i < max_entries; i++) {
+    if (ents[i].ino != 0 && strcmp(ents[i].name, name) == 0) {
+      ents[i].ino = 0;
+      ents[i].name[0] = '\0';
+
+      // 해당 블록들에 기록
+      for (uint32_t b = 0; b < SFUSE_NDIR_BLOCKS; b++) {
+        if (inode.direct[b] == 0)
+          continue;
+        res = write_block(fd, inode.direct[b],
+                          (char *)buf + b * SFUSE_BLOCK_SIZE);
+        if (res < 0) {
+          free(buf);
+          return res;
+        }
+      }
+      free(buf);
+      return 0;
+    }
+  }
+  free(buf);
+  return -ENOENT;
 }

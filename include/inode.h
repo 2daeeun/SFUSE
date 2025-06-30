@@ -1,64 +1,77 @@
-// File: include/inode.h
-
+// inode.h: 아이노드 구조체 및 함수 선언
 #ifndef SFUSE_INODE_H
 #define SFUSE_INODE_H
 
-#include "super.h"
+#include "super.h" // struct sfuse_super, SFUSE_BLOCK_SIZE
 #include <stdint.h>
+#include <sys/types.h> // mode_t, uid_t, gid_t
+
+// Direct 블록 포인터 수
+#define SFUSE_NDIR_BLOCKS 12
 
 /**
- * @brief 한 블록에 담을 수 있는 아이노드 수
- */
-#define SFUSE_INODES_PER_BLOCK (SFUSE_BLOCK_SIZE / sizeof(struct sfuse_inode))
-
-/**
- * @brief 한 블록에 담을 수 있는 포인터 수 (32-bit)
- */
-#define SFUSE_PTRS_PER_BLOCK (SFUSE_BLOCK_SIZE / sizeof(uint32_t))
-
-/**
- * @brief 디스크에 저장되는 아이노드 구조체
+ * @brief 아이노드 구조체
  */
 struct sfuse_inode {
-  uint32_t mode;            /**< 파일 타입 및 권한 */
-  uint32_t uid;             /**< 소유자 사용자 ID */
-  uint32_t gid;             /**< 소유자 그룹 ID */
-  uint32_t size;            /**< 파일 크기 (바이트 단위) */
-  uint32_t atime;           /**< 마지막 접근 시간 (epoch) */
-  uint32_t mtime;           /**< 마지막 수정 시간 (epoch) */
-  uint32_t ctime;           /**< 메타데이터 변경 시간 (epoch) */
-  uint32_t direct[12];      /**< 직접 데이터 블록 포인터 배열 */
-  uint32_t indirect;        /**< 단일 간접 블록 포인터 */
-  uint32_t double_indirect; /**< 이중 간접 블록 포인터 */
+  mode_t mode;                        /* 파일 타입 및 권한 */
+  uid_t uid;                          /* 소유자 UID */
+  gid_t gid;                          /* 소유자 GID */
+  uint32_t size;                      /* 파일 크기 */
+  uint32_t atime;                     /* 마지막 접근 시간 */
+  uint32_t mtime;                     /* 마지막 수정 시간 */
+  uint32_t ctime;                     /* 상태 변경 시간 */
+  uint32_t direct[SFUSE_NDIR_BLOCKS]; /* Direct 블록 포인터 */
+  uint32_t indirect;                  /* Single indirect 블록 포인터 */
+  uint32_t double_indirect;           /* Double indirect 블록 포인터 */
+  uint32_t links;                     /* 링크 수 */
 };
 
 /**
- * @brief 아이노드 블록: 여러 아이노드를 담는 블록
+ * @brief 디스크에서 아이노드 읽기
+ * @param fd      디바이스 파일 디스크립터
+ * @param sb      슈퍼블록 정보
+ * @param ino     읽을 아이노드 번호
+ * @param inode   결과 저장 버퍼
+ * @return 0 성공, 음수 오류코드
  */
-struct sfuse_inode_block {
-  struct sfuse_inode inodes[SFUSE_INODES_PER_BLOCK]; /**< 아이노드 배열 */
-};
+int inode_load(int fd, const struct sfuse_super *sb, uint32_t ino,
+               struct sfuse_inode *inode);
 
 /**
- * @brief 디스크 이미지에서 아이노드를 읽어 구조체에 로드
- * @param fd 파일 디스크립터
- * @param sb 슈퍼블록 포인터
- * @param ino 읽을 아이노드 번호
- * @param out 출력할 아이노드 구조체 포인터
- * @return 성공 시 0, 실패 시 음수 오류 코드
+ * @brief 디스크에 아이노드 기록
+ * @param fd      디바이스 파일 디스크립터
+ * @param sb      슈퍼블록 정보
+ * @param ino     기록할 아이노드 번호
+ * @param inode   기록할 아이노드
+ * @return 0 성공, 음수 오류코드
  */
-int inode_load(int fd, const struct sfuse_superblock *sb, uint32_t ino,
-               struct sfuse_inode *out);
+int inode_sync(int fd, const struct sfuse_super *sb, uint32_t ino,
+               const struct sfuse_inode *inode);
 
 /**
- * @brief 아이노드 구조체 내용을 디스크 이미지에 동기화
- * @param fd 파일 디스크립터
- * @param sb 슈퍼블록 포인터
- * @param ino 동기화할 아이노드 번호
- * @param in 입력할 아이노드 구조체 포인터
- * @return 성공 시 0, 실패 시 음수 오류 코드
+ * @brief 새 아이노드 초기화
+ * @param sb     슈퍼블록 정보 (unused)
+ * @param ino    아이노드 번호 (unused)
+ * @param mode   파일 타입 및 권한
+ * @param uid    소유자 UID
+ * @param gid    소유자 GID
+ * @param inode  초기화할 아이노드 구조체
  */
-int inode_sync(int fd, const struct sfuse_superblock *sb, uint32_t ino,
-               const struct sfuse_inode *in);
+void fs_init_inode(const struct sfuse_super *sb, uint32_t ino, mode_t mode,
+                   uid_t uid, gid_t gid, struct sfuse_inode *inode);
 
-#endif /* SFUSE_INODE_H */
+/**
+ * @brief 논리 블록 인덱스를 물리 블록 번호로 변환
+ * @param fd      디바이스 파일 디스크립터
+ * @param sb      슈퍼블록 정보
+ * @param inode   대상 아이노드
+ * @param lbn     논리 블록 인덱스
+ * @param buf     블록 읽기용 버퍼 (SFUSE_BLOCK_SIZE 크기)
+ * @param pbn_out 변환된 물리 블록 번호 반환
+ * @return 0 성공, 음수 오류코드
+ */
+int logical_to_physical(int fd, const struct sfuse_super *sb,
+                        const struct sfuse_inode *inode, uint32_t lbn,
+                        void *buf, uint32_t *pbn_out);
+
+#endif // SFUSE_INODE_H

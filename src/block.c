@@ -1,38 +1,41 @@
-// File: src/block.c
-
+// block.c: 블록 단위 I/O 헬퍼 함수 구현
 #include "block.h"
-#include "super.h"
+#include "img.h"
+#include "super.h" // SFUSE_BLOCK_SIZE
 #include <errno.h>
+#include <stdint.h>
 #include <unistd.h>
 
 /**
- * @brief 지정한 블록 번호의 데이터를 읽어 버퍼에 저장
- * @param fd 파일 디스크립터
- * @param blk 읽어올 블록 번호
- * @param out_buf 데이터를 저장할 버퍼 포인터
- * @return 읽은 바이트 수, 실패 시 음수 오류 코드
+ * @brief 디바이스에서 블록 단위(4KB)로 읽기
+ * @param fd        디바이스 파일 디스크립터
+ * @param block_no  읽을 블록 번호 (0부터 시작)
+ * @param buf       SFUSE_BLOCK_SIZE 바이트 버퍼
+ * @return 0 성공, 음수 오류코드
  */
-ssize_t read_block(int fd, uint32_t blk, void *out_buf) {
-  off_t offset = (off_t)blk * SFUSE_BLOCK_SIZE;
-  ssize_t n = pread(fd, out_buf, SFUSE_BLOCK_SIZE, offset);
-  if (n < 0) {
-    return -errno;
-  }
-  return n;
+int read_block(int fd, uint32_t block_no, void *buf) {
+  off_t offset = (off_t)block_no * SFUSE_BLOCK_SIZE;
+  ssize_t ret = img_read(fd, buf, SFUSE_BLOCK_SIZE, offset);
+  if (ret < 0)
+    return (int)ret;
+  if ((size_t)ret != SFUSE_BLOCK_SIZE)
+    return -EIO;
+  return 0;
 }
 
 /**
- * @brief 버퍼의 내용을 지정한 블록 번호에 기록
- * @param fd 파일 디스크립터
- * @param blk 기록할 블록 번호
- * @param buf 기록할 데이터가 담긴 버퍼 포인터
- * @return 기록한 바이트 수, 실패 시 음수 오류 코드
+ * @brief 디바이스에 블록 단위(4KB)로 쓰기
+ * @param fd        디바이스 파일 디스크립터
+ * @param block_no  쓸 블록 번호 (0부터 시작)
+ * @param buf       SFUSE_BLOCK_SIZE 바이트 데이터 버퍼
+ * @return 0 성공, 음수 오류코드
  */
-ssize_t write_block(int fd, uint32_t blk, const void *buf) {
-  off_t offset = (off_t)blk * SFUSE_BLOCK_SIZE;
-  ssize_t n = pwrite(fd, buf, SFUSE_BLOCK_SIZE, offset);
-  if (n < 0) {
-    return -errno;
-  }
-  return n;
+int write_block(int fd, uint32_t block_no, const void *buf) {
+  off_t offset = (off_t)block_no * SFUSE_BLOCK_SIZE;
+  ssize_t ret = img_write(fd, buf, SFUSE_BLOCK_SIZE, offset);
+  if (ret < 0)
+    return (int)ret;
+  if ((size_t)ret != SFUSE_BLOCK_SIZE)
+    return -EIO;
+  return 0;
 }

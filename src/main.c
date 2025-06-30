@@ -1,72 +1,60 @@
-/**
- * @file src/main.c
- * @brief SFUSE FUSE 파일 시스템 메인 엔트리 포인트
- *
- * SFUSE는 블록 디바이스를 VSFS로 포맷하고 마운트합니다.
- */
-
+// main.c: SFUSE 메인 진입점 (수정본)
 #include "fs.h"
+#include "ops.h" // sfuse_ops 선언
 #include <errno.h>
-#include <fuse3/fuse.h>
+#include <fcntl.h>
+#include <fuse.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
-/**
- * @brief SFUSE FUSE 연산 테이블 반환
- */
-struct fuse_operations *sfuse_get_operations(void);
-
-/**
- * @brief 프로그램 진입점
- *
- * @param argc 인자 개수
- * @param argv 인자 리스트
- * @return FUSE 메인 루프 반환값
- */
 int main(int argc, char *argv[]) {
-  if (argc < 3) {
+  struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+
+  // 블록 디바이스 모드와 블록 크기(4KB) 강제 설정
+  fuse_opt_add_arg(&args, "-o");
+  fuse_opt_add_arg(&args, "fuseblk");
+  fuse_opt_add_arg(&args, "-o");
+  fuse_opt_add_arg(&args, "blksize=4096");
+
+  // 사용법 검사: 최소 인자로 디바이스와 마운트 포인트 필요
+  if (args.argc < 3) {
     fprintf(stderr, "Usage: %s <device> <mountpoint> [FUSE options]\n",
             argv[0]);
     return EXIT_FAILURE;
   }
-  const char *device_path = argv[1];
-  const char *mountpoint = argv[2];
 
-  /* 파일 시스템 초기화 (디바이스 열기, 슈퍼블록 검사 및 자동 포맷) */
-  int err = 0;
-  struct sfuse_fs *fs = fs_initialize(device_path, &err);
-  if (!fs) {
-    fprintf(stderr, "SFUSE: 파일시스템 초기화 실패 (err=%d)\n", err);
+  const char *dev_path = args.argv[1];
+  int backing_fd = open(dev_path, O_RDWR | O_SYNC);
+  if (backing_fd < 0) {
+    perror("[SFUSE] Failed to open block device");
     return EXIT_FAILURE;
   }
 
-  /* FUSE 인자 재구성 */
-  int remaining = argc - 3;
-  int fuse_argc = 2 + remaining;
-  char **fuse_argv = malloc(sizeof(char *) * fuse_argc);
-  if (!fuse_argv) {
-    perror("malloc");
-    fs_teardown(fs);
+  // 블록 디바이스 여부 확인
+  struct stat st;
+  if (fstat(backing_fd, &st) < 0 || !S_ISBLK(st.st_mode)) {
+    fprintf(stderr, "[SFUSE] %s is not a block device\n", dev_path);
+    close(backing_fd);
     return EXIT_FAILURE;
   }
 
-  fuse_argv[0] = argv[0];
-  fuse_argv[1] = (char *)mountpoint;
-  for (int i = 0; i < remaining; i++) {
-    fuse_argv[2 + i] = argv[3 + i];
+  // 파일 시스템 초기화: 슈퍼블록 로드/포맷, 비트맵/아이노드 테이블 초기화
+  if (fs_initialize(backing_fd) < 0) {
+    fprintf(stderr, "[SFUSE] FS initialization failed on %s\n", dev_path);
+    close(backing_fd);
+    return EXIT_FAILURE;
   }
 
-  struct fuse_args fuse_args = FUSE_ARGS_INIT(fuse_argc, fuse_argv);
+  // FUSE 메인 루프 진입 (sfuse_ops는 ops.c에서 정의됨)
+  struct sfuse_fs *fs = get_fs_context();
+  fs->backing_fd = backing_fd;
+  int ret = fuse_main(args.argc, args.argv, &sfuse_ops, fs);
 
-  /* FUSE 메인 루프 실행 */
-  int ret =
-      fuse_main(fuse_args.argc, fuse_args.argv, sfuse_get_operations(), fs);
-
-  /* 종료 처리 */
-  fs_teardown(fs);
-  free(fuse_argv);
-  fuse_opt_free_args(&fuse_args);
-
+  // 자원 정리
+  close(backing_fd);
+  fuse_opt_free_args(&args);
   return ret;
 }

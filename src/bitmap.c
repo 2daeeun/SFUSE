@@ -1,157 +1,111 @@
-
+// bitmap.c: 아이노드/블록 비트맵 로드, 동기화 및 할당 함수 구현
 #include "bitmap.h"
 #include "img.h"
+#include "super.h"
 #include <errno.h>
 #include <stdint.h>
+#include <string.h>
+#include <unistd.h>
 
 /**
- * @brief 한 블록에 담길 수 있는 비트 수
+ * bitmap_load: 비트맵 블록에서 맵 데이터를 읽어들임
+ * @fd: 디바이스 파일 디스크립터
+ * @block_no: 비트맵이 저장된 블록 번호
+ * @map: 읽어들인 비트맵을 저장할 버퍼
+ * @map_size: 버퍼 크기(바이트)
+ * @return: 0 성공, 음수 오류
  */
-static const uint32_t BITS_PER_BLOCK = SFUSE_BLOCK_SIZE * 8;
-
-/**
- * @brief 디스크에서 연속된 비트맵 블록들을 읽어 메모리에 로드
- *
- * @param fd         파일 디스크립터
- * @param start_blk  시작 블록 번호
- * @param bmaps      비트맵 구조체 포인터
- * @param count      읽을 블록 수
- * @return           성공 시 0, 실패 시 -EIO
- */
-int bitmap_load(int fd, uint32_t start_blk,
-                struct sfuse_bitmaps *bmaps, uint32_t count)
-{
-    uint8_t *buffer = (uint8_t *)bmaps;
-    off_t offset    = (off_t)start_blk * SFUSE_BLOCK_SIZE;
-    ssize_t n       = img_read(buffer,
-                               (size_t)count * SFUSE_BLOCK_SIZE,
-                               offset);
-    if (n < 0 || (size_t)n != count * SFUSE_BLOCK_SIZE)
-        return -EIO;
-    return 0;
+int bitmap_load(int fd, uint32_t block_no, uint8_t *map, size_t map_size) {
+  ssize_t ret = img_read(fd, map, map_size, (off_t)block_no * SFUSE_BLOCK_SIZE);
+  if (ret < 0)
+    return (int)ret;
+  if ((size_t)ret != map_size)
+    return -EIO;
+  return 0;
 }
 
 /**
- * @brief 메모리에 있는 비트맵을 디스크에 저장
- *
- * @param fd         파일 디스크립터
- * @param start_blk  시작 블록 번호
- * @param bmaps      비트맵 구조체 포인터 (읽기 전용)
- * @param count      기록할 블록 수
- * @return           성공 시 0, 실패 시 -EIO
+ * bitmap_sync: 비트맵 버퍼를 디스크에 기록
+ * @fd: 디바이스 파일 디스크립터
+ * @block_no: 비트맵 블록 번호
+ * @map: 기록할 비트맵 버퍼
+ * @map_size: 버퍼 크기(바이트)
+ * @return: 0 성공, 음수 오류
  */
-int bitmap_sync(int fd, uint32_t start_blk,
-                const struct sfuse_bitmaps *bmaps, uint32_t count)
-{
-    const uint8_t *buffer = (const uint8_t *)bmaps;
-    off_t offset          = (off_t)start_blk * SFUSE_BLOCK_SIZE;
-    ssize_t n             = img_write(buffer,
-                                      (size_t)count * SFUSE_BLOCK_SIZE,
-                                      offset);
-    if (n < 0 || (size_t)n != count * SFUSE_BLOCK_SIZE)
-        return -EIO;
-    return 0;
+int bitmap_sync(int fd, uint32_t block_no, uint8_t *map, size_t map_size) {
+  ssize_t ret =
+      img_write(fd, map, map_size, (off_t)block_no * SFUSE_BLOCK_SIZE);
+  if (ret < 0)
+    return (int)ret;
+  if ((size_t)ret != map_size)
+    return -EIO;
+  return 0;
 }
 
 /**
- * @brief 비트맵에서 0인 비트를 찾아 1로 설정하고 인덱스를 반환
- *
- * @param map         비트맵 버퍼
- * @param total_bits  전체 비트 수
- * @return            할당된 비트 인덱스, 실패 시 -ENOSPC
+ * alloc_block: 새로운 데이터 블록을 할당
+ * @sb: 슈퍼블록 구조체
+ * @block_map: 블록 비트맵 버퍼
+ * @return: 할당된 블록 오프셋(0부터), 실패 시 -ENOSPC
  */
-int alloc_bit(uint8_t *map, uint32_t total_bits)
-{
-    uint32_t blocks = (total_bits + BITS_PER_BLOCK - 1) / BITS_PER_BLOCK;
-    for (uint32_t b = 0; b < blocks; ++b) {
-        uint8_t *block_ptr = map + b * SFUSE_BLOCK_SIZE;
-        for (uint32_t byte = 0; byte < SFUSE_BLOCK_SIZE; ++byte) {
-            if (block_ptr[byte] == 0xFF)
-                continue;
-            for (uint32_t bit = 0; bit < 8; ++bit) {
-                if (!(block_ptr[byte] & (1u << bit))) {
-                    uint32_t index = b * BITS_PER_BLOCK + byte * 8 + bit;
-                    if (index < total_bits) {
-                        block_ptr[byte] |= (uint8_t)(1u << bit);
-                        return index;
-                    }
-                }
-            }
-        }
+int alloc_block(struct sfuse_super *sb, uint8_t *block_map) {
+  uint32_t total = sb->blocks_count - sb->data_block_start;
+  for (uint32_t i = 0; i < total; i++) {
+    uint32_t byte_idx = i / 8;
+    uint32_t bit_idx = i % 8;
+    if (!(block_map[byte_idx] & (1 << bit_idx))) {
+      block_map[byte_idx] |= (1 << bit_idx);
+      sb->free_blocks--;
+      return (int)i;
     }
-    return -ENOSPC;
+  }
+  return -ENOSPC;
 }
 
 /**
- * @brief 비트맵에서 지정한 인덱스 비트를 0으로 설정
- *
- * @param map  비트맵 버퍼
- * @param idx  해제할 비트 인덱스
+ * free_block: 데이터 블록을 해제
+ * @sb: 슈퍼블록 구조체
+ * @block_map: 블록 비트맵 버퍼
+ * @offset: 해제할 블록 오프셋(0부터)
  */
-void free_bit(uint8_t *map, uint32_t idx)
-{
-    uint32_t byte_index = idx / 8;
-    uint32_t bit_offset = idx % 8;
-    map[byte_index] &= (uint8_t)~(1u << bit_offset);
+void free_block(struct sfuse_super *sb, uint8_t *block_map, uint32_t offset) {
+  uint32_t byte_idx = offset / 8;
+  uint32_t bit_idx = offset % 8;
+  block_map[byte_idx] &= ~(1 << bit_idx);
+  sb->free_blocks++;
 }
 
 /**
- * @brief 새로운 아이노드 할당
- *
- * @param sb   슈퍼블록 포인터
- * @param imap 아이노드 비트맵 포인터
- * @return     할당된 아이노드 번호, 실패 시 음수 오류 코드
+ * alloc_inode: 새로운 아이노드를 할당
+ * @sb: 슈퍼블록 구조체
+ * @inode_map: 아이노드 비트맵 버퍼
+ * @return: 할당된 아이노드 번호, 실패 시 -ENOSPC
  */
-int alloc_inode(struct sfuse_superblock *sb,
-                struct sfuse_inode_bitmap *imap)
-{
-    int ino = alloc_bit(imap->map, sb->total_inodes);
-    if (ino >= 0)
-        sb->free_inodes -= 1;
-    return ino;
+int alloc_inode(struct sfuse_super *sb, uint8_t *inode_map) {
+  // 아이노드 0은 예약, 1부터 시작
+  for (uint32_t i = 1; i < sb->inodes_count; i++) {
+    uint32_t byte_idx = i / 8;
+    uint32_t bit_idx = i % 8;
+    if (!(inode_map[byte_idx] & (1 << bit_idx))) {
+      inode_map[byte_idx] |= (1 << bit_idx);
+      sb->free_inodes--;
+      return (int)i;
+    }
+  }
+  return -ENOSPC;
 }
 
 /**
- * @brief 아이노드 해제
- *
- * @param sb   슈퍼블록 포인터
- * @param imap 아이노드 비트맵 포인터
- * @param ino  해제할 아이노드 번호
+ * free_inode: 아이노드를 해제
+ * @sb: 슈퍼블록 구조체
+ * @inode_map: 아이노드 비트맵 버퍼
+ * @ino: 해제할 아이노드 번호
  */
-void free_inode(struct sfuse_superblock *sb,
-                struct sfuse_inode_bitmap *imap, uint32_t ino)
-{
-    free_bit(imap->map, ino);
-    sb->free_inodes += 1;
+void free_inode(struct sfuse_super *sb, uint8_t *inode_map, uint32_t ino) {
+  if (ino == 0 || ino >= sb->inodes_count)
+    return;
+  uint32_t byte_idx = ino / 8;
+  uint32_t bit_idx = ino % 8;
+  inode_map[byte_idx] &= ~(1 << bit_idx);
+  sb->free_inodes++;
 }
-
-/**
- * @brief 새로운 데이터 블록 할당
- *
- * @param sb   슈퍼블록 포인터
- * @param bmap 블록 비트맵 포인터
- * @return     할당된 블록 번호, 실패 시 음수 오류 코드
- */
-int alloc_block(struct sfuse_superblock *sb,
-                struct sfuse_block_bitmap *bmap)
-{
-    int blk = alloc_bit(bmap->map, sb->total_blocks);
-    if (blk >= 0)
-        sb->free_blocks -= 1;
-    return blk;
-}
-
-/**
- * @brief 데이터 블록 해제
- *
- * @param sb   슈퍼블록 포인터
- * @param bmap 블록 비트맵 포인터
- * @param blk  해제할 블록 번호
- */
-void free_block(struct sfuse_superblock *sb,
-                struct sfuse_block_bitmap *bmap, uint32_t blk)
-{
-    free_bit(bmap->map, blk);
-    sb->free_blocks += 1;
-}
-
