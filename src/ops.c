@@ -1,4 +1,5 @@
 // ops.c: FUSE 콜백 구현
+// ops.c: FUSE 콜백 구현
 #include "ops.h"
 #include "bitmap.h"
 #include "block.h"
@@ -21,18 +22,11 @@ static void *sfuse_init_cb(struct fuse_conn_info *conn,
   (void)conn;
   (void)cfg;
   struct sfuse_fs *fs = get_fs_context();
-  if (sb_load(fs->backing_fd, &fs->sb) < 0) {
-    sb_format(&fs->sb);
-    sb_sync(fs->backing_fd, &fs->sb);
+  // 파일시스템 초기화 (슈퍼블록/비트맵 로드, 루트 아이노드 설정)
+  if (fs_initialize(fs->backing_fd) < 0) {
+    fprintf(stderr, "[SFUSE] FS initialization failed\n");
+    exit(EXIT_FAILURE);
   }
-  size_t bmap_bytes = fs->sb.blocks_count / 8;
-  size_t imap_bytes = fs->sb.inodes_count / 8;
-  fs->block_map = malloc(bmap_bytes);
-  fs->inode_map = malloc(imap_bytes);
-  bitmap_load(fs->backing_fd, fs->sb.block_bitmap_start, fs->block_map,
-              bmap_bytes);
-  bitmap_load(fs->backing_fd, fs->sb.inode_bitmap_start, fs->inode_map,
-              imap_bytes);
   return fs;
 }
 
@@ -96,8 +90,10 @@ static int sfuse_readdir_cb(const char *path, void *buf, fuse_fill_dir_t filler,
     return -ENOENT;
   struct sfuse_inode din;
   inode_load(fs->backing_fd, &fs->sb, ino, &din);
+  // "." 및 ".." 추가
   filler(buf, ".", NULL, 0, flags);
   filler(buf, "..", NULL, 0, flags);
+  // 디렉터리 엔트리 나열
   size_t buf_size = SFUSE_NDIR_BLOCKS * SFUSE_BLOCK_SIZE;
   void *dbuf = malloc(buf_size);
   dir_load(fs->backing_fd, &fs->sb, ino, dbuf);
@@ -139,12 +135,14 @@ static int sfuse_read_cb(const char *path, char *buf, size_t size, off_t offset,
     return -EISDIR;
   if (offset >= inode.size)
     return 0;
+  // 파일 크기를 넘어서는 부분은 읽지 않음
   size_t to_read = size;
   if (offset + to_read > inode.size)
     to_read = inode.size - offset;
   size_t done = 0;
   uint32_t pbn;
   uint8_t tmp[SFUSE_BLOCK_SIZE];
+  // 오프셋부터 필요한 바이트만큼 읽기
   while (done < to_read) {
     off_t cur = offset + done;
     uint32_t lbn = cur / SFUSE_BLOCK_SIZE;
@@ -175,6 +173,7 @@ static int sfuse_write_cb(const char *path, const char *buf, size_t size,
   size_t written = 0;
   uint32_t pbn;
   uint8_t tmp[SFUSE_BLOCK_SIZE];
+  // 데이터 쓰기: 필요한 블록을 할당하거나 찾아서 부분 갱신
   while (written < size) {
     off_t cur = offset + written;
     uint32_t lbn = cur / SFUSE_BLOCK_SIZE;
@@ -184,6 +183,7 @@ static int sfuse_write_cb(const char *path, const char *buf, size_t size,
       chunk = size - written;
     if (logical_to_physical(fs->backing_fd, &fs->sb, &inode, lbn, tmp, &pbn) <
         0) {
+      // 아직 물리 블록 할당 안 된 경우 새 블록 할당
       int new_off = alloc_block(&fs->sb, fs->block_map);
       pbn = fs->sb.data_block_start + new_off;
       if (lbn < SFUSE_NDIR_BLOCKS)
@@ -225,6 +225,7 @@ static int sfuse_create_cb(const char *path, mode_t mode,
 
 /* mkdir */
 static int sfuse_mkdir_cb(const char *path, mode_t mode) {
+  // 디렉터리 생성은 create 콜백을 재사용
   return sfuse_create_cb(path, mode | S_IFDIR, NULL);
 }
 
@@ -244,12 +245,14 @@ static int sfuse_unlink_cb(const char *path) {
     free(name);
     return -EISDIR;
   }
+  // 파일 데이터 블록 해제
   for (int i = 0; i < SFUSE_NDIR_BLOCKS; i++) {
     if (inode.direct[i]) {
       free_block(&fs->sb, fs->block_map,
                  inode.direct[i] - fs->sb.data_block_start);
     }
   }
+  // 아이노드 및 디렉터리 엔트리 해제
   free_inode(&fs->sb, fs->inode_map, ino);
   dir_remove_entry(fs->backing_fd, &fs->sb, parent, name);
   free(name);
@@ -257,7 +260,10 @@ static int sfuse_unlink_cb(const char *path) {
 }
 
 /* rmdir */
-static int sfuse_rmdir_cb(const char *path) { return sfuse_unlink_cb(path); }
+static int sfuse_rmdir_cb(const char *path) {
+  // 디렉터리 제거는 unlink 로직 재사용
+  return sfuse_unlink_cb(path);
+}
 
 /* rename */
 static int sfuse_rename_cb(const char *oldpath, const char *newpath,
@@ -269,6 +275,7 @@ static int sfuse_rename_cb(const char *oldpath, const char *newpath,
   char *newn = fs_split_path(newpath, &newp);
   uint32_t ino;
   fs_resolve_path(fs, oldpath, &ino);
+  // 기존 경로의 디렉터리 엔트리 제거 및 새 경로로 추가
   dir_remove_entry(fs->backing_fd, &fs->sb, oldp, oldn);
   dir_add_entry(fs->backing_fd, &fs->sb, newp, newn, ino, fs->block_map,
                 fs->inode_map, &fs->sb);
@@ -330,7 +337,7 @@ static int sfuse_fsync_cb(const char *path, int datasync,
   return 0;
 }
 
-// FUSE 콜백 테이블
+// FUSE 콜백 테이블 등록
 const struct fuse_operations sfuse_ops = {
     .init = sfuse_init_cb,
     .destroy = sfuse_destroy_cb,
