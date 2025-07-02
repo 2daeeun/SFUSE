@@ -19,131 +19,92 @@ int fs_initialize(int backing_fd) {
   struct sfuse_fs *fs = get_fs_context();
   fs->backing_fd = backing_fd;
 
-  // 디바이스 크기와 총 블록 수 계산
   off_t device_size = lseek(backing_fd, 0, SEEK_END);
   uint32_t total_blocks = device_size / SFUSE_BLOCK_SIZE;
 
-  // 슈퍼블록 로드 시도
-  if (sb_load(backing_fd, &fs->sb) == 0 && fs->sb.magic == SFUSE_MAGIC) {
-    // 기존 FS 로드 성공
-    // 메모리상 비트맵 할당 및 디스크에서 불러오기
-    size_t bmap_bytes = fs->sb.blocks_count / 8;
-    size_t imap_bytes = fs->sb.inodes_count / 8;
-    fs->block_map = calloc(1, bmap_bytes);
-    fs->inode_map = calloc(1, imap_bytes);
-    if (!fs->block_map || !fs->inode_map)
-      return -ENOMEM;
-    bitmap_load(backing_fd, fs->sb.block_bitmap_start, fs->block_map,
-                bmap_bytes);
-    bitmap_load(backing_fd, fs->sb.inode_bitmap_start, fs->inode_map,
-                imap_bytes);
-
-    // 루트 아이노드 존재 확인
-    uint32_t root = SFUSE_ROOT_INO; // 보통 1번
-    if (!(fs->inode_map[root / 8] & (1 << (root % 8)))) {
-      // 루트 비트맵 비어있으면 루트 아이노드 생성
-      fs->inode_map[root / 8] |= (1 << (root % 8));
-      fs->sb.free_inodes--;
-      // 아이노드 구조체 초기화
-      struct sfuse_inode root_inode;
-      fs_init_inode(&fs->sb, root, S_IFDIR | 0755, fuse_get_context()->uid,
-                    fuse_get_context()->gid, &root_inode);
-      // 데이터 블록 할당
-      int blk_index = alloc_block(&fs->sb, fs->block_map);
-      if (blk_index < 0) {
-        // 공간 부족 - 루트 생성 실패
-        return -ENOSPC;
-      }
-      uint32_t phys_block = fs->sb.data_block_start + blk_index;
-      root_inode.direct[0] = phys_block;
-      root_inode.size = SFUSE_BLOCK_SIZE;
-      // 루트 디렉터리 블록 초기화 ("." 와 "..")
-      uint8_t block[SFUSE_BLOCK_SIZE] = {0};
-      struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
-      entries[0].ino = root;
-      strcpy(entries[0].name, ".");
-      entries[1].ino = root;
-      strcpy(entries[1].name, "..");
-      if (write_block(backing_fd, phys_block, block) < 0)
-        return -EIO;
-      if (inode_sync(backing_fd, &fs->sb, root, &root_inode) < 0)
-        return -EIO;
-      // 변경된 비트맵과 슈퍼블록 동기화
-      bitmap_sync(backing_fd, fs->sb.block_bitmap_start, fs->block_map,
-                  bmap_bytes);
-      bitmap_sync(backing_fd, fs->sb.inode_bitmap_start, fs->inode_map,
-                  imap_bytes);
-      sb_sync(backing_fd, &fs->sb);
-    }
-  } else {
-    // 슈퍼블록이 없거나 매직넘버 불일치 -> 새로운 FS 포맷
-    sb_format(&fs->sb); // 매직넘버, 기본 값 초기화
+  if (sb_load(backing_fd, &fs->sb) < 0) {
+    sb_format(&fs->sb);
     fs->sb.blocks_count = total_blocks;
-    // 총 아이노드 수는 이미 SFUSE_INODES_COUNT(1024)로 설정됨
-    // 비트맵 및 아이노드 테이블 크기에 따라 동적으로 레이아웃 조정
+    fs->sb.inodes_count = SFUSE_INODES_COUNT;
+
     uint32_t block_bitmap_blocks =
-        (total_blocks + 8 * SFUSE_BLOCK_SIZE - 1) / (8 * SFUSE_BLOCK_SIZE);
+        (fs->sb.blocks_count / 8 + SFUSE_BLOCK_SIZE - 1) / SFUSE_BLOCK_SIZE;
     uint32_t inode_bitmap_blocks =
-        (fs->sb.inodes_count + 8 * SFUSE_BLOCK_SIZE - 1) /
-        (8 * SFUSE_BLOCK_SIZE);
-    fs->sb.block_bitmap_start = 2;
-    fs->sb.inode_bitmap_start = fs->sb.block_bitmap_start + block_bitmap_blocks;
-    fs->sb.inode_table_start = fs->sb.inode_bitmap_start + inode_bitmap_blocks;
-    // 아이노드 테이블 블록 수 계산
+        (fs->sb.inodes_count / 8 + SFUSE_BLOCK_SIZE - 1) / SFUSE_BLOCK_SIZE;
     uint32_t inode_table_blocks =
         (fs->sb.inodes_count * sizeof(struct sfuse_inode) + SFUSE_BLOCK_SIZE -
          1) /
         SFUSE_BLOCK_SIZE;
-    fs->sb.data_block_start = fs->sb.inode_table_start + inode_table_blocks;
-    // 남은 공간 업데이트
-    fs->sb.free_blocks = fs->sb.blocks_count - fs->sb.data_block_start;
-    fs->sb.free_inodes = fs->sb.inodes_count - 1; // 루트 제외
 
-    // 슈퍼블록 기록
+    fs->sb.block_bitmap_start = 2;
+    fs->sb.inode_bitmap_start = fs->sb.block_bitmap_start + block_bitmap_blocks;
+    fs->sb.inode_table_start = fs->sb.inode_bitmap_start + inode_bitmap_blocks;
+    fs->sb.data_block_start = fs->sb.inode_table_start + inode_table_blocks;
+
+    fs->sb.free_blocks = total_blocks - fs->sb.data_block_start;
+    fs->sb.free_inodes = fs->sb.inodes_count - 1;
+
     if (sb_sync(backing_fd, &fs->sb) < 0)
       return -EIO;
-    // 비트맵 메모리 할당 및 0으로 초기화 후 디스크에 기록
+
     size_t bmap_bytes = fs->sb.blocks_count / 8;
     size_t imap_bytes = fs->sb.inodes_count / 8;
+
     fs->block_map = calloc(1, bmap_bytes);
     fs->inode_map = calloc(1, imap_bytes);
     if (!fs->block_map || !fs->inode_map)
       return -ENOMEM;
+
     bitmap_sync(backing_fd, fs->sb.block_bitmap_start, fs->block_map,
                 bmap_bytes);
     bitmap_sync(backing_fd, fs->sb.inode_bitmap_start, fs->inode_map,
                 imap_bytes);
 
-    // 루트 아이노드 생성 (신규 FS)
     uint32_t root = SFUSE_ROOT_INO;
     fs->inode_map[root / 8] |= (1 << (root % 8));
     fs->sb.free_inodes--;
+
     struct sfuse_inode root_inode;
+    memset(&root_inode, 0, sizeof(root_inode));
     fs_init_inode(&fs->sb, root, S_IFDIR | 0755, fuse_get_context()->uid,
                   fuse_get_context()->gid, &root_inode);
+
     int blk_index = alloc_block(&fs->sb, fs->block_map);
     if (blk_index < 0)
       return -ENOSPC;
+
     uint32_t phys_block = fs->sb.data_block_start + blk_index;
     root_inode.direct[0] = phys_block;
     root_inode.size = SFUSE_BLOCK_SIZE;
-    // "." 및 ".." 엔트리 포함한 디렉터리 블록 작성
+
     uint8_t block[SFUSE_BLOCK_SIZE] = {0};
     struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
     entries[0].ino = root;
     strcpy(entries[0].name, ".");
     entries[1].ino = root;
     strcpy(entries[1].name, "..");
+
     if (write_block(backing_fd, phys_block, block) < 0)
       return -EIO;
+
     if (inode_sync(backing_fd, &fs->sb, root, &root_inode) < 0)
       return -EIO;
-    // 슈퍼블록/비트맵 최종 동기화
+
     bitmap_sync(backing_fd, fs->sb.block_bitmap_start, fs->block_map,
                 bmap_bytes);
     bitmap_sync(backing_fd, fs->sb.inode_bitmap_start, fs->inode_map,
                 imap_bytes);
     sb_sync(backing_fd, &fs->sb);
+  } else {
+    size_t bmap_bytes = fs->sb.blocks_count / 8;
+    size_t imap_bytes = fs->sb.inodes_count / 8;
+
+    fs->block_map = calloc(1, bmap_bytes);
+    fs->inode_map = calloc(1, imap_bytes);
+    bitmap_load(backing_fd, fs->sb.block_bitmap_start, fs->block_map,
+                bmap_bytes);
+    bitmap_load(backing_fd, fs->sb.inode_bitmap_start, fs->inode_map,
+                imap_bytes);
   }
 
   return 0;

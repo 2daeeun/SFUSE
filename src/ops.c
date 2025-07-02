@@ -81,39 +81,51 @@ static int sfuse_access_cb(const char *path, int mask) {
 static int sfuse_readdir_cb(const char *path, void *buf, fuse_fill_dir_t filler,
                             off_t offset, struct fuse_file_info *fi,
                             enum fuse_readdir_flags flags) {
-  (void)offset;
-  (void)fi;
   struct sfuse_fs *fs = get_fs_context();
   uint32_t ino;
+
   if (fs_resolve_path(fs, path, &ino) < 0)
     return -ENOENT;
-  struct sfuse_inode dinode;
-  if (inode_load(fs->backing_fd, &fs->sb, ino, &dinode) < 0)
+
+  struct sfuse_inode inode;
+  if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0)
     return -EIO;
-  // 디렉터리 엔트리 목록 채우기
-  // **중복된 "." 및 ".."는 추가하지 않습니다 (디렉터리 블록에 이미 존재)**
-  filler(buf, ".", NULL, 0, 0); // FUSE 규약상 수동 추가 가능하지만,
-  filler(buf, "..", NULL, 0,
-         0); // 실제 엔트리도 있으므로 중복 주의 (필요시 제거)
+
+  filler(buf, ".", NULL, 0, flags);
+  filler(buf, "..", NULL, 0, flags);
+
   size_t entries_per_block = SFUSE_BLOCK_SIZE / sizeof(struct sfuse_dirent);
-  size_t total_entries = dinode.size / sizeof(struct sfuse_dirent);
-  for (int b = 0; b < SFUSE_NDIR_BLOCKS && dinode.direct[b]; b++) {
-    uint8_t block[SFUSE_BLOCK_SIZE];
-    if (read_block(fs->backing_fd, dinode.direct[b], block) < 0)
+  size_t total_entries = inode.size / sizeof(struct sfuse_dirent);
+
+  for (int b = 0; b < SFUSE_NDIR_BLOCKS; b++) {
+    uint32_t blkno = inode.direct[b];
+    if (!blkno)
+      continue;
+
+    if (blkno < fs->sb.data_block_start || blkno >= fs->sb.blocks_count)
       return -EIO;
+
+    uint8_t block[SFUSE_BLOCK_SIZE];
+    if (read_block(fs->backing_fd, blkno, block) < 0)
+      return -EIO;
+
     struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
+
     for (size_t i = 0; i < entries_per_block; i++) {
       size_t idx = b * entries_per_block + i;
       if (idx >= total_entries)
         break;
-      if (entries[i].ino == 0)
+
+      if (!entries[i].ino || !strlen(entries[i].name))
         continue;
-      if (strcmp(entries[i].name, ".") == 0 ||
-          strcmp(entries[i].name, "..") == 0)
-        continue; // 이미 처리한 항목은 건너뛰기
-      filler(buf, entries[i].name, NULL, 0, 0);
+
+      if (!strcmp(entries[i].name, ".") || !strcmp(entries[i].name, ".."))
+        continue;
+
+      filler(buf, entries[i].name, NULL, 0, flags);
     }
   }
+
   return 0;
 }
 
@@ -400,31 +412,72 @@ static int sfuse_rename_cb(const char *oldpath, const char *newpath,
 /* truncate */
 static int sfuse_truncate_cb(const char *path, off_t size,
                              struct fuse_file_info *fi) {
-  (void)fi;
   struct sfuse_fs *fs = get_fs_context();
   uint32_t ino;
-  fs_resolve_path(fs, path, &ino);
+
+  if (fs_resolve_path(fs, path, &ino) < 0)
+    return -ENOENT;
+
   struct sfuse_inode inode;
-  inode_load(fs->backing_fd, &fs->sb, ino, &inode);
+  if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0)
+    return -EIO;
+
+  if (size > inode.size) {
+    // 파일 크기 확장 시 새로 추가되는 영역 0으로 초기화
+    uint8_t zero_block[SFUSE_BLOCK_SIZE] = {0};
+    while (inode.size < size) {
+      int blk_index = alloc_block(&fs->sb, fs->block_map);
+      if (blk_index < 0)
+        return -ENOSPC;
+      uint32_t phys_block = fs->sb.data_block_start + blk_index;
+      size_t direct_index = inode.size / SFUSE_BLOCK_SIZE;
+      if (direct_index >= SFUSE_NDIR_BLOCKS)
+        return -EFBIG; // 직접 블록만 지원한다고 가정
+      inode.direct[direct_index] = phys_block;
+      write_block(fs->backing_fd, phys_block, zero_block);
+      inode.size += SFUSE_BLOCK_SIZE;
+    }
+  } else if (size < inode.size) {
+    // 파일 크기 축소 시 블록 해제
+    while (inode.size > size) {
+      size_t direct_index = (inode.size - 1) / SFUSE_BLOCK_SIZE;
+      if (direct_index < SFUSE_NDIR_BLOCKS && inode.direct[direct_index]) {
+        free_block(&fs->sb, fs->block_map,
+                   inode.direct[direct_index] - fs->sb.data_block_start);
+        inode.direct[direct_index] = 0;
+      }
+      inode.size -= SFUSE_BLOCK_SIZE;
+    }
+  }
+
   inode.size = size;
+  inode.mtime = inode.ctime = time(NULL);
   inode_sync(fs->backing_fd, &fs->sb, ino, &inode);
+
+  bitmap_sync(fs->backing_fd, fs->sb.block_bitmap_start, fs->block_map,
+              fs->sb.blocks_count / 8);
+  sb_sync(fs->backing_fd, &fs->sb);
   return 0;
 }
 
 /* utimens */
-static int sfuse_utimens_cb(const char *path, const struct timespec ts[2],
+static int sfuse_utimens_cb(const char *path, const struct timespec tv[2],
                             struct fuse_file_info *fi) {
-  (void)fi;
   struct sfuse_fs *fs = get_fs_context();
   uint32_t ino;
+
   if (fs_resolve_path(fs, path, &ino) < 0)
     return -ENOENT;
+
   struct sfuse_inode inode;
   if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0)
     return -EIO;
-  inode.atime = ts[0].tv_sec;
-  inode.mtime = ts[1].tv_sec;
+
+  inode.atime = tv[0].tv_sec;
+  inode.mtime = tv[1].tv_sec;
+  inode.ctime = time(NULL); // ctime은 현재 시간으로 업데이트
   inode_sync(fs->backing_fd, &fs->sb, ino, &inode);
+
   return 0;
 }
 
@@ -466,17 +519,15 @@ static int sfuse_statfs_cb(const char *path, struct statvfs *st) {
   return 0;
 }
 
-// 확장 속성(xattr) 요청 무시 - 지원하지 않음 처리
-static int sfuse_getxattr_cb(const char *path, const char *name, char *value,
-                             size_t size) {
-  // 확장 속성을 지원하지 않는다는 오류 반환
-  return -ENOTSUP; // 또는 -EOPNOTSUPP로도 가능
+// 확장 속성을 지원하지 않음: 빈 목록 반환으로 안정적으로 처리
+static int sfuse_listxattr_cb(const char *path, char *list, size_t size) {
+  return 0; // 빈 리스트 반환 (성공적으로 처리됨)
 }
 
-// 확장 속성 목록(listxattr) 요청 무시 - 지원하지 않음 처리
-static int sfuse_listxattr_cb(const char *path, char *list, size_t size) {
-  // 확장 속성을 지원하지 않는다는 오류 반환
-  return -ENOTSUP; // 또는 -EOPNOTSUPP로도 가능
+// 확장 속성을 지원하지 않음: ENODATA(ENOATTR) 반환으로 안정적으로 처리
+static int sfuse_getxattr_cb(const char *path, const char *name, char *value,
+                             size_t size) {
+  return -ENODATA; // 해당 속성 없음 처리 (안정적으로 처리됨)
 }
 
 // fuse_operations 구조체에 추가하여 최종 적용
