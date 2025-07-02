@@ -91,8 +91,15 @@ static int sfuse_readdir_cb(const char *path, void *buf, fuse_fill_dir_t filler,
   if (inode_load(fs->backing_fd, &fs->sb, ino, &inode) < 0)
     return -EIO;
 
-  filler(buf, ".", NULL, 0, flags);
-  filler(buf, "..", NULL, 0, flags);
+  size_t current_offset = 0;
+
+  if (current_offset >= offset)
+    if (filler(buf, ".", NULL, ++current_offset, 0))
+      return 0;
+
+  if (current_offset >= offset)
+    if (filler(buf, "..", NULL, ++current_offset, 0))
+      return 0;
 
   size_t entries_per_block = SFUSE_BLOCK_SIZE / sizeof(struct sfuse_dirent);
   size_t total_entries = inode.size / sizeof(struct sfuse_dirent);
@@ -122,7 +129,13 @@ static int sfuse_readdir_cb(const char *path, void *buf, fuse_fill_dir_t filler,
       if (!strcmp(entries[i].name, ".") || !strcmp(entries[i].name, ".."))
         continue;
 
-      filler(buf, entries[i].name, NULL, 0, flags);
+      current_offset++;
+
+      if (current_offset <= offset)
+        continue;
+
+      if (filler(buf, entries[i].name, NULL, current_offset, 0))
+        return 0;
     }
   }
 
@@ -503,18 +516,33 @@ static int sfuse_fsync_cb(const char *path, int datasync,
   return 0;
 }
 
-static int sfuse_statfs_cb(const char *path, struct statvfs *st) {
+/* statfs */
+/* SFUSE statfs 콜백 구현 (파일 시스템 용량 정보 제공) */
+static int sfuse_statfs_cb(const char *path, struct statvfs *stbuf) {
   struct sfuse_fs *fs = get_fs_context();
-  memset(st, 0, sizeof(*st));
 
-  st->f_bsize = SFUSE_BLOCK_SIZE; // 블록 크기 (4096 바이트)
-  st->f_frsize = SFUSE_BLOCK_SIZE;
-  st->f_blocks = fs->sb.blocks_count - fs->sb.data_block_start;
-  st->f_bfree = fs->sb.free_blocks;
-  st->f_bavail = fs->sb.free_blocks;
-  st->f_files = fs->sb.inodes_count;
-  st->f_ffree = fs->sb.free_inodes;
-  st->f_namemax = SFUSE_NAME_LEN;
+  memset(stbuf, 0, sizeof(struct statvfs));
+
+  /* VSFS의 슈퍼블록(sb)을 참조하여 채우기 */
+  stbuf->f_bsize = SFUSE_BLOCK_SIZE; // 블록 크기 (VSFS의 블록 크기)
+  stbuf->f_frsize =
+      SFUSE_BLOCK_SIZE; // 프래그먼트 크기 (대부분 블록 크기와 같음)
+
+  /* 블록 개수 설정 (슈퍼블록 값 활용) */
+  stbuf->f_blocks =
+      fs->sb.blocks_count - fs->sb.data_block_start; // 데이터 블록의 전체 개수
+  stbuf->f_bfree = fs->sb.free_blocks;               // 빈 블록 개수 (여유 공간)
+  stbuf->f_bavail = fs->sb.free_blocks; // 일반 사용자가 쓸 수 있는 빈 블록 수
+
+  /* 아이노드 정보 설정 (VSFS 슈퍼블록 값 활용) */
+  stbuf->f_files = fs->sb.inodes_count; // 전체 아이노드 개수
+  stbuf->f_ffree = fs->sb.free_inodes;  // 빈 아이노드 개수
+  stbuf->f_favail = fs->sb.free_inodes; // 일반 사용자 사용 가능 아이노드 수
+
+  /* FS 고유 식별자 및 기타 정보 */
+  stbuf->f_fsid = 0x53465553;        // 임의 FSID (예: "SFUS" ASCII 코드값)
+  stbuf->f_flag = ST_NOSUID;         // 마운트 옵션에 따라 설정 가능
+  stbuf->f_namemax = SFUSE_NAME_LEN; // 최대 파일 이름 길이
 
   return 0;
 }
@@ -549,7 +577,7 @@ const struct fuse_operations sfuse_ops = {
     .utimens = sfuse_utimens_cb,
     .flush = sfuse_flush_cb,
     .fsync = sfuse_fsync_cb,
-    .statfs = sfuse_statfs_cb,     // statfs 콜백 (파일시스템 용량 정보 표시용)
-    .getxattr = sfuse_getxattr_cb, // 추가된 부분
-    .listxattr = sfuse_listxattr_cb, // 추가된 부분
+    .statfs = sfuse_statfs_cb,
+    .getxattr = sfuse_getxattr_cb,
+    .listxattr = sfuse_listxattr_cb,
 };
