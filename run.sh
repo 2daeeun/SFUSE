@@ -72,37 +72,37 @@ COMPILE() {
 # 3) mount 함수
 MOUNT() {
   # 디스크 이미지(.img) 파일 생성
-  if [[ -f ./build/sfuse.img ]]; then
-    echo -e "\n"
-    echo "디스크 이미지(.img) 파일이 이미 존재합니다."
-  else
-    mkdir -p ./build
-    truncate -s 200M ./build/sfuse.img
-    echo -e "\n"
-    echo -e "200MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
-    echo -e "(이미지 파일 위치: ./build/sfuse.img) "
-  fi
+  # if [[ -f ./build/sfuse.img ]]; then
+  #   echo -e "\n"
+  #   echo "디스크 이미지(.img) 파일이 이미 존재합니다."
+  # else
+  #   mkdir -p ./build
+  #   truncate -s 200M ./build/sfuse.img
+  #   echo -e "\n"
+  #   echo -e "200MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
+  #   echo -e "(이미지 파일 위치: ./build/sfuse.img) "
+  # fi
 
   # 마운트 포인트 생성
-  if [[ -d /run/media/leedaeeun/sfuse ]]; then
-    echo -e "\n"
-    echo -e "마운트 포인트에 디렉토리가 이미 존재합니다"
-    echo -e "(마운트 포인트 위치: /tmp/sfuse) "
-  else
-    sudo mkdir -p /run/media/leedaeeun/sfuse
-    echo -e "\n"
-    echo -e "마운트 포인트 생성이 완료되었습니다!"
-    echo -e "(마운트 포인트 위치: /run/media/leedaeeun/sfuse) "
-  fi
+  # if [[ -d /run/media/leedaeeun/sfuse ]]; then
+  #   echo -e "\n"
+  #   echo -e "마운트 포인트에 디렉토리가 이미 존재합니다"
+  #   echo -e "(마운트 포인트 위치: /tmp/sfuse) "
+  # else
+  #   sudo mkdir -p /run/media/leedaeeun/sfuse
+  #   echo -e "\n"
+  #   echo -e "마운트 포인트 생성이 완료되었습니다!"
+  #   echo -e "(마운트 포인트 위치: /run/media/leedaeeun/sfuse) "
+  # fi
 
   # 마운트 실행
   echo -e "\n"
   echo -e "마운트를 실행합니다."
   echo -e "\n"
   echo -e "마운트 명령어:"
-  echo -e "cd build && sudo ./sfuse -F sfuse.img /run/media/leedaeeun/sfuse -f -s -d"
+  echo -e "sudo ./sfuse /dev/nvme0n1p7 /mnt/Partition7_ext2 -f -s -d -o allow_other,default_permissions"
   echo -e "\n"
-  sudo ./build/sfuse -F ./build/sfuse.img /run/media/leedaeeun/sfuse -f -s -d
+  sudo ./build/sfuse /dev/nvme0n1p7 /mnt/Partition7_ext2 -f -s -d -o allow_other,default_permissions
 
   # 언마운트
   # sudo fusermount3 -u /tmp/sfuse
