@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dents_5fper_5fblock_0',['DENTS_PER_BLOCK',['../df/d9c/dir_8h.html#aea073931da657513026982c1aac99b4d',1,'dir.h']]]
+  ['fuse_5fuse_5fversion_0',['FUSE_USE_VERSION',['../d8/d2b/inode_8c.html#a0919197af2e154da2c05727b6d87cbda',1,'inode.c']]]
 ];

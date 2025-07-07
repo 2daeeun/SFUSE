@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['bitmap_5fload_0',['bitmap_load',['../da/dcb/bitmap_8h.html#a9862b8627755d4932e7383f8221159fc',1,'bitmap_load(int fd, uint32_t start_blk, struct sfuse_bitmaps *bmaps, uint32_t count):&#160;bitmap.c'],['../df/d9a/bitmap_8c.html#a9862b8627755d4932e7383f8221159fc',1,'bitmap_load(int fd, uint32_t start_blk, struct sfuse_bitmaps *bmaps, uint32_t count):&#160;bitmap.c']]],
-  ['bitmap_5fsync_1',['bitmap_sync',['../da/dcb/bitmap_8h.html#a08e26f9ee07d1cd29ae89220513cc50a',1,'bitmap_sync(int fd, uint32_t start_blk, const struct sfuse_bitmaps *bmaps, uint32_t count):&#160;bitmap.c'],['../df/d9a/bitmap_8c.html#a08e26f9ee07d1cd29ae89220513cc50a',1,'bitmap_sync(int fd, uint32_t start_blk, const struct sfuse_bitmaps *bmaps, uint32_t count):&#160;bitmap.c']]]
+  ['bitmap_5fload_0',['bitmap_load',['../da/dcb/bitmap_8h.html#a71d915e1f010b404d49923241427b0fd',1,'bitmap_load(int fd, uint32_t block_no, uint8_t *map, size_t map_size):&#160;bitmap.c'],['../df/d9a/bitmap_8c.html#a71d915e1f010b404d49923241427b0fd',1,'bitmap_load(int fd, uint32_t block_no, uint8_t *map, size_t map_size):&#160;bitmap.c']]],
+  ['bitmap_5fsync_1',['bitmap_sync',['../da/dcb/bitmap_8h.html#a227b256c17ea31f9c7743f3abc35966f',1,'bitmap_sync(int fd, uint32_t block_no, uint8_t *map, size_t map_size):&#160;bitmap.c'],['../df/d9a/bitmap_8c.html#a227b256c17ea31f9c7743f3abc35966f',1,'bitmap_sync(int fd, uint32_t block_no, uint8_t *map, size_t map_size):&#160;bitmap.c']]]
 ];

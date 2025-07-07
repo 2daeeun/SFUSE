@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['workflow_2emd_0',['workflow.md',['../de/d13/workflow_8md.html',1,'']]],
-  ['write_5fblock_1',['write_block',['../de/d40/block_8h.html#af4beb38783113f42a845b7702ebaa8d5',1,'write_block(int fd, uint32_t blk, const void *buf):&#160;block.c'],['../d3/d1c/block_8c.html#af4beb38783113f42a845b7702ebaa8d5',1,'write_block(int fd, uint32_t blk, const void *buf):&#160;block.c']]]
+  ['결과_0',['결과',['../dd/db0/md_benchmark_2result.html',1,'실험 결과'],['../db/d1d/md_benchmark_2workflow.html#autotoc_md22',1,'Ext4의 워크플로우 결과'],['../db/d1d/md_benchmark_2workflow.html#autotoc_md20',1,'SFUSE의 워크플로우 결과']]],
+  ['결과_20그래프_1',['실험 결과 그래프',['../dd/db0/md_benchmark_2result.html#autotoc_md18',1,'']]]
 ];

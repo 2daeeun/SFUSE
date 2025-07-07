@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['g_5fforce_5fformat_0',['g_force_format',['../df/d26/fs_8h.html#a0771760ee8a223b01c598e70420cef0c',1,'g_force_format:&#160;main.c'],['../d2/d5a/fs_8c.html#a0771760ee8a223b01c598e70420cef0c',1,'g_force_format:&#160;main.c'],['../d0/d29/main_8c.html#a0771760ee8a223b01c598e70420cef0c',1,'g_force_format:&#160;main.c']]],
-  ['gid_1',['gid',['../d2/d13/structsfuse__inode.html#ae37bd41b2122093c21e0ea1debebf57f',1,'sfuse_inode']]]
+  ['get_5ffs_5fcontext_0',['get_fs_context',['../df/d26/fs_8h.html#ac432498ca3711406676c5384e90f0c39',1,'get_fs_context(void):&#160;fs.c'],['../d2/d5a/fs_8c.html#ac432498ca3711406676c5384e90f0c39',1,'get_fs_context(void):&#160;fs.c']]],
+  ['gid_1',['gid',['../d2/d13/structsfuse__inode.html#a38e8537191c32b5ad3959243316378f0',1,'sfuse_inode']]]
 ];

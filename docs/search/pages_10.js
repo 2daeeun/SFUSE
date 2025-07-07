@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['마운트_0',['2. 코드 컴파일 및 마운트',['../index.html#autotoc_md10',1,'']]]
+  ['미리보기_0',['SFUSE 미리보기',['../index.html#autotoc_md1',1,'']]]
 ];

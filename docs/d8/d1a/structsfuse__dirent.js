@@ -1,5 +1,5 @@
 var structsfuse__dirent =
 [
-    [ "inode", "d8/d1a/structsfuse__dirent.html#a73e74a2f27bfdd1383b6292beff30476", null ],
-    [ "name", "d8/d1a/structsfuse__dirent.html#a9b38e50447844882ddaaacb947f3d5dc", null ]
+    [ "ino", "d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a", null ],
+    [ "name", "d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab", null ]
 ];

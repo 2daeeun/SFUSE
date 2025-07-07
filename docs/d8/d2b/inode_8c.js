@@ -1,6 +1,8 @@
 var inode_8c =
 [
-    [ "inode_load", "d8/d2b/inode_8c.html#a490b41738be882c224282cb0873c4185", null ],
-    [ "inode_offset", "d8/d2b/inode_8c.html#ae003f96dd0c540bc9f2fc169274f1d6f", null ],
-    [ "inode_sync", "d8/d2b/inode_8c.html#abbb03a523d329cec86d9473e1a6ff70b", null ]
+    [ "FUSE_USE_VERSION", "d8/d2b/inode_8c.html#a0919197af2e154da2c05727b6d87cbda", null ],
+    [ "fs_init_inode", "d8/d2b/inode_8c.html#a5416a6af7013809601f7be7803d2e226", null ],
+    [ "inode_load", "d8/d2b/inode_8c.html#a72a6e85b07ee4130a233e0db78fc95fe", null ],
+    [ "inode_sync", "d8/d2b/inode_8c.html#a4b04fa2e033f4171176700e3967af031", null ],
+    [ "logical_to_physical", "d8/d2b/inode_8c.html#ac23d0b65c87524e63092a01ffc526acc", null ]
 ];

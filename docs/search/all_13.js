@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['total_5fblocks_0',['total_blocks',['../d7/d75/structsfuse__superblock.html#af5c413e0bf39804304cad2b659941dd3',1,'sfuse_superblock']]],
-  ['total_5finodes_1',['total_inodes',['../d7/d75/structsfuse__superblock.html#a0b37cfe3235e397d42dddc21183f688b',1,'sfuse_superblock']]]
+  ['uid_0',['uid',['../d2/d13/structsfuse__inode.html#ab29868636ac693bd930eb8051d2a722c',1,'sfuse_inode']]]
 ];

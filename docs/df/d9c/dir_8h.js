@@ -1,8 +1,8 @@
 var dir_8h =
 [
     [ "sfuse_dirent", "d8/d1a/structsfuse__dirent.html", "d8/d1a/structsfuse__dirent" ],
-    [ "DENTS_PER_BLOCK", "df/d9c/dir_8h.html#aea073931da657513026982c1aac99b4d", null ],
-    [ "SFUSE_NAME_MAX", "df/d9c/dir_8h.html#a309b8658c2817a5c55a08445e9760743", null ],
-    [ "dir_list", "df/d9c/dir_8h.html#aca2f1f6050fc83a31ced84d12a96b4cb", null ],
-    [ "dir_lookup", "df/d9c/dir_8h.html#acd690811815cf7e33fb3ab6f8b95216e", null ]
+    [ "SFUSE_NAME_LEN", "df/d9c/dir_8h.html#ac3fe75f2b09bf78dfede04c657450460", null ],
+    [ "dir_add_entry", "df/d9c/dir_8h.html#a46039c7666b2dae1401a0b3e8ad5f1f1", null ],
+    [ "dir_load", "df/d9c/dir_8h.html#ac2f55242043759c79ce3aaa895ffbd6b", null ],
+    [ "dir_remove_entry", "df/d9c/dir_8h.html#a6d70dfe2356e0eefe891a57e11c62e16", null ]
 ];

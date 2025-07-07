@@ -92,25 +92,31 @@ $(function(){initNavTree('d2/d1d/super_8c.html','../../',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../db/d98/super_8h_source.html">super.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../df/d1d/img_8h_source.html">img.h</a>&quot;</code><br />
 <code>#include &lt;errno.h&gt;</code><br />
-<code>#include &lt;sys/types.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;unistd.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 super.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d2/d36/super_8c__incl.png" border="0" usemap="#asrc_2super_8c" loading="lazy" alt=""/></div>
 <map name="asrc_2super_8c" id="asrc_2super_8c">
-<area shape="rect" title=" " alt="" coords="139,5,230,33"/>
-<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="6,81,75,109"/>
-<area shape="poly" title=" " alt="" coords="160,36,81,76,78,71,158,31"/>
-<area shape="rect" title=" " alt="" coords="99,81,166,109"/>
-<area shape="poly" title=" " alt="" coords="177,35,153,70,148,67,173,32"/>
-<area shape="rect" title=" " alt="" coords="190,81,286,109"/>
-<area shape="poly" title=" " alt="" coords="196,32,222,67,217,70,192,35"/>
-<area shape="rect" title=" " alt="" coords="309,81,382,109"/>
-<area shape="poly" title=" " alt="" coords="214,31,305,72,303,77,212,36"/>
-<area shape="rect" title=" " alt="" coords="5,157,76,184"/>
-<area shape="poly" title=" " alt="" coords="43,109,43,141,38,141,38,109"/>
+<area shape="rect" title=" " alt="" coords="133,5,224,33"/>
+<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="5,157,75,184"/>
+<area shape="poly" title=" " alt="" coords="142,36,106,55,73,83,56,112,47,142,42,141,51,110,69,79,103,50,140,31"/>
+<area shape="rect" href="../../df/d1d/img_8h.html" title=" " alt="" coords="83,81,141,109"/>
+<area shape="poly" title=" " alt="" coords="169,35,136,71,132,68,165,32"/>
+<area shape="rect" title=" " alt="" coords="150,157,223,184"/>
+<area shape="poly" title=" " alt="" coords="182,33,188,141,182,141,177,33"/>
+<area shape="rect" title=" " alt="" coords="216,81,283,109"/>
+<area shape="poly" title=" " alt="" coords="193,32,228,68,225,72,189,35"/>
+<area shape="rect" title=" " alt="" coords="308,81,378,109"/>
+<area shape="poly" title=" " alt="" coords="209,31,301,72,299,77,207,36"/>
+<area shape="rect" title=" " alt="" coords="41,232,111,260"/>
+<area shape="poly" title=" " alt="" coords="49,184,65,217,60,219,44,186"/>
+<area shape="poly" title=" " alt="" coords="101,111,65,147,61,144,97,107"/>
+<area shape="poly" title=" " alt="" coords="112,109,85,218,80,216,106,108"/>
+<area shape="poly" title=" " alt="" coords="127,107,164,144,161,147,123,111"/>
 </map>
 </div>
 </div>
@@ -118,14 +124,78 @@ super.c에 대한 include 의존 그래프</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 함수</h2></td></tr>
-<tr class="memitem:a027ca86e0fef4d81512d7af50f9b5bb6" id="r_a027ca86e0fef4d81512d7af50f9b5bb6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a027ca86e0fef4d81512d7af50f9b5bb6">sb_load</a> (int fd, struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *sb_out)</td></tr>
-<tr class="memdesc:a027ca86e0fef4d81512d7af50f9b5bb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">디스크에서 슈퍼블록을 읽어 로드  <br /></td></tr>
-<tr class="memitem:a6ec742f3d4baa9cae3ccba0efeec47dd" id="r_a6ec742f3d4baa9cae3ccba0efeec47dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ec742f3d4baa9cae3ccba0efeec47dd">sb_sync</a> (int fd, const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *sb)</td></tr>
-<tr class="memdesc:a6ec742f3d4baa9cae3ccba0efeec47dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">메모리의 슈퍼블록을 디스크에 기록  <br /></td></tr>
+<tr class="memitem:acb20fd13c57054e02c476a54d26bf02b" id="r_acb20fd13c57054e02c476a54d26bf02b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb20fd13c57054e02c476a54d26bf02b">sb_load</a> (int fd, struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb)</td></tr>
+<tr class="memdesc:acb20fd13c57054e02c476a54d26bf02b"><td class="mdescLeft">&#160;</td><td class="mdescRight">디바이스에서 슈퍼블록을 읽어 로드  <br /></td></tr>
+<tr class="memitem:a90dace97e8d65a597b6d660e0d5b2170" id="r_a90dace97e8d65a597b6d660e0d5b2170"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90dace97e8d65a597b6d660e0d5b2170">sb_sync</a> (int fd, const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb)</td></tr>
+<tr class="memdesc:a90dace97e8d65a597b6d660e0d5b2170"><td class="mdescLeft">&#160;</td><td class="mdescRight">슈퍼블록 구조체를 디스크에 기록  <br /></td></tr>
+<tr class="memitem:aa737a6d4041679388e2313079608a194" id="r_aa737a6d4041679388e2313079608a194"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa737a6d4041679388e2313079608a194">sb_format</a> (struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb)</td></tr>
+<tr class="memdesc:aa737a6d4041679388e2313079608a194"><td class="mdescLeft">&#160;</td><td class="mdescRight">슈퍼블록 구조체 초기화 (포맷)  <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
-<a id="a027ca86e0fef4d81512d7af50f9b5bb6" name="a027ca86e0fef4d81512d7af50f9b5bb6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a027ca86e0fef4d81512d7af50f9b5bb6">&#9670;&#160;</a></span>sb_load()</h2>
+<a id="aa737a6d4041679388e2313079608a194" name="aa737a6d4041679388e2313079608a194"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa737a6d4041679388e2313079608a194">&#9670;&#160;</a></span>sb_format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sb_format </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>슈퍼블록 구조체 초기화 (포맷) </p>
+<p>sb_format: 슈퍼블록 구조체 초기화 @sb: 초기화할 슈퍼블록 구조체 </p>
+
+<p class="definition"><a class="el" href="../../d2/d1d/super_8c_source.html">super.c</a> 파일의 <a class="el" href="../../d2/d1d/super_8c_source.html#l00044">44</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   44</span>                                       {</div>
+<div class="line"><span class="lineno">   45</span>  memset(sb, 0, <span class="keyword">sizeof</span>(*sb));</div>
+<div class="line"><span class="lineno">   46</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#aacaf3200149af8e6c55c404d82beca9b">magic</a> = <a class="code hl_define" href="../../db/d98/super_8h.html#ab3e43b63579c20a44aa0d16000a99599">SFUSE_MAGIC</a>;</div>
+<div class="line"><span class="lineno">   47</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a> = <a class="code hl_define" href="../../db/d98/super_8h.html#a1a7579057c736252c2970de8b08bc0be">SFUSE_INODES_COUNT</a>;</div>
+<div class="line"><span class="lineno">   48</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">blocks_count</a> = <a class="code hl_define" href="../../db/d98/super_8h.html#a3b65a139f624923ccab2746cffbcc6eb">SFUSE_BLOCKS_COUNT</a>;</div>
+<div class="line"><span class="lineno">   49</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">free_inodes</a> = sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a> - 1;</div>
+<div class="line"><span class="lineno">   50</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">free_blocks</a> = sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">blocks_count</a> - <a class="code hl_define" href="../../db/d98/super_8h.html#ae04fce338c69fbfacacff2bd02562722">SFUSE_DATA_BLOCK_START</a>;</div>
+<div class="line"><span class="lineno">   51</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#ad08b4df84f43d7d6738c5f25b22e5829">inode_bitmap_start</a> = <a class="code hl_define" href="../../db/d98/super_8h.html#a0c9854b462f752d899459ebea354a6a8">SFUSE_INODE_BITMAP_BLOCK</a>;</div>
+<div class="line"><span class="lineno">   52</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a0f3c93e1295e95f48787c8b2d6adb7f5">block_bitmap_start</a> = <a class="code hl_define" href="../../db/d98/super_8h.html#afcdad36e2839b5556ccf5e4a5ac88da1">SFUSE_BLOCK_BITMAP_BLOCK</a>;</div>
+<div class="line"><span class="lineno">   53</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a274c7bf26a003e667534185aef04f732">inode_table_start</a> = <a class="code hl_define" href="../../db/d98/super_8h.html#a947631697bf6e54c64996e0fc27e5193">SFUSE_INODE_TABLE_BLOCK</a>;</div>
+<div class="line"><span class="lineno">   54</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a0af357d05a08b353bcc4f855e3c1a240">data_block_start</a> = <a class="code hl_define" href="../../db/d98/super_8h.html#ae04fce338c69fbfacacff2bd02562722">SFUSE_DATA_BLOCK_START</a>;</div>
+<div class="line"><span class="lineno">   55</span>}</div>
+<div class="ttc" id="astructsfuse__super_html_a0af357d05a08b353bcc4f855e3c1a240"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a0af357d05a08b353bcc4f855e3c1a240">sfuse_super::data_block_start</a></div><div class="ttdeci">uint32_t data_block_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00031">super.h:31</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a0f3c93e1295e95f48787c8b2d6adb7f5"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a0f3c93e1295e95f48787c8b2d6adb7f5">sfuse_super::block_bitmap_start</a></div><div class="ttdeci">uint32_t block_bitmap_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00029">super.h:29</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a1beda11a6d52ccf0351e22d81b50a20d"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">sfuse_super::blocks_count</a></div><div class="ttdeci">uint32_t blocks_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00025">super.h:25</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a274c7bf26a003e667534185aef04f732"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a274c7bf26a003e667534185aef04f732">sfuse_super::inode_table_start</a></div><div class="ttdeci">uint32_t inode_table_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00030">super.h:30</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a6ea0f291f1292da7a86611336d28d36f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">sfuse_super::inodes_count</a></div><div class="ttdeci">uint32_t inodes_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00024">super.h:24</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_aacaf3200149af8e6c55c404d82beca9b"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#aacaf3200149af8e6c55c404d82beca9b">sfuse_super::magic</a></div><div class="ttdeci">uint32_t magic</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00023">super.h:23</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_acaa02ed47b78c9a84c2f3622de95c44f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">sfuse_super::free_blocks</a></div><div class="ttdeci">uint32_t free_blocks</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00027">super.h:27</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_acd931caad1995d73e3dbf10d3023c424"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">sfuse_super::free_inodes</a></div><div class="ttdeci">uint32_t free_inodes</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00026">super.h:26</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_ad08b4df84f43d7d6738c5f25b22e5829"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#ad08b4df84f43d7d6738c5f25b22e5829">sfuse_super::inode_bitmap_start</a></div><div class="ttdeci">uint32_t inode_bitmap_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00028">super.h:28</a></div></div>
+<div class="ttc" id="asuper_8h_html_a0c9854b462f752d899459ebea354a6a8"><div class="ttname"><a href="../../db/d98/super_8h.html#a0c9854b462f752d899459ebea354a6a8">SFUSE_INODE_BITMAP_BLOCK</a></div><div class="ttdeci">#define SFUSE_INODE_BITMAP_BLOCK</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00016">super.h:16</a></div></div>
+<div class="ttc" id="asuper_8h_html_a1a7579057c736252c2970de8b08bc0be"><div class="ttname"><a href="../../db/d98/super_8h.html#a1a7579057c736252c2970de8b08bc0be">SFUSE_INODES_COUNT</a></div><div class="ttdeci">#define SFUSE_INODES_COUNT</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00012">super.h:12</a></div></div>
+<div class="ttc" id="asuper_8h_html_a3b65a139f624923ccab2746cffbcc6eb"><div class="ttname"><a href="../../db/d98/super_8h.html#a3b65a139f624923ccab2746cffbcc6eb">SFUSE_BLOCKS_COUNT</a></div><div class="ttdeci">#define SFUSE_BLOCKS_COUNT</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00013">super.h:13</a></div></div>
+<div class="ttc" id="asuper_8h_html_a947631697bf6e54c64996e0fc27e5193"><div class="ttname"><a href="../../db/d98/super_8h.html#a947631697bf6e54c64996e0fc27e5193">SFUSE_INODE_TABLE_BLOCK</a></div><div class="ttdeci">#define SFUSE_INODE_TABLE_BLOCK</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00018">super.h:18</a></div></div>
+<div class="ttc" id="asuper_8h_html_ab3e43b63579c20a44aa0d16000a99599"><div class="ttname"><a href="../../db/d98/super_8h.html#ab3e43b63579c20a44aa0d16000a99599">SFUSE_MAGIC</a></div><div class="ttdeci">#define SFUSE_MAGIC</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00007">super.h:7</a></div></div>
+<div class="ttc" id="asuper_8h_html_ae04fce338c69fbfacacff2bd02562722"><div class="ttname"><a href="../../db/d98/super_8h.html#ae04fce338c69fbfacacff2bd02562722">SFUSE_DATA_BLOCK_START</a></div><div class="ttdeci">#define SFUSE_DATA_BLOCK_START</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00019">super.h:19</a></div></div>
+<div class="ttc" id="asuper_8h_html_afcdad36e2839b5556ccf5e4a5ac88da1"><div class="ttname"><a href="../../db/d98/super_8h.html#afcdad36e2839b5556ccf5e4a5ac88da1">SFUSE_BLOCK_BITMAP_BLOCK</a></div><div class="ttdeci">#define SFUSE_BLOCK_BITMAP_BLOCK</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00017">super.h:17</a></div></div>
+</div><!-- fragment --><div class="dynheader">
+이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d2/d1d/super_8c_aa737a6d4041679388e2313079608a194_icgraph.png" border="0" usemap="#ad2/d1d/super_8c_aa737a6d4041679388e2313079608a194_icgraph" loading="lazy" alt=""/></div>
+<map name="ad2/d1d/super_8c_aa737a6d4041679388e2313079608a194_icgraph" id="ad2/d1d/super_8c_aa737a6d4041679388e2313079608a194_icgraph">
+<area shape="rect" title="슈퍼블록 구조체 초기화 (포맷)" alt="" coords="304,5,391,33"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="160,5,256,33"/>
+<area shape="poly" title=" " alt="" coords="288,22,257,22,257,16,288,16"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#abee68f41bd184eba48e4372de1fc35c6" title=" " alt="" coords="5,5,112,33"/>
+<area shape="poly" title=" " alt="" coords="144,22,112,22,112,16,144,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="acb20fd13c57054e02c476a54d26bf02b" name="acb20fd13c57054e02c476a54d26bf02b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb20fd13c57054e02c476a54d26bf02b">&#9670;&#160;</a></span>sb_load()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -138,43 +208,54 @@ super.c에 대한 include 의존 그래프</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *</td>          <td class="paramname"><span class="paramname"><em>sb_out</em></span>&#160;)</td>
+          <td class="paramtype">struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>디스크에서 슈퍼블록을 읽어 로드 </p>
-<p>슈퍼블록을 디스크에서 읽어 로드</p>
-<p>파일 디스크립터가 가리키는 디스크 이미지의 시작에서 슈퍼블록 구조체 크기만큼 읽어 들이고, 매직 넘버를 확인한다.</p>
-<dl class="params"><dt>매개변수</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">fd</td><td>디스크 이미지 파일 디스크립터 </td></tr>
-    <tr><td class="paramname">sb_out</td><td>읽어들인 슈퍼블록을 저장할 구조체 포인터 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>반환값</dt><dd>성공 시 0, 매직 넘버 불일치 시 -EINVAL, 읽기 오류 시 -errno </dd></dl>
+<p>디바이스에서 슈퍼블록을 읽어 로드 </p>
+<p>sb_load: 디바이스에서 슈퍼블록을 읽어 로드 @fd: 디바이스 파일 디스크립터 @sb: 읽어들인 슈퍼블록을 저장할 구조체 </p><dl class="section return"><dt>반환값</dt><dd>: 0 성공, 음수 오류 </dd></dl>
 
-<p class="definition"><a class="el" href="../../d2/d1d/super_8c_source.html">super.c</a> 파일의 <a class="el" href="../../d2/d1d/super_8c_source.html#l00018">18</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>                                                     {</div>
-<div class="line"><span class="lineno">   19</span>  <span class="comment">/* 디스크 시작에서 읽기 */</span></div>
-<div class="line"><span class="lineno">   20</span>  ssize_t n = pread(fd, sb_out, <span class="keyword">sizeof</span>(*sb_out), 0);</div>
-<div class="line"><span class="lineno">   21</span>  <span class="keywordflow">if</span> (n &lt; 0) {</div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">return</span> -errno;</div>
-<div class="line"><span class="lineno">   23</span>  }</div>
-<div class="line"><span class="lineno">   24</span>  <span class="comment">/* 매직 넘버 확인 */</span></div>
-<div class="line"><span class="lineno">   25</span>  <span class="keywordflow">if</span> (sb_out-&gt;<a class="code hl_variable" href="../../d7/d75/structsfuse__superblock.html#ab78ed652d68ccbbd1a13d980f8f0b19d">magic</a> != <a class="code hl_define" href="../../db/d98/super_8h.html#ab3e43b63579c20a44aa0d16000a99599">SFUSE_MAGIC</a>) {</div>
-<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">return</span> -EINVAL;</div>
-<div class="line"><span class="lineno">   27</span>  }</div>
-<div class="line"><span class="lineno">   28</span>  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   29</span>}</div>
-<div class="ttc" id="astructsfuse__superblock_html_ab78ed652d68ccbbd1a13d980f8f0b19d"><div class="ttname"><a href="../../d7/d75/structsfuse__superblock.html#ab78ed652d68ccbbd1a13d980f8f0b19d">sfuse_superblock::magic</a></div><div class="ttdeci">uint32_t magic</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00052">super.h:52</a></div></div>
-<div class="ttc" id="asuper_8h_html_ab3e43b63579c20a44aa0d16000a99599"><div class="ttname"><a href="../../db/d98/super_8h.html#ab3e43b63579c20a44aa0d16000a99599">SFUSE_MAGIC</a></div><div class="ttdeci">#define SFUSE_MAGIC</div><div class="ttdoc">SFUSE 매직 넘버</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00013">super.h:13</a></div></div>
-</div><!-- fragment -->
+<p class="definition"><a class="el" href="../../d2/d1d/super_8c_source.html">super.c</a> 파일의 <a class="el" href="../../d2/d1d/super_8c_source.html#l00014">14</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>                                            {</div>
+<div class="line"><span class="lineno">   15</span>  ssize_t ret = <a class="code hl_function" href="../../df/d1d/img_8h.html#ae5100e4c2e08dd8f8df7feed1f30e979">img_read</a>(fd, sb, <span class="keyword">sizeof</span>(*sb), <a class="code hl_define" href="../../db/d98/super_8h.html#a8f980a90fb514405450dda0d386a5b9c">SFUSE_SUPERBLOCK_OFFSET</a>);</div>
+<div class="line"><span class="lineno">   16</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
+<div class="line"><span class="lineno">   17</span>    <span class="keywordflow">return</span> ret;</div>
+<div class="line"><span class="lineno">   18</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != <span class="keyword">sizeof</span>(*sb))</div>
+<div class="line"><span class="lineno">   19</span>    <span class="keywordflow">return</span> -EIO;</div>
+<div class="line"><span class="lineno">   20</span>  <span class="keywordflow">if</span> (sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#aacaf3200149af8e6c55c404d82beca9b">magic</a> != <a class="code hl_define" href="../../db/d98/super_8h.html#ab3e43b63579c20a44aa0d16000a99599">SFUSE_MAGIC</a>)</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">return</span> -EINVAL;</div>
+<div class="line"><span class="lineno">   22</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   23</span>}</div>
+<div class="ttc" id="aimg_8h_html_ae5100e4c2e08dd8f8df7feed1f30e979"><div class="ttname"><a href="../../df/d1d/img_8h.html#ae5100e4c2e08dd8f8df7feed1f30e979">img_read</a></div><div class="ttdeci">ssize_t img_read(int fd, void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스에서 특정 오프셋만큼 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d3e/img_8c_source.html#l00015">img.c:15</a></div></div>
+<div class="ttc" id="asuper_8h_html_a8f980a90fb514405450dda0d386a5b9c"><div class="ttname"><a href="../../db/d98/super_8h.html#a8f980a90fb514405450dda0d386a5b9c">SFUSE_SUPERBLOCK_OFFSET</a></div><div class="ttdeci">#define SFUSE_SUPERBLOCK_OFFSET</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00009">super.h:9</a></div></div>
+</div><!-- fragment --><div class="dynheader">
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_cgraph.png" border="0" usemap="#ad2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_cgraph" loading="lazy" alt=""/></div>
+<map name="ad2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_cgraph" id="ad2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_cgraph">
+<area shape="rect" title="디바이스에서 슈퍼블록을 읽어 로드" alt="" coords="5,5,77,33"/>
+<area shape="rect" href="../../d1/d3e/img_8c.html#ab5f174b2ac56c4370d34760eebb328ad" title="원시 디바이스에서 특정 오프셋만큼 읽기" alt="" coords="125,5,207,33"/>
+<area shape="poly" title=" " alt="" coords="77,16,109,16,109,22,77,22"/>
+</map>
+</div>
+<div class="dynheader">
+이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_icgraph.png" border="0" usemap="#ad2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_icgraph" loading="lazy" alt=""/></div>
+<map name="ad2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_icgraph" id="ad2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_icgraph">
+<area shape="rect" title="디바이스에서 슈퍼블록을 읽어 로드" alt="" coords="304,5,375,33"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="160,5,256,33"/>
+<area shape="poly" title=" " alt="" coords="288,22,256,22,256,16,288,16"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#abee68f41bd184eba48e4372de1fc35c6" title=" " alt="" coords="5,5,112,33"/>
+<area shape="poly" title=" " alt="" coords="144,22,112,22,112,16,144,16"/>
+</map>
+</div>
+
 </div>
 </div>
-<a id="a6ec742f3d4baa9cae3ccba0efeec47dd" name="a6ec742f3d4baa9cae3ccba0efeec47dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ec742f3d4baa9cae3ccba0efeec47dd">&#9670;&#160;</a></span>sb_sync()</h2>
+<a id="a90dace97e8d65a597b6d660e0d5b2170" name="a90dace97e8d65a597b6d660e0d5b2170"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90dace97e8d65a597b6d660e0d5b2170">&#9670;&#160;</a></span>sb_sync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,41 +268,62 @@ super.c에 대한 include 의존 그래프</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>&#160;)</td>
+          <td class="paramtype">const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>메모리의 슈퍼블록을 디스크에 기록 </p>
-<p>슈퍼블록을 디스크에 동기화</p>
-<p>슈퍼블록 구조체 크기만큼 디스크 이미지 시작 위치에 쓰기 수행.</p>
-<dl class="params"><dt>매개변수</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">fd</td><td>파일 디스크립터 </td></tr>
-    <tr><td class="paramname">sb</td><td>기록할 슈퍼블록 구조체 포인터 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>반환값</dt><dd>성공 시 0, 쓰기 오류 시 -errno 또는 -EIO </dd></dl>
+<p>슈퍼블록 구조체를 디스크에 기록 </p>
+<p>sb_sync: 슈퍼블록을 디스크에 쓰기 @fd: 디바이스 파일 디스크립터 @sb: 디스크에 기록할 슈퍼블록 구조체 </p><dl class="section return"><dt>반환값</dt><dd>: 0 성공, 음수 오류 </dd></dl>
 
-<p class="definition"><a class="el" href="../../d2/d1d/super_8c_source.html">super.c</a> 파일의 <a class="el" href="../../d2/d1d/super_8c_source.html#l00040">40</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>                                                       {</div>
-<div class="line"><span class="lineno">   41</span>  ssize_t n = pwrite(fd, sb, <span class="keyword">sizeof</span>(*sb), 0);</div>
-<div class="line"><span class="lineno">   42</span>  <span class="keywordflow">if</span> (n &lt; 0) {</div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">return</span> -errno;</div>
-<div class="line"><span class="lineno">   44</span>  }</div>
-<div class="line"><span class="lineno">   45</span>  <span class="keywordflow">return</span> (n == <span class="keyword">sizeof</span>(*sb) ? 0 : -EIO);</div>
-<div class="line"><span class="lineno">   46</span>}</div>
+<p class="definition"><a class="el" href="../../d2/d1d/super_8c_source.html">super.c</a> 파일의 <a class="el" href="../../d2/d1d/super_8c_source.html#l00031">31</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   31</span>                                                  {</div>
+<div class="line"><span class="lineno">   32</span>  ssize_t ret = <a class="code hl_function" href="../../df/d1d/img_8h.html#a67521b7a552a036b0c1c3ec9b4e3e6ea">img_write</a>(fd, sb, <span class="keyword">sizeof</span>(*sb), <a class="code hl_define" href="../../db/d98/super_8h.html#a8f980a90fb514405450dda0d386a5b9c">SFUSE_SUPERBLOCK_OFFSET</a>);</div>
+<div class="line"><span class="lineno">   33</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
+<div class="line"><span class="lineno">   34</span>    <span class="keywordflow">return</span> ret;</div>
+<div class="line"><span class="lineno">   35</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != <span class="keyword">sizeof</span>(*sb))</div>
+<div class="line"><span class="lineno">   36</span>    <span class="keywordflow">return</span> -EIO;</div>
+<div class="line"><span class="lineno">   37</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   38</span>}</div>
+<div class="ttc" id="aimg_8h_html_a67521b7a552a036b0c1c3ec9b4e3e6ea"><div class="ttname"><a href="../../df/d1d/img_8h.html#a67521b7a552a036b0c1c3ec9b4e3e6ea">img_write</a></div><div class="ttdeci">ssize_t img_write(int fd, const void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스에 특정 오프셋만큼 쓰기</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d3e/img_8c_source.html#l00032">img.c:32</a></div></div>
 </div><!-- fragment --><div class="dynheader">
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_cgraph.png" border="0" usemap="#ad2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_cgraph" loading="lazy" alt=""/></div>
+<map name="ad2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_cgraph" id="ad2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_cgraph">
+<area shape="rect" title="슈퍼블록 구조체를 디스크에 기록" alt="" coords="5,5,79,33"/>
+<area shape="rect" href="../../d1/d3e/img_8c.html#ad1abb87bbd6acc052bc498cd3d8f3278" title="원시 디바이스에 특정 오프셋만큼 쓰기" alt="" coords="127,5,213,33"/>
+<area shape="poly" title=" " alt="" coords="79,16,111,16,111,22,79,22"/>
+</map>
+</div>
+<div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../d2/d1d/super_8c_a6ec742f3d4baa9cae3ccba0efeec47dd_icgraph.png" border="0" usemap="#ad2/d1d/super_8c_a6ec742f3d4baa9cae3ccba0efeec47dd_icgraph" loading="lazy" alt=""/></div>
-<map name="ad2/d1d/super_8c_a6ec742f3d4baa9cae3ccba0efeec47dd_icgraph" id="ad2/d1d/super_8c_a6ec742f3d4baa9cae3ccba0efeec47dd_icgraph">
-<area shape="rect" title="메모리의 슈퍼블록을 디스크에 기록" alt="" coords="257,5,330,33"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a2bc3c75472b51af52b6e3bf1e4f17667" title="파일 시스템 정리" alt="" coords="108,5,209,33"/>
-<area shape="poly" title=" " alt="" coords="241,22,210,22,210,16,241,16"/>
-<area shape="rect" href="../../d0/d29/main_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="프로그램 진입점" alt="" coords="5,5,60,33"/>
-<area shape="poly" title=" " alt="" coords="92,22,60,22,60,16,92,16"/>
+<div class="center"><img src="../../d2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_icgraph.png" border="0" usemap="#ad2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_icgraph" loading="lazy" alt=""/></div>
+<map name="ad2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_icgraph" id="ad2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_icgraph">
+<area shape="rect" title="슈퍼블록 구조체를 디스크에 기록" alt="" coords="376,213,449,241"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#a46039c7666b2dae1401a0b3e8ad5f1f1" title="디렉터리에 새 엔트리 추가" alt="" coords="203,57,314,85"/>
+<area shape="poly" title=" " alt="" coords="397,200,369,149,349,123,326,100,307,88,309,83,330,96,354,119,374,146,402,198"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a982cfb4eb5cf4f812667ab2f0340e0d1" title="파일 시스템 종료 (언마운트)" alt="" coords="214,109,303,137"/>
+<area shape="poly" title=" " alt="" coords="387,204,359,177,327,152,302,140,305,135,329,148,363,173,391,200"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="210,161,306,189"/>
+<area shape="poly" title=" " alt="" coords="360,213,301,192,303,187,362,207"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a36e43ee6e49751c8ddaf5dec0941a734" title=" " alt="" coords="191,213,326,241"/>
+<area shape="poly" title=" " alt="" coords="360,230,326,230,326,224,360,224"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title=" " alt="" coords="198,265,318,293"/>
+<area shape="poly" title=" " alt="" coords="362,247,303,267,301,262,360,242"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title=" " alt="" coords="189,317,328,345"/>
+<area shape="poly" title=" " alt="" coords="391,254,363,281,329,307,305,319,303,314,327,302,359,277,387,251"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c" title=" " alt="" coords="196,369,321,397"/>
+<area shape="poly" title=" " alt="" coords="402,256,374,308,354,335,330,359,309,371,307,366,326,354,349,331,369,305,397,254"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title=" " alt="" coords="10,5,136,33"/>
+<area shape="poly" title=" " alt="" coords="191,55,124,36,126,31,192,50"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="11,57,135,85"/>
+<area shape="poly" title=" " alt="" coords="188,74,135,74,135,68,188,68"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a40eb26b6c59a422e4ad1e906dff00037" title=" " alt="" coords="5,109,141,137"/>
+<area shape="poly" title=" " alt="" coords="192,92,126,111,124,106,191,87"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#abee68f41bd184eba48e4372de1fc35c6" title=" " alt="" coords="20,161,126,189"/>
+<area shape="poly" title=" " alt="" coords="195,178,126,178,126,172,195,172"/>
 </map>
 </div>
 

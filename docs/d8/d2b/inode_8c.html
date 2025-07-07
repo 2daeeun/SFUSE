@@ -92,42 +92,187 @@ $(function(){initNavTree('d8/d2b/inode_8c.html','../../',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../de/d40/block_8h_source.html">block.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../df/d1d/img_8h_source.html">img.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../db/d98/super_8h_source.html">super.h</a>&quot;</code><br />
 <code>#include &lt;errno.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;unistd.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 inode.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dd/d56/inode_8c__incl.png" border="0" usemap="#asrc_2inode_8c" loading="lazy" alt=""/></div>
 <map name="asrc_2inode_8c" id="asrc_2inode_8c">
-<area shape="rect" title=" " alt="" coords="122,5,214,33"/>
-<area shape="rect" href="../../d3/d73/inode_8h.html" title=" " alt="" coords="41,81,111,109"/>
-<area shape="poly" title=" " alt="" coords="153,36,106,73,102,69,150,31"/>
-<area shape="rect" title=" " alt="" coords="134,81,202,109"/>
-<area shape="poly" title=" " alt="" coords="171,34,171,65,165,65,165,34"/>
-<area shape="rect" title=" " alt="" coords="226,81,299,109"/>
-<area shape="poly" title=" " alt="" coords="187,31,236,69,232,73,183,36"/>
-<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="5,157,75,184"/>
-<area shape="poly" title=" " alt="" coords="72,110,56,144,51,141,67,108"/>
-<area shape="rect" title=" " alt="" coords="41,232,111,260"/>
-<area shape="poly" title=" " alt="" coords="82,109,89,156,89,185,85,217,79,217,84,184,84,157,76,109"/>
-<area shape="poly" title=" " alt="" coords="49,184,65,217,60,219,44,186"/>
+<area shape="rect" title=" " alt="" coords="390,5,481,33"/>
+<area shape="rect" href="../../d3/d73/inode_8h.html" title=" " alt="" coords="196,81,265,109"/>
+<area shape="poly" title=" " alt="" coords="400,36,280,78,279,73,398,31"/>
+<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="268,157,337,184"/>
+<area shape="poly" title=" " alt="" coords="398,36,362,55,330,83,314,112,307,142,302,141,309,110,325,79,359,50,396,31"/>
+<area shape="rect" href="../../de/d40/block_8h.html" title=" " alt="" coords="5,157,74,184"/>
+<area shape="poly" title=" " alt="" coords="390,30,294,49,238,64,185,83,122,115,71,149,68,145,120,111,182,79,237,59,292,44,389,24"/>
+<area shape="rect" href="../../df/d1d/img_8h.html" title=" " alt="" coords="340,81,398,109"/>
+<area shape="poly" title=" " alt="" coords="426,35,393,71,389,68,422,32"/>
+<area shape="rect" title=" " alt="" coords="412,157,486,184"/>
+<area shape="poly" title=" " alt="" coords="439,33,449,141,444,141,434,33"/>
+<area shape="rect" title=" " alt="" coords="472,81,540,109"/>
+<area shape="poly" title=" " alt="" coords="450,32,485,68,481,72,446,35"/>
+<area shape="rect" title=" " alt="" coords="564,81,635,109"/>
+<area shape="poly" title=" " alt="" coords="466,31,558,72,556,77,464,36"/>
+<area shape="rect" title=" " alt="" coords="659,81,743,109"/>
+<area shape="poly" title=" " alt="" coords="482,31,645,75,643,80,481,36"/>
+<area shape="rect" title=" " alt="" coords="766,81,830,109"/>
+<area shape="poly" title=" " alt="" coords="482,25,601,46,752,78,751,83,600,51,481,30"/>
+<area shape="poly" title=" " alt="" coords="245,107,281,144,277,147,241,111"/>
+<area shape="rect" title=" " alt="" coords="231,232,301,260"/>
+<area shape="poly" title=" " alt="" coords="236,108,262,216,257,218,231,109"/>
+<area shape="rect" title=" " alt="" coords="97,157,192,184"/>
+<area shape="poly" title=" " alt="" coords="217,111,173,148,170,144,213,107"/>
+<area shape="poly" title=" " alt="" coords="298,186,282,219,277,217,293,184"/>
+<area shape="poly" title=" " alt="" coords="75,180,217,226,215,231,73,185"/>
+<area shape="poly" title=" " alt="" coords="359,111,326,147,322,143,355,107"/>
+<area shape="poly" title=" " alt="" coords="371,110,367,145,361,166,351,186,331,209,307,226,304,222,327,205,347,183,356,164,362,144,366,109"/>
+<area shape="poly" title=" " alt="" coords="385,107,425,144,422,148,381,111"/>
 </map>
 </div>
 </div>
 <p><a href="../../d8/d2b/inode_8c_source.html">이 파일의 소스 코드 페이지로 가기</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
+매크로</h2></td></tr>
+<tr class="memitem:a0919197af2e154da2c05727b6d87cbda" id="r_a0919197af2e154da2c05727b6d87cbda"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0919197af2e154da2c05727b6d87cbda">FUSE_USE_VERSION</a>&#160;&#160;&#160;26</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 함수</h2></td></tr>
-<tr class="memitem:ae003f96dd0c540bc9f2fc169274f1d6f" id="r_ae003f96dd0c540bc9f2fc169274f1d6f"><td class="memItemLeft" align="right" valign="top">static off_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae003f96dd0c540bc9f2fc169274f1d6f">inode_offset</a> (const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *sb, uint32_t ino)</td></tr>
-<tr class="memdesc:ae003f96dd0c540bc9f2fc169274f1d6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">아이노드 테이블 내 특정 아이노드의 디스크 내 바이트 오프셋을 계산  <br /></td></tr>
-<tr class="memitem:a490b41738be882c224282cb0873c4185" id="r_a490b41738be882c224282cb0873c4185"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a490b41738be882c224282cb0873c4185">inode_load</a> (int fd, const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *sb, uint32_t ino, struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *out)</td></tr>
-<tr class="memdesc:a490b41738be882c224282cb0873c4185"><td class="mdescLeft">&#160;</td><td class="mdescRight">디스크에서 지정한 아이노드 번호의 아이노드 구조체를 읽어 옴  <br /></td></tr>
-<tr class="memitem:abbb03a523d329cec86d9473e1a6ff70b" id="r_abbb03a523d329cec86d9473e1a6ff70b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abbb03a523d329cec86d9473e1a6ff70b">inode_sync</a> (int fd, const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *sb, uint32_t ino, const struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *in)</td></tr>
-<tr class="memdesc:abbb03a523d329cec86d9473e1a6ff70b"><td class="mdescLeft">&#160;</td><td class="mdescRight">아이노드 구조체를 디스크에 동기화(쓰기)함  <br /></td></tr>
+<tr class="memitem:a72a6e85b07ee4130a233e0db78fc95fe" id="r_a72a6e85b07ee4130a233e0db78fc95fe"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a> (int fd, const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint32_t ino, struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *inode)</td></tr>
+<tr class="memdesc:a72a6e85b07ee4130a233e0db78fc95fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">디스크에서 아이노드 읽기  <br /></td></tr>
+<tr class="memitem:a4b04fa2e033f4171176700e3967af031" id="r_a4b04fa2e033f4171176700e3967af031"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b04fa2e033f4171176700e3967af031">inode_sync</a> (int fd, const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint32_t ino, const struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *inode)</td></tr>
+<tr class="memdesc:a4b04fa2e033f4171176700e3967af031"><td class="mdescLeft">&#160;</td><td class="mdescRight">디스크에 아이노드 기록  <br /></td></tr>
+<tr class="memitem:a5416a6af7013809601f7be7803d2e226" id="r_a5416a6af7013809601f7be7803d2e226"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5416a6af7013809601f7be7803d2e226">fs_init_inode</a> (const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint32_t ino, mode_t mode, uid_t uid, gid_t gid, struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *inode)</td></tr>
+<tr class="memdesc:a5416a6af7013809601f7be7803d2e226"><td class="mdescLeft">&#160;</td><td class="mdescRight">새 아이노드 초기화  <br /></td></tr>
+<tr class="memitem:ac23d0b65c87524e63092a01ffc526acc" id="r_ac23d0b65c87524e63092a01ffc526acc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac23d0b65c87524e63092a01ffc526acc">logical_to_physical</a> (int fd, const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, const struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *inode, uint32_t lbn, void *buf, uint32_t *pbn_out)</td></tr>
+<tr class="memdesc:ac23d0b65c87524e63092a01ffc526acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">논리 블록 인덱스를 물리 블록 번호로 변환  <br /></td></tr>
 </table>
+<a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">매크로 문서화</h2>
+<a id="a0919197af2e154da2c05727b6d87cbda" name="a0919197af2e154da2c05727b6d87cbda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0919197af2e154da2c05727b6d87cbda">&#9670;&#160;</a></span>FUSE_USE_VERSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FUSE_USE_VERSION&#160;&#160;&#160;26</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00002">2</a> 번째 라인에서 정의되었습니다.</p>
+
+</div>
+</div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
-<a id="a490b41738be882c224282cb0873c4185" name="a490b41738be882c224282cb0873c4185"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a490b41738be882c224282cb0873c4185">&#9670;&#160;</a></span>inode_load()</h2>
+<a id="a5416a6af7013809601f7be7803d2e226" name="a5416a6af7013809601f7be7803d2e226"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5416a6af7013809601f7be7803d2e226">&#9670;&#160;</a></span>fs_init_inode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fs_init_inode </td>
+          <td>(</td>
+          <td class="paramtype">const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>ino</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">mode_t</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uid_t</td>          <td class="paramname"><span class="paramname"><em>uid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">gid_t</td>          <td class="paramname"><span class="paramname"><em>gid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *</td>          <td class="paramname"><span class="paramname"><em>inode</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>새 아이노드 초기화 </p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sb</td><td>슈퍼블록 정보 (unused) </td></tr>
+    <tr><td class="paramname">ino</td><td>아이노드 번호 (unused) </td></tr>
+    <tr><td class="paramname">mode</td><td>파일 타입 및 권한 </td></tr>
+    <tr><td class="paramname">uid</td><td>소유자 UID </td></tr>
+    <tr><td class="paramname">gid</td><td>소유자 GID </td></tr>
+    <tr><td class="paramname">inode</td><td>초기화할 아이노드 구조체 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00041">41</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>                                                                    {</div>
+<div class="line"><span class="lineno">   43</span>  (void)sb;</div>
+<div class="line"><span class="lineno">   44</span>  (void)ino;</div>
+<div class="line"><span class="lineno">   45</span>  memset(inode, 0, <span class="keyword">sizeof</span>(*inode));</div>
+<div class="line"><span class="lineno">   46</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a615446922fb4369b86c548bd6a27a8b2">mode</a> = mode;</div>
+<div class="line"><span class="lineno">   47</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#ab29868636ac693bd930eb8051d2a722c">uid</a> = uid;</div>
+<div class="line"><span class="lineno">   48</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a38e8537191c32b5ad3959243316378f0">gid</a> = gid;</div>
+<div class="line"><span class="lineno">   49</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a8f67762b0e63a291da0db528b627922c">size</a> = 0;</div>
+<div class="line"><span class="lineno">   50</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a4ec8882c06d3f0935c3af6d551aee955">atime</a> = inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#ade8b0f59d2f96573797e6421d2a6e475">mtime</a> = inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#aff44930617e832c1a93af6b44de8059e">ctime</a> = (uint32_t)time(NULL);</div>
+<div class="line"><span class="lineno">   51</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>; i++)</div>
+<div class="line"><span class="lineno">   52</span>    inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a3ef3b4aabd3bccb64773d12ebc0617e7">direct</a>[i] = 0;</div>
+<div class="line"><span class="lineno">   53</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a7bf0a3ca57adf077b272e29d40c1c45b">indirect</a> = 0;</div>
+<div class="line"><span class="lineno">   54</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e">double_indirect</a> = 0;</div>
+<div class="line"><span class="lineno">   55</span>  inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a5b71225b19b66dea755dacbc92df2281">links</a> = (S_ISDIR(mode) ? 2 : 1);</div>
+<div class="line"><span class="lineno">   56</span>}</div>
+<div class="ttc" id="ainode_8h_html_ad8e7218c1f4e716d890d13bcba484ea3"><div class="ttname"><a href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a></div><div class="ttdeci">#define SFUSE_NDIR_BLOCKS</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00010">inode.h:10</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a22386050768744617549779e3845fa0e"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e">sfuse_inode::double_indirect</a></div><div class="ttdeci">uint32_t double_indirect</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00025">inode.h:25</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a38e8537191c32b5ad3959243316378f0"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a38e8537191c32b5ad3959243316378f0">sfuse_inode::gid</a></div><div class="ttdeci">gid_t gid</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00018">inode.h:18</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a3ef3b4aabd3bccb64773d12ebc0617e7"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a3ef3b4aabd3bccb64773d12ebc0617e7">sfuse_inode::direct</a></div><div class="ttdeci">uint32_t direct[12]</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00023">inode.h:23</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a4ec8882c06d3f0935c3af6d551aee955"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a4ec8882c06d3f0935c3af6d551aee955">sfuse_inode::atime</a></div><div class="ttdeci">uint32_t atime</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00020">inode.h:20</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a5b71225b19b66dea755dacbc92df2281"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a5b71225b19b66dea755dacbc92df2281">sfuse_inode::links</a></div><div class="ttdeci">uint32_t links</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00026">inode.h:26</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a615446922fb4369b86c548bd6a27a8b2"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a615446922fb4369b86c548bd6a27a8b2">sfuse_inode::mode</a></div><div class="ttdeci">mode_t mode</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00016">inode.h:16</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a7bf0a3ca57adf077b272e29d40c1c45b"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a7bf0a3ca57adf077b272e29d40c1c45b">sfuse_inode::indirect</a></div><div class="ttdeci">uint32_t indirect</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00024">inode.h:24</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_a8f67762b0e63a291da0db528b627922c"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#a8f67762b0e63a291da0db528b627922c">sfuse_inode::size</a></div><div class="ttdeci">uint32_t size</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00019">inode.h:19</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_ab29868636ac693bd930eb8051d2a722c"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#ab29868636ac693bd930eb8051d2a722c">sfuse_inode::uid</a></div><div class="ttdeci">uid_t uid</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00017">inode.h:17</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_ade8b0f59d2f96573797e6421d2a6e475"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#ade8b0f59d2f96573797e6421d2a6e475">sfuse_inode::mtime</a></div><div class="ttdeci">uint32_t mtime</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00021">inode.h:21</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html_aff44930617e832c1a93af6b44de8059e"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html#aff44930617e832c1a93af6b44de8059e">sfuse_inode::ctime</a></div><div class="ttdeci">uint32_t ctime</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00022">inode.h:22</a></div></div>
+</div><!-- fragment --><div class="dynheader">
+이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d8/d2b/inode_8c_a5416a6af7013809601f7be7803d2e226_icgraph.png" border="0" usemap="#ad8/d2b/inode_8c_a5416a6af7013809601f7be7803d2e226_icgraph" loading="lazy" alt=""/></div>
+<map name="ad8/d2b/inode_8c_a5416a6af7013809601f7be7803d2e226_icgraph" id="ad8/d2b/inode_8c_a5416a6af7013809601f7be7803d2e226_icgraph">
+<area shape="rect" title="새 아이노드 초기화" alt="" coords="334,57,438,85"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="175,5,271,33"/>
+<area shape="poly" title=" " alt="" coords="325,55,268,36,270,31,327,50"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title=" " alt="" coords="160,57,286,85"/>
+<area shape="poly" title=" " alt="" coords="318,74,286,74,286,68,318,68"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="161,109,284,137"/>
+<area shape="poly" title=" " alt="" coords="327,93,270,111,268,106,325,88"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#abee68f41bd184eba48e4372de1fc35c6" title=" " alt="" coords="5,5,112,33"/>
+<area shape="poly" title=" " alt="" coords="159,22,112,22,112,16,159,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a72a6e85b07ee4130a233e0db78fc95fe" name="a72a6e85b07ee4130a233e0db78fc95fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72a6e85b07ee4130a233e0db78fc95fe">&#9670;&#160;</a></span>inode_load()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -140,7 +285,7 @@ inode.c에 대한 include 의존 그래프</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>, </td>
+          <td class="paramtype">const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -150,305 +295,119 @@ inode.c에 대한 include 의존 그래프</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
+          <td class="paramtype">struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *</td>          <td class="paramname"><span class="paramname"><em>inode</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>디스크에서 지정한 아이노드 번호의 아이노드 구조체를 읽어 옴 </p>
-<p>디스크 이미지에서 아이노드를 읽어 구조체에 로드</p>
+<p>디스크에서 아이노드 읽기 </p>
 <dl class="params"><dt>매개변수</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fd</td><td>디스크 이미지 파일 디스크립터 </td></tr>
-    <tr><td class="paramname">sb</td><td>슈퍼블록 포인터 </td></tr>
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 </td></tr>
+    <tr><td class="paramname">sb</td><td>슈퍼블록 정보 </td></tr>
     <tr><td class="paramname">ino</td><td>읽을 아이노드 번호 </td></tr>
-    <tr><td class="paramname">out</td><td>읽어들인 아이노드 데이터를 저장할 구조체 포인터 </td></tr>
+    <tr><td class="paramname">inode</td><td>결과 저장 버퍼 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>반환값</dt><dd>성공 시 0, 실패 시 음수(errno 또는 -EIO) </dd></dl>
+<dl class="section return"><dt>반환값</dt><dd>0 성공, 음수 오류코드 </dd></dl>
 
-<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00032">32</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>                                        {</div>
-<div class="line"><span class="lineno">   34</span>  off_t offs = <a class="code hl_function" href="#ae003f96dd0c540bc9f2fc169274f1d6f">inode_offset</a>(sb, ino);</div>
-<div class="line"><span class="lineno">   35</span>  ssize_t n = pread(fd, out, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a>), offs);</div>
-<div class="line"><span class="lineno">   36</span>  <span class="keywordflow">if</span> (n &lt; 0) {</div>
-<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">return</span> -errno;</div>
-<div class="line"><span class="lineno">   38</span>  }</div>
-<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">return</span> (n == <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a>) ? 0 : -EIO);</div>
-<div class="line"><span class="lineno">   40</span>}</div>
-<div class="ttc" id="ainode_8c_html_ae003f96dd0c540bc9f2fc169274f1d6f"><div class="ttname"><a href="#ae003f96dd0c540bc9f2fc169274f1d6f">inode_offset</a></div><div class="ttdeci">static off_t inode_offset(const struct sfuse_superblock *sb, uint32_t ino)</div><div class="ttdoc">아이노드 테이블 내 특정 아이노드의 디스크 내 바이트 오프셋을 계산</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d2b/inode_8c_source.html#l00014">inode.c:14</a></div></div>
-<div class="ttc" id="astructsfuse__inode_html"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a></div><div class="ttdoc">디스크에 저장되는 아이노드 구조체</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00022">inode.h:22</a></div></div>
+<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00013">13</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>                                          {</div>
+<div class="line"><span class="lineno">   15</span>  <span class="keywordflow">if</span> (ino == 0 || ino &gt;= sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a>)</div>
+<div class="line"><span class="lineno">   16</span>    <span class="keywordflow">return</span> -EINVAL;</div>
+<div class="line"><span class="lineno">   17</span>  off_t off = ((off_t)sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a274c7bf26a003e667534185aef04f732">inode_table_start</a> * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>) +</div>
+<div class="line"><span class="lineno">   18</span>              (ino * <span class="keyword">sizeof</span>(*inode));</div>
+<div class="line"><span class="lineno">   19</span>  ssize_t ret = <a class="code hl_function" href="../../df/d1d/img_8h.html#ae5100e4c2e08dd8f8df7feed1f30e979">img_read</a>(fd, inode, <span class="keyword">sizeof</span>(*inode), off);</div>
+<div class="line"><span class="lineno">   20</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
+<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)ret;</div>
+<div class="line"><span class="lineno">   22</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != <span class="keyword">sizeof</span>(*inode))</div>
+<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">return</span> -EIO;</div>
+<div class="line"><span class="lineno">   24</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   25</span>}</div>
+<div class="ttc" id="aimg_8h_html_ae5100e4c2e08dd8f8df7feed1f30e979"><div class="ttname"><a href="../../df/d1d/img_8h.html#ae5100e4c2e08dd8f8df7feed1f30e979">img_read</a></div><div class="ttdeci">ssize_t img_read(int fd, void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스에서 특정 오프셋만큼 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d3e/img_8c_source.html#l00015">img.c:15</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a274c7bf26a003e667534185aef04f732"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a274c7bf26a003e667534185aef04f732">sfuse_super::inode_table_start</a></div><div class="ttdeci">uint32_t inode_table_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00030">super.h:30</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a6ea0f291f1292da7a86611336d28d36f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">sfuse_super::inodes_count</a></div><div class="ttdeci">uint32_t inodes_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00024">super.h:24</a></div></div>
+<div class="ttc" id="asuper_8h_html_a0f31825083a6f1e0e2f5b5a2fd1181aa"><div class="ttname"><a href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a></div><div class="ttdeci">#define SFUSE_BLOCK_SIZE</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00008">super.h:8</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../d8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_cgraph.png" border="0" usemap="#ad8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_cgraph" loading="lazy" alt=""/></div>
-<map name="ad8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_cgraph" id="ad8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_cgraph">
-<area shape="rect" title="디스크에서 지정한 아이노드 번호의 아이노드 구조체를 읽어 옴" alt="" coords="5,5,98,33"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#ae003f96dd0c540bc9f2fc169274f1d6f" title="아이노드 테이블 내 특정 아이노드의 디스크 내 바이트 오프셋을 계산" alt="" coords="146,5,248,33"/>
+<div class="center"><img src="../../d8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_cgraph.png" border="0" usemap="#ad8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_cgraph" loading="lazy" alt=""/></div>
+<map name="ad8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_cgraph" id="ad8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_cgraph">
+<area shape="rect" title="디스크에서 아이노드 읽기" alt="" coords="5,5,98,33"/>
+<area shape="rect" href="../../d1/d3e/img_8c.html#ab5f174b2ac56c4370d34760eebb328ad" title="원시 디바이스에서 특정 오프셋만큼 읽기" alt="" coords="146,5,228,33"/>
 <area shape="poly" title=" " alt="" coords="98,16,130,16,130,22,98,22"/>
 </map>
 </div>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../d8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_icgraph.png" border="0" usemap="#ad8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_icgraph" loading="lazy" alt=""/></div>
-<map name="ad8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_icgraph" id="ad8/d2b/inode_8c_a490b41738be882c224282cb0873c4185_icgraph">
-<area shape="rect" title="디스크에서 지정한 아이노드 번호의 아이노드 구조체를 읽어 옴" alt="" coords="1141,393,1233,421"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#aca2f1f6050fc83a31ced84d12a96b4cb" title="FUSE용 디렉터리 목록 채우기 콜백 호출" alt="" coords="860,9,926,37"/>
-<area shape="poly" title=" " alt="" coords="1181,378,1173,326,1158,259,1131,188,1113,155,1091,125,1052,91,1008,65,964,46,926,34,927,28,965,41,1010,60,1056,86,1095,121,1117,152,1136,186,1163,257,1178,325,1186,377"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#acd690811815cf7e33fb3ab6f8b95216e" title="디렉터리에서 이름으로 inode 번호를 검색" alt="" coords="1003,317,1093,345"/>
-<area shape="poly" title=" " alt="" coords="1146,388,1074,348,1077,343,1148,383"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6129288ed91728ed7ef053ad8d0cc79d" title="파일 생성" alt="" coords="696,57,777,85"/>
-<area shape="poly" title=" " alt="" coords="1174,380,1144,308,1120,269,1091,234,1054,203,1013,176,926,132,843,101,776,83,778,77,844,96,928,127,1015,171,1057,199,1095,231,1125,266,1149,306,1179,378"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a012d00e6eafc0bb7c9402e3f36cee00a" title="파일/디렉터리 속성 조회" alt="" coords="694,109,778,137"/>
-<area shape="poly" title=" " alt="" coords="1170,380,1139,326,1117,297,1091,272,772,140,774,135,1094,268,1121,293,1143,323,1175,378"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a0e6c18058ed432a1b33962e1f7fda11f" title="디렉터리 생성" alt="" coords="697,161,776,189"/>
-<area shape="poly" title=" " alt="" coords="1166,382,1134,343,1114,324,1091,308,1055,290,1023,279,963,271,903,264,868,256,830,240,805,223,781,204,762,192,765,187,785,200,808,219,832,235,870,251,904,259,964,266,1024,274,1057,285,1094,304,1117,320,1138,340,1170,379"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a28b88e33bc2ea2e1f024968f35073824" title="파일 읽기" alt="" coords="702,367,771,394"/>
-<area shape="poly" title=" " alt="" coords="1125,405,1093,403,771,385,772,380,1093,398,1125,400"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#af677d22449626003a22868b28501f79a" title="파일 또는 디렉터리 이름 변경" alt="" coords="691,419,782,446"/>
-<area shape="poly" title=" " alt="" coords="1125,413,782,433,782,427,1125,408"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a8cf3ec78e9108f22f73ac3ab974fe8dc" title="디렉터리 삭제" alt="" coords="535,472,610,500"/>
-<area shape="poly" title=" " alt="" coords="1138,430,1055,460,944,490,882,503,818,512,753,515,689,512,610,498,611,493,690,507,753,510,817,506,881,498,942,485,1053,455,1137,425"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6a7f3ad04cc17f3fb58519236a2ee996" title="파일 크기 조정 (truncate)" alt="" coords="525,536,620,564"/>
-<area shape="poly" title=" " alt="" coords="1161,433,1130,457,1094,479,1031,505,965,524,898,538,832,547,711,555,620,555,620,550,711,550,831,542,897,533,964,519,1029,500,1091,474,1127,453,1158,429"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#add11b7953b7d14deb0456e14c8d7b197" title="파일 삭제" alt="" coords="696,471,776,498"/>
-<area shape="poly" title=" " alt="" coords="1126,420,777,480,776,475,1125,415"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a818f99fae8ad5abcc450d41aac5d37ec" title="파일의 시간 속성 변경 (utimens)" alt="" coords="690,725,783,753"/>
-<area shape="poly" title=" " alt="" coords="1189,437,1185,494,1172,567,1160,605,1144,641,1122,674,1094,703,1058,726,1018,743,976,754,933,759,850,759,783,751,784,746,851,754,932,754,975,748,1016,738,1056,722,1091,698,1118,671,1139,638,1155,603,1167,565,1180,493,1183,436"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#aecadaa463253df28c47f4a201dda2359" title="파일 쓰기" alt="" coords="700,673,773,701"/>
-<area shape="poly" title=" " alt="" coords="1187,437,1180,486,1166,547,1154,578,1138,607,1119,634,1094,657,1056,681,1013,697,968,706,923,710,839,708,773,698,774,693,839,702,923,705,968,701,1011,691,1053,676,1091,653,1115,631,1134,605,1149,575,1160,545,1175,485,1181,436"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#addbb0f0d2e2d634975c40330e23bc8ae" title="디렉터리 내용 읽기" alt="" coords="693,5,780,33"/>
-<area shape="poly" title=" " alt="" coords="845,25,780,23,780,18,845,19"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acdaffbb59b5fe7d0ceda916714ddc3ad" title="디렉터리 목록 조회 콜백" alt="" coords="320,5,451,33"/>
-<area shape="poly" title=" " alt="" coords="678,22,451,22,451,16,678,16"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7f093e2e9259d0b6002f4da685de854d" title="SFUSE용 FUSE operations 구조체 반환" alt="" coords="108,316,268,344"/>
-<area shape="poly" title=" " alt="" coords="323,44,318,48,289,80,265,117,228,195,205,266,194,316,189,315,200,265,223,193,260,114,285,77,314,44,319,39"/>
-<area shape="rect" href="../../d0/d29/main_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="프로그램 진입점" alt="" coords="5,316,60,344"/>
-<area shape="poly" title=" " alt="" coords="92,332,60,332,60,327,92,327"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a8d5826ede78fcd2b76628eabb56e70db" title="경로를 inode 번호로 변환" alt="" coords="831,317,955,345"/>
-<area shape="poly" title=" " alt="" coords="988,334,956,334,956,328,988,328"/>
-<area shape="poly" title=" " alt="" coords="885,303,874,250,854,183,823,112,804,78,781,48,767,36,770,31,785,44,808,76,828,110,859,182,879,249,890,301"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#ae8816ea1bc016bed838b45345615d46c" title="접근 권한 검사" alt="" coords="694,213,778,241"/>
-<area shape="poly" title=" " alt="" coords="853,311,829,295,781,256,762,244,765,239,785,252,833,290,856,306"/>
-<area shape="poly" title=" " alt="" coords="882,303,868,260,847,206,818,150,781,100,766,88,770,83,785,96,823,148,852,204,873,258,887,301"/>
-<area shape="poly" title=" " alt="" coords="871,306,829,239,808,193,798,173,781,152,766,139,769,135,785,148,803,170,812,190,833,237,876,303"/>
-<area shape="poly" title=" " alt="" coords="849,311,829,294,812,270,805,248,797,226,781,204,766,192,769,188,785,200,802,224,810,246,817,268,833,291,852,307"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a9741976c80c2167280c9a0c3ff856d2d" title="파일 열기" alt="" coords="700,265,772,293"/>
-<area shape="poly" title=" " alt="" coords="834,314,772,294,774,289,835,309"/>
-<area shape="poly" title=" " alt="" coords="834,353,772,372,770,367,832,348"/>
-<area shape="poly" title=" " alt="" coords="861,357,784,408,764,420,761,416,782,404,858,352"/>
-<area shape="poly" title=" " alt="" coords="815,326,784,327,751,332,720,342,691,357,679,368,672,380,667,406,662,433,655,447,643,461,628,472,612,480,609,475,626,467,640,457,650,444,656,432,661,405,668,378,675,365,688,353,718,337,750,327,783,322,815,321"/>
-<area shape="poly" title=" " alt="" coords="885,361,871,396,850,437,821,478,785,512,744,533,701,546,658,552,620,554,620,549,657,547,700,540,742,528,781,508,817,475,845,435,866,394,880,359"/>
-<area shape="poly" title=" " alt="" coords="875,359,836,409,785,460,767,472,764,468,781,456,832,405,871,356"/>
-<area shape="poly" title=" " alt="" coords="893,361,887,430,870,522,856,572,838,622,814,670,785,714,771,727,768,723,781,711,810,667,833,620,851,570,865,521,881,429,888,361"/>
-<area shape="poly" title=" " alt="" coords="882,360,746,674,741,672,877,358"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4" title="access 콜백" alt="" coords="321,213,450,241"/>
-<area shape="poly" title=" " alt="" coords="679,230,451,230,451,224,679,224"/>
-<area shape="poly" title=" " alt="" coords="331,250,317,256,259,288,212,318,209,313,257,283,315,251,329,245"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title="파일 생성 콜백" alt="" coords="322,57,449,85"/>
-<area shape="poly" title=" " alt="" coords="680,74,449,74,449,68,680,68"/>
-<area shape="poly" title=" " alt="" coords="324,95,318,100,293,125,270,154,234,217,210,275,196,316,191,315,205,273,230,214,266,151,289,122,314,96,320,91"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6c01c3409d41549c5ca34b9a2f64ccfe" title="파일/디렉터리 속성 조회 콜백" alt="" coords="321,109,450,137"/>
-<area shape="poly" title=" " alt="" coords="679,126,451,126,451,120,679,120"/>
-<area shape="poly" title=" " alt="" coords="325,147,318,152,276,193,241,239,215,283,198,317,193,314,210,281,237,236,272,189,314,148,322,142"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title="디렉터리 생성 콜백" alt="" coords="324,161,447,189"/>
-<area shape="poly" title=" " alt="" coords="682,178,447,178,447,172,682,172"/>
-<area shape="poly" title=" " alt="" coords="327,199,317,204,281,232,249,263,202,317,198,314,245,259,278,228,315,200,324,194"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a62bb834f4955786318b1c8588cbb0135" title="파일 열기 콜백" alt="" coords="327,265,444,293"/>
-<area shape="poly" title=" " alt="" coords="685,282,445,282,445,276,685,276"/>
-<area shape="poly" title=" " alt="" coords="315,300,245,318,244,313,314,295"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a4e8379279e62363763d8c7da873361d7" title="파일 읽기 콜백" alt="" coords="515,316,630,344"/>
-<area shape="poly" title=" " alt="" coords="686,368,619,347,621,342,688,363"/>
-<area shape="poly" title=" " alt="" coords="500,332,268,332,268,327,500,327"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6886feb1b5bf1626b5b4ed7f14169edb" title="이름 변경 콜백" alt="" coords="505,368,640,396"/>
-<area shape="poly" title=" " alt="" coords="675,417,619,399,621,394,677,411"/>
-<area shape="poly" title=" " alt="" coords="489,373,268,343,269,338,489,368"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title="디렉터리 삭제 콜백" alt="" coords="326,472,446,500"/>
-<area shape="poly" title=" " alt="" coords="519,488,446,488,446,483,519,483"/>
-<area shape="poly" title=" " alt="" coords="335,467,314,455,279,427,247,397,199,346,203,342,251,393,283,423,318,450,338,462"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title="파일 크기 변경 콜백" alt="" coords="316,531,455,558"/>
-<area shape="poly" title=" " alt="" coords="509,551,456,549,456,544,509,545"/>
-<area shape="poly" title=" " alt="" coords="331,525,314,513,273,470,238,422,194,345,198,343,242,420,277,467,318,509,334,521"/>
-<area shape="poly" title=" " alt="" coords="680,488,611,488,611,483,680,482"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c" title="파일 삭제 콜백" alt="" coords="510,420,635,448"/>
-<area shape="poly" title=" " alt="" coords="680,470,619,451,621,446,682,465"/>
-<area shape="poly" title=" " alt="" coords="494,419,315,372,232,347,233,342,317,367,496,413"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9" title="파일/디렉터리 타임스탬프 갱신 콜백" alt="" coords="503,712,642,740"/>
-<area shape="poly" title=" " alt="" coords="674,737,642,734,642,729,674,731"/>
-<area shape="poly" title=" " alt="" coords="488,713,444,701,398,683,354,659,314,628,284,593,259,554,238,513,222,472,199,396,189,344,194,343,204,395,227,470,243,511,263,552,288,590,318,624,357,654,400,678,446,696,489,708"/>
-<area shape="poly" title=" " alt="" coords="698,666,688,657,664,630,640,602,594,566,597,562,644,599,668,626,692,653,702,662"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59" title="파일 쓰기 콜백" alt="" coords="513,612,632,640"/>
-<area shape="poly" title=" " alt="" coords="684,671,611,643,613,638,686,666"/>
-<area shape="poly" title=" " alt="" coords="497,628,453,624,405,614,358,597,314,572,286,546,262,516,226,451,202,389,190,345,195,343,207,388,231,449,267,514,290,543,318,568,360,592,406,609,454,618,498,623"/>
+<div class="center"><img src="../../d8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_icgraph.png" border="0" usemap="#ad8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_icgraph" loading="lazy" alt=""/></div>
+<map name="ad8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_icgraph" id="ad8/d2b/inode_8c_a72a6e85b07ee4130a233e0db78fc95fe_icgraph">
+<area shape="rect" title="디스크에서 아이노드 읽기" alt="" coords="670,492,762,520"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#a46039c7666b2dae1401a0b3e8ad5f1f1" title="디렉터리에 새 엔트리 추가" alt="" coords="203,7,314,34"/>
+<area shape="poly" title=" " alt="" coords="709,477,699,391,681,280,654,174,638,134,620,106,587,79,549,58,508,42,466,31,384,20,314,19,314,14,384,15,467,26,510,37,551,53,590,75,624,103,643,131,659,173,686,279,704,391,714,476"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#ac2f55242043759c79ce3aaa895ffbd6b" title="디렉터리 블록들을 모두 읽어들임" alt="" coords="548,275,622,302"/>
+<area shape="poly" title=" " alt="" coords="697,480,619,347,593,304,597,301,624,344,701,477"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#a6d70dfe2356e0eefe891a57e11c62e16" title="디렉터리 엔트리 삭제" alt="" coords="190,160,326,188"/>
+<area shape="poly" title=" " alt="" coords="709,477,702,430,686,373,660,315,642,288,620,265,587,241,551,221,512,206,473,194,395,180,327,175,327,170,395,175,474,189,514,201,553,216,590,236,623,261,646,285,664,312,691,371,707,429,715,476"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title=" " alt="" coords="13,161,133,189"/>
+<area shape="poly" title=" " alt="" coords="710,477,703,424,688,356,661,286,642,253,620,224,594,200,566,180,536,164,504,151,436,135,365,130,295,133,229,141,123,163,122,158,228,135,294,127,365,125,436,130,506,146,538,159,569,175,598,195,624,220,647,250,666,284,693,355,708,423,715,476"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c" title=" " alt="" coords="10,313,136,341"/>
+<area shape="poly" title=" " alt="" coords="704,535,672,591,649,622,624,650,570,700,516,743,464,779,411,806,357,820,302,820,274,813,245,802,187,766,162,735,140,686,121,626,106,559,84,430,73,342,78,341,89,429,111,558,127,624,145,684,166,732,190,763,248,798,275,808,303,814,356,815,409,801,461,775,513,739,566,696,620,647,645,619,667,589,699,532"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a6c01c3409d41549c5ca34b9a2f64ccfe" title=" " alt="" coords="194,212,323,240"/>
+<area shape="poly" title=" " alt="" coords="680,485,530,384,430,320,327,260,292,243,294,238,329,255,433,316,533,379,683,481"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a62bb834f4955786318b1c8588cbb0135" title=" " alt="" coords="200,465,317,493"/>
+<area shape="poly" title=" " alt="" coords="654,503,621,500,317,484,318,479,622,495,654,498"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a4e8379279e62363763d8c7da873361d7" title=" " alt="" coords="201,517,316,545"/>
+<area shape="poly" title=" " alt="" coords="654,512,316,531,316,525,654,507"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acdaffbb59b5fe7d0ceda916714ddc3ad" title=" " alt="" coords="193,569,324,597"/>
+<area shape="poly" title=" " alt="" coords="655,519,325,575,324,570,654,513"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title=" " alt="" coords="189,621,328,649"/>
+<area shape="poly" title=" " alt="" coords="661,528,622,540,458,587,319,623,318,618,456,582,621,535,659,523"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9" title=" " alt="" coords="189,673,328,701"/>
+<area shape="poly" title=" " alt="" coords="684,531,623,567,542,603,459,633,318,675,317,670,458,628,540,598,620,562,681,526"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59" title=" " alt="" coords="199,725,318,753"/>
+<area shape="poly" title=" " alt="" coords="695,533,663,568,623,603,546,649,463,686,384,712,318,730,317,724,383,707,461,681,544,645,620,598,659,564,691,530"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title=" " alt="" coords="10,5,136,33"/>
+<area shape="poly" title=" " alt="" coords="188,23,136,22,136,17,188,17"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="11,57,135,85"/>
+<area shape="poly" title=" " alt="" coords="192,41,127,59,126,54,190,36"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a40eb26b6c59a422e4ad1e906dff00037" title=" " alt="" coords="5,109,141,137"/>
+<area shape="poly" title=" " alt="" coords="199,44,190,49,176,61,167,73,157,86,142,99,119,111,117,106,139,94,153,82,163,70,172,58,187,45,197,39"/>
+<area shape="poly" title=" " alt="" coords="561,265,521,220,466,163,399,103,327,49,303,37,305,33,329,45,403,99,469,159,525,216,565,261"/>
+<area shape="poly" title=" " alt="" coords="532,287,456,274,415,262,375,246,359,235,350,224,340,214,327,203,302,191,305,186,329,198,344,210,354,221,363,231,377,241,416,257,457,269,533,282"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#aba575ee5529edea958cfbb7926a4f6c0" title="경로를 아이노드 번호로 해석" alt="" coords="376,415,500,442"/>
+<area shape="poly" title=" " alt="" coords="560,316,456,416,452,412,556,312"/>
+<area shape="poly" title=" " alt="" coords="190,158,126,140,127,135,192,153"/>
+<area shape="poly" title=" " alt="" coords="174,177,134,177,134,172,174,172"/>
+<area shape="poly" title=" " alt="" coords="199,197,190,203,157,230,127,261,86,315,82,311,123,257,153,226,187,198,196,193"/>
+<area shape="poly" title=" " alt="" coords="399,407,374,385,359,362,351,342,343,323,326,304,308,292,291,285,257,280,223,274,205,267,187,253,168,227,162,201,156,176,139,152,121,140,124,135,143,148,161,174,167,200,173,225,191,249,208,262,225,269,258,275,292,280,311,287,330,300,347,320,356,340,364,360,378,381,402,403"/>
+<area shape="poly" title=" " alt="" coords="373,412,187,355,160,324,129,278,80,191,84,188,134,275,164,321,190,350,375,407"/>
+<area shape="poly" title=" " alt="" coords="360,429,276,420,231,412,188,399,134,373,91,344,94,339,136,368,190,394,233,406,277,415,361,424"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a7f58173fe2f2486a7dee9e5e78a9e998" title="전체 경로를 부모 아이노드와 이름으로 분할" alt="" coords="206,59,310,86"/>
+<area shape="poly" title=" " alt="" coords="427,401,390,287,361,217,326,150,300,116,274,89,277,85,304,112,330,147,366,215,395,285,432,399"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4" title=" " alt="" coords="194,313,323,341"/>
+<area shape="poly" title=" " alt="" coords="402,408,327,361,292,344,294,339,329,357,405,404"/>
+<area shape="poly" title=" " alt="" coords="397,408,374,385,356,351,351,320,345,290,338,275,326,260,302,242,305,238,330,256,343,272,350,288,356,319,362,349,378,382,401,404"/>
+<area shape="poly" title=" " alt="" coords="373,450,311,467,309,462,371,444"/>
+<area shape="poly" title=" " alt="" coords="409,454,372,481,329,507,302,519,300,514,327,502,369,476,406,450"/>
+<area shape="poly" title=" " alt="" coords="422,457,383,508,358,535,330,559,307,571,304,566,326,554,354,531,379,505,418,454"/>
+<area shape="poly" title=" " alt="" coords="429,458,392,533,364,574,330,611,310,623,307,618,326,606,360,571,388,531,424,456"/>
+<area shape="poly" title=" " alt="" coords="433,458,421,503,400,557,370,613,351,639,330,663,312,675,309,670,326,658,347,636,366,610,395,555,416,501,428,457"/>
+<area shape="poly" title=" " alt="" coords="436,458,426,512,407,580,376,651,355,685,330,714,313,727,310,723,326,711,351,681,371,649,402,578,421,511,431,457"/>
+<area shape="poly" title=" " alt="" coords="192,56,123,36,125,31,194,51"/>
+<area shape="poly" title=" " alt="" coords="191,75,135,74,135,69,191,69"/>
+<area shape="poly" title=" " alt="" coords="192,93,127,111,126,106,191,88"/>
+<area shape="poly" title=" " alt="" coords="209,96,190,107,167,129,142,151,118,163,116,158,139,146,163,125,187,102,206,91"/>
+<area shape="poly" title=" " alt="" coords="235,99,191,150,128,242,85,314,80,311,123,239,187,147,231,96"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="ae003f96dd0c540bc9f2fc169274f1d6f" name="ae003f96dd0c540bc9f2fc169274f1d6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae003f96dd0c540bc9f2fc169274f1d6f">&#9670;&#160;</a></span>inode_offset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">off_t inode_offset </td>
-          <td>(</td>
-          <td class="paramtype">const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>ino</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>아이노드 테이블 내 특정 아이노드의 디스크 내 바이트 오프셋을 계산 </p>
-<dl class="params"><dt>매개변수</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">sb</td><td>슈퍼블록 포인터 </td></tr>
-    <tr><td class="paramname">ino</td><td>오프셋을 계산할 아이노드 번호 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>반환값</dt><dd>디스크 이미지 내 바이트 단위 오프셋 값 </dd></dl>
-
-<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00014">14</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>                                                                           {</div>
-<div class="line"><span class="lineno">   15</span>  uint32_t inode_index = ino;</div>
-<div class="line"><span class="lineno">   16</span>  off_t block_index =</div>
-<div class="line"><span class="lineno">   17</span>      sb-&gt;<a class="code hl_variable" href="../../d7/d75/structsfuse__superblock.html#a30e81477038d68463e47e95a2a898c3c">inode_table_start</a> + inode_index / <a class="code hl_define" href="../../d3/d73/inode_8h.html#aea4db50e3f5dc442fde11ac9955ffeb4">SFUSE_INODES_PER_BLOCK</a>;</div>
-<div class="line"><span class="lineno">   18</span>  off_t offset_within_block =</div>
-<div class="line"><span class="lineno">   19</span>      (inode_index % <a class="code hl_define" href="../../d3/d73/inode_8h.html#aea4db50e3f5dc442fde11ac9955ffeb4">SFUSE_INODES_PER_BLOCK</a>) * <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a>);</div>
-<div class="line"><span class="lineno">   20</span>  <span class="keywordflow">return</span> block_index * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a> + offset_within_block;</div>
-<div class="line"><span class="lineno">   21</span>}</div>
-<div class="ttc" id="ainode_8h_html_aea4db50e3f5dc442fde11ac9955ffeb4"><div class="ttname"><a href="../../d3/d73/inode_8h.html#aea4db50e3f5dc442fde11ac9955ffeb4">SFUSE_INODES_PER_BLOCK</a></div><div class="ttdeci">#define SFUSE_INODES_PER_BLOCK</div><div class="ttdoc">한 블록에 담을 수 있는 아이노드 수</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00012">inode.h:12</a></div></div>
-<div class="ttc" id="astructsfuse__superblock_html_a30e81477038d68463e47e95a2a898c3c"><div class="ttname"><a href="../../d7/d75/structsfuse__superblock.html#a30e81477038d68463e47e95a2a898c3c">sfuse_superblock::inode_table_start</a></div><div class="ttdeci">uint32_t inode_table_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00059">super.h:59</a></div></div>
-<div class="ttc" id="asuper_8h_html_a0f31825083a6f1e0e2f5b5a2fd1181aa"><div class="ttname"><a href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a></div><div class="ttdeci">#define SFUSE_BLOCK_SIZE</div><div class="ttdoc">블록 크기 (바이트 단위)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00020">super.h:20</a></div></div>
-</div><!-- fragment --><div class="dynheader">
-이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
-<div class="dyncontent">
-<div class="center"><img src="../../d8/d2b/inode_8c_ae003f96dd0c540bc9f2fc169274f1d6f_icgraph.png" border="0" usemap="#ad8/d2b/inode_8c_ae003f96dd0c540bc9f2fc169274f1d6f_icgraph" loading="lazy" alt=""/></div>
-<map name="ad8/d2b/inode_8c_ae003f96dd0c540bc9f2fc169274f1d6f_icgraph" id="ad8/d2b/inode_8c_ae003f96dd0c540bc9f2fc169274f1d6f_icgraph">
-<area shape="rect" title="아이노드 테이블 내 특정 아이노드의 디스크 내 바이트 오프셋을 계산" alt="" coords="1348,595,1450,622"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#a490b41738be882c224282cb0873c4185" title="디스크 이미지에서 아이노드를 읽어 구조체에 로드" alt="" coords="1208,443,1300,470"/>
-<area shape="poly" title=" " alt="" coords="1372,585,1267,473,1271,469,1376,582"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#abbb03a523d329cec86d9473e1a6ff70b" title="아이노드 구조체 내용을 디스크 이미지에 동기화" alt="" coords="913,645,1007,673"/>
-<area shape="poly" title=" " alt="" coords="1333,619,1008,656,1007,651,1332,613"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#aca2f1f6050fc83a31ced84d12a96b4cb" title="FUSE용 디렉터리 목록 채우기 콜백 호출" alt="" coords="1082,7,1148,34"/>
-<area shape="poly" title=" " alt="" coords="1250,427,1246,356,1233,260,1221,207,1205,154,1184,102,1158,54,1140,37,1144,33,1162,51,1189,100,1210,152,1226,205,1238,259,1251,356,1255,427"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#acd690811815cf7e33fb3ab6f8b95216e" title="디렉터리에서 이름으로 inode 번호를 검색" alt="" coords="1070,341,1160,369"/>
-<area shape="poly" title=" " alt="" coords="1220,435,1158,389,1134,372,1137,367,1161,385,1223,431"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6129288ed91728ed7ef053ad8d0cc79d" title="파일 생성" alt="" coords="729,517,810,545"/>
-<area shape="poly" title=" " alt="" coords="1193,468,811,528,810,522,1192,463"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a012d00e6eafc0bb7c9402e3f36cee00a" title="파일/디렉터리 속성 조회" alt="" coords="728,57,812,85"/>
-<area shape="poly" title=" " alt="" coords="1246,427,1236,350,1217,253,1191,162,1175,127,1158,105,1118,79,1074,61,1026,51,978,47,886,51,813,63,812,58,885,46,978,41,1027,46,1075,56,1121,74,1161,101,1180,125,1196,160,1222,251,1241,349,1252,427"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a0e6c18058ed432a1b33962e1f7fda11f" title="디렉터리 생성" alt="" coords="731,569,809,597"/>
-<area shape="poly" title=" " alt="" coords="1202,479,1160,492,964,544,810,578,809,573,963,539,1159,487,1200,473"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a28b88e33bc2ea2e1f024968f35073824" title="파일 읽기" alt="" coords="735,465,804,493"/>
-<area shape="poly" title=" " alt="" coords="1192,462,805,480,805,475,1192,457"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#af677d22449626003a22868b28501f79a" title="파일 또는 디렉터리 이름 변경" alt="" coords="725,723,815,750"/>
-<area shape="poly" title=" " alt="" coords="1237,485,1202,530,1153,585,1093,641,1059,666,1024,687,970,709,914,723,816,737,815,732,913,718,968,704,1021,682,1056,662,1089,637,1150,582,1198,526,1232,481"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a8cf3ec78e9108f22f73ac3ab974fe8dc" title="디렉터리 삭제" alt="" coords="535,263,610,290"/>
-<area shape="poly" title=" " alt="" coords="1240,429,1210,361,1186,324,1158,292,1084,231,1051,210,1018,195,944,171,849,150,803,138,766,130,731,131,691,149,679,160,672,171,666,196,661,224,655,238,643,252,628,263,612,270,609,265,626,258,640,248,650,235,656,222,661,195,667,169,675,156,688,145,730,126,766,124,805,133,851,145,946,166,1020,190,1053,206,1087,226,1162,288,1191,321,1214,359,1245,427"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6a7f3ad04cc17f3fb58519236a2ee996" title="파일 크기 조정 (truncate)" alt="" coords="525,623,620,650"/>
-<area shape="poly" title=" " alt="" coords="1249,486,1237,524,1220,571,1195,619,1162,662,1089,728,1056,751,1022,768,947,793,851,816,805,828,767,835,731,833,688,816,665,800,644,780,611,733,588,687,575,651,580,650,593,685,615,731,648,776,668,796,691,811,732,828,767,830,804,823,849,811,946,788,1020,763,1053,746,1086,724,1158,659,1190,616,1215,569,1232,523,1243,484"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#add11b7953b7d14deb0456e14c8d7b197" title="파일 삭제" alt="" coords="730,364,810,392"/>
-<area shape="poly" title=" " alt="" coords="1192,449,810,387,811,382,1193,444"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a818f99fae8ad5abcc450d41aac5d37ec" title="파일의 시간 속성 변경 (utimens)" alt="" coords="723,211,816,238"/>
-<area shape="poly" title=" " alt="" coords="1237,430,1205,379,1184,354,1158,332,1116,307,1071,286,976,256,888,238,817,230,817,225,888,233,978,251,1073,281,1118,302,1161,328,1187,350,1210,376,1242,427"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#aecadaa463253df28c47f4a201dda2359" title="파일 쓰기" alt="" coords="733,621,806,649"/>
-<area shape="poly" title=" " alt="" coords="1223,482,1161,520,1063,560,964,592,807,631,806,626,962,587,1061,555,1158,515,1221,478"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#addbb0f0d2e2d634975c40330e23bc8ae" title="디렉터리 내용 읽기" alt="" coords="727,5,813,33"/>
-<area shape="poly" title=" " alt="" coords="1067,23,813,22,813,17,1067,18"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acdaffbb59b5fe7d0ceda916714ddc3ad" title="디렉터리 목록 조회 콜백" alt="" coords="320,25,451,53"/>
-<area shape="poly" title=" " alt="" coords="711,25,452,38,452,33,711,20"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7f093e2e9259d0b6002f4da685de854d" title="SFUSE용 FUSE operations 구조체 반환" alt="" coords="108,365,268,393"/>
-<area shape="poly" title=" " alt="" coords="348,64,318,92,292,128,270,166,234,246,209,317,195,366,190,364,204,315,229,244,265,164,288,125,314,88,345,60"/>
-<area shape="rect" href="../../d0/d29/main_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="프로그램 진입점" alt="" coords="5,365,60,393"/>
-<area shape="poly" title=" " alt="" coords="92,382,60,382,60,376,92,376"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a8d5826ede78fcd2b76628eabb56e70db" title="경로를 inode 번호로 변환" alt="" coords="898,341,1022,369"/>
-<area shape="poly" title=" " alt="" coords="1055,358,1023,358,1023,352,1055,352"/>
-<area shape="poly" title=" " alt="" coords="954,326,946,268,929,193,915,154,897,115,875,80,848,48,832,36,813,28,814,23,834,31,852,44,879,76,902,113,920,152,934,192,952,267,959,325"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#ae8816ea1bc016bed838b45345615d46c" title="접근 권한 검사" alt="" coords="728,312,812,340"/>
-<area shape="poly" title=" " alt="" coords="882,346,812,335,813,330,883,341"/>
-<area shape="poly" title=" " alt="" coords="948,384,910,446,883,478,852,507,832,518,812,525,810,520,830,513,848,502,879,475,906,443,943,382"/>
-<area shape="poly" title=" " alt="" coords="945,328,907,245,879,196,848,149,817,115,787,87,791,84,821,111,852,146,884,193,911,243,950,326"/>
-<area shape="poly" title=" " alt="" coords="953,385,940,423,918,470,889,517,852,559,832,571,810,579,808,574,829,566,848,554,885,514,914,468,935,421,948,383"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a9741976c80c2167280c9a0c3ff856d2d" title="파일 열기" alt="" coords="734,159,806,186"/>
-<area shape="poly" title=" " alt="" coords="944,328,907,264,880,230,848,201,828,190,806,182,807,177,830,185,852,197,884,227,911,261,948,326"/>
-<area shape="poly" title=" " alt="" coords="936,381,898,416,851,449,806,471,804,466,849,445,895,412,933,377"/>
-<area shape="poly" title=" " alt="" coords="956,385,943,440,922,510,892,588,852,662,823,697,792,724,789,720,819,694,848,659,887,586,917,509,938,438,950,384"/>
-<area shape="poly" title=" " alt="" coords="922,335,888,318,849,303,785,289,719,281,611,278,611,273,720,276,786,284,851,298,890,313,925,331"/>
-<area shape="poly" title=" " alt="" coords="916,378,851,406,804,418,766,424,731,433,691,456,651,497,619,544,596,589,581,623,576,621,591,587,614,541,647,493,688,452,729,428,765,419,803,413,849,401,914,373"/>
-<area shape="poly" title=" " alt="" coords="883,367,811,376,810,370,882,362"/>
-<area shape="poly" title=" " alt="" coords="932,332,887,290,849,259,813,241,816,237,851,254,890,286,935,328"/>
-<area shape="poly" title=" " alt="" coords="957,385,946,433,926,494,895,556,875,585,852,611,831,624,808,632,806,627,828,619,848,606,871,582,891,553,921,492,941,432,952,384"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4" title="access 콜백" alt="" coords="321,315,450,342"/>
-<area shape="poly" title=" " alt="" coords="712,329,451,331,451,325,712,324"/>
-<area shape="poly" title=" " alt="" coords="315,349,245,367,244,362,314,344"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title="파일 생성 콜백" alt="" coords="322,467,449,494"/>
-<area shape="poly" title=" " alt="" coords="713,527,449,491,450,486,714,521"/>
-<area shape="poly" title=" " alt="" coords="338,462,315,451,213,396,215,391,317,446,340,457"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6c01c3409d41549c5ca34b9a2f64ccfe" title="파일/디렉터리 속성 조회 콜백" alt="" coords="508,83,637,110"/>
-<area shape="poly" title=" " alt="" coords="712,81,638,91,637,86,712,76"/>
-<area shape="poly" title=" " alt="" coords="493,109,450,119,404,133,359,153,318,179,294,200,272,224,237,278,212,328,197,366,192,364,207,326,232,275,268,221,290,196,314,174,356,148,402,128,449,114,492,104"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title="디렉터리 생성 콜백" alt="" coords="324,519,447,546"/>
-<area shape="poly" title=" " alt="" coords="715,579,447,543,448,538,716,573"/>
-<area shape="poly" title=" " alt="" coords="325,514,315,508,278,480,245,449,198,395,202,392,249,445,282,476,317,504,327,509"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a62bb834f4955786318b1c8588cbb0135" title="파일 열기 콜백" alt="" coords="514,159,631,186"/>
-<area shape="poly" title=" " alt="" coords="718,175,632,175,632,170,718,170"/>
-<area shape="poly" title=" " alt="" coords="498,174,455,177,408,185,361,198,317,219,275,253,241,294,215,335,198,366,193,364,210,332,236,291,271,249,315,214,359,193,407,180,454,172,498,169"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a4e8379279e62363763d8c7da873361d7" title="파일 읽기 콜백" alt="" coords="515,419,630,446"/>
-<area shape="poly" title=" " alt="" coords="719,470,630,449,631,443,720,465"/>
-<area shape="poly" title=" " alt="" coords="499,425,268,393,269,388,500,420"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6886feb1b5bf1626b5b4ed7f14169edb" title="이름 변경 콜백" alt="" coords="318,687,453,714"/>
-<area shape="poly" title=" " alt="" coords="709,734,453,709,454,704,710,728"/>
-<area shape="poly" title=" " alt="" coords="335,681,314,664,287,629,263,592,226,513,202,443,190,394,195,393,207,441,231,511,268,589,291,626,318,660,338,677"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title="디렉터리 삭제 콜백" alt="" coords="326,263,446,290"/>
-<area shape="poly" title=" " alt="" coords="519,279,446,279,446,274,519,274"/>
-<area shape="poly" title=" " alt="" coords="331,299,317,306,259,337,212,367,209,363,257,333,315,301,329,294"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title="파일 크기 변경 콜백" alt="" coords="316,623,455,650"/>
-<area shape="poly" title=" " alt="" coords="509,639,456,639,456,634,509,634"/>
-<area shape="poly" title=" " alt="" coords="320,617,314,612,289,586,266,556,230,494,205,436,191,394,196,392,210,434,235,492,270,554,293,582,318,608,324,612"/>
-<area shape="poly" title=" " alt="" coords="714,364,688,354,635,323,591,293,594,289,637,318,691,349,716,359"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c" title="파일 삭제 콜백" alt="" coords="510,365,635,393"/>
-<area shape="poly" title=" " alt="" coords="714,381,636,381,636,376,714,376"/>
-<area shape="poly" title=" " alt="" coords="494,382,268,382,268,376,494,376"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9" title="파일/디렉터리 타임스탬프 갱신 콜백" alt="" coords="503,211,642,238"/>
-<area shape="poly" title=" " alt="" coords="708,227,642,227,642,222,708,222"/>
-<area shape="poly" title=" " alt="" coords="488,222,403,228,359,238,317,254,279,278,245,309,200,367,196,363,242,306,275,274,315,249,357,233,402,223,488,217"/>
-<area shape="poly" title=" " alt="" coords="718,638,620,639,620,634,718,633"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59" title="파일 쓰기 콜백" alt="" coords="326,571,445,598"/>
-<area shape="poly" title=" " alt="" coords="718,627,641,614,445,592,446,587,642,609,719,622"/>
-<area shape="poly" title=" " alt="" coords="322,565,314,560,272,519,237,472,193,395,198,392,241,469,276,515,318,556,325,561"/>
-<area shape="poly" title=" " alt="" coords="935,635,897,597,849,560,810,544,812,539,851,556,900,593,939,631"/>
-<area shape="poly" title=" " alt="" coords="914,641,849,612,809,598,810,593,851,607,917,636"/>
-<area shape="poly" title=" " alt="" coords="912,682,851,707,808,725,806,720,849,702,910,677"/>
-<area shape="poly" title=" " alt="" coords="898,666,800,668,689,663,620,651,621,646,690,658,800,663,897,661"/>
-<area shape="poly" title=" " alt="" coords="945,632,906,550,879,502,848,455,817,421,787,394,791,390,821,418,852,452,883,499,911,547,950,630"/>
-<area shape="poly" title=" " alt="" coords="952,630,942,568,922,483,891,390,871,345,848,302,820,267,789,241,793,237,823,264,852,299,876,343,896,389,927,482,947,566,958,629"/>
-<area shape="poly" title=" " alt="" coords="897,654,807,642,807,637,898,649"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a36d02c17ab05553ae865cae9f1c85abc" title="빈 이미지 파일을 VSFS 구조로 포맷" alt="" coords="690,775,850,802"/>
-<area shape="poly" title=" " alt="" coords="939,687,901,726,851,764,825,776,823,772,849,760,897,722,935,683"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="abbb03a523d329cec86d9473e1a6ff70b" name="abbb03a523d329cec86d9473e1a6ff70b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbb03a523d329cec86d9473e1a6ff70b">&#9670;&#160;</a></span>inode_sync()</h2>
+<a id="a4b04fa2e033f4171176700e3967af031" name="a4b04fa2e033f4171176700e3967af031"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b04fa2e033f4171176700e3967af031">&#9670;&#160;</a></span>inode_sync()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -461,7 +420,7 @@ inode.c에 대한 include 의존 그래프</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const struct <a class="el" href="../../d7/d75/structsfuse__superblock.html">sfuse_superblock</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>, </td>
+          <td class="paramtype">const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -471,95 +430,186 @@ inode.c에 대한 include 의존 그래프</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *</td>          <td class="paramname"><span class="paramname"><em>in</em></span>&#160;)</td>
+          <td class="paramtype">const struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *</td>          <td class="paramname"><span class="paramname"><em>inode</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>아이노드 구조체를 디스크에 동기화(쓰기)함 </p>
-<p>아이노드 구조체 내용을 디스크 이미지에 동기화</p>
+<p>디스크에 아이노드 기록 </p>
 <dl class="params"><dt>매개변수</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fd</td><td>디스크 이미지 파일 디스크립터 </td></tr>
-    <tr><td class="paramname">sb</td><td>슈퍼블록 포인터 </td></tr>
-    <tr><td class="paramname">ino</td><td>저장할 아이노드 번호 </td></tr>
-    <tr><td class="paramname">in</td><td>디스크에 기록할 아이노드 데이터 구조체 포인터 </td></tr>
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 </td></tr>
+    <tr><td class="paramname">sb</td><td>슈퍼블록 정보 </td></tr>
+    <tr><td class="paramname">ino</td><td>기록할 아이노드 번호 </td></tr>
+    <tr><td class="paramname">inode</td><td>기록할 아이노드 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>반환값</dt><dd>성공 시 0, 실패 시 음수(errno 또는 -EIO) </dd></dl>
+<dl class="section return"><dt>반환값</dt><dd>0 성공, 음수 오류코드 </dd></dl>
 
-<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00051">51</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   52</span>                                             {</div>
-<div class="line"><span class="lineno">   53</span>  off_t offs = <a class="code hl_function" href="#ae003f96dd0c540bc9f2fc169274f1d6f">inode_offset</a>(sb, ino);</div>
-<div class="line"><span class="lineno">   54</span>  ssize_t n = pwrite(fd, in, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a>), offs);</div>
-<div class="line"><span class="lineno">   55</span>  <span class="keywordflow">if</span> (n &lt; 0) {</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">return</span> -errno;</div>
-<div class="line"><span class="lineno">   57</span>  }</div>
-<div class="line"><span class="lineno">   58</span>  <span class="keywordflow">return</span> (n == <span class="keyword">sizeof</span>(<span class="keyword">struct</span> <a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a>) ? 0 : -EIO);</div>
-<div class="line"><span class="lineno">   59</span>}</div>
+<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00027">27</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   28</span>                                                {</div>
+<div class="line"><span class="lineno">   29</span>  <span class="keywordflow">if</span> (ino == 0 || ino &gt;= sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a>)</div>
+<div class="line"><span class="lineno">   30</span>    <span class="keywordflow">return</span> -EINVAL;</div>
+<div class="line"><span class="lineno">   31</span>  off_t off = ((off_t)sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a274c7bf26a003e667534185aef04f732">inode_table_start</a> * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>) +</div>
+<div class="line"><span class="lineno">   32</span>              (ino * <span class="keyword">sizeof</span>(*inode));</div>
+<div class="line"><span class="lineno">   33</span>  ssize_t ret = <a class="code hl_function" href="../../df/d1d/img_8h.html#a67521b7a552a036b0c1c3ec9b4e3e6ea">img_write</a>(fd, inode, <span class="keyword">sizeof</span>(*inode), off);</div>
+<div class="line"><span class="lineno">   34</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
+<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)ret;</div>
+<div class="line"><span class="lineno">   36</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != <span class="keyword">sizeof</span>(*inode))</div>
+<div class="line"><span class="lineno">   37</span>    <span class="keywordflow">return</span> -EIO;</div>
+<div class="line"><span class="lineno">   38</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   39</span>}</div>
+<div class="ttc" id="aimg_8h_html_a67521b7a552a036b0c1c3ec9b4e3e6ea"><div class="ttname"><a href="../../df/d1d/img_8h.html#a67521b7a552a036b0c1c3ec9b4e3e6ea">img_write</a></div><div class="ttdeci">ssize_t img_write(int fd, const void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스에 특정 오프셋만큼 쓰기</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d3e/img_8c_source.html#l00032">img.c:32</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../d8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_cgraph.png" border="0" usemap="#ad8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_cgraph" loading="lazy" alt=""/></div>
-<map name="ad8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_cgraph" id="ad8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_cgraph">
-<area shape="rect" title="아이노드 구조체를 디스크에 동기화(쓰기)함" alt="" coords="5,5,100,33"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#ae003f96dd0c540bc9f2fc169274f1d6f" title="아이노드 테이블 내 특정 아이노드의 디스크 내 바이트 오프셋을 계산" alt="" coords="148,5,250,33"/>
+<div class="center"><img src="../../d8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_cgraph.png" border="0" usemap="#ad8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_cgraph" loading="lazy" alt=""/></div>
+<map name="ad8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_cgraph" id="ad8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_cgraph">
+<area shape="rect" title="디스크에 아이노드 기록" alt="" coords="5,5,100,33"/>
+<area shape="rect" href="../../d1/d3e/img_8c.html#ad1abb87bbd6acc052bc498cd3d8f3278" title="원시 디바이스에 특정 오프셋만큼 쓰기" alt="" coords="148,5,234,33"/>
 <area shape="poly" title=" " alt="" coords="100,16,132,16,132,22,100,22"/>
 </map>
 </div>
 <div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../d8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_icgraph.png" border="0" usemap="#ad8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_icgraph" loading="lazy" alt=""/></div>
-<map name="ad8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_icgraph" id="ad8/d2b/inode_8c_abbb03a523d329cec86d9473e1a6ff70b_icgraph">
-<area shape="rect" title="아이노드 구조체를 디스크에 동기화(쓰기)함" alt="" coords="898,188,992,216"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6129288ed91728ed7ef053ad8d0cc79d" title="파일 생성" alt="" coords="729,5,810,33"/>
-<area shape="poly" title=" " alt="" coords="931,174,900,111,877,77,848,48,830,37,810,29,812,24,832,32,852,44,881,73,905,108,936,172"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a36d02c17ab05553ae865cae9f1c85abc" title="빈 이미지 파일을 VSFS 구조로 포맷" alt="" coords="690,57,850,85"/>
-<area shape="poly" title=" " alt="" coords="924,177,891,137,849,100,825,88,827,83,851,96,895,134,928,173"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a0e6c18058ed432a1b33962e1f7fda11f" title="디렉터리 생성" alt="" coords="731,109,809,137"/>
-<area shape="poly" title=" " alt="" coords="906,182,849,152,808,137,810,132,851,147,909,177"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#af677d22449626003a22868b28501f79a" title="파일 또는 디렉터리 이름 변경" alt="" coords="725,161,815,189"/>
-<area shape="poly" title=" " alt="" coords="882,195,815,185,816,179,883,190"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6a7f3ad04cc17f3fb58519236a2ee996" title="파일 크기 조정 (truncate)" alt="" coords="525,265,620,293"/>
-<area shape="poly" title=" " alt="" coords="911,227,883,242,851,255,789,270,727,278,620,283,620,278,726,273,788,264,849,250,880,237,909,222"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#add11b7953b7d14deb0456e14c8d7b197" title="파일 삭제" alt="" coords="730,213,810,241"/>
-<area shape="poly" title=" " alt="" coords="883,213,811,224,810,219,882,208"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a818f99fae8ad5abcc450d41aac5d37ec" title="파일의 시간 속성 변경 (utimens)" alt="" coords="723,368,816,396"/>
-<area shape="poly" title=" " alt="" coords="936,231,904,294,880,327,852,356,818,374,816,369,848,352,876,324,900,291,931,229"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#aecadaa463253df28c47f4a201dda2359" title="파일 쓰기" alt="" coords="733,315,806,342"/>
-<area shape="poly" title=" " alt="" coords="925,230,892,265,851,299,808,320,806,315,849,294,889,261,921,226"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title="파일 생성 콜백" alt="" coords="322,8,449,36"/>
-<area shape="poly" title=" " alt="" coords="714,22,449,24,449,19,714,17"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7f093e2e9259d0b6002f4da685de854d" title="SFUSE용 FUSE operations 구조체 반환" alt="" coords="108,189,268,217"/>
-<area shape="poly" title=" " alt="" coords="326,45,318,51,279,85,245,124,200,190,195,187,241,121,275,81,314,46,323,41"/>
-<area shape="rect" href="../../d0/d29/main_8c.html#a0ddf1224851353fc92bfbff6f499fa97" title="프로그램 진입점" alt="" coords="5,189,60,217"/>
-<area shape="poly" title=" " alt="" coords="92,206,60,206,60,200,92,200"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title="디렉터리 생성 콜백" alt="" coords="324,60,447,88"/>
-<area shape="poly" title=" " alt="" coords="715,118,641,108,447,84,448,79,642,103,716,113"/>
-<area shape="poly" title=" " alt="" coords="329,97,317,103,253,148,205,191,202,187,250,144,315,98,326,92"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6886feb1b5bf1626b5b4ed7f14169edb" title="이름 변경 콜백" alt="" coords="318,112,453,140"/>
-<area shape="poly" title=" " alt="" coords="709,165,641,152,543,141,453,133,454,128,543,135,642,147,710,159"/>
-<area shape="poly" title=" " alt="" coords="334,148,317,155,226,191,224,186,315,150,332,143"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title="파일 크기 변경 콜백" alt="" coords="316,265,455,293"/>
-<area shape="poly" title=" " alt="" coords="509,282,456,282,456,276,509,276"/>
-<area shape="poly" title=" " alt="" coords="332,262,225,220,227,215,334,257"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a8cf3ec78e9108f22f73ac3ab974fe8dc" title="디렉터리 삭제" alt="" coords="535,161,610,189"/>
-<area shape="poly" title=" " alt="" coords="714,215,610,188,611,182,715,210"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c" title="파일 삭제 콜백" alt="" coords="510,213,635,241"/>
-<area shape="poly" title=" " alt="" coords="714,230,636,230,636,224,714,224"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title="디렉터리 삭제 콜백" alt="" coords="326,164,446,192"/>
-<area shape="poly" title=" " alt="" coords="519,179,446,180,446,174,519,173"/>
-<area shape="poly" title=" " alt="" coords="311,190,269,196,268,190,310,185"/>
-<area shape="poly" title=" " alt="" coords="494,225,268,211,269,205,494,220"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9" title="파일/디렉터리 타임스탬프 갱신 콜백" alt="" coords="503,369,642,397"/>
-<area shape="poly" title=" " alt="" coords="708,385,642,385,642,380,708,380"/>
-<area shape="poly" title=" " alt="" coords="487,384,401,371,357,359,315,340,275,312,241,279,196,219,200,216,245,275,279,308,317,336,359,354,403,366,488,379"/>
-<area shape="poly" title=" " alt="" coords="718,318,619,293,621,288,719,313"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59" title="파일 쓰기 콜백" alt="" coords="513,317,632,345"/>
-<area shape="poly" title=" " alt="" coords="718,332,632,333,632,328,718,327"/>
-<area shape="poly" title=" " alt="" coords="498,337,409,331,361,322,315,307,279,288,247,264,200,220,204,216,250,260,282,284,317,302,362,317,409,326,498,332"/>
+<div class="center"><img src="../../d8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_icgraph.png" border="0" usemap="#ad8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_icgraph" loading="lazy" alt=""/></div>
+<map name="ad8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_icgraph" id="ad8/d2b/inode_8c_a4b04fa2e033f4171176700e3967af031_icgraph">
+<area shape="rect" title="디스크에 아이노드 기록" alt="" coords="347,188,441,216"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="181,5,278,33"/>
+<area shape="poly" title=" " alt="" coords="380,175,349,111,326,77,297,48,277,35,280,31,301,44,330,74,353,109,385,172"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title=" " alt="" coords="166,57,292,85"/>
+<area shape="poly" title=" " alt="" coords="372,177,340,138,297,100,275,88,278,83,301,96,344,134,376,173"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="168,109,291,137"/>
+<area shape="poly" title=" " alt="" coords="355,182,298,152,269,140,271,135,300,147,357,178"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title=" " alt="" coords="169,161,290,189"/>
+<area shape="poly" title=" " alt="" coords="331,194,289,188,290,182,332,189"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title=" " alt="" coords="160,213,299,241"/>
+<area shape="poly" title=" " alt="" coords="332,214,300,219,299,214,331,209"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c" title=" " alt="" coords="167,265,292,293"/>
+<area shape="poly" title=" " alt="" coords="356,226,300,255,271,267,269,262,298,250,354,221"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9" title=" " alt="" coords="160,317,298,345"/>
+<area shape="poly" title=" " alt="" coords="376,230,343,269,301,307,278,319,275,314,297,302,340,265,372,226"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59" title=" " alt="" coords="170,369,288,397"/>
+<area shape="poly" title=" " alt="" coords="385,231,353,294,330,329,301,359,281,371,278,366,297,354,325,325,349,292,380,229"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#abee68f41bd184eba48e4372de1fc35c6" title=" " alt="" coords="5,5,112,33"/>
+<area shape="poly" title=" " alt="" coords="166,22,112,22,112,16,166,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ac23d0b65c87524e63092a01ffc526acc" name="ac23d0b65c87524e63092a01ffc526acc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac23d0b65c87524e63092a01ffc526acc">&#9670;&#160;</a></span>logical_to_physical()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int logical_to_physical </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>fd</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *</td>          <td class="paramname"><span class="paramname"><em>sb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const struct <a class="el" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> *</td>          <td class="paramname"><span class="paramname"><em>inode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>lbn</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>buf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *</td>          <td class="paramname"><span class="paramname"><em>pbn_out</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>논리 블록 인덱스를 물리 블록 번호로 변환 </p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 </td></tr>
+    <tr><td class="paramname">sb</td><td>슈퍼블록 정보 </td></tr>
+    <tr><td class="paramname">inode</td><td>대상 아이노드 </td></tr>
+    <tr><td class="paramname">lbn</td><td>논리 블록 인덱스 </td></tr>
+    <tr><td class="paramname">buf</td><td>블록 읽기용 버퍼 (SFUSE_BLOCK_SIZE 크기) </td></tr>
+    <tr><td class="paramname">pbn_out</td><td>변환된 물리 블록 번호 반환 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>0 성공, 음수 오류코드 </dd></dl>
+
+<p class="definition"><a class="el" href="../../d8/d2b/inode_8c_source.html">inode.c</a> 파일의 <a class="el" href="../../d8/d2b/inode_8c_source.html#l00058">58</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   60</span>                                                      {</div>
+<div class="line"><span class="lineno">   61</span>  <span class="keywordflow">if</span> (lbn &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>) {</div>
+<div class="line"><span class="lineno">   62</span>    *pbn_out = inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a3ef3b4aabd3bccb64773d12ebc0617e7">direct</a>[lbn];</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   64</span>  }</div>
+<div class="line"><span class="lineno">   65</span>  lbn -= <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>;</div>
+<div class="line"><span class="lineno">   66</span>  uint32_t entries = <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a> / <span class="keyword">sizeof</span>(uint32_t);</div>
+<div class="line"><span class="lineno">   67</span>  <span class="keywordflow">if</span> (lbn &lt; entries) {</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">if</span> (inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a7bf0a3ca57adf077b272e29d40c1c45b">indirect</a> == 0)</div>
+<div class="line"><span class="lineno">   69</span>      <span class="keywordflow">return</span> -ENOENT;</div>
+<div class="line"><span class="lineno">   70</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a>(fd, inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a7bf0a3ca57adf077b272e29d40c1c45b">indirect</a>, buf) &lt; 0)</div>
+<div class="line"><span class="lineno">   71</span>      <span class="keywordflow">return</span> -EIO;</div>
+<div class="line"><span class="lineno">   72</span>    uint32_t *ptrs = (uint32_t *)buf;</div>
+<div class="line"><span class="lineno">   73</span>    *pbn_out = ptrs[lbn];</div>
+<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   75</span>  }</div>
+<div class="line"><span class="lineno">   76</span>  lbn -= entries;</div>
+<div class="line"><span class="lineno">   77</span>  uint32_t idx1 = lbn / entries;</div>
+<div class="line"><span class="lineno">   78</span>  uint32_t idx2 = lbn % entries;</div>
+<div class="line"><span class="lineno">   79</span>  <span class="keywordflow">if</span> (inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e">double_indirect</a> == 0)</div>
+<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">return</span> -ENOENT;</div>
+<div class="line"><span class="lineno">   81</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a>(fd, inode-&gt;<a class="code hl_variable" href="../../d2/d13/structsfuse__inode.html#a22386050768744617549779e3845fa0e">double_indirect</a>, buf) &lt; 0)</div>
+<div class="line"><span class="lineno">   82</span>    <span class="keywordflow">return</span> -EIO;</div>
+<div class="line"><span class="lineno">   83</span>  uint32_t *ptrs1 = (uint32_t *)buf;</div>
+<div class="line"><span class="lineno">   84</span>  uint32_t block2 = ptrs1[idx1];</div>
+<div class="line"><span class="lineno">   85</span>  <span class="keywordflow">if</span> (block2 == 0)</div>
+<div class="line"><span class="lineno">   86</span>    <span class="keywordflow">return</span> -ENOENT;</div>
+<div class="line"><span class="lineno">   87</span>  <span class="keywordflow">if</span> (<a class="code hl_function" href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a>(fd, block2, buf) &lt; 0)</div>
+<div class="line"><span class="lineno">   88</span>    <span class="keywordflow">return</span> -EIO;</div>
+<div class="line"><span class="lineno">   89</span>  uint32_t *ptrs2 = (uint32_t *)buf;</div>
+<div class="line"><span class="lineno">   90</span>  *pbn_out = ptrs2[idx2];</div>
+<div class="line"><span class="lineno">   91</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   92</span>}</div>
+<div class="ttc" id="ablock_8h_html_a8a7cedcc55adf1eeb0a4d2d05cf4b795"><div class="ttname"><a href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a></div><div class="ttdeci">int read_block(int fd, uint32_t block_no, void *buf)</div><div class="ttdoc">디바이스에서 블록 단위(4KB)로 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00016">block.c:16</a></div></div>
+</div><!-- fragment --><div class="dynheader">
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_cgraph.png" border="0" usemap="#ad8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_cgraph" loading="lazy" alt=""/></div>
+<map name="ad8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_cgraph" id="ad8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_cgraph">
+<area shape="rect" title="논리 블록 인덱스를 물리 블록 번호로 변환" alt="" coords="5,5,151,33"/>
+<area shape="rect" href="../../d3/d1c/block_8c.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795" title="디바이스에서 블록 단위(4KB)로 읽기" alt="" coords="199,5,291,33"/>
+<area shape="poly" title=" " alt="" coords="151,16,183,16,183,22,151,22"/>
+<area shape="rect" href="../../d1/d3e/img_8c.html#ab5f174b2ac56c4370d34760eebb328ad" title="원시 디바이스에서 특정 오프셋만큼 읽기" alt="" coords="339,5,421,33"/>
+<area shape="poly" title=" " alt="" coords="291,16,323,16,323,22,291,22"/>
+</map>
+</div>
+<div class="dynheader">
+이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_icgraph.png" border="0" usemap="#ad8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_icgraph" loading="lazy" alt=""/></div>
+<map name="ad8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_icgraph" id="ad8/d2b/inode_8c_ac23d0b65c87524e63092a01ffc526acc_icgraph">
+<area shape="rect" title="논리 블록 인덱스를 물리 블록 번호로 변환" alt="" coords="172,32,317,60"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#a4e8379279e62363763d8c7da873361d7" title=" " alt="" coords="7,5,122,33"/>
+<area shape="poly" title=" " alt="" coords="156,35,121,30,122,25,157,30"/>
+<area shape="rect" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59" title=" " alt="" coords="5,57,124,85"/>
+<area shape="poly" title=" " alt="" coords="157,61,124,65,124,60,156,56"/>
 </map>
 </div>
 

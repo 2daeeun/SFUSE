@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['및_20마운트_0',['2. 코드 컴파일 및 마운트',['../index.html#autotoc_md10',1,'']]]
+  ['방법_0',['방법',['../index.html#autotoc_md3',1,'사용 방법'],['../index.html#autotoc_md6',1,'3. 언마운트 방법']]]
 ];

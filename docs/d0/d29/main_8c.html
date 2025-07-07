@@ -91,47 +91,51 @@ $(function(){initNavTree('d0/d29/main_8c.html','../../',''); });
   <div class="headertitle"><div class="title">main.c 파일 참조</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>SFUSE FUSE 파일 시스템 메인 엔트리 포인트  
-<a href="#details">더 자세히 ...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="../../df/d26/fs_8h_source.html">fs.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../de/d00/ops_8h_source.html">ops.h</a>&quot;</code><br />
 <code>#include &lt;errno.h&gt;</code><br />
-<code>#include &lt;fuse3/fuse.h&gt;</code><br />
-<code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
+<code>#include &lt;fuse.h&gt;</code><br />
+<code>#include &lt;fuse_opt.h&gt;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
+<code>#include &lt;unistd.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 main.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d4/d10/main_8c__incl.png" border="0" usemap="#asrc_2main_8c" loading="lazy" alt=""/></div>
 <map name="asrc_2main_8c" id="asrc_2main_8c">
-<area shape="rect" title="SFUSE FUSE 파일 시스템 메인 엔트리 포인트" alt="" coords="350,5,439,33"/>
-<area shape="rect" href="../../df/d26/fs_8h.html" title=" " alt="" coords="193,81,239,109"/>
-<area shape="poly" title=" " alt="" coords="364,36,254,81,252,76,362,31"/>
-<area shape="rect" title=" " alt="" coords="5,157,107,184"/>
-<area shape="poly" title=" " alt="" coords="351,31,271,51,226,65,183,83,128,115,84,149,81,145,125,111,180,79,224,60,269,46,350,26"/>
-<area shape="rect" title=" " alt="" coords="262,81,330,109"/>
-<area shape="poly" title=" " alt="" coords="379,36,327,74,324,70,375,31"/>
-<area shape="rect" title=" " alt="" coords="354,81,435,109"/>
-<area shape="poly" title=" " alt="" coords="397,34,397,65,392,65,392,34"/>
-<area shape="rect" title=" " alt="" coords="459,81,525,109"/>
-<area shape="poly" title=" " alt="" coords="414,31,465,70,461,74,410,36"/>
-<area shape="rect" title=" " alt="" coords="549,81,619,109"/>
-<area shape="poly" title=" " alt="" coords="429,31,537,73,535,78,428,36"/>
-<area shape="rect" title=" " alt="" coords="642,81,712,109"/>
-<area shape="poly" title=" " alt="" coords="440,29,628,78,626,83,438,34"/>
-<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="131,157,200,184"/>
-<area shape="poly" title=" " alt="" coords="209,111,185,145,181,142,205,108"/>
-<area shape="poly" title=" " alt="" coords="194,109,99,152,97,147,192,104"/>
-<area shape="rect" title=" " alt="" coords="224,157,309,184"/>
-<area shape="poly" title=" " alt="" coords="227,108,251,142,247,145,223,111"/>
-<area shape="rect" title=" " alt="" coords="332,157,428,184"/>
-<area shape="poly" title=" " alt="" coords="240,104,338,148,336,153,238,109"/>
-<area shape="rect" title=" " alt="" coords="452,157,516,184"/>
-<area shape="poly" title=" " alt="" coords="240,102,251,106,343,131,438,153,437,159,341,136,250,111,238,107"/>
-<area shape="rect" title=" " alt="" coords="130,232,200,260"/>
-<area shape="poly" title=" " alt="" coords="168,185,168,217,163,217,163,185"/>
+<area shape="rect" title=" " alt="" coords="449,5,538,33"/>
+<area shape="rect" href="../../df/d26/fs_8h.html" title=" " alt="" coords="71,81,116,109"/>
+<area shape="poly" title=" " alt="" coords="449,28,311,47,223,63,132,83,131,78,222,57,310,42,449,23"/>
+<area shape="rect" href="../../de/d00/ops_8h.html" title=" " alt="" coords="140,81,196,109"/>
+<area shape="poly" title=" " alt="" coords="449,32,215,84,212,84,211,79,214,78,448,27"/>
+<area shape="rect" title=" " alt="" coords="185,157,247,184"/>
+<area shape="poly" title=" " alt="" coords="449,24,405,28,356,38,305,56,260,83,238,111,225,142,220,140,234,108,257,79,303,51,354,33,405,23,448,19"/>
+<area shape="rect" title=" " alt="" coords="270,81,338,109"/>
+<area shape="poly" title=" " alt="" coords="460,36,353,78,351,73,459,31"/>
+<area shape="rect" title=" " alt="" coords="362,81,424,109"/>
+<area shape="poly" title=" " alt="" coords="477,36,425,74,422,70,474,31"/>
+<area shape="rect" title=" " alt="" coords="449,81,538,109"/>
+<area shape="poly" title=" " alt="" coords="496,34,496,65,491,65,491,34"/>
+<area shape="rect" title=" " alt="" coords="562,81,627,109"/>
+<area shape="poly" title=" " alt="" coords="513,31,566,70,563,74,510,36"/>
+<area shape="rect" title=" " alt="" coords="652,81,721,109"/>
+<area shape="poly" title=" " alt="" coords="529,31,639,73,637,78,527,36"/>
+<area shape="rect" title=" " alt="" coords="745,81,815,109"/>
+<area shape="poly" title=" " alt="" coords="539,29,730,77,729,83,537,34"/>
+<area shape="rect" title=" " alt="" coords="839,81,924,109"/>
+<area shape="poly" title=" " alt="" coords="538,25,825,78,824,83,537,31"/>
+<area shape="rect" title=" " alt="" coords="947,81,1021,109"/>
+<area shape="poly" title=" " alt="" coords="538,22,708,42,933,78,932,83,707,47,537,27"/>
+<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="5,157,75,184"/>
+<area shape="poly" title=" " alt="" coords="86,111,61,146,56,142,82,108"/>
+<area shape="rect" title=" " alt="" coords="41,232,111,260"/>
+<area shape="poly" title=" " alt="" coords="95,109,89,185,84,217,79,217,84,184,90,109"/>
+<area shape="poly" title=" " alt="" coords="49,184,65,217,60,219,44,186"/>
+<area shape="poly" title=" " alt="" coords="179,108,201,142,197,145,174,111"/>
 </map>
 </div>
 </div>
@@ -139,22 +143,9 @@ main.c에 대한 include 의존 그래프</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 함수</h2></td></tr>
-<tr class="memitem:a7f093e2e9259d0b6002f4da685de854d" id="r_a7f093e2e9259d0b6002f4da685de854d"><td class="memItemLeft" align="right" valign="top">struct fuse_operations *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f093e2e9259d0b6002f4da685de854d">sfuse_get_operations</a> (void)</td></tr>
-<tr class="memdesc:a7f093e2e9259d0b6002f4da685de854d"><td class="mdescLeft">&#160;</td><td class="mdescRight">SFUSE FUSE 연산 테이블을 반환  <br /></td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97" id="r_a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
-<tr class="memdesc:a0ddf1224851353fc92bfbff6f499fa97"><td class="mdescLeft">&#160;</td><td class="mdescRight">프로그램 진입점  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
-변수</h2></td></tr>
-<tr class="memitem:a0771760ee8a223b01c598e70420cef0c" id="r_a0771760ee8a223b01c598e70420cef0c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0771760ee8a223b01c598e70420cef0c">g_force_format</a> = false</td></tr>
-<tr class="memdesc:a0771760ee8a223b01c598e70420cef0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">VSFS 강제 포맷 옵션 플래그 외부 선언  <br /></td></tr>
 </table>
-<a name="details" id="details"></a><h2 id="header-details" class="groupheader">상세한 설명</h2>
-<div class="textblock"><p>SFUSE FUSE 파일 시스템 메인 엔트리 포인트 </p>
-<p>이 파일은 SFUSE의 초기화, FUSE 인자 처리, FUSE 메인 루프 실행 및 정리 작업을 담당합니다. </p>
-
-<p class="definition"><a class="el" href="../../d0/d29/main_8c_source.html">main.c</a> 파일에서 정의되었습니다.</p>
-</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
 <a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&#160;</a></span>main()</h2>
 
@@ -174,344 +165,67 @@ main.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>프로그램 진입점 </p>
-<dl class="params"><dt>매개변수</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">argc</td><td>명령행 인자 개수 </td></tr>
-    <tr><td class="paramname">argv</td><td>명령행 인자 리스트 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>반환값</dt><dd>FUSE 메인 루프 반환값</dd></dl>
-<p>사용법: s [-F] &lt;device&gt; &lt;mountpoint&gt; [FUSE options]</p>
-<p>옵션: -F VSFS가 아닌 장치일 경우 강제 포맷 </p>
-<p>마운트할 블록 장치 파일 경로</p>
-<p>마운트할 디렉토리 경로</p>
-<p>&lt; 프로그램 이름</p>
-<p>&lt; 마운트 포인트</p>
-<p>&lt; 추가 FUSE 옵션</p>
-<p>FUSE 파싱된 인자 구조체</p>
-
-<p class="definition"><a class="el" href="../../d0/d29/main_8c_source.html">main.c</a> 파일의 <a class="el" href="../../d0/d29/main_8c_source.html#l00054">54</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   54</span>                                 {</div>
-<div class="line"><span class="lineno">   55</span>  <span class="keywordtype">int</span> err = 0;</div>
-<div class="line"><span class="lineno">   56</span>  <span class="keywordtype">int</span> idx = 1;</div>
+<p class="definition"><a class="el" href="../../d0/d29/main_8c_source.html">main.c</a> 파일의 <a class="el" href="../../d0/d29/main_8c_source.html#l00013">13</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   13</span>                                 {</div>
+<div class="line"><span class="lineno">   14</span>  <span class="keywordflow">if</span> (argc &lt; 3) {</div>
+<div class="line"><span class="lineno">   15</span>    fprintf(stderr, <span class="stringliteral">&quot;사용법: %s &lt;device&gt; &lt;mountpoint&gt; [options]\n&quot;</span>, argv[0]);</div>
+<div class="line"><span class="lineno">   16</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">   17</span>  }</div>
+<div class="line"><span class="lineno">   18</span> </div>
+<div class="line"><span class="lineno">   19</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *dev_path = argv[1];</div>
+<div class="line"><span class="lineno">   20</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *mountpoint = argv[2];</div>
+<div class="line"><span class="lineno">   21</span> </div>
+<div class="line"><span class="lineno">   22</span>  <span class="keywordtype">int</span> backing_fd = open(dev_path, O_RDWR | O_SYNC);</div>
+<div class="line"><span class="lineno">   23</span>  <span class="keywordflow">if</span> (backing_fd &lt; 0) {</div>
+<div class="line"><span class="lineno">   24</span>    perror(<span class="stringliteral">&quot;디바이스 열기 실패&quot;</span>);</div>
+<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">   26</span>  }</div>
+<div class="line"><span class="lineno">   27</span> </div>
+<div class="line"><span class="lineno">   28</span>  <span class="keyword">struct </span>stat st;</div>
+<div class="line"><span class="lineno">   29</span>  <span class="keywordflow">if</span> (fstat(backing_fd, &amp;st) &lt; 0 || !S_ISBLK(st.st_mode)) {</div>
+<div class="line"><span class="lineno">   30</span>    fprintf(stderr, <span class="stringliteral">&quot;%s는 올바른 블록 디바이스가 아닙니다.\n&quot;</span>, dev_path);</div>
+<div class="line"><span class="lineno">   31</span>    close(backing_fd);</div>
+<div class="line"><span class="lineno">   32</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">   33</span>  }</div>
+<div class="line"><span class="lineno">   34</span> </div>
+<div class="line"><span class="lineno">   35</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a> *fs = calloc(1, <span class="keyword">sizeof</span>(*fs));</div>
+<div class="line"><span class="lineno">   36</span>  <span class="keywordflow">if</span> (!fs) {</div>
+<div class="line"><span class="lineno">   37</span>    perror(<span class="stringliteral">&quot;메모리 할당 실패&quot;</span>);</div>
+<div class="line"><span class="lineno">   38</span>    close(<a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a>);</div>
+<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">   40</span>  }</div>
+<div class="line"><span class="lineno">   41</span>  fs-&gt;<a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a> = <a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a>;</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>  <span class="keyword">struct </span>fuse_args args = FUSE_ARGS_INIT(0, NULL);</div>
+<div class="line"><span class="lineno">   44</span>  fuse_opt_add_arg(&amp;args, argv[0]);    <span class="comment">// 프로그램 이름</span></div>
+<div class="line"><span class="lineno">   45</span>  fuse_opt_add_arg(&amp;args, mountpoint); <span class="comment">// 마운트 포인트</span></div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>  <span class="comment">// 명령줄에서 전달된 옵션 정확히 FUSE로 전달</span></div>
+<div class="line"><span class="lineno">   48</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 3; i &lt; argc; i++) {</div>
+<div class="line"><span class="lineno">   49</span>    fuse_opt_add_arg(&amp;args, argv[i]);</div>
+<div class="line"><span class="lineno">   50</span>  }</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>  <span class="comment">// 명확히 필요한 기본 옵션 추가</span></div>
+<div class="line"><span class="lineno">   53</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;-o&quot;</span>);</div>
+<div class="line"><span class="lineno">   54</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;allow_other&quot;</span>);</div>
+<div class="line"><span class="lineno">   55</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;-o&quot;</span>);</div>
+<div class="line"><span class="lineno">   56</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;default_permissions&quot;</span>);</div>
 <div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>  <span class="comment">/* 옵션 처리: -F (강제 포맷) */</span></div>
-<div class="line"><span class="lineno">   59</span>  <span class="keywordflow">if</span> (argc &gt; 1 &amp;&amp; strcmp(argv[1], <span class="stringliteral">&quot;-F&quot;</span>) == 0) {</div>
-<div class="line"><span class="lineno">   60</span>    <a class="code hl_variable" href="../../df/d26/fs_8h.html#a0771760ee8a223b01c598e70420cef0c">g_force_format</a> = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   61</span>    idx++;</div>
-<div class="line"><span class="lineno">   62</span>  }</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>  <span class="comment">/* 인수 체크: 블록 장치 경로, 마운트 포인트 필요 */</span></div>
-<div class="line"><span class="lineno">   65</span>  <span class="keywordflow">if</span> (argc - idx &lt; 2) {</div>
-<div class="line"><span class="lineno">   66</span>    fprintf(stderr, <span class="stringliteral">&quot;Usage: %s [-F] &lt;device&gt; &lt;mountpoint&gt; [FUSE options]\n&quot;</span>,</div>
-<div class="line"><span class="lineno">   67</span>            argv[0]);</div>
-<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><span class="lineno">   69</span>  }</div>
-<div class="line"><span class="lineno">   70</span></div>
-<div class="line"><span class="lineno">   72</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *device_path = argv[idx];</div>
-<div class="line"><span class="lineno">   74</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *mountpoint = argv[idx + 1];</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>  <span class="comment">/* SFUSE 초기화 */</span></div>
-<div class="line"><span class="lineno">   77</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a> *fs = <a class="code hl_function" href="../../df/d26/fs_8h.html#a2647416442bb14c576015d7afa69ac81">fs_initialize</a>(device_path, &amp;err);</div>
-<div class="line"><span class="lineno">   78</span>  <span class="keywordflow">if</span> (!fs) {</div>
-<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">if</span> (err == EINVAL) {</div>
-<div class="line"><span class="lineno">   80</span>      fprintf(stderr,</div>
-<div class="line"><span class="lineno">   81</span>              <span class="stringliteral">&quot;SFUSE: 해당 장치가 VSFS 형식이 아닙니다. &quot;</span></div>
-<div class="line"><span class="lineno">   82</span>              <span class="stringliteral">&quot;포맷하려면 -F 옵션을 사용하세요. (err=%d)\n&quot;</span>,</div>
-<div class="line"><span class="lineno">   83</span>              err);</div>
-<div class="line"><span class="lineno">   84</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">   85</span>      fprintf(stderr, <span class="stringliteral">&quot;SFUSE: 파일시스템 초기화 실패 (err=%d)\n&quot;</span>, err);</div>
-<div class="line"><span class="lineno">   86</span>    }</div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><span class="lineno">   88</span>  }</div>
-<div class="line"><span class="lineno">   89</span> </div>
-<div class="line"><span class="lineno">   90</span>  <span class="comment">/* 추가 FUSE 인자 계산 */</span></div>
-<div class="line"><span class="lineno">   91</span>  <span class="keywordtype">int</span> remaining = argc - (idx + 2);</div>
-<div class="line"><span class="lineno">   92</span>  <span class="keywordtype">int</span> fuse_argc = 2 + remaining;</div>
-<div class="line"><span class="lineno">   93</span>  <span class="keywordtype">char</span> **fuse_argv = malloc(<span class="keyword">sizeof</span>(<span class="keywordtype">char</span> *) * fuse_argc);</div>
-<div class="line"><span class="lineno">   94</span>  <span class="keywordflow">if</span> (!fuse_argv) {</div>
-<div class="line"><span class="lineno">   95</span>    perror(<span class="stringliteral">&quot;malloc&quot;</span>);</div>
-<div class="line"><span class="lineno">   96</span>    <a class="code hl_function" href="../../df/d26/fs_8h.html#a2bc3c75472b51af52b6e3bf1e4f17667">fs_teardown</a>(fs);</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><span class="lineno">   98</span>  }</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>  <span class="keywordtype">int</span> f = 0;</div>
-<div class="line"><span class="lineno">  101</span>  fuse_argv[f++] = strdup(argv[0]);    </div>
-<div class="line"><span class="lineno">  102</span>  fuse_argv[f++] = strdup(mountpoint); </div>
-<div class="line"><span class="lineno">  103</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; remaining; ++i) {</div>
-<div class="line"><span class="lineno">  104</span>    fuse_argv[f++] = strdup(argv[idx + 2 + i]); </div>
-<div class="line"><span class="lineno">  105</span>  }</div>
-<div class="line"><span class="lineno">  106</span></div>
-<div class="line"><span class="lineno">  108</span>  <span class="keyword">struct </span>fuse_args fuse_args = FUSE_ARGS_INIT(fuse_argc, fuse_argv);</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>  <span class="comment">/* FUSE 메인 루프 실행 */</span></div>
-<div class="line"><span class="lineno">  111</span>  <span class="keywordtype">int</span> ret =</div>
-<div class="line"><span class="lineno">  112</span>      fuse_main(fuse_args.argc, fuse_args.argv, <a class="code hl_function" href="../../df/d26/fs_8h.html#a7f093e2e9259d0b6002f4da685de854d">sfuse_get_operations</a>(), fs);</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>  <span class="comment">/* 정리 작업: FS 해제 및 메모리 반환 */</span></div>
-<div class="line"><span class="lineno">  115</span>  <a class="code hl_function" href="../../df/d26/fs_8h.html#a2bc3c75472b51af52b6e3bf1e4f17667">fs_teardown</a>(fs);</div>
-<div class="line"><span class="lineno">  116</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; fuse_argc; ++i)</div>
-<div class="line"><span class="lineno">  117</span>    free(fuse_argv[i]);</div>
-<div class="line"><span class="lineno">  118</span>  free(fuse_argv);</div>
-<div class="line"><span class="lineno">  119</span>  fuse_opt_free_args(&amp;fuse_args);</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>  <span class="keywordflow">return</span> ret;</div>
-<div class="line"><span class="lineno">  122</span>}</div>
-<div class="ttc" id="afs_8h_html_a0771760ee8a223b01c598e70420cef0c"><div class="ttname"><a href="../../df/d26/fs_8h.html#a0771760ee8a223b01c598e70420cef0c">g_force_format</a></div><div class="ttdeci">bool g_force_format</div><div class="ttdoc">강제 포맷 옵션 플래그</div><div class="ttdef"><b>Definition</b> <a href="../../d0/d29/main_8c_source.html#l00032">main.c:32</a></div></div>
-<div class="ttc" id="afs_8h_html_a2647416442bb14c576015d7afa69ac81"><div class="ttname"><a href="../../df/d26/fs_8h.html#a2647416442bb14c576015d7afa69ac81">fs_initialize</a></div><div class="ttdeci">struct sfuse_fs * fs_initialize(const char *path, int *error_out)</div><div class="ttdoc">파일 시스템 초기화</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d5a/fs_8c_source.html#l00105">fs.c:105</a></div></div>
-<div class="ttc" id="afs_8h_html_a2bc3c75472b51af52b6e3bf1e4f17667"><div class="ttname"><a href="../../df/d26/fs_8h.html#a2bc3c75472b51af52b6e3bf1e4f17667">fs_teardown</a></div><div class="ttdeci">void fs_teardown(struct sfuse_fs *fs)</div><div class="ttdoc">파일 시스템 정리</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d5a/fs_8c_source.html#l00165">fs.c:165</a></div></div>
-<div class="ttc" id="afs_8h_html_a7f093e2e9259d0b6002f4da685de854d"><div class="ttname"><a href="../../df/d26/fs_8h.html#a7f093e2e9259d0b6002f4da685de854d">sfuse_get_operations</a></div><div class="ttdeci">struct fuse_operations * sfuse_get_operations(void)</div><div class="ttdoc">SFUSE용 FUSE operations 구조체 반환</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00232">ops.c:232</a></div></div>
-<div class="ttc" id="astructsfuse__fs_html"><div class="ttname"><a href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a></div><div class="ttdoc">SFUSE 파일 시스템 컨텍스트 구조체</div><div class="ttdef"><b>Definition</b> <a href="../../df/d26/fs_8h_source.html#l00021">fs.h:21</a></div></div>
-</div><!-- fragment --><div class="dynheader">
-이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
-<div class="dyncontent">
-<div class="center"><img src="../../d0/d29/main_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph.png" border="0" usemap="#ad0/d29/main_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" loading="lazy" alt=""/></div>
-<map name="ad0/d29/main_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph" id="ad0/d29/main_8c_a0ddf1224851353fc92bfbff6f499fa97_cgraph">
-<area shape="rect" title="프로그램 진입점" alt="" coords="5,240,60,267"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a2647416442bb14c576015d7afa69ac81" title="파일 시스템 초기화" alt="" coords="140,188,236,215"/>
-<area shape="poly" title=" " alt="" coords="59,242,107,226,128,218,130,223,109,231,61,247"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a2bc3c75472b51af52b6e3bf1e4f17667" title="파일 시스템 정리" alt="" coords="137,240,238,267"/>
-<area shape="poly" title=" " alt="" coords="60,251,122,251,122,256,60,256"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7f093e2e9259d0b6002f4da685de854d" title="SFUSE용 FUSE operations 구조체 반환" alt="" coords="108,666,268,694"/>
-<area shape="poly" title=" " alt="" coords="41,267,179,651,174,653,36,269"/>
-<area shape="rect" href="../../df/d9a/bitmap_8c.html#a08e26f9ee07d1cd29ae89220513cc50a" title="메모리 비트맵을 디스크에 동기화" alt="" coords="690,93,794,121"/>
-<area shape="poly" title=" " alt="" coords="238,238,674,122,675,127,240,243"/>
-<area shape="rect" href="../../d2/d1d/super_8c.html#a6ec742f3d4baa9cae3ccba0efeec47dd" title="슈퍼블록을 디스크에 동기화" alt="" coords="349,240,422,267"/>
-<area shape="poly" title=" " alt="" coords="239,251,334,251,334,256,239,256"/>
-<area shape="rect" href="../../d3/d1c/block_8c.html#af4beb38783113f42a845b7702ebaa8d5" title="버퍼의 내용을 지정한 블록 번호에 기록" alt="" coords="856,80,952,107"/>
-<area shape="poly" title=" " alt="" coords="794,100,841,96,841,101,795,105"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4" title="access 콜백" alt="" coords="321,846,450,874"/>
-<area shape="poly" title=" " alt="" coords="200,693,245,759,279,797,318,831,326,837,323,841,314,836,275,801,241,762,195,696"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title="파일 생성 콜백" alt="" coords="322,589,449,617"/>
-<area shape="poly" title=" " alt="" coords="224,663,315,627,332,620,334,625,317,632,226,668"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#ae6af7e792b2c9c0e5b3f1d29d0d22925" title="flush 콜백" alt="" coords="327,485,444,513"/>
-<area shape="poly" title=" " alt="" coords="195,664,241,598,275,558,314,523,323,518,326,522,318,528,279,562,245,601,200,667"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a1fddf11f9d0514cb1ba55bddd68e3d7f" title="fsync 콜백" alt="" coords="326,537,446,565"/>
-<area shape="poly" title=" " alt="" coords="202,664,250,621,315,575,326,569,329,574,317,580,253,625,205,668"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6c01c3409d41549c5ca34b9a2f64ccfe" title="파일/디렉터리 속성 조회 콜백" alt="" coords="508,1152,637,1179"/>
-<area shape="poly" title=" " alt="" coords="192,694,197,762,215,863,231,919,252,974,281,1027,318,1073,357,1104,402,1127,449,1143,493,1154,492,1159,447,1148,400,1132,354,1109,314,1077,277,1030,248,977,225,920,209,864,192,762,187,695"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title="디렉터리 생성 콜백" alt="" coords="511,433,634,461"/>
-<area shape="poly" title=" " alt="" coords="191,665,204,625,229,572,265,516,288,492,315,471,358,451,405,440,452,435,496,435,496,441,452,440,406,445,360,456,317,476,292,496,269,520,233,574,209,627,196,667"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a62bb834f4955786318b1c8588cbb0135" title="파일 열기 콜백" alt="" coords="327,794,444,822"/>
-<area shape="poly" title=" " alt="" coords="207,692,255,731,317,774,338,785,335,790,315,778,252,735,204,697"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a4e8379279e62363763d8c7da873361d7" title="파일 읽기 콜백" alt="" coords="328,1036,443,1063"/>
-<area shape="poly" title=" " alt="" coords="195,694,208,746,233,823,269,910,292,952,318,992,351,1024,347,1028,314,995,287,955,264,912,228,825,203,748,190,695"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acdaffbb59b5fe7d0ceda916714ddc3ad" title="디렉터리 목록 조회 콜백" alt="" coords="507,744,638,771"/>
-<area shape="poly" title=" " alt="" coords="219,692,264,712,317,730,406,746,491,753,491,758,406,751,315,735,262,717,217,697"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a6886feb1b5bf1626b5b4ed7f14169edb" title="이름 변경 콜백" alt="" coords="505,254,640,282"/>
-<area shape="poly" title=" " alt="" coords="188,665,196,607,216,522,232,475,254,428,281,385,314,346,354,317,399,296,445,282,489,273,490,278,446,287,401,301,357,322,318,350,285,388,258,431,237,477,221,523,201,608,193,666"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title="디렉터리 삭제 콜백" alt="" coords="326,898,446,926"/>
-<area shape="poly" title=" " alt="" coords="197,693,212,731,238,782,273,836,318,884,325,889,321,893,314,888,269,839,233,784,207,733,192,695"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title="파일 크기 변경 콜백" alt="" coords="316,641,455,669"/>
-<area shape="poly" title=" " alt="" coords="268,667,300,663,301,668,269,673"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c" title="파일 삭제 콜백" alt="" coords="323,693,448,721"/>
-<area shape="poly" title=" " alt="" coords="269,688,308,694,307,699,268,694"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9" title="파일/디렉터리 타임스탬프 갱신 콜백" alt="" coords="503,1025,642,1053"/>
-<area shape="poly" title=" " alt="" coords="195,694,208,740,232,804,268,874,291,907,318,936,357,965,401,989,446,1007,489,1020,488,1025,445,1012,399,994,354,970,314,940,287,910,263,877,227,807,203,742,190,695"/>
-<area shape="rect" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59" title="파일 쓰기 콜백" alt="" coords="326,360,445,387"/>
-<area shape="poly" title=" " alt="" coords="192,665,234,561,270,493,314,428,348,395,352,399,318,431,274,496,239,564,196,667"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#ae8816ea1bc016bed838b45345615d46c" title="접근 권한 검사" alt="" coords="700,942,784,970"/>
-<area shape="poly" title=" " alt="" coords="451,855,543,860,594,869,643,884,658,893,669,902,691,922,705,931,702,936,688,926,665,906,655,897,641,889,593,874,543,865,450,860"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a8d5826ede78fcd2b76628eabb56e70db" title="경로 문자열을 inode 번호로 변환" alt="" coords="842,942,966,970"/>
-<area shape="poly" title=" " alt="" coords="784,954,826,954,826,959,784,959"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#acd690811815cf7e33fb3ab6f8b95216e" title="디렉터리에서 이름으로 inode 번호를 검색" alt="" coords="1014,944,1104,971"/>
-<area shape="poly" title=" " alt="" coords="967,954,999,954,998,960,967,959"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#a490b41738be882c224282cb0873c4185" title="디스크 이미지에서 아이노드를 읽어 구조체에 로드" alt="" coords="1152,892,1244,919"/>
-<area shape="poly" title=" " alt="" coords="1097,941,1144,923,1145,928,1099,946"/>
-<area shape="rect" href="../../d3/d1c/block_8c.html#a737beb05c598c11278e8b17146b48dcf" title="지정한 블록 번호의 데이터를 읽어 버퍼에 저장" alt="" coords="1152,638,1244,666"/>
-<area shape="poly" title=" " alt="" coords="1088,941,1102,929,1122,899,1140,866,1166,797,1182,732,1191,681,1196,682,1187,733,1171,799,1145,868,1127,902,1106,933,1092,945"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#ae003f96dd0c540bc9f2fc169274f1d6f" title="아이노드 테이블 내 특정 아이노드의 디스크 내 바이트 오프셋을 계산" alt="" coords="1292,588,1394,615"/>
-<area shape="poly" title=" " alt="" coords="1203,890,1326,628,1331,631,1208,892"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6129288ed91728ed7ef053ad8d0cc79d" title="파일 생성" alt="" coords="701,385,782,413"/>
-<area shape="poly" title=" " alt="" coords="449,611,496,614,546,611,596,599,619,588,640,574,655,558,663,541,667,504,668,465,674,445,688,424,691,421,694,424,692,427,679,447,673,466,672,505,668,542,660,561,643,578,622,593,598,604,547,616,496,620,449,617"/>
-<area shape="poly" title=" " alt="" coords="751,383,792,322,817,271,840,219,887,121,892,123,844,221,822,273,796,324,756,386"/>
-<area shape="poly" title=" " alt="" coords="783,411,796,424,820,464,834,500,839,535,840,568,836,640,838,681,845,728,872,838,897,927,892,928,866,840,839,729,832,682,831,640,835,568,834,535,828,501,815,466,792,427,779,415"/>
-<area shape="poly" title=" " alt="" coords="783,391,824,389,872,392,921,402,968,422,1106,628,1136,696,1160,765,1192,876,1187,877,1155,767,1131,698,1101,631,965,426,920,407,871,397,824,395,783,396"/>
-<area shape="poly" title=" " alt="" coords="782,383,822,374,869,367,919,367,967,378,1009,398,1047,425,1081,458,1111,494,1157,565,1187,623,1182,625,1153,568,1106,497,1077,462,1044,430,1006,403,965,383,918,373,869,372,823,379,783,388"/>
-<area shape="rect" href="../../df/d9a/bitmap_8c.html#a7342a6b6280af158749416ff1fffadfc" title="슈퍼블록 기반으로 데이터 블록 할당" alt="" coords="857,232,951,259"/>
-<area shape="poly" title=" " alt="" coords="751,383,795,322,840,270,848,265,851,269,844,274,799,325,755,386"/>
-<area shape="rect" href="../../df/d9a/bitmap_8c.html#a08b712b2489ab7b3346f82316300c6b3" title="슈퍼블록 기반으로 아이노드 할당" alt="" coords="856,436,952,463"/>
-<area shape="poly" title=" " alt="" coords="784,409,844,428,842,433,782,414"/>
-<area shape="rect" href="../../df/d9a/bitmap_8c.html#a156ed842116a648997c737d182b7416a" title="슈퍼블록 기반으로 아이노드 해제" alt="" coords="859,588,949,615"/>
-<area shape="poly" title=" " alt="" coords="778,411,796,424,829,460,856,500,894,573,889,575,852,503,824,463,792,428,775,415"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#abbb03a523d329cec86d9473e1a6ff70b" title="아이노드 구조체 내용을 디스크 이미지에 동기화" alt="" coords="857,284,951,311"/>
-<area shape="poly" title=" " alt="" coords="766,382,792,365,840,327,859,317,861,321,844,332,796,369,769,387"/>
-<area shape="rect" href="../../df/d9a/bitmap_8c.html#ad195af185232b43149a1d9442e28d077" title="비트맵에서 0인 비트를 찾아 1로 설정하고 인덱스를 반환" alt="" coords="1021,232,1097,259"/>
-<area shape="poly" title=" " alt="" coords="952,243,1005,243,1005,248,952,248"/>
-<area shape="poly" title=" " alt="" coords="914,434,1036,270,1040,273,918,437"/>
-<area shape="rect" href="../../df/d9a/bitmap_8c.html#a9d97a51ca0096c6fe7bf18c3947d2abb" title="비트맵에서 지정한 인덱스 비트를 0으로 설정" alt="" coords="1023,689,1095,717"/>
-<area shape="poly" title=" " alt="" coords="928,613,1025,678,1022,682,925,618"/>
-<area shape="poly" title=" " alt="" coords="929,309,1105,426,1312,576,1309,580,1102,430,926,314"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#afa59764091da583a569ad9e517043425" title="FUSE에서 플러시 요청 처리" alt="" coords="536,485,609,513"/>
-<area shape="poly" title=" " alt="" coords="445,496,521,496,521,502,445,502"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#ab503c5dc5cb6a0dc77f0b6d92bfccf5f" title="FUSE에서 fsync 요청 처리" alt="" coords="535,537,610,565"/>
-<area shape="poly" title=" " alt="" coords="446,548,520,548,520,554,446,554"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a012d00e6eafc0bb7c9402e3f36cee00a" title="파일/디렉터리 속성 조회" alt="" coords="700,1197,784,1225"/>
-<area shape="poly" title=" " alt="" coords="628,1177,686,1193,684,1198,626,1183"/>
-<area shape="poly" title=" " alt="" coords="751,1195,792,1133,884,982,889,985,796,1136,755,1198"/>
-<area shape="poly" title=" " alt="" coords="785,1218,852,1228,936,1230,980,1225,1024,1216,1065,1200,1102,1177,1128,1152,1148,1122,1164,1089,1175,1055,1189,988,1194,935,1199,935,1194,989,1180,1057,1169,1091,1152,1125,1132,1155,1105,1181,1067,1205,1025,1221,981,1231,936,1235,852,1233,784,1223"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a0e6c18058ed432a1b33962e1f7fda11f" title="디렉터리 생성" alt="" coords="703,437,781,465"/>
-<area shape="poly" title=" " alt="" coords="635,446,688,447,687,452,634,451"/>
-<area shape="poly" title=" " alt="" coords="778,435,792,422,809,397,819,373,825,327,827,279,831,251,839,219,862,166,885,120,890,122,867,168,845,221,836,252,832,279,830,328,824,374,814,399,796,426,782,439"/>
-<area shape="poly" title=" " alt="" coords="750,464,896,927,891,929,745,466"/>
-<area shape="poly" title=" " alt="" coords="775,463,864,509,917,540,968,574,992,596,1016,618,1041,634,1063,644,1084,655,1106,676,1139,726,1165,781,1182,833,1193,876,1188,877,1177,835,1160,783,1135,729,1102,679,1081,659,1061,648,1039,639,1013,622,989,600,965,578,914,544,861,514,773,468"/>
-<area shape="poly" title=" " alt="" coords="782,458,843,472,918,484,979,487,1037,498,1069,510,1105,530,1131,550,1153,575,1185,623,1180,626,1149,578,1127,554,1102,534,1067,515,1036,503,978,492,917,489,841,477,781,463"/>
-<area shape="poly" title=" " alt="" coords="777,435,792,422,805,403,811,384,815,347,818,310,826,290,840,270,844,267,847,271,844,274,831,293,824,311,820,348,817,386,810,405,796,426,781,439"/>
-<area shape="poly" title=" " alt="" coords="781,448,841,447,841,453,781,453"/>
-<area shape="poly" title=" " alt="" coords="754,464,791,513,816,541,844,567,858,578,855,582,840,572,812,545,786,516,750,467"/>
-<area shape="poly" title=" " alt="" coords="774,434,792,422,844,372,883,323,887,326,848,375,796,426,776,439"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a9741976c80c2167280c9a0c3ff856d2d" title="파일 열기" alt="" coords="536,796,609,823"/>
-<area shape="poly" title=" " alt="" coords="445,806,521,807,521,812,445,811"/>
-<area shape="poly" title=" " alt="" coords="596,822,639,849,691,878,767,910,840,935,838,940,765,915,689,883,636,854,593,826"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a28b88e33bc2ea2e1f024968f35073824" title="파일 읽기" alt="" coords="707,1096,776,1123"/>
-<area shape="poly" title=" " alt="" coords="444,1056,692,1099,691,1104,443,1062"/>
-<area shape="poly" title=" " alt="" coords="775,1093,792,1081,808,1058,816,1035,823,1012,840,988,854,976,857,981,844,991,828,1015,821,1037,813,1060,796,1085,778,1098"/>
-<area shape="poly" title=" " alt="" coords="777,1106,841,1100,925,1086,1016,1061,1061,1042,1102,1019,1126,1000,1148,977,1179,932,1184,935,1152,981,1130,1004,1105,1024,1063,1047,1018,1066,926,1092,842,1105,777,1111"/>
-<area shape="poly" title=" " alt="" coords="776,1094,841,1070,901,1053,978,1034,1052,1010,1081,996,1102,981,1117,959,1131,926,1156,842,1176,752,1189,681,1194,682,1181,753,1162,843,1136,928,1121,961,1106,985,1084,1001,1054,1015,979,1039,902,1058,843,1075,778,1099"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#addbb0f0d2e2d634975c40330e23bc8ae" title="디렉터리 내용 읽기" alt="" coords="699,841,785,869"/>
-<area shape="poly" title=" " alt="" coords="617,770,643,782,713,829,710,833,640,787,614,774"/>
-<area shape="poly" title=" " alt="" coords="769,867,796,885,844,922,861,933,859,937,840,926,792,889,766,872"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#aca2f1f6050fc83a31ced84d12a96b4cb" title="FUSE용 디렉터리 목록 채우기 콜백 호출" alt="" coords="1026,892,1092,919"/>
-<area shape="poly" title=" " alt="" coords="786,861,842,871,1011,896,1010,902,842,876,785,866"/>
-<area shape="poly" title=" " alt="" coords="1092,903,1136,903,1136,908,1092,908"/>
-<area shape="poly" title=" " alt="" coords="1083,889,1102,872,1133,823,1158,771,1187,680,1192,682,1163,772,1138,826,1106,875,1086,893"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#af677d22449626003a22868b28501f79a" title="파일 또는 디렉터리 이름 변경" alt="" coords="697,232,787,259"/>
-<area shape="poly" title=" " alt="" coords="640,256,681,251,682,256,641,262"/>
-<area shape="poly" title=" " alt="" coords="754,229,792,187,814,154,824,139,840,123,855,113,858,117,844,128,828,143,819,157,796,190,758,233"/>
-<area shape="poly" title=" " alt="" coords="783,258,796,271,814,311,826,365,832,427,835,494,837,626,840,683,845,728,870,839,896,927,891,928,865,840,839,729,834,684,832,627,830,494,827,427,820,365,809,313,792,274,779,262"/>
-<area shape="poly" title=" " alt="" coords="747,230,787,141,814,94,840,66,874,51,903,46,933,52,968,66,985,78,995,92,1003,108,1016,124,1041,141,1064,152,1086,164,1106,188,1123,232,1135,290,1141,357,1145,428,1148,569,1154,677,1174,787,1192,876,1187,877,1168,788,1149,678,1142,569,1139,429,1136,357,1129,291,1118,234,1101,191,1083,168,1062,157,1039,146,1013,127,999,111,990,95,981,82,965,71,932,57,903,52,875,56,844,70,819,98,792,143,751,232"/>
-<area shape="poly" title=" " alt="" coords="747,230,792,131,802,98,807,70,817,45,840,22,873,6,902,3,932,10,967,22,1014,40,1049,61,1078,90,1106,132,1124,174,1140,232,1167,373,1186,518,1197,623,1191,623,1181,518,1162,374,1135,233,1119,176,1101,135,1074,93,1046,65,1012,45,965,27,931,15,902,9,874,12,844,26,821,48,812,72,807,100,796,133,752,232"/>
-<area shape="poly" title=" " alt="" coords="788,243,841,243,841,248,788,248"/>
-<area shape="poly" title=" " alt="" coords="788,257,845,276,843,281,787,263"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a8cf3ec78e9108f22f73ac3ab974fe8dc" title="디렉터리 삭제" alt="" coords="535,898,610,926"/>
-<area shape="poly" title=" " alt="" coords="446,910,520,910,520,915,446,915"/>
-<area shape="poly" title=" " alt="" coords="592,924,635,954,662,968,690,979,730,985,771,985,845,972,846,977,771,990,730,991,689,984,660,973,632,959,589,929"/>
-<area shape="poly" title=" " alt="" coords="588,925,616,963,644,1012,654,1047,658,1079,654,1136,653,1162,657,1187,669,1210,691,1234,725,1257,756,1268,787,1270,817,1266,884,1249,923,1241,966,1236,1007,1238,1040,1243,1070,1241,1085,1235,1102,1224,1118,1204,1133,1173,1158,1092,1177,1005,1190,935,1195,935,1183,1006,1163,1094,1138,1175,1122,1207,1105,1227,1088,1240,1072,1246,1040,1248,1007,1244,966,1242,924,1246,885,1255,818,1272,787,1276,755,1273,723,1261,688,1238,665,1214,652,1188,648,1162,648,1136,652,1079,649,1048,639,1015,612,966,584,928"/>
-<area shape="poly" title=" " alt="" coords="588,896,631,861,659,842,689,827,749,806,804,796,853,793,900,794,946,793,993,788,1045,775,1102,749,1125,733,1145,715,1177,677,1181,681,1149,719,1128,738,1105,753,1047,780,994,793,946,799,900,799,853,799,804,802,751,811,691,832,662,847,634,865,591,900"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#add11b7953b7d14deb0456e14c8d7b197" title="파일 삭제" alt="" coords="702,689,782,717"/>
-<area shape="poly" title=" " alt="" coords="585,896,640,833,720,728,724,731,644,837,589,900"/>
-<area shape="poly" title=" " alt="" coords="744,688,791,476,804,403,811,347,820,290,839,219,861,165,885,120,889,122,866,168,845,221,825,291,816,347,809,404,797,477,749,689"/>
-<area shape="poly" title=" " alt="" coords="774,715,796,733,840,815,893,927,888,930,835,818,792,737,771,719"/>
-<area shape="poly" title=" " alt="" coords="772,715,843,750,1010,824,1148,883,1146,888,1008,829,841,755,770,720"/>
-<area shape="poly" title=" " alt="" coords="783,713,846,729,927,742,971,744,1016,743,1060,737,1103,726,1142,703,1173,675,1177,679,1145,708,1105,731,1061,742,1016,748,971,750,927,747,845,734,782,718"/>
-<area shape="poly" title=" " alt="" coords="764,686,866,622,869,626,767,691"/>
-<area shape="poly" title=" " alt="" coords="745,688,782,577,840,423,886,324,891,326,844,425,787,579,750,690"/>
-<area shape="rect" href="../../df/d9a/bitmap_8c.html#ad78edd18fe67d2ffa13fbc1fc89436c0" title="슈퍼블록 기반으로 데이터 블록 해제" alt="" coords="860,689,949,717"/>
-<area shape="poly" title=" " alt="" coords="783,700,844,700,844,706,783,706"/>
-<area shape="poly" title=" " alt="" coords="949,700,1008,700,1008,706,949,706"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a6a7f3ad04cc17f3fb58519236a2ee996" title="파일 크기 조정 (truncate)" alt="" coords="525,638,620,666"/>
-<area shape="poly" title=" " alt="" coords="456,651,510,650,510,656,456,657"/>
-<area shape="poly" title=" " alt="" coords="590,636,616,610,639,575,657,524,662,478,661,435,656,394,651,354,652,312,663,267,687,219,719,181,759,151,800,128,840,110,842,115,803,132,761,156,723,185,692,222,668,269,658,312,657,353,661,394,666,435,668,478,662,525,644,577,620,613,593,640"/>
-<area shape="poly" title=" " alt="" coords="595,664,685,732,741,778,796,828,845,880,884,928,880,931,841,884,792,831,738,782,681,736,592,668"/>
-<area shape="poly" title=" " alt="" coords="592,664,620,693,644,731,654,770,658,821,657,942,657,1003,661,1058,672,1103,681,1120,691,1133,706,1143,725,1150,774,1156,832,1153,895,1144,958,1128,1017,1109,1066,1088,1102,1066,1132,1036,1155,1000,1173,964,1185,933,1190,935,1178,967,1160,1003,1136,1039,1105,1070,1069,1092,1019,1114,960,1133,896,1149,832,1159,773,1161,724,1155,704,1147,688,1137,676,1123,667,1105,656,1059,652,1003,651,942,652,822,649,771,639,733,616,696,588,668"/>
-<area shape="poly" title=" " alt="" coords="620,650,1136,650,1136,655,620,655"/>
-<area shape="poly" title=" " alt="" coords="588,636,615,610,639,575,651,546,656,519,656,470,656,446,660,422,669,397,688,372,713,354,752,337,841,310,843,315,754,342,716,359,692,375,674,400,665,423,661,447,661,470,661,520,656,548,644,577,619,613,592,640"/>
-<area shape="poly" title=" " alt="" coords="620,653,702,662,794,675,845,685,844,691,794,680,701,667,620,659"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#aecadaa463253df28c47f4a201dda2359" title="파일 쓰기" alt="" coords="705,284,778,311"/>
-<area shape="poly" title=" " alt="" coords="589,636,616,609,639,575,653,540,659,508,658,450,657,422,660,392,669,361,687,328,695,319,699,323,692,331,674,364,665,393,662,422,663,450,664,509,658,541,644,577,620,613,593,640"/>
-<area shape="poly" title=" " alt="" coords="777,281,792,269,805,251,811,233,815,198,820,162,827,143,840,124,850,114,854,118,844,127,831,146,825,163,821,199,816,234,809,253,796,273,781,285"/>
-<area shape="poly" title=" " alt="" coords="758,310,778,338,796,372,814,424,824,469,830,548,832,628,836,674,845,728,871,838,897,927,891,928,866,840,839,729,831,675,827,628,825,548,818,470,808,426,792,375,774,340,753,313"/>
-<area shape="poly" title=" " alt="" coords="773,281,792,269,806,255,814,242,824,229,841,218,899,202,977,194,1052,198,1083,206,1105,218,1119,234,1129,254,1144,306,1151,368,1153,437,1151,573,1151,632,1154,677,1174,787,1192,876,1187,877,1169,788,1149,678,1146,632,1146,573,1148,437,1146,369,1138,307,1124,256,1114,237,1102,222,1081,211,1052,203,977,200,900,208,843,223,828,233,819,245,810,258,796,273,776,286"/>
-<area shape="poly" title=" " alt="" coords="776,281,792,269,807,244,813,220,820,196,828,184,841,174,911,138,944,127,976,123,1008,125,1040,134,1072,150,1105,174,1118,188,1130,207,1149,256,1165,317,1177,385,1192,521,1198,623,1193,623,1187,521,1171,386,1160,318,1144,258,1125,209,1114,191,1102,178,1069,155,1038,139,1007,130,976,128,945,133,913,143,843,178,832,188,825,198,818,221,812,246,796,273,779,285"/>
-<area shape="poly" title=" " alt="" coords="778,283,844,262,845,267,780,288"/>
-<area shape="poly" title=" " alt="" coords="779,295,842,295,842,300,779,300"/>
-<area shape="poly" title=" " alt="" coords="449,704,686,701,686,706,449,709"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a818f99fae8ad5abcc450d41aac5d37ec" title="파일의 시간 속성 변경 (utimens)" alt="" coords="695,1044,788,1071"/>
-<area shape="poly" title=" " alt="" coords="642,1044,680,1048,680,1053,642,1049"/>
-<area shape="poly" title=" " alt="" coords="765,1041,792,1023,841,987,860,976,863,980,843,992,796,1028,768,1046"/>
-<area shape="poly" title=" " alt="" coords="788,1053,853,1046,933,1034,1019,1012,1102,980,1140,956,1172,929,1175,933,1144,960,1105,985,1021,1017,934,1039,853,1051,789,1058"/>
-<area shape="poly" title=" " alt="" coords="754,1041,774,1014,792,981,814,900,824,829,825,765,822,705,817,644,816,579,822,507,839,423,860,369,884,323,889,326,865,371,845,425,827,508,821,580,822,644,827,705,831,765,830,829,820,901,796,983,779,1017,758,1045"/>
-<area shape="poly" title=" " alt="" coords="445,358,689,306,690,311,446,364"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a7f093e2e9259d0b6002f4da685de854d" name="a7f093e2e9259d0b6002f4da685de854d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f093e2e9259d0b6002f4da685de854d">&#9670;&#160;</a></span>sfuse_get_operations()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct fuse_operations * sfuse_get_operations </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>SFUSE FUSE 연산 테이블을 반환 </p>
-<dl class="section return"><dt>반환값</dt><dd>SFUSE에서 정의한 FUSE callbacks(struct fuse_operations)</dd></dl>
-<p>SFUSE FUSE 연산 테이블을 반환</p>
-<p>SFUSE용 FUSE operations 구조체 반환</p>
-<p>생성된 콜백 함수들을 ops 구조체에 등록하여 반환한다.</p>
-<dl class="section return"><dt>반환값</dt><dd>설정된 fuse_operations 구조체 포인터 </dd></dl>
-
-<p class="definition"><a class="el" href="../../d9/d70/ops_8c_source.html">ops.c</a> 파일의 <a class="el" href="../../d9/d70/ops_8c_source.html#l00232">232</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">  232</span>                                                   {</div>
-<div class="line"><span class="lineno">  233</span>  <span class="keyword">static</span> <span class="keyword">struct </span>fuse_operations ops;</div>
-<div class="line"><span class="lineno">  234</span>  memset(&amp;ops, 0, <span class="keyword">sizeof</span>(ops));</div>
-<div class="line"><span class="lineno">  235</span>  ops.getattr = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a6c01c3409d41549c5ca34b9a2f64ccfe">sfuse_getattr_cb</a>;</div>
-<div class="line"><span class="lineno">  236</span>  ops.access = <a class="code hl_function" href="../../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4">sfuse_access_cb</a>;</div>
-<div class="line"><span class="lineno">  237</span>  ops.readdir = <a class="code hl_function" href="../../d9/d70/ops_8c.html#acdaffbb59b5fe7d0ceda916714ddc3ad">sfuse_readdir_cb</a>;</div>
-<div class="line"><span class="lineno">  238</span>  ops.open = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a62bb834f4955786318b1c8588cbb0135">sfuse_open_cb</a>;</div>
-<div class="line"><span class="lineno">  239</span>  ops.read = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a4e8379279e62363763d8c7da873361d7">sfuse_read_cb</a>;</div>
-<div class="line"><span class="lineno">  240</span>  ops.write = <a class="code hl_function" href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59">sfuse_write_cb</a>;</div>
-<div class="line"><span class="lineno">  241</span>  ops.create = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e">sfuse_create_cb</a>;</div>
-<div class="line"><span class="lineno">  242</span>  ops.mkdir = <a class="code hl_function" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f">sfuse_mkdir_cb</a>;</div>
-<div class="line"><span class="lineno">  243</span>  ops.unlink = <a class="code hl_function" href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c">sfuse_unlink_cb</a>;</div>
-<div class="line"><span class="lineno">  244</span>  ops.rmdir = <a class="code hl_function" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234">sfuse_rmdir_cb</a>;</div>
-<div class="line"><span class="lineno">  245</span>  ops.rename = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a6886feb1b5bf1626b5b4ed7f14169edb">sfuse_rename_cb</a>;</div>
-<div class="line"><span class="lineno">  246</span>  ops.truncate = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f">sfuse_truncate_cb</a>;</div>
-<div class="line"><span class="lineno">  247</span>  ops.flush = <a class="code hl_function" href="../../d9/d70/ops_8c.html#ae6af7e792b2c9c0e5b3f1d29d0d22925">sfuse_flush_cb</a>;</div>
-<div class="line"><span class="lineno">  248</span>  ops.fsync = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a1fddf11f9d0514cb1ba55bddd68e3d7f">sfuse_fsync_cb</a>;</div>
-<div class="line"><span class="lineno">  249</span>  ops.utimens = <a class="code hl_function" href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9">sfuse_utimens_cb</a>;</div>
-<div class="line"><span class="lineno">  250</span>  <span class="keywordflow">return</span> &amp;ops;</div>
-<div class="line"><span class="lineno">  251</span>}</div>
-<div class="ttc" id="aops_8c_html_a042aaedab092b188556e193b25a81e9f"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f">sfuse_truncate_cb</a></div><div class="ttdeci">static int sfuse_truncate_cb(const char *path, off_t size, struct fuse_file_info *fi)</div><div class="ttdoc">파일 크기 변경 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00175">ops.c:175</a></div></div>
-<div class="ttc" id="aops_8c_html_a1fddf11f9d0514cb1ba55bddd68e3d7f"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a1fddf11f9d0514cb1ba55bddd68e3d7f">sfuse_fsync_cb</a></div><div class="ttdeci">static int sfuse_fsync_cb(const char *path, int datasync, struct fuse_file_info *fi)</div><div class="ttdoc">fsync 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00218">ops.c:218</a></div></div>
-<div class="ttc" id="aops_8c_html_a4e8379279e62363763d8c7da873361d7"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a4e8379279e62363763d8c7da873361d7">sfuse_read_cb</a></div><div class="ttdeci">static int sfuse_read_cb(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi)</div><div class="ttdoc">파일 읽기 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00082">ops.c:82</a></div></div>
-<div class="ttc" id="aops_8c_html_a62bb834f4955786318b1c8588cbb0135"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a62bb834f4955786318b1c8588cbb0135">sfuse_open_cb</a></div><div class="ttdeci">static int sfuse_open_cb(const char *path, struct fuse_file_info *fi)</div><div class="ttdoc">파일 열기 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00067">ops.c:67</a></div></div>
-<div class="ttc" id="aops_8c_html_a6886feb1b5bf1626b5b4ed7f14169edb"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a6886feb1b5bf1626b5b4ed7f14169edb">sfuse_rename_cb</a></div><div class="ttdeci">static int sfuse_rename_cb(const char *from, const char *to, unsigned int flags)</div><div class="ttdoc">이름 변경 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00160">ops.c:160</a></div></div>
-<div class="ttc" id="aops_8c_html_a6c01c3409d41549c5ca34b9a2f64ccfe"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a6c01c3409d41549c5ca34b9a2f64ccfe">sfuse_getattr_cb</a></div><div class="ttdeci">static int sfuse_getattr_cb(const char *path, struct stat *stbuf, struct fuse_file_info *fi)</div><div class="ttdoc">파일/디렉터리 속성 조회 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00021">ops.c:21</a></div></div>
-<div class="ttc" id="aops_8c_html_a6dc52b86f2cef1906558a324213cac6e"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e">sfuse_create_cb</a></div><div class="ttdeci">static int sfuse_create_cb(const char *path, mode_t mode, struct fuse_file_info *fi)</div><div class="ttdoc">파일 생성 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00112">ops.c:112</a></div></div>
-<div class="ttc" id="aops_8c_html_a7e84e199a67a156f1c4f3b9a85d46ad9"><div class="ttname"><a href="../../d9/d70/ops_8c.html#a7e84e199a67a156f1c4f3b9a85d46ad9">sfuse_utimens_cb</a></div><div class="ttdeci">static int sfuse_utimens_cb(const char *path, const struct timespec tv[2], struct fuse_file_info *fi)</div><div class="ttdoc">파일/디렉터리 타임스탬프 갱신 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00190">ops.c:190</a></div></div>
-<div class="ttc" id="aops_8c_html_aad351f0b0a44bc288b2400fd405cef8c"><div class="ttname"><a href="../../d9/d70/ops_8c.html#aad351f0b0a44bc288b2400fd405cef8c">sfuse_unlink_cb</a></div><div class="ttdeci">static int sfuse_unlink_cb(const char *path)</div><div class="ttdoc">파일 삭제 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00136">ops.c:136</a></div></div>
-<div class="ttc" id="aops_8c_html_aad4c968c1ab3a4b7e7c8b36054266f59"><div class="ttname"><a href="../../d9/d70/ops_8c.html#aad4c968c1ab3a4b7e7c8b36054266f59">sfuse_write_cb</a></div><div class="ttdeci">static int sfuse_write_cb(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi)</div><div class="ttdoc">파일 쓰기 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00098">ops.c:98</a></div></div>
-<div class="ttc" id="aops_8c_html_acac9f9c69134190f86e015e89e39d43f"><div class="ttname"><a href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f">sfuse_mkdir_cb</a></div><div class="ttdeci">static int sfuse_mkdir_cb(const char *path, mode_t mode)</div><div class="ttdoc">디렉터리 생성 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00125">ops.c:125</a></div></div>
-<div class="ttc" id="aops_8c_html_acdaffbb59b5fe7d0ceda916714ddc3ad"><div class="ttname"><a href="../../d9/d70/ops_8c.html#acdaffbb59b5fe7d0ceda916714ddc3ad">sfuse_readdir_cb</a></div><div class="ttdeci">static int sfuse_readdir_cb(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info *fi, enum fuse_readdir_flags flags)</div><div class="ttdoc">디렉터리 목록 조회 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00051">ops.c:51</a></div></div>
-<div class="ttc" id="aops_8c_html_acf365c5992fb91ebb3982a04fbbdf3b4"><div class="ttname"><a href="../../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4">sfuse_access_cb</a></div><div class="ttdeci">static int sfuse_access_cb(const char *path, int mask)</div><div class="ttdoc">access 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00035">ops.c:35</a></div></div>
-<div class="ttc" id="aops_8c_html_acf89b7cf9e32fbd2b7c749abb1b89234"><div class="ttname"><a href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234">sfuse_rmdir_cb</a></div><div class="ttdeci">static int sfuse_rmdir_cb(const char *path)</div><div class="ttdoc">디렉터리 삭제 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00147">ops.c:147</a></div></div>
-<div class="ttc" id="aops_8c_html_ae6af7e792b2c9c0e5b3f1d29d0d22925"><div class="ttname"><a href="../../d9/d70/ops_8c.html#ae6af7e792b2c9c0e5b3f1d29d0d22925">sfuse_flush_cb</a></div><div class="ttdeci">static int sfuse_flush_cb(const char *path, struct fuse_file_info *fi)</div><div class="ttdoc">flush 콜백</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00204">ops.c:204</a></div></div>
+<div class="line"><span class="lineno">   58</span>  <span class="comment">// 디버깅 옵션을 항상 켜고 싶다면(선택 사항)</span></div>
+<div class="line"><span class="lineno">   59</span>  <span class="comment">// fuse_opt_add_arg(&amp;args, &quot;-d&quot;);</span></div>
+<div class="line"><span class="lineno">   60</span> </div>
+<div class="line"><span class="lineno">   61</span>  <span class="keywordtype">int</span> ret = fuse_main(args.argc, args.argv, &amp;<a class="code hl_variable" href="../../de/d00/ops_8h.html#a8a3005b535e830b2ef6316cc752b7d4a">sfuse_ops</a>, fs);</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>  fuse_opt_free_args(&amp;args);</div>
+<div class="line"><span class="lineno">   64</span>  close(backing_fd);</div>
+<div class="line"><span class="lineno">   65</span>  free(fs);</div>
+<div class="line"><span class="lineno">   66</span> </div>
+<div class="line"><span class="lineno">   67</span>  <span class="keywordflow">return</span> ret;</div>
+<div class="line"><span class="lineno">   68</span>}</div>
+<div class="ttc" id="aops_8h_html_a8a3005b535e830b2ef6316cc752b7d4a"><div class="ttname"><a href="../../de/d00/ops_8h.html#a8a3005b535e830b2ef6316cc752b7d4a">sfuse_ops</a></div><div class="ttdeci">const struct fuse_operations sfuse_ops</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00562">ops.c:562</a></div></div>
+<div class="ttc" id="astructsfuse__fs_html"><div class="ttname"><a href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d26/fs_8h_source.html#l00011">fs.h:11</a></div></div>
+<div class="ttc" id="astructsfuse__fs_html_af14cab3f6994b0e91e858ddffc424140"><div class="ttname"><a href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">sfuse_fs::backing_fd</a></div><div class="ttdeci">int backing_fd</div><div class="ttdef"><b>Definition</b> <a href="../../df/d26/fs_8h_source.html#l00012">fs.h:12</a></div></div>
 </div><!-- fragment -->
-</div>
-</div>
-<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">변수 문서화</h2>
-<a id="a0771760ee8a223b01c598e70420cef0c" name="a0771760ee8a223b01c598e70420cef0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0771760ee8a223b01c598e70420cef0c">&#9670;&#160;</a></span>g_force_format</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool g_force_format = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>VSFS 강제 포맷 옵션 플래그 외부 선언 </p>
-<p>전역: 포맷 강제 여부 (-F 옵션)</p>
-<p>강제 포맷 옵션 플래그</p>
-<p>이 플래그는 main.c에서 정의되며, FS 초기화 시 포맷을 강제할 때 사용됩니다.</p>
-<p>&lt; fs_initialize, fs_teardown, g_force_format extern </p>
-<p>main.c에서 정의되며, fs_initialize에서 VSFS 포맷을 강제할 때 사용됩니다. </p>
-
-<p class="definition"><a class="el" href="../../d0/d29/main_8c_source.html">main.c</a> 파일의 <a class="el" href="../../d0/d29/main_8c_source.html#l00032">32</a> 번째 라인에서 정의되었습니다.</p>
-
 </div>
 </div>
 </div><!-- contents -->

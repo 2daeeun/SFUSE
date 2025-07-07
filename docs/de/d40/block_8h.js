@@ -1,5 +1,5 @@
 var block_8h =
 [
-    [ "read_block", "de/d40/block_8h.html#a737beb05c598c11278e8b17146b48dcf", null ],
-    [ "write_block", "de/d40/block_8h.html#af4beb38783113f42a845b7702ebaa8d5", null ]
+    [ "read_block", "de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795", null ],
+    [ "write_block", "de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12", null ]
 ];
