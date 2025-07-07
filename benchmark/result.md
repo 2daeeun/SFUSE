@@ -16,18 +16,18 @@
 <table style="width:100%; table-layout:fixed;">
   <tr>
     <td style="width:50%;">
-      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/v0.0.2/benchmark/result_순차쓰기.png" style="width:100%; height:auto;">
+      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/main/img/result_순차쓰기.png" style="width:100%; height:auto;">
     </td>
     <td style="width:50%;">
-      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/v0.0.2/benchmark/result_랜덤읽기.png" style="width:100%; height:auto;">
+      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/main/img/result_순차읽기.png" style="width:100%; height:auto;">
     </td>
   </tr>
   <tr>
     <td style="width:50%;">
-      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/v0.0.2/benchmark/result_랜덤쓰기.png" style="width:100%; height:auto;">
+      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/main/img/result_랜덤쓰기.png" style="width:100%; height:auto;">
     </td>
     <td style="width:50%;">
-      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/v0.0.2/benchmark/result_랜덤읽기.png" style="width:100%; height:auto;">
+      <img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/main/img/result_랜덤읽기.png" style="width:100%; height:auto;">
     </td>
   </tr>
 </table>
