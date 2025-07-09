@@ -97,13 +97,13 @@ $(function(){initNavTree('index.html','',''); });
 </p>
 <p>주요 기능 및 코드 설명은 <a href="https://2daeeun.github.io/SFUSE/">SFUSE Doxygen</a> 문서를 참고바랍니다. <br  />
  SFUSE의 버전에 따른 특징은 <a href="./">HISTORY.md</a> 문서를 참고바랍니다.</p>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 SFUSE 미리보기</h3>
 <p><img src="https://raw.githubusercontent.com/2daeeun/SFUSE/refs/heads/main/img/preview.gif" alt="" class="inline"/> </p>
 <hr  />
- <h2 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+ <h2 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
 사용 방법</h2>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 1. 다운로드</h3>
 <p>이 코드를 실행하기 위한 <b>필요한 패키지 설치</b>와 <b>프로젝트 다운로드</b>를 하는 명령어입니다.</p><ul>
 <li><b>Ubuntu</b>: <div class="fragment"><div class="line">sudo apt install git build-essential cmake pkg-config fuse3 libfuse3-dev -y &amp;&amp; \</div>
@@ -115,14 +115,14 @@ SFUSE 미리보기</h3>
 <div class="line">cd SFUSE</div>
 </div><!-- fragment --></li>
 </ul>
-<h3 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+<h3 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 2. 코드 컴파일 및 마운트</h3>
 <p>run.sh는 컴파일과 마운트 작업을 도와주는 셸 스크립트입니다. </p><div class="fragment"><div class="line">./run.sh</div>
-</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 3. 언마운트 방법</h3>
 <div class="fragment"><div class="line">umount sfuse_filesystem &amp;&amp; rmdir sfuse_filesystem</div>
 </div><!-- fragment --><hr  />
- <h3 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
+ <h3 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
 Reference</h3>
 <ul>
 <li><b>참조한 VSFS 소스코드</b><ul>
@@ -139,8 +139,22 @@ Reference</h3>
 </ul>
 </li>
 </ul>
+<ul>
+<li><b>Doxygen 설치</b> (HTML and PDF)<ul>
+<li><b>Arch Linux</b>: <div class="fragment"><div class="line">sudo pacman -S doxygen graphviz</div>
+<div class="line">yay -S texlive-core texlive-bin texlive-fontsextra texlive-latexextra texlive-latexrecommended texlive-luatex texlive-xetex texlive-lang texlive-listofitems texlive-fontsrecommended ttf-texgyre</div>
+<div class="line"># fmt 생성</div>
+<div class="line">sudo fmtutil-sys --all</div>
+<div class="line"># pdf 생성</div>
+<div class="line">cd docs/latex</div>
+<div class="line">make clean</div>
+<div class="line">make</div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+</ul>
 <hr  />
- <h3 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+ <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 NOTE</h3>
 <ul>
 <li>본 프로젝트의 실험은 Arch Linux의 FUSE v3.16.2에서 진행하였으며, Ubuntu 24.04의 FUSE v3.14에서도 작동을 확인하였습니다. (2024년 11월 20일 확인)</li>

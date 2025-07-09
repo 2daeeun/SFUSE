@@ -1,0 +1,406 @@
+\begin{theindex}
+
+  \item {alloc\_block}
+    \subitem {bitmap.c}, \hyperpage{85}
+    \subitem {bitmap.h}, \hyperpage{22}
+  \item {alloc\_inode}
+    \subitem {bitmap.c}, \hyperpage{86}
+    \subitem {bitmap.h}, \hyperpage{23}
+  \item {atime}
+    \subitem {sfuse\_inode}, \hyperpage{17}
+
+  \indexspace
+
+  \item {backing\_fd}
+    \subitem {sfuse\_fs}, \hyperpage{16}
+  \item {benchmark/README.md}, \hyperpage{84}
+  \item {benchmark/result.md}, \hyperpage{21}
+  \item {benchmark/workflow.md}, \hyperpage{21}
+  \item {bitmap.c}
+    \subitem {alloc\_block}, \hyperpage{85}
+    \subitem {alloc\_inode}, \hyperpage{86}
+    \subitem {bitmap\_load}, \hyperpage{87}
+    \subitem {bitmap\_sync}, \hyperpage{88}
+    \subitem {free\_block}, \hyperpage{89}
+    \subitem {free\_inode}, \hyperpage{90}
+  \item {bitmap.h}
+    \subitem {alloc\_block}, \hyperpage{22}
+    \subitem {alloc\_inode}, \hyperpage{23}
+    \subitem {bitmap\_load}, \hyperpage{25}
+    \subitem {bitmap\_sync}, \hyperpage{26}
+    \subitem {free\_block}, \hyperpage{28}
+    \subitem {free\_inode}, \hyperpage{29}
+  \item {bitmap\_load}
+    \subitem {bitmap.c}, \hyperpage{87}
+    \subitem {bitmap.h}, \hyperpage{25}
+  \item {bitmap\_sync}
+    \subitem {bitmap.c}, \hyperpage{88}
+    \subitem {bitmap.h}, \hyperpage{26}
+  \item {block.c}
+    \subitem {read\_block}, \hyperpage{93}
+    \subitem {write\_block}, \hyperpage{95}
+  \item {block.h}
+    \subitem {read\_block}, \hyperpage{31}
+    \subitem {write\_block}, \hyperpage{34}
+  \item {block\_bitmap\_start}
+    \subitem {sfuse\_super}, \hyperpage{19}
+  \item {block\_map}
+    \subitem {sfuse\_fs}, \hyperpage{16}
+  \item {blocks\_count}
+    \subitem {sfuse\_super}, \hyperpage{19}
+
+  \indexspace
+
+  \item {ctime}
+    \subitem {sfuse\_inode}, \hyperpage{17}
+
+  \indexspace
+
+  \item {data\_block\_start}
+    \subitem {sfuse\_super}, \hyperpage{19}
+  \item {dir.c}
+    \subitem {dir\_add\_entry}, \hyperpage{98}
+    \subitem {dir\_load}, \hyperpage{100}
+    \subitem {dir\_remove\_entry}, \hyperpage{101}
+  \item {dir.h}
+    \subitem {dir\_add\_entry}, \hyperpage{37}
+    \subitem {dir\_load}, \hyperpage{40}
+    \subitem {dir\_remove\_entry}, \hyperpage{42}
+    \subitem {SFUSE\_NAME\_LEN}, \hyperpage{37}
+  \item {dir\_add\_entry}
+    \subitem {dir.c}, \hyperpage{98}
+    \subitem {dir.h}, \hyperpage{37}
+  \item {dir\_load}
+    \subitem {dir.c}, \hyperpage{100}
+    \subitem {dir.h}, \hyperpage{40}
+  \item {dir\_remove\_entry}
+    \subitem {dir.c}, \hyperpage{101}
+    \subitem {dir.h}, \hyperpage{42}
+  \item {direct}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+  \item {disk.c}
+    \subitem {disk\_read}, \hyperpage{106}
+    \subitem {disk\_write}, \hyperpage{107}
+  \item {disk.h}
+    \subitem {disk\_read}, \hyperpage{46}
+    \subitem {disk\_write}, \hyperpage{47}
+  \item {disk\_read}
+    \subitem {disk.c}, \hyperpage{106}
+    \subitem {disk.h}, \hyperpage{46}
+  \item {disk\_write}
+    \subitem {disk.c}, \hyperpage{107}
+    \subitem {disk.h}, \hyperpage{47}
+  \item {double\_indirect}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+
+  \indexspace
+
+  \item {fio 워크플로우}, \hyperpage{7}
+  \item {free\_block}
+    \subitem {bitmap.c}, \hyperpage{89}
+    \subitem {bitmap.h}, \hyperpage{28}
+  \item {free\_blocks}
+    \subitem {sfuse\_super}, \hyperpage{19}
+  \item {free\_inode}
+    \subitem {bitmap.c}, \hyperpage{90}
+    \subitem {bitmap.h}, \hyperpage{29}
+  \item {free\_inodes}
+    \subitem {sfuse\_super}, \hyperpage{19}
+  \item {fs.c}
+    \subitem {fs\_destroy}, \hyperpage{110}
+    \subitem {fs\_initialize}, \hyperpage{111}
+    \subitem {fs\_resolve\_path}, \hyperpage{116}
+    \subitem {fs\_split\_path}, \hyperpage{118}
+    \subitem {get\_fs\_context}, \hyperpage{120}
+  \item {fs.h}
+    \subitem {fs\_destroy}, \hyperpage{51}
+    \subitem {fs\_initialize}, \hyperpage{52}
+    \subitem {fs\_resolve\_path}, \hyperpage{57}
+    \subitem {fs\_split\_path}, \hyperpage{61}
+    \subitem {get\_fs\_context}, \hyperpage{63}
+    \subitem {SFUSE\_ROOT\_INO}, \hyperpage{51}
+  \item {fs\_destroy}
+    \subitem {fs.c}, \hyperpage{110}
+    \subitem {fs.h}, \hyperpage{51}
+  \item {fs\_init\_inode}
+    \subitem {inode.c}, \hyperpage{128}
+    \subitem {inode.h}, \hyperpage{67}
+  \item {fs\_initialize}
+    \subitem {fs.c}, \hyperpage{111}
+    \subitem {fs.h}, \hyperpage{52}
+  \item {fs\_resolve\_path}
+    \subitem {fs.c}, \hyperpage{116}
+    \subitem {fs.h}, \hyperpage{57}
+  \item {fs\_split\_path}
+    \subitem {fs.c}, \hyperpage{118}
+    \subitem {fs.h}, \hyperpage{61}
+
+  \indexspace
+
+  \item {get\_fs\_context}
+    \subitem {fs.c}, \hyperpage{120}
+    \subitem {fs.h}, \hyperpage{63}
+  \item {gid}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+
+  \indexspace
+
+  \item {HISTORY.md}, \hyperpage{21}
+
+  \indexspace
+
+  \item {include/bitmap.h}, \hyperpage{21}, \hyperpage{30}
+  \item {include/block.h}, \hyperpage{31}, \hyperpage{36}
+  \item {include/dir.h}, \hyperpage{36}, \hyperpage{44}
+  \item {include/disk.h}, \hyperpage{45}, \hyperpage{49}
+  \item {include/fs.h}, \hyperpage{50}, \hyperpage{64}
+  \item {include/inode.h}, \hyperpage{65}, \hyperpage{75}
+  \item {include/ops.h}, \hyperpage{76, 77}
+  \item {include/super.h}, \hyperpage{77}, \hyperpage{83}
+  \item {indirect}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+  \item {ino}
+    \subitem {sfuse\_dirent}, \hyperpage{15}
+  \item {inode.c}
+    \subitem {fs\_init\_inode}, \hyperpage{128}
+    \subitem {inode\_load}, \hyperpage{129}
+    \subitem {inode\_sync}, \hyperpage{131}
+    \subitem {logical\_to\_physical}, \hyperpage{133}
+  \item {inode.h}
+    \subitem {fs\_init\_inode}, \hyperpage{67}
+    \subitem {inode\_load}, \hyperpage{68}
+    \subitem {inode\_sync}, \hyperpage{70}
+    \subitem {logical\_to\_physical}, \hyperpage{72}
+    \subitem {SFUSE\_NDIR\_BLOCKS}, \hyperpage{66}
+  \item {inode\_bitmap\_start}
+    \subitem {sfuse\_super}, \hyperpage{19}
+  \item {inode\_load}
+    \subitem {inode.c}, \hyperpage{129}
+    \subitem {inode.h}, \hyperpage{68}
+  \item {inode\_map}
+    \subitem {sfuse\_fs}, \hyperpage{16}
+  \item {inode\_sync}
+    \subitem {inode.c}, \hyperpage{131}
+    \subitem {inode.h}, \hyperpage{70}
+  \item {inode\_table\_start}
+    \subitem {sfuse\_super}, \hyperpage{20}
+  \item {inodes\_count}
+    \subitem {sfuse\_super}, \hyperpage{20}
+
+  \indexspace
+
+  \item {links}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+  \item {logical\_to\_physical}
+    \subitem {inode.c}, \hyperpage{133}
+    \subitem {inode.h}, \hyperpage{72}
+
+  \indexspace
+
+  \item {magic}
+    \subitem {sfuse\_super}, \hyperpage{20}
+  \item {main}
+    \subitem {main.c}, \hyperpage{138}
+  \item {main.c}
+    \subitem {main}, \hyperpage{138}
+  \item {mode}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+  \item {mtime}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+
+  \indexspace
+
+  \item {name}
+    \subitem {sfuse\_dirent}, \hyperpage{15}
+
+  \indexspace
+
+  \item {ops.c}
+    \subitem {sfuse\_access\_cb}, \hyperpage{142}
+    \subitem {sfuse\_create\_cb}, \hyperpage{143}
+    \subitem {sfuse\_destroy\_cb}, \hyperpage{143}
+    \subitem {sfuse\_flush\_cb}, \hyperpage{144}
+    \subitem {sfuse\_fsync\_cb}, \hyperpage{144}
+    \subitem {sfuse\_getattr\_cb}, \hyperpage{145}
+    \subitem {sfuse\_getxattr\_cb}, \hyperpage{145}
+    \subitem {sfuse\_init\_cb}, \hyperpage{146}
+    \subitem {sfuse\_listxattr\_cb}, \hyperpage{146}
+    \subitem {sfuse\_mkdir\_cb}, \hyperpage{147}
+    \subitem {sfuse\_open\_cb}, \hyperpage{147}
+    \subitem {sfuse\_ops}, \hyperpage{157}
+    \subitem {sfuse\_read\_cb}, \hyperpage{148}
+    \subitem {sfuse\_readdir\_cb}, \hyperpage{149}
+    \subitem {sfuse\_rename\_cb}, \hyperpage{150}
+    \subitem {sfuse\_rmdir\_cb}, \hyperpage{151}
+    \subitem {sfuse\_statfs\_cb}, \hyperpage{152}
+    \subitem {sfuse\_truncate\_cb}, \hyperpage{153}
+    \subitem {sfuse\_unlink\_cb}, \hyperpage{154}
+    \subitem {sfuse\_utimens\_cb}, \hyperpage{155}
+    \subitem {sfuse\_write\_cb}, \hyperpage{155}
+  \item {ops.h}
+    \subitem {sfuse\_ops}, \hyperpage{76}
+
+  \indexspace
+
+  \item {read\_block}
+    \subitem {block.c}, \hyperpage{93}
+    \subitem {block.h}, \hyperpage{31}
+  \item {README.md}, \hyperpage{84}
+
+  \indexspace
+
+  \item {sb}
+    \subitem {sfuse\_fs}, \hyperpage{16}
+  \item {sb\_format}
+    \subitem {super.c}, \hyperpage{165}
+    \subitem {super.h}, \hyperpage{79}
+  \item {sb\_load}
+    \subitem {super.c}, \hyperpage{166}
+    \subitem {super.h}, \hyperpage{80}
+  \item {sb\_sync}
+    \subitem {super.c}, \hyperpage{167}
+    \subitem {super.h}, \hyperpage{81}
+  \item {SFUSE}, \hyperpage{1}
+  \item {SFUSE HISTORY}, \hyperpage{3}
+  \item {sfuse\_access\_cb}
+    \subitem {ops.c}, \hyperpage{142}
+  \item {SFUSE\_BLOCK\_BITMAP\_BLOCK}
+    \subitem {super.h}, \hyperpage{78}
+  \item {SFUSE\_BLOCK\_SIZE}
+    \subitem {super.h}, \hyperpage{78}
+  \item {SFUSE\_BLOCKS\_COUNT}
+    \subitem {super.h}, \hyperpage{78}
+  \item {sfuse\_create\_cb}
+    \subitem {ops.c}, \hyperpage{143}
+  \item {SFUSE\_DATA\_BLOCK\_START}
+    \subitem {super.h}, \hyperpage{79}
+  \item {sfuse\_destroy\_cb}
+    \subitem {ops.c}, \hyperpage{143}
+  \item {sfuse\_dirent}, \hyperpage{15}
+    \subitem {ino}, \hyperpage{15}
+    \subitem {name}, \hyperpage{15}
+  \item {sfuse\_flush\_cb}
+    \subitem {ops.c}, \hyperpage{144}
+  \item {sfuse\_fs}, \hyperpage{15}
+    \subitem {backing\_fd}, \hyperpage{16}
+    \subitem {block\_map}, \hyperpage{16}
+    \subitem {inode\_map}, \hyperpage{16}
+    \subitem {sb}, \hyperpage{16}
+  \item {sfuse\_fsync\_cb}
+    \subitem {ops.c}, \hyperpage{144}
+  \item {sfuse\_getattr\_cb}
+    \subitem {ops.c}, \hyperpage{145}
+  \item {sfuse\_getxattr\_cb}
+    \subitem {ops.c}, \hyperpage{145}
+  \item {sfuse\_init\_cb}
+    \subitem {ops.c}, \hyperpage{146}
+  \item {sfuse\_inode}, \hyperpage{17}
+    \subitem {atime}, \hyperpage{17}
+    \subitem {ctime}, \hyperpage{17}
+    \subitem {direct}, \hyperpage{18}
+    \subitem {double\_indirect}, \hyperpage{18}
+    \subitem {gid}, \hyperpage{18}
+    \subitem {indirect}, \hyperpage{18}
+    \subitem {links}, \hyperpage{18}
+    \subitem {mode}, \hyperpage{18}
+    \subitem {mtime}, \hyperpage{18}
+    \subitem {size}, \hyperpage{18}
+    \subitem {uid}, \hyperpage{18}
+  \item {SFUSE\_INODE\_BITMAP\_BLOCK}
+    \subitem {super.h}, \hyperpage{79}
+  \item {SFUSE\_INODE\_TABLE\_BLOCK}
+    \subitem {super.h}, \hyperpage{79}
+  \item {SFUSE\_INODES\_COUNT}
+    \subitem {super.h}, \hyperpage{79}
+  \item {sfuse\_listxattr\_cb}
+    \subitem {ops.c}, \hyperpage{146}
+  \item {SFUSE\_MAGIC}
+    \subitem {super.h}, \hyperpage{79}
+  \item {sfuse\_mkdir\_cb}
+    \subitem {ops.c}, \hyperpage{147}
+  \item {SFUSE\_NAME\_LEN}
+    \subitem {dir.h}, \hyperpage{37}
+  \item {SFUSE\_NDIR\_BLOCKS}
+    \subitem {inode.h}, \hyperpage{66}
+  \item {sfuse\_open\_cb}
+    \subitem {ops.c}, \hyperpage{147}
+  \item {sfuse\_ops}
+    \subitem {ops.c}, \hyperpage{157}
+    \subitem {ops.h}, \hyperpage{76}
+  \item {sfuse\_read\_cb}
+    \subitem {ops.c}, \hyperpage{148}
+  \item {sfuse\_readdir\_cb}
+    \subitem {ops.c}, \hyperpage{149}
+  \item {sfuse\_rename\_cb}
+    \subitem {ops.c}, \hyperpage{150}
+  \item {sfuse\_rmdir\_cb}
+    \subitem {ops.c}, \hyperpage{151}
+  \item {SFUSE\_ROOT\_INO}
+    \subitem {fs.h}, \hyperpage{51}
+  \item {sfuse\_statfs\_cb}
+    \subitem {ops.c}, \hyperpage{152}
+  \item {sfuse\_super}, \hyperpage{19}
+    \subitem {block\_bitmap\_start}, \hyperpage{19}
+    \subitem {blocks\_count}, \hyperpage{19}
+    \subitem {data\_block\_start}, \hyperpage{19}
+    \subitem {free\_blocks}, \hyperpage{19}
+    \subitem {free\_inodes}, \hyperpage{19}
+    \subitem {inode\_bitmap\_start}, \hyperpage{19}
+    \subitem {inode\_table\_start}, \hyperpage{20}
+    \subitem {inodes\_count}, \hyperpage{20}
+    \subitem {magic}, \hyperpage{20}
+  \item {SFUSE\_SUPERBLOCK\_OFFSET}
+    \subitem {super.h}, \hyperpage{79}
+  \item {sfuse\_truncate\_cb}
+    \subitem {ops.c}, \hyperpage{153}
+  \item {sfuse\_unlink\_cb}
+    \subitem {ops.c}, \hyperpage{154}
+  \item {sfuse\_utimens\_cb}
+    \subitem {ops.c}, \hyperpage{155}
+  \item {sfuse\_write\_cb}
+    \subitem {ops.c}, \hyperpage{155}
+  \item {size}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+  \item {src/bitmap.c}, \hyperpage{84}, \hyperpage{91}
+  \item {src/block.c}, \hyperpage{93}, \hyperpage{96}
+  \item {src/dir.c}, \hyperpage{97}, \hyperpage{103}
+  \item {src/disk.c}, \hyperpage{105}, \hyperpage{108}
+  \item {src/fs.c}, \hyperpage{109}, \hyperpage{121}
+  \item {src/inode.c}, \hyperpage{127}, \hyperpage{135}
+  \item {src/main.c}, \hyperpage{137}, \hyperpage{140}
+  \item {src/ops.c}, \hyperpage{141}, \hyperpage{157}
+  \item {src/super.c}, \hyperpage{164}, \hyperpage{168}
+  \item {super.c}
+    \subitem {sb\_format}, \hyperpage{165}
+    \subitem {sb\_load}, \hyperpage{166}
+    \subitem {sb\_sync}, \hyperpage{167}
+  \item {super.h}
+    \subitem {sb\_format}, \hyperpage{79}
+    \subitem {sb\_load}, \hyperpage{80}
+    \subitem {sb\_sync}, \hyperpage{81}
+    \subitem {SFUSE\_BLOCK\_BITMAP\_BLOCK}, \hyperpage{78}
+    \subitem {SFUSE\_BLOCK\_SIZE}, \hyperpage{78}
+    \subitem {SFUSE\_BLOCKS\_COUNT}, \hyperpage{78}
+    \subitem {SFUSE\_DATA\_BLOCK\_START}, \hyperpage{79}
+    \subitem {SFUSE\_INODE\_BITMAP\_BLOCK}, \hyperpage{79}
+    \subitem {SFUSE\_INODE\_TABLE\_BLOCK}, \hyperpage{79}
+    \subitem {SFUSE\_INODES\_COUNT}, \hyperpage{79}
+    \subitem {SFUSE\_MAGIC}, \hyperpage{79}
+    \subitem {SFUSE\_SUPERBLOCK\_OFFSET}, \hyperpage{79}
+
+  \indexspace
+
+  \item {uid}
+    \subitem {sfuse\_inode}, \hyperpage{18}
+
+  \indexspace
+
+  \item {write\_block}
+    \subitem {block.c}, \hyperpage{95}
+    \subitem {block.h}, \hyperpage{34}
+
+  \indexspace
+
+  \item {실험 결과}, \hyperpage{5}
+
+\end{theindex}

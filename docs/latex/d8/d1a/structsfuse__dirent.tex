@@ -1,0 +1,57 @@
+\doxysection{sfuse\+\_\+dirent 구조체 참조}
+\hypertarget{structsfuse__dirent}{}\label{structsfuse__dirent}\index{sfuse\_dirent@{sfuse\_dirent}}
+
+
+디렉터리 엔트리 정보를 저장하는 구조체  
+
+
+
+
+{\ttfamily \#include $<$dir.\+h$>$}
+
+\doxysubsubsection*{데이터 필드}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}
+\item 
+char \mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}} \mbox{[}255+1\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{상세한 설명}
+디렉터리 엔트리 정보를 저장하는 구조체 
+
+각 디렉터리 엔트리는 연결된 아이노드 번호와 해당 엔트리의 이름을 포함한다. 빈 엔트리는 아이노드 번호(ino)가 0이다. 
+
+\mbox{\hyperlink{dir_8h_source}{dir.\+h}} 파일의 \mbox{\hyperlink{dir_8h_source_l00027}{27}} 번째 라인에서 정의되었습니다.
+
+
+
+\label{doc-variable-members}
+\Hypertarget{structsfuse__dirent_doc-variable-members}
+\doxysubsection{필드 문서화}
+\Hypertarget{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}\index{sfuse\_dirent@{sfuse\_dirent}!ino@{ino}}
+\index{ino@{ino}!sfuse\_dirent@{sfuse\_dirent}}
+\doxysubsubsection{\texorpdfstring{ino}{ino}}
+{\footnotesize\ttfamily \label{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a} 
+uint32\+\_\+t sfuse\+\_\+dirent\+::ino}
+
+디렉터리 엔트리에 연결된 아이노드 번호 (0이면 빈 슬롯) 
+
+\mbox{\hyperlink{dir_8h_source}{dir.\+h}} 파일의 \mbox{\hyperlink{dir_8h_source_l00028}{28}} 번째 라인에서 정의되었습니다.
+
+\Hypertarget{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}\index{sfuse\_dirent@{sfuse\_dirent}!name@{name}}
+\index{name@{name}!sfuse\_dirent@{sfuse\_dirent}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily \label{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab} 
+char sfuse\+\_\+dirent\+::name\mbox{[}255+1\mbox{]}}
+
+NULL 종단 문자열 형태의 엔트리 이름 (최대 SFUSE\+\_\+\+NAME\+\_\+\+LEN) 
+
+\mbox{\hyperlink{dir_8h_source}{dir.\+h}} 파일의 \mbox{\hyperlink{dir_8h_source_l00029}{29}} 번째 라인에서 정의되었습니다.
+
+
+
+이 구조체에 대한 문서화 페이지는 다음의 파일로부터 생성되었습니다.\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{dir_8h}{dir.\+h}}\end{DoxyCompactItemize}

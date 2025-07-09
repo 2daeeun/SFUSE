@@ -1,0 +1,23 @@
+\doxysection{disk.\+h}
+\hypertarget{disk_8h_source}{}\label{disk_8h_source}\index{include/disk.h@{include/disk.h}}
+\mbox{\hyperlink{disk_8h}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00014}00014\ \textcolor{preprocessor}{\#ifndef\ SFUSE\_DISK\_H}}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00015}00015\ \textcolor{preprocessor}{\#define\ SFUSE\_DISK\_H}}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{super_8h}{super.h}}"{}}\ \textcolor{comment}{//\ SFUSE\_BLOCK\_SIZE,\ SFUSE\_SUPERBLOCK\_OFFSET}}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00040}00040\ ssize\_t\ \mbox{\hyperlink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\_read}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{void}\ *buf,\ \textcolor{keywordtype}{size\_t}\ size,\ off\_t\ offset);}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00062}00062\ ssize\_t\ \mbox{\hyperlink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\_write}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buf,\ \textcolor{keywordtype}{size\_t}\ size,\ off\_t\ offset);}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00064}00064\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SFUSE\_DISK\_H}}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00066}00066\ \textcolor{comment}{//\ NOTE:\ read\_block()과\ write\_block()\ 함수는\ 중복\ 코드를\ 방지하기\ 위해}}
+\DoxyCodeLine{\Hypertarget{disk_8h_source_l00067}00067\ \textcolor{comment}{//\ block.c에구현되어\ 있다.}}
+
+\end{DoxyCode}

@@ -91,8 +91,11 @@ $(function(){initNavTree('df/d9a/bitmap_8c.html','../../',''); });
   <div class="headertitle"><div class="title">bitmap.c 파일 참조</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>비트맵 관리 함수 구현  
+<a href="#details">더 자세히 ...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="../../da/dcb/bitmap_8h_source.html">bitmap.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../df/d1d/img_8h_source.html">img.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d2/d50/disk_8h_source.html">disk.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../db/d98/super_8h_source.html">super.h</a>&quot;</code><br />
 <code>#include &lt;errno.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
@@ -103,26 +106,26 @@ bitmap.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d4/db0/bitmap_8c__incl.png" border="0" usemap="#asrc_2bitmap_8c" loading="lazy" alt=""/></div>
 <map name="asrc_2bitmap_8c" id="asrc_2bitmap_8c">
-<area shape="rect" title=" " alt="" coords="226,5,327,33"/>
-<area shape="rect" href="../../da/dcb/bitmap_8h.html" title=" " alt="" coords="93,81,172,109"/>
-<area shape="poly" title=" " alt="" coords="252,36,173,76,171,71,250,31"/>
-<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="170,157,239,184"/>
-<area shape="poly" title=" " alt="" coords="269,35,238,82,215,143,210,141,233,80,264,32"/>
+<area shape="rect" title="비트맵 관리 함수 구현" alt="" coords="226,5,327,33"/>
+<area shape="rect" href="../../da/dcb/bitmap_8h.html" title="비트맵 관리 함수 선언" alt="" coords="92,81,171,109"/>
+<area shape="poly" title=" " alt="" coords="252,36,172,76,170,71,250,31"/>
+<area shape="rect" href="../../db/d98/super_8h.html" title="SFUSE 파일 시스템의 슈퍼블록 관련 구조 및 함수 정의" alt="" coords="170,157,239,184"/>
+<area shape="poly" title=" " alt="" coords="268,35,236,82,214,143,209,141,232,80,264,32"/>
 <area shape="rect" title=" " alt="" coords="134,232,204,260"/>
-<area shape="poly" title=" " alt="" coords="226,29,169,43,106,66,76,83,49,104,27,128,11,158,8,174,12,188,22,200,37,210,76,226,119,236,118,241,75,231,35,215,19,204,8,190,3,174,6,156,23,125,46,100,73,79,104,62,167,38,225,24"/>
-<area shape="rect" href="../../df/d1d/img_8h.html" title=" " alt="" coords="248,81,306,109"/>
+<area shape="poly" title=" " alt="" coords="226,29,169,43,106,66,76,83,49,104,27,128,11,158,8,174,12,188,22,200,37,210,77,226,119,236,118,241,75,231,35,215,19,204,8,190,3,174,6,156,23,125,46,100,73,79,103,61,167,37,225,24"/>
+<area shape="rect" href="../../d2/d50/disk_8h.html" title="원시 디바이스에 대한 저수준 I/O 연산 함수 선언" alt="" coords="247,81,307,109"/>
 <area shape="poly" title=" " alt="" coords="279,34,279,65,274,65,274,34"/>
 <area shape="rect" title=" " alt="" coords="315,157,388,184"/>
-<area shape="poly" title=" " alt="" coords="289,32,320,80,345,141,341,143,316,82,285,35"/>
-<area shape="rect" title=" " alt="" coords="380,81,448,109"/>
-<area shape="poly" title=" " alt="" coords="303,31,378,71,375,76,300,36"/>
-<area shape="rect" title=" " alt="" coords="472,81,543,109"/>
-<area shape="poly" title=" " alt="" coords="319,31,458,75,457,80,317,36"/>
-<area shape="poly" title=" " alt="" coords="148,107,183,144,180,147,144,111"/>
-<area shape="poly" title=" " alt="" coords="138,108,165,216,159,218,133,109"/>
+<area shape="poly" title=" " alt="" coords="290,32,322,80,346,141,341,143,317,82,285,35"/>
+<area shape="rect" title=" " alt="" coords="382,81,449,109"/>
+<area shape="poly" title=" " alt="" coords="303,31,379,71,376,76,300,36"/>
+<area shape="rect" title=" " alt="" coords="474,81,544,109"/>
+<area shape="poly" title=" " alt="" coords="319,31,459,75,458,80,317,36"/>
+<area shape="poly" title=" " alt="" coords="146,107,183,144,179,147,143,111"/>
+<area shape="poly" title=" " alt="" coords="137,108,164,216,159,218,132,109"/>
 <area shape="rect" title=" " alt="" coords="21,157,95,184"/>
-<area shape="poly" title=" " alt="" coords="121,111,84,147,80,144,118,107"/>
-<area shape="poly" title=" " alt="" coords="201,186,184,219,180,217,196,184"/>
+<area shape="poly" title=" " alt="" coords="120,111,84,147,80,144,116,107"/>
+<area shape="poly" title=" " alt="" coords="201,186,184,219,179,217,196,184"/>
 <area shape="poly" title=" " alt="" coords="266,111,230,147,226,144,262,107"/>
 <area shape="poly" title=" " alt="" coords="278,110,271,146,264,166,254,186,233,208,209,226,206,222,229,205,249,183,259,164,266,144,273,109"/>
 <area shape="poly" title=" " alt="" coords="292,107,329,144,325,147,288,111"/>
@@ -134,19 +137,24 @@ bitmap.c에 대한 include 의존 그래프</div>
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 함수</h2></td></tr>
 <tr class="memitem:a71d915e1f010b404d49923241427b0fd" id="r_a71d915e1f010b404d49923241427b0fd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71d915e1f010b404d49923241427b0fd">bitmap_load</a> (int fd, uint32_t block_no, uint8_t *map, size_t map_size)</td></tr>
-<tr class="memdesc:a71d915e1f010b404d49923241427b0fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">비트맵 블록에서 데이터 읽기  <br /></td></tr>
+<tr class="memdesc:a71d915e1f010b404d49923241427b0fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">비트맵 데이터를 디스크에서 읽어 메모리에 로드  <br /></td></tr>
 <tr class="memitem:a227b256c17ea31f9c7743f3abc35966f" id="r_a227b256c17ea31f9c7743f3abc35966f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a227b256c17ea31f9c7743f3abc35966f">bitmap_sync</a> (int fd, uint32_t block_no, uint8_t *map, size_t map_size)</td></tr>
-<tr class="memdesc:a227b256c17ea31f9c7743f3abc35966f"><td class="mdescLeft">&#160;</td><td class="mdescRight">비트맵 데이터를 디스크에 기록  <br /></td></tr>
+<tr class="memdesc:a227b256c17ea31f9c7743f3abc35966f"><td class="mdescLeft">&#160;</td><td class="mdescRight">메모리의 비트맵 데이터를 디스크에 기록  <br /></td></tr>
 <tr class="memitem:af353a6dc75c8daa64776688e5a2d12eb" id="r_af353a6dc75c8daa64776688e5a2d12eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af353a6dc75c8daa64776688e5a2d12eb">alloc_block</a> (struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint8_t *block_map)</td></tr>
-<tr class="memdesc:af353a6dc75c8daa64776688e5a2d12eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">새로운 데이터 블록 할당  <br /></td></tr>
+<tr class="memdesc:af353a6dc75c8daa64776688e5a2d12eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">사용 가능한 데이터 블록을 찾아 할당하고, 비트맵과 슈퍼블록 상태를 갱신  <br /></td></tr>
 <tr class="memitem:a310935424c9bfe8e9e15de2ba38c8e2d" id="r_a310935424c9bfe8e9e15de2ba38c8e2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a310935424c9bfe8e9e15de2ba38c8e2d">free_block</a> (struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint8_t *block_map, uint32_t offset)</td></tr>
-<tr class="memdesc:a310935424c9bfe8e9e15de2ba38c8e2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">데이터 블록 해제  <br /></td></tr>
+<tr class="memdesc:a310935424c9bfe8e9e15de2ba38c8e2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">이전에 할당된 데이터 블록을 해제하고 비트맵과 슈퍼블록 상태를 갱신  <br /></td></tr>
 <tr class="memitem:ad48ce48ff2881ffb6beb7a8cd919b395" id="r_ad48ce48ff2881ffb6beb7a8cd919b395"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad48ce48ff2881ffb6beb7a8cd919b395">alloc_inode</a> (struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint8_t *inode_map)</td></tr>
-<tr class="memdesc:ad48ce48ff2881ffb6beb7a8cd919b395"><td class="mdescLeft">&#160;</td><td class="mdescRight">새로운 아이노드 할당  <br /></td></tr>
+<tr class="memdesc:ad48ce48ff2881ffb6beb7a8cd919b395"><td class="mdescLeft">&#160;</td><td class="mdescRight">빈 아이노드를 찾아 할당하고 비트맵과 슈퍼블록을 갱신  <br /></td></tr>
 <tr class="memitem:aab6ec916136e2fda6dc67227bc6b53d2" id="r_aab6ec916136e2fda6dc67227bc6b53d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab6ec916136e2fda6dc67227bc6b53d2">free_inode</a> (struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint8_t *inode_map, uint32_t ino)</td></tr>
-<tr class="memdesc:aab6ec916136e2fda6dc67227bc6b53d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">아이노드 해제  <br /></td></tr>
+<tr class="memdesc:aab6ec916136e2fda6dc67227bc6b53d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">할당된 아이노드를 해제하고 비트맵과 슈퍼블록을 갱신  <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">상세한 설명</h2>
+<div class="textblock"><p>비트맵 관리 함수 구현 </p>
+<p>bitmpa.c는 비트맵의 디스크 I/O, 메모리 관리, 데이터 블록 및 아이노드 할당과 해제 관련 함수의 구현을 포함한다. 이 함수들은 슈퍼블록 정보를 기반으로 비트맵을 업데이트하여 파일시스템의 상태를 유지한다. </p>
+
+<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일에서 정의되었습니다.</p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
 <a id="af353a6dc75c8daa64776688e5a2d12eb" name="af353a6dc75c8daa64776688e5a2d12eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af353a6dc75c8daa64776688e5a2d12eb">&#9670;&#160;</a></span>alloc_block()</h2>
 
@@ -166,33 +174,55 @@ bitmap.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>새로운 데이터 블록 할당 </p>
-<p>alloc_block: 새로운 데이터 블록을 할당 @sb: 슈퍼블록 구조체 @block_map: 블록 비트맵 버퍼 </p><dl class="section return"><dt>반환값</dt><dd>: 할당된 블록 오프셋(0부터), 실패 시 -ENOSPC </dd></dl>
+<p>사용 가능한 데이터 블록을 찾아 할당하고, 비트맵과 슈퍼블록 상태를 갱신 </p>
+<p>데이터 블록 할당</p>
+<p>이 함수는 파일 시스템에서 데이터 저장을 위해 사용되지 않은 블록을 찾아 할당한다. 블록의 사용 여부는 비트맵(block_map)에 비트 단위로 저장되어 있으며, 이 비트맵을 순차적으로 탐색해 첫 번째 빈 블록을 찾아 할당한다.</p>
+<p>블록을 할당하면 해당 블록의 비트를 '사용 중(1)'으로 설정하고, 슈퍼블록의 'free_blocks' 필드 값을 감소시켜 남은 가용 블록 수를 갱신한다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sb</td><td>슈퍼블록 구조체 포인터 (파일시스템의 전체적인 상태를 관리) </td></tr>
+    <tr><td class="paramname">block_map</td><td>블록 할당 여부를 나타내는 비트맵 버퍼 포인터</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>성공 시 할당된 블록의 오프셋(0부터 시작)을 반환하며, 가용 블록이 없으면 공간 부족을 의미하는 -ENOSPC 반환 </dd></dl>
 
-<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00051">51</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   51</span>                                                            {</div>
-<div class="line"><span class="lineno">   52</span>  uint32_t total = sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">blocks_count</a> - sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a0af357d05a08b353bcc4f855e3c1a240">data_block_start</a>;</div>
-<div class="line"><span class="lineno">   53</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; total; i++) {</div>
-<div class="line"><span class="lineno">   54</span>    uint32_t byte_idx = i / 8;</div>
-<div class="line"><span class="lineno">   55</span>    uint32_t bit_idx = i % 8;</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">if</span> (!(block_map[byte_idx] &amp; (1 &lt;&lt; bit_idx))) {</div>
-<div class="line"><span class="lineno">   57</span>      block_map[byte_idx] |= (1 &lt;&lt; bit_idx);</div>
-<div class="line"><span class="lineno">   58</span>      sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">free_blocks</a>--;</div>
-<div class="line"><span class="lineno">   59</span>      <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)i;</div>
-<div class="line"><span class="lineno">   60</span>    }</div>
-<div class="line"><span class="lineno">   61</span>  }</div>
-<div class="line"><span class="lineno">   62</span>  <span class="keywordflow">return</span> -ENOSPC;</div>
-<div class="line"><span class="lineno">   63</span>}</div>
-<div class="ttc" id="astructsfuse__super_html_a0af357d05a08b353bcc4f855e3c1a240"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a0af357d05a08b353bcc4f855e3c1a240">sfuse_super::data_block_start</a></div><div class="ttdeci">uint32_t data_block_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00031">super.h:31</a></div></div>
-<div class="ttc" id="astructsfuse__super_html_a1beda11a6d52ccf0351e22d81b50a20d"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">sfuse_super::blocks_count</a></div><div class="ttdeci">uint32_t blocks_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00025">super.h:25</a></div></div>
-<div class="ttc" id="astructsfuse__super_html_acaa02ed47b78c9a84c2f3622de95c44f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">sfuse_super::free_blocks</a></div><div class="ttdeci">uint32_t free_blocks</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00027">super.h:27</a></div></div>
+<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00099">99</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   99</span>                                                            {</div>
+<div class="line"><span class="lineno">  100</span>  <span class="comment">// 데이터 블록 영역에서 사용 가능한 총 블록 개수를 계산</span></div>
+<div class="line"><span class="lineno">  101</span>  uint32_t total = sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">blocks_count</a> - sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a0af357d05a08b353bcc4f855e3c1a240">data_block_start</a>;</div>
+<div class="line"><span class="lineno">  102</span> </div>
+<div class="line"><span class="lineno">  103</span>  <span class="comment">// 비트맵을 처음부터 끝까지 탐색하며 빈 블록을 찾음</span></div>
+<div class="line"><span class="lineno">  104</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; total; i++) {</div>
+<div class="line"><span class="lineno">  105</span>    uint32_t byte_idx = i / 8; <span class="comment">// 비트맵의 바이트 단위 인덱스</span></div>
+<div class="line"><span class="lineno">  106</span>    uint32_t bit_idx = i % 8;  <span class="comment">// 바이트 내의 비트 위치 (0~7)</span></div>
+<div class="line"><span class="lineno">  107</span> </div>
+<div class="line"><span class="lineno">  108</span>    <span class="comment">// 현재 블록(i)이 사용 가능한 상태인지 확인 (비트 값이 0이면 사용 가능)</span></div>
+<div class="line"><span class="lineno">  109</span>    <span class="keywordflow">if</span> (!(block_map[byte_idx] &amp; (1 &lt;&lt; bit_idx))) {</div>
+<div class="line"><span class="lineno">  110</span>      <span class="comment">// 사용 가능한 블록 발견 시 해당 비트를 &#39;1&#39;로 설정하여 사용 중으로 표시</span></div>
+<div class="line"><span class="lineno">  111</span>      block_map[byte_idx] |= (1 &lt;&lt; bit_idx);</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>      <span class="comment">// 슈퍼블록에서 사용 가능한 블록 개수 1 감소</span></div>
+<div class="line"><span class="lineno">  114</span>      sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">free_blocks</a>--;</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span>      <span class="comment">// 할당된 블록의 오프셋 반환 (0부터 시작)</span></div>
+<div class="line"><span class="lineno">  117</span>      <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)i;</div>
+<div class="line"><span class="lineno">  118</span>    }</div>
+<div class="line"><span class="lineno">  119</span>  }</div>
+<div class="line"><span class="lineno">  120</span> </div>
+<div class="line"><span class="lineno">  121</span>  <span class="comment">// 모든 블록이 이미 사용 중이면 ENOSPC(공간 부족 오류) 반환</span></div>
+<div class="line"><span class="lineno">  122</span>  <span class="keywordflow">return</span> -ENOSPC;</div>
+<div class="line"><span class="lineno">  123</span>}</div>
+<div class="ttc" id="astructsfuse__super_html_a0af357d05a08b353bcc4f855e3c1a240"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a0af357d05a08b353bcc4f855e3c1a240">sfuse_super::data_block_start</a></div><div class="ttdeci">uint32_t data_block_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00054">super.h:54</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a1beda11a6d52ccf0351e22d81b50a20d"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">sfuse_super::blocks_count</a></div><div class="ttdeci">uint32_t blocks_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00048">super.h:48</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_acaa02ed47b78c9a84c2f3622de95c44f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">sfuse_super::free_blocks</a></div><div class="ttdeci">uint32_t free_blocks</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00050">super.h:50</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_af353a6dc75c8daa64776688e5a2d12eb_icgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_af353a6dc75c8daa64776688e5a2d12eb_icgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_af353a6dc75c8daa64776688e5a2d12eb_icgraph" id="adf/d9a/bitmap_8c_af353a6dc75c8daa64776688e5a2d12eb_icgraph">
-<area shape="rect" title="새로운 데이터 블록 할당" alt="" coords="347,84,441,112"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="181,5,278,33"/>
+<area shape="rect" title="사용 가능한 데이터 블록을 찾아 할당하고, 비트맵과 슈퍼블록 상태를 갱신" alt="" coords="347,84,441,112"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="SFUSE 파일 시스템을 초기화하고 슈퍼블록 및 비트맵을 로드한다." alt="" coords="181,5,278,33"/>
 <area shape="poly" title=" " alt="" coords="355,78,298,48,269,36,271,31,300,43,357,74"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="168,57,291,85"/>
 <area shape="poly" title=" " alt="" coords="331,90,291,84,292,78,332,85"/>
@@ -226,31 +256,51 @@ bitmap.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>새로운 아이노드 할당 </p>
-<p>alloc_inode: 새로운 아이노드를 할당 @sb: 슈퍼블록 구조체 @inode_map: 아이노드 비트맵 버퍼 </p><dl class="section return"><dt>반환값</dt><dd>: 할당된 아이노드 번호, 실패 시 -ENOSPC </dd></dl>
+<p>빈 아이노드를 찾아 할당하고 비트맵과 슈퍼블록을 갱신 </p>
+<p>아이노드 할당</p>
+<p>파일 시스템에서 새로운 파일이나 디렉토리를 생성할 때 사용할 빈 아이노드를 탐색하여 할당하는 함수이다.</p>
+<p>아이노드 번호 0은 특수 용도로 예약되어 있으므로, 할당 가능한 아이노드의 탐색은 1번 아이노드부터 시작한다.</p>
+<p>사용 가능한 아이노드를 찾으면 아이노드 비트맵에서 해당 비트를 사용 중(1)으로 설정하고, 슈퍼블록의 'free_inodes' 값을 감소시켜 파일 시스템의 상태를 업데이트한다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sb</td><td>슈퍼블록 구조체 포인터 (파일 시스템 상태 정보 관리) </td></tr>
+    <tr><td class="paramname">inode_map</td><td>아이노드 할당 상태를 나타내는 비트맵 버퍼 포인터</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>성공 시 할당된 아이노드 번호(1 이상)를 반환하고, 사용 가능한 아이노드가 없을 경우 -ENOSPC 반환 </dd></dl>
 
-<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00084">84</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>                                                            {</div>
-<div class="line"><span class="lineno">   85</span>  <span class="comment">// 아이노드 0은 예약, 1부터 시작</span></div>
-<div class="line"><span class="lineno">   86</span>  <span class="keywordflow">for</span> (uint32_t i = 1; i &lt; sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a>; i++) {</div>
-<div class="line"><span class="lineno">   87</span>    uint32_t byte_idx = i / 8;</div>
-<div class="line"><span class="lineno">   88</span>    uint32_t bit_idx = i % 8;</div>
-<div class="line"><span class="lineno">   89</span>    <span class="keywordflow">if</span> (!(inode_map[byte_idx] &amp; (1 &lt;&lt; bit_idx))) {</div>
-<div class="line"><span class="lineno">   90</span>      inode_map[byte_idx] |= (1 &lt;&lt; bit_idx);</div>
-<div class="line"><span class="lineno">   91</span>      sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">free_inodes</a>--;</div>
-<div class="line"><span class="lineno">   92</span>      <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)i;</div>
-<div class="line"><span class="lineno">   93</span>    }</div>
-<div class="line"><span class="lineno">   94</span>  }</div>
-<div class="line"><span class="lineno">   95</span>  <span class="keywordflow">return</span> -ENOSPC;</div>
-<div class="line"><span class="lineno">   96</span>}</div>
-<div class="ttc" id="astructsfuse__super_html_a6ea0f291f1292da7a86611336d28d36f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">sfuse_super::inodes_count</a></div><div class="ttdeci">uint32_t inodes_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00024">super.h:24</a></div></div>
-<div class="ttc" id="astructsfuse__super_html_acd931caad1995d73e3dbf10d3023c424"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">sfuse_super::free_inodes</a></div><div class="ttdeci">uint32_t free_inodes</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00026">super.h:26</a></div></div>
+<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00172">172</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">  172</span>                                                            {</div>
+<div class="line"><span class="lineno">  173</span>  <span class="comment">// 아이노드 0은 예약이므로 1부터 탐색을 시작</span></div>
+<div class="line"><span class="lineno">  174</span>  <span class="keywordflow">for</span> (uint32_t i = 1; i &lt; sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a>; i++) {</div>
+<div class="line"><span class="lineno">  175</span>    uint32_t byte_idx = i / 8; <span class="comment">// 비트맵 내의 바이트 인덱스 계산</span></div>
+<div class="line"><span class="lineno">  176</span>    uint32_t bit_idx = i % 8;  <span class="comment">// 바이트 내의 비트 위치 계산 (0~7)</span></div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>    <span class="comment">// 현재 아이노드(i)가 빈 상태인지 검사 (0이면 빈 상태)</span></div>
+<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">if</span> (!(inode_map[byte_idx] &amp; (1 &lt;&lt; bit_idx))) {</div>
+<div class="line"><span class="lineno">  180</span>      <span class="comment">// 사용 가능한 아이노드를 발견하면, 비트맵에 사용 중으로 표시 (비트=1)</span></div>
+<div class="line"><span class="lineno">  181</span>      inode_map[byte_idx] |= (1 &lt;&lt; bit_idx);</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>      <span class="comment">// 슈퍼블록의 남은 빈 아이노드 수를 1 감소시킴</span></div>
+<div class="line"><span class="lineno">  184</span>      sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">free_inodes</a>--;</div>
+<div class="line"><span class="lineno">  185</span> </div>
+<div class="line"><span class="lineno">  186</span>      <span class="comment">// 할당된 아이노드 번호를 반환 (번호는 1부터 시작)</span></div>
+<div class="line"><span class="lineno">  187</span>      <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)i;</div>
+<div class="line"><span class="lineno">  188</span>    }</div>
+<div class="line"><span class="lineno">  189</span>  }</div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  191</span>  <span class="comment">// 빈 아이노드를 찾지 못했을 때 공간 부족(-ENOSPC) 오류 반환</span></div>
+<div class="line"><span class="lineno">  192</span>  <span class="keywordflow">return</span> -ENOSPC;</div>
+<div class="line"><span class="lineno">  193</span>}</div>
+<div class="ttc" id="astructsfuse__super_html_a6ea0f291f1292da7a86611336d28d36f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">sfuse_super::inodes_count</a></div><div class="ttdeci">uint32_t inodes_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00047">super.h:47</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_acd931caad1995d73e3dbf10d3023c424"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">sfuse_super::free_inodes</a></div><div class="ttdeci">uint32_t free_inodes</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00049">super.h:49</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_ad48ce48ff2881ffb6beb7a8cd919b395_icgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_ad48ce48ff2881ffb6beb7a8cd919b395_icgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_ad48ce48ff2881ffb6beb7a8cd919b395_icgraph" id="adf/d9a/bitmap_8c_ad48ce48ff2881ffb6beb7a8cd919b395_icgraph">
-<area shape="rect" title="새로운 아이노드 할당" alt="" coords="180,32,275,60"/>
+<area shape="rect" title="빈 아이노드를 찾아 할당하고 비트맵과 슈퍼블록을 갱신" alt="" coords="180,32,275,60"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title=" " alt="" coords="5,5,132,33"/>
 <area shape="poly" title=" " alt="" coords="164,38,132,32,133,27,165,33"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="7,57,130,85"/>
@@ -289,27 +339,45 @@ bitmap.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>비트맵 블록에서 데이터 읽기 </p>
-<p>bitmap_load: 비트맵 블록에서 맵 데이터를 읽어들임 @fd: 디바이스 파일 디스크립터 @block_no: 비트맵이 저장된 블록 번호 @map: 읽어들인 비트맵을 저장할 버퍼 @map_size: 버퍼 크기(바이트) </p><dl class="section return"><dt>반환값</dt><dd>: 0 성공, 음수 오류 </dd></dl>
+<p>비트맵 데이터를 디스크에서 읽어 메모리에 로드 </p>
+<p>비트맵 데이터를 디스크에서 로드</p>
+<p>파일 시스템에서 블록 또는 아이노드의 할당 여부를 나타내는 비트맵 데이터를 디스크의 특정 블록에서 읽어들여 메모리의 버퍼에 저장한다.</p>
+<p>이 함수는 파일 시스템 초기화 및 비트맵 동기화 시 주로 사용된다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 (읽을 대상 디스크 장치) </td></tr>
+    <tr><td class="paramname">block_no</td><td>비트맵이 저장된 디스크 내의 블록 번호 </td></tr>
+    <tr><td class="paramname">map</td><td>비트맵 데이터를 저장할 메모리 버퍼 포인터 </td></tr>
+    <tr><td class="paramname">map_size</td><td>비트맵 데이터의 크기(바이트 단위)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>성공 시 0을 반환하며, 오류 발생 시 음수 값으로 오류 코드 반환: -EIO (I/O 오류), 기타 disk_read가 반환하는 음수 값 </dd></dl>
 
-<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00018">18</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>                                                                          {</div>
-<div class="line"><span class="lineno">   19</span>  ssize_t ret = <a class="code hl_function" href="../../df/d1d/img_8h.html#ae5100e4c2e08dd8f8df7feed1f30e979">img_read</a>(fd, map, map_size, (off_t)block_no * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
-<div class="line"><span class="lineno">   20</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
-<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)ret;</div>
-<div class="line"><span class="lineno">   22</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != map_size)</div>
-<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">return</span> -EIO;</div>
-<div class="line"><span class="lineno">   24</span>  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   25</span>}</div>
-<div class="ttc" id="aimg_8h_html_ae5100e4c2e08dd8f8df7feed1f30e979"><div class="ttname"><a href="../../df/d1d/img_8h.html#ae5100e4c2e08dd8f8df7feed1f30e979">img_read</a></div><div class="ttdeci">ssize_t img_read(int fd, void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스에서 특정 오프셋만큼 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d3e/img_8c_source.html#l00015">img.c:15</a></div></div>
-<div class="ttc" id="asuper_8h_html_a0f31825083a6f1e0e2f5b5a2fd1181aa"><div class="ttname"><a href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a></div><div class="ttdeci">#define SFUSE_BLOCK_SIZE</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00008">super.h:8</a></div></div>
+<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00035">35</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>                                                                          {</div>
+<div class="line"><span class="lineno">   36</span>  ssize_t ret;</div>
+<div class="line"><span class="lineno">   37</span> </div>
+<div class="line"><span class="lineno">   38</span>  <span class="comment">// 디스크에서 비트맵 데이터를 읽어 메모리(map)로 로드한다.</span></div>
+<div class="line"><span class="lineno">   39</span>  ret = <a class="code hl_function" href="../../d2/d50/disk_8h.html#aed9256f13804e31b18a64f2f88f72879">disk_read</a>(fd, map, map_size, (off_t)block_no * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
+<div class="line"><span class="lineno">   40</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
+<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)ret; <span class="comment">// disk_read 실패: 읽기 자체가 실패함</span></div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>  <span class="comment">// 읽은 데이터 크기가 요청한 크기와 일치하는지 검증한다.</span></div>
+<div class="line"><span class="lineno">   44</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != map_size)</div>
+<div class="line"><span class="lineno">   45</span>    <span class="keywordflow">return</span> -EIO; <span class="comment">// 읽은 데이터 크기가 예상 크기와 불일치</span></div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>  <span class="keywordflow">return</span> 0; <span class="comment">// 정상 종료</span></div>
+<div class="line"><span class="lineno">   48</span>}</div>
+<div class="ttc" id="adisk_8h_html_aed9256f13804e31b18a64f2f88f72879"><div class="ttname"><a href="../../d2/d50/disk_8h.html#aed9256f13804e31b18a64f2f88f72879">disk_read</a></div><div class="ttdeci">ssize_t disk_read(int fd, void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스에서 특정 offset으로부터 데이터를 읽는다.</div><div class="ttdef"><b>Definition</b> <a href="../../d0/deb/disk_8c_source.html#l00032">disk.c:32</a></div></div>
+<div class="ttc" id="asuper_8h_html_a0f31825083a6f1e0e2f5b5a2fd1181aa"><div class="ttname"><a href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a></div><div class="ttdeci">#define SFUSE_BLOCK_SIZE</div><div class="ttdoc">블록 크기 (바이트)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00018">super.h:18</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_cgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_cgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_cgraph" id="adf/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_cgraph">
-<area shape="rect" title="비트맵 블록에서 데이터 읽기" alt="" coords="5,5,108,33"/>
-<area shape="rect" href="../../d1/d3e/img_8c.html#ab5f174b2ac56c4370d34760eebb328ad" title="원시 디바이스에서 특정 오프셋만큼 읽기" alt="" coords="156,5,238,33"/>
+<area shape="rect" title="비트맵 데이터를 디스크에서 읽어 메모리에 로드" alt="" coords="5,5,108,33"/>
+<area shape="rect" href="../../d0/deb/disk_8c.html#a4e89c1e25d4c77895abb816855df3ab1" title="원시 디바이스에서 특정 offset으로부터 데이터를 읽는다." alt="" coords="156,5,240,33"/>
 <area shape="poly" title=" " alt="" coords="108,16,140,16,140,22,108,22"/>
 </map>
 </div>
@@ -318,8 +386,8 @@ bitmap.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_icgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_icgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_icgraph" id="adf/d9a/bitmap_8c_a71d915e1f010b404d49923241427b0fd_icgraph">
-<area shape="rect" title="비트맵 블록에서 데이터 읽기" alt="" coords="304,5,406,33"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="160,5,256,33"/>
+<area shape="rect" title="비트맵 데이터를 디스크에서 읽어 메모리에 로드" alt="" coords="304,5,406,33"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="SFUSE 파일 시스템을 초기화하고 슈퍼블록 및 비트맵을 로드한다." alt="" coords="160,5,256,33"/>
 <area shape="poly" title=" " alt="" coords="289,22,256,22,256,16,289,16"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#abee68f41bd184eba48e4372de1fc35c6" title=" " alt="" coords="5,5,112,33"/>
 <area shape="poly" title=" " alt="" coords="144,22,112,22,112,16,144,16"/>
@@ -357,27 +425,44 @@ bitmap.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>비트맵 데이터를 디스크에 기록 </p>
-<p>bitmap_sync: 비트맵 버퍼를 디스크에 기록 @fd: 디바이스 파일 디스크립터 @block_no: 비트맵 블록 번호 @map: 기록할 비트맵 버퍼 @map_size: 버퍼 크기(바이트) </p><dl class="section return"><dt>반환값</dt><dd>: 0 성공, 음수 오류 </dd></dl>
+<p>메모리의 비트맵 데이터를 디스크에 기록 </p>
+<p>비트맵 데이터를 디스크에 기록</p>
+<p>파일 시스템에서 현재 메모리에 저장된 비트맵 데이터를 지정된 디스크의 블록 위치로 기록한다.</p>
+<p>비트맵의 변경 사항(블록 또는 아이노드 할당 상태 등)을 디스크에 반영하여, 시스템이 재부팅되거나 파일 시스템이 다시 마운트될 때 정확한 상태를 유지하도록 한다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 (기록할 대상 디스크 장치) </td></tr>
+    <tr><td class="paramname">block_no</td><td>비트맵을 기록할 디스크 내의 블록 번호 </td></tr>
+    <tr><td class="paramname">map</td><td>디스크에 기록할 비트맵 데이터가 저장된 메모리 버퍼 포인터 </td></tr>
+    <tr><td class="paramname">map_size</td><td>비트맵 데이터의 크기(바이트 단위)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>성공 시 0을 반환하며, 오류 발생 시 음수 값으로 오류 코드 반환: -EIO (I/O 오류), 또는 disk_write가 반환하는 기타 음수 값 </dd></dl>
 
-<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00035">35</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>                                                                          {</div>
-<div class="line"><span class="lineno">   36</span>  ssize_t ret =</div>
-<div class="line"><span class="lineno">   37</span>      <a class="code hl_function" href="../../df/d1d/img_8h.html#a67521b7a552a036b0c1c3ec9b4e3e6ea">img_write</a>(fd, map, map_size, (off_t)block_no * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
-<div class="line"><span class="lineno">   38</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)ret;</div>
-<div class="line"><span class="lineno">   40</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != map_size)</div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">return</span> -EIO;</div>
-<div class="line"><span class="lineno">   42</span>  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   43</span>}</div>
-<div class="ttc" id="aimg_8h_html_a67521b7a552a036b0c1c3ec9b4e3e6ea"><div class="ttname"><a href="../../df/d1d/img_8h.html#a67521b7a552a036b0c1c3ec9b4e3e6ea">img_write</a></div><div class="ttdeci">ssize_t img_write(int fd, const void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스에 특정 오프셋만큼 쓰기</div><div class="ttdef"><b>Definition</b> <a href="../../d1/d3e/img_8c_source.html#l00032">img.c:32</a></div></div>
+<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00068">68</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   68</span>                                                                          {</div>
+<div class="line"><span class="lineno">   69</span>  ssize_t ret;</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>  <span class="comment">// 메모리(map)의 비트맵 데이터를 디스크의 지정된 위치에 기록한다.</span></div>
+<div class="line"><span class="lineno">   72</span>  ret = <a class="code hl_function" href="../../d2/d50/disk_8h.html#afdef6f103ef91e2bb59916239b18d93f">disk_write</a>(fd, map, map_size, (off_t)block_no * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
+<div class="line"><span class="lineno">   73</span>  <span class="keywordflow">if</span> (ret &lt; 0)</div>
+<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">return</span> (<span class="keywordtype">int</span>)ret; <span class="comment">// disk_write 실패: 기록 자체가 실패함</span></div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>  <span class="comment">// 기록한 데이터 크기가 요청한 크기와 일치하는지 검증한다.</span></div>
+<div class="line"><span class="lineno">   77</span>  <span class="keywordflow">if</span> ((<span class="keywordtype">size_t</span>)ret != map_size)</div>
+<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">return</span> -EIO; <span class="comment">// 기록한 데이터 크기가 예상 크기와 불일치 (부분적 기록 발생)</span></div>
+<div class="line"><span class="lineno">   79</span> </div>
+<div class="line"><span class="lineno">   80</span>  <span class="keywordflow">return</span> 0; <span class="comment">// 정상적으로 비트맵 데이터를 디스크에 기록 완료</span></div>
+<div class="line"><span class="lineno">   81</span>}</div>
+<div class="ttc" id="adisk_8h_html_afdef6f103ef91e2bb59916239b18d93f"><div class="ttname"><a href="../../d2/d50/disk_8h.html#afdef6f103ef91e2bb59916239b18d93f">disk_write</a></div><div class="ttdeci">ssize_t disk_write(int fd, const void *buf, size_t size, off_t offset)</div><div class="ttdoc">원시 디바이스의 특정 오프셋(offset)에 데이터를 쓴다.</div><div class="ttdef"><b>Definition</b> <a href="../../d0/deb/disk_8c_source.html#l00061">disk.c:61</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_cgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_cgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_cgraph" id="adf/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_cgraph">
-<area shape="rect" title="비트맵 데이터를 디스크에 기록" alt="" coords="5,5,110,33"/>
-<area shape="rect" href="../../d1/d3e/img_8c.html#ad1abb87bbd6acc052bc498cd3d8f3278" title="원시 디바이스에 특정 오프셋만큼 쓰기" alt="" coords="158,5,244,33"/>
+<area shape="rect" title="메모리의 비트맵 데이터를 디스크에 기록" alt="" coords="5,5,110,33"/>
+<area shape="rect" href="../../d0/deb/disk_8c.html#a4d5c112b4fd7cbc953ce25361c0fc5ce" title="원시 디바이스의 특정 오프셋(offset)에 데이터를 쓴다." alt="" coords="158,5,246,33"/>
 <area shape="poly" title=" " alt="" coords="110,16,142,16,142,22,110,22"/>
 </map>
 </div>
@@ -386,12 +471,12 @@ bitmap.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_icgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_icgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_icgraph" id="adf/d9a/bitmap_8c_a227b256c17ea31f9c7743f3abc35966f_icgraph">
-<area shape="rect" title="비트맵 데이터를 디스크에 기록" alt="" coords="376,213,480,241"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#a46039c7666b2dae1401a0b3e8ad5f1f1" title="디렉터리에 새 엔트리 추가" alt="" coords="203,57,314,85"/>
+<area shape="rect" title="메모리의 비트맵 데이터를 디스크에 기록" alt="" coords="376,213,480,241"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#a46039c7666b2dae1401a0b3e8ad5f1f1" title="디렉터리에 새로운 엔트리를 추가한다." alt="" coords="203,57,314,85"/>
 <area shape="poly" title=" " alt="" coords="410,201,376,150,353,123,326,100,305,88,308,83,330,96,356,120,380,147,414,199"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a982cfb4eb5cf4f812667ab2f0340e0d1" title="파일 시스템 종료 (언마운트)" alt="" coords="214,109,303,137"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a982cfb4eb5cf4f812667ab2f0340e0d1" title="SFUSE 파일 시스템을 정리하고 언마운트한다." alt="" coords="214,109,303,137"/>
 <area shape="poly" title=" " alt="" coords="399,205,365,178,327,152,301,140,304,135,329,148,369,174,402,201"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="파일 시스템 초기화" alt="" coords="210,161,306,189"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a3dc8c022bbe3b39f096940e91141d557" title="SFUSE 파일 시스템을 초기화하고 슈퍼블록 및 비트맵을 로드한다." alt="" coords="210,161,306,189"/>
 <area shape="poly" title=" " alt="" coords="365,211,305,192,307,187,366,206"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#a36e43ee6e49751c8ddaf5dec0941a734" title=" " alt="" coords="191,213,326,241"/>
 <area shape="poly" title=" " alt="" coords="361,230,326,230,326,224,361,224"/>
@@ -438,22 +523,37 @@ bitmap.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>데이터 블록 해제 </p>
-<p>free_block: 데이터 블록을 해제 @sb: 슈퍼블록 구조체 @block_map: 블록 비트맵 버퍼 @offset: 해제할 블록 오프셋(0부터) </p>
+<p>이전에 할당된 데이터 블록을 해제하고 비트맵과 슈퍼블록 상태를 갱신 </p>
+<p>데이터 블록 해제</p>
+<p>이 함수는 파일 시스템에서 더 이상 사용하지 않는 데이터 블록을 다시 사용 가능한 상태로 되돌리기 위해 해제(free)한다.</p>
+<p>주어진 블록 오프셋(offset)의 위치를 비트맵에서 찾아서, 해당 비트를 '0'으로 설정함으로써 빈 블록임을 표시하고, 슈퍼블록의 'free_blocks' 값을 1 증가시켜 남은 가용 블록 수를 갱신한다.</p>
+<p>이 함수는 파일 삭제 또는 파일 크기 축소 시 호출되어, 디스크 공간을 효율적으로 재사용할 수 있도록 도와준다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sb</td><td>슈퍼블록 구조체 포인터 (파일 시스템의 전체 상태 관리) </td></tr>
+    <tr><td class="paramname">block_map</td><td>블록 할당 여부를 나타내는 비트맵 버퍼 포인터 </td></tr>
+    <tr><td class="paramname">offset</td><td>해제할 블록의 오프셋(0부터 시작) </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00071">71</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>                                                                             {</div>
-<div class="line"><span class="lineno">   72</span>  uint32_t byte_idx = offset / 8;</div>
-<div class="line"><span class="lineno">   73</span>  uint32_t bit_idx = offset % 8;</div>
-<div class="line"><span class="lineno">   74</span>  block_map[byte_idx] &amp;= ~(1 &lt;&lt; bit_idx);</div>
-<div class="line"><span class="lineno">   75</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">free_blocks</a>++;</div>
-<div class="line"><span class="lineno">   76</span>}</div>
+<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00142">142</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">  142</span>                                                                             {</div>
+<div class="line"><span class="lineno">  143</span>  uint32_t byte_idx = offset / 8; <span class="comment">// 비트맵 내의 바이트 단위 인덱스 계산</span></div>
+<div class="line"><span class="lineno">  144</span>  uint32_t bit_idx = offset % 8;  <span class="comment">// 바이트 내에서의 비트 위치 계산 (0~7)</span></div>
+<div class="line"><span class="lineno">  145</span> </div>
+<div class="line"><span class="lineno">  146</span>  <span class="comment">// 비트맵에서 해당 블록의 비트를 &#39;0&#39;으로 설정 (빈 상태로 표시)</span></div>
+<div class="line"><span class="lineno">  147</span>  block_map[byte_idx] &amp;= ~(1 &lt;&lt; bit_idx);</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>  <span class="comment">// 슈퍼블록 내 빈 블록 개수를 1 증가 (가용 블록 수 갱신)</span></div>
+<div class="line"><span class="lineno">  150</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acaa02ed47b78c9a84c2f3622de95c44f">free_blocks</a>++;</div>
+<div class="line"><span class="lineno">  151</span>}</div>
 </div><!-- fragment --><div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_a310935424c9bfe8e9e15de2ba38c8e2d_icgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_a310935424c9bfe8e9e15de2ba38c8e2d_icgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_a310935424c9bfe8e9e15de2ba38c8e2d_icgraph" id="adf/d9a/bitmap_8c_a310935424c9bfe8e9e15de2ba38c8e2d_icgraph">
-<area shape="rect" title="데이터 블록 해제" alt="" coords="193,57,282,85"/>
+<area shape="rect" title="이전에 할당된 데이터 블록을 해제하고 비트맵과 슈퍼블록 상태를 갱신" alt="" coords="193,57,282,85"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title=" " alt="" coords="15,5,135,33"/>
 <area shape="poly" title=" " alt="" coords="177,55,120,36,121,31,179,50"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#a042aaedab092b188556e193b25a81e9f" title=" " alt="" coords="5,57,145,85"/>
@@ -489,24 +589,41 @@ bitmap.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>아이노드 해제 </p>
-<p>free_inode: 아이노드를 해제 @sb: 슈퍼블록 구조체 @inode_map: 아이노드 비트맵 버퍼 @ino: 해제할 아이노드 번호 </p>
+<p>할당된 아이노드를 해제하고 비트맵과 슈퍼블록을 갱신 </p>
+<p>아이노드 해제</p>
+<p>이 함수는 파일이나 디렉토리가 삭제될 때 호출되며, 사용하던 아이노드를 해제하여 다시 사용 가능한 상태로 되돌린다.</p>
+<p>주어진 아이노드 번호(ino)를 검사하여 유효한 범위인지 확인한 후, 해당 아이노드의 비트를 아이노드 비트맵(inode_map)에서 0으로 설정하여 빈 상태를 나타내고, 슈퍼블록의 'free_inodes'를 증가시켜 사용 가능한 아이노드 수를 갱신한다.</p>
+<p>아이노드 번호가 유효하지 않은 경우(0이거나 총 아이노드 수를 초과하는 경우), 함수는 아무 작업도 수행하지 않고 즉시 종료된다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sb</td><td>슈퍼블록 구조체 포인터 (파일 시스템의 전역 상태 관리) </td></tr>
+    <tr><td class="paramname">inode_map</td><td>아이노드 할당 상태를 나타내는 비트맵 버퍼 포인터 </td></tr>
+    <tr><td class="paramname">ino</td><td>해제할 아이노드 번호 (유효 범위: 1 ~ inodes_count-1) </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00104">104</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">  104</span>                                                                          {</div>
-<div class="line"><span class="lineno">  105</span>  <span class="keywordflow">if</span> (ino == 0 || ino &gt;= sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a>)</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  107</span>  uint32_t byte_idx = ino / 8;</div>
-<div class="line"><span class="lineno">  108</span>  uint32_t bit_idx = ino % 8;</div>
-<div class="line"><span class="lineno">  109</span>  inode_map[byte_idx] &amp;= ~(1 &lt;&lt; bit_idx);</div>
-<div class="line"><span class="lineno">  110</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">free_inodes</a>++;</div>
-<div class="line"><span class="lineno">  111</span>}</div>
+<p class="definition"><a class="el" href="../../df/d9a/bitmap_8c_source.html">bitmap.c</a> 파일의 <a class="el" href="../../df/d9a/bitmap_8c_source.html#l00213">213</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">  213</span>                                                                          {</div>
+<div class="line"><span class="lineno">  214</span>  <span class="comment">// 아이노드 번호 유효성 검사 (0번 아이노드 및 유효 범위 초과 시 무시)</span></div>
+<div class="line"><span class="lineno">  215</span>  <span class="keywordflow">if</span> (ino == 0 || ino &gt;= sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a>)</div>
+<div class="line"><span class="lineno">  216</span>    <span class="keywordflow">return</span>; <span class="comment">// 잘못된 아이노드 번호이므로 즉시 종료</span></div>
+<div class="line"><span class="lineno">  217</span> </div>
+<div class="line"><span class="lineno">  218</span>  uint32_t byte_idx = ino / 8; <span class="comment">// 비트맵의 바이트 인덱스 계산</span></div>
+<div class="line"><span class="lineno">  219</span>  uint32_t bit_idx = ino % 8;  <span class="comment">// 해당 바이트 내의 비트 위치 계산 (0~7)</span></div>
+<div class="line"><span class="lineno">  220</span> </div>
+<div class="line"><span class="lineno">  221</span>  <span class="comment">// 비트맵에서 해당 아이노드의 비트를 0으로 설정하여 빈 상태로 변경</span></div>
+<div class="line"><span class="lineno">  222</span>  inode_map[byte_idx] &amp;= ~(1 &lt;&lt; bit_idx);</div>
+<div class="line"><span class="lineno">  223</span> </div>
+<div class="line"><span class="lineno">  224</span>  <span class="comment">// 슈퍼블록의 빈 아이노드 개수를 1 증가시킴</span></div>
+<div class="line"><span class="lineno">  225</span>  sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#acd931caad1995d73e3dbf10d3023c424">free_inodes</a>++;</div>
+<div class="line"><span class="lineno">  226</span>}</div>
 </div><!-- fragment --><div class="dynheader">
 이 함수를 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d9a/bitmap_8c_aab6ec916136e2fda6dc67227bc6b53d2_icgraph.png" border="0" usemap="#adf/d9a/bitmap_8c_aab6ec916136e2fda6dc67227bc6b53d2_icgraph" loading="lazy" alt=""/></div>
 <map name="adf/d9a/bitmap_8c_aab6ec916136e2fda6dc67227bc6b53d2_icgraph" id="adf/d9a/bitmap_8c_aab6ec916136e2fda6dc67227bc6b53d2_icgraph">
-<area shape="rect" title="아이노드 해제" alt="" coords="179,57,269,85"/>
+<area shape="rect" title="할당된 아이노드를 해제하고 비트맵과 슈퍼블록을 갱신" alt="" coords="179,57,269,85"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="6,5,130,33"/>
 <area shape="poly" title=" " alt="" coords="165,54,111,36,113,31,166,49"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title=" " alt="" coords="8,57,128,85"/>

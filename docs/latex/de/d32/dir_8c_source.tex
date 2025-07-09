@@ -1,0 +1,156 @@
+\doxysection{dir.\+c}
+\hypertarget{dir_8c_source}{}\label{dir_8c_source}\index{src/dir.c@{src/dir.c}}
+\mbox{\hyperlink{dir_8c}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{dir_8h}{dir.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{bitmap_8h}{bitmap.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{block_8h}{block.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{inode_8h}{inode.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{super_8h}{super.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <errno.h>}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00042}\mbox{\hyperlink{dir_8h_ac2f55242043759c79ce3aaa895ffbd6b}{00042}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dir_8c_ac2f55242043759c79ce3aaa895ffbd6b}{dir\_load}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint32\_t\ ino,\ \textcolor{keywordtype}{void}\ *buf)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00043}00043\ \ \ \textcolor{comment}{//\ 디스크에서\ 주어진\ 아이노드\ 번호(ino)의\ 아이노드\ 메타데이터를\ 로드하여\ inode}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00044}00044\ \ \ \textcolor{comment}{//\ 변수에\ 저장}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00045}00045\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__inode}{sfuse\_inode}}\ inode;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00046}00046\ \ \ \textcolor{keywordtype}{int}\ res\ =\ \mbox{\hyperlink{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}{inode\_load}}(fd,\ sb,\ ino,\ \&inode);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00047}00047\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00048}00048\ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 아이노드\ 로딩\ 실패\ 시\ 즉시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00050}00050\ \ \ \textcolor{comment}{//\ 아이노드가\ 참조하는\ 모든\ 직접(direct)\ 블록들을\ 순회하며\ 디스크에서\ 읽는다}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00051}00051\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ 현재\ 블록\ 번호가\ 0이면\ 미할당\ 상태이므로\ 건너뜀}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (inode.\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[i]\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00054}00054\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00056}00056\ \ \ \ \ \textcolor{comment}{//\ i번째\ 블록을\ 읽어\ buf의\ i번째\ 블록\ 위치로\ 이동한\ 메모리\ 주소에\ 저장}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00057}00057\ \ \ \ \ \textcolor{comment}{//\ 각\ 블록\ 크기(SFUSE\_BLOCK\_SIZE)를\ 곱해\ 정확한\ 위치\ 계산}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00058}00058\ \ \ \ \ res\ =\ \mbox{\hyperlink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\_block}}(fd,\ inode.\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[i],\ (\textcolor{keywordtype}{char}\ *)buf\ +\ i\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00059}00059\ \ \ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00060}00060\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 블록\ 읽기\ 중\ 오류\ 발생\ 시\ 즉시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00061}00061\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00063}00063\ \ \ \textcolor{comment}{//\ 모든\ 직접\ 블록을\ 성공적으로\ 읽었으면\ 0\ 반환}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00064}00064\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00065}00065\ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00089}\mbox{\hyperlink{dir_8h_a46039c7666b2dae1401a0b3e8ad5f1f1}{00089}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1}{dir\_add\_entry}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint32\_t\ ino,}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ uint32\_t\ child\_ino,\ uint8\_t\ *block\_map,}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ *inode\_map,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *supermap)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00092}00092\ \ \ \textcolor{comment}{//\ 부모\ 디렉터리의\ 아이노드를\ 로드하여\ inode\ 구조체에\ 저장한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00093}00093\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__inode}{sfuse\_inode}}\ inode;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00094}00094\ \ \ \textcolor{keywordtype}{int}\ res\ =\ \mbox{\hyperlink{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}{inode\_load}}(fd,\ sb,\ ino,\ \&inode);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00095}00095\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00096}00096\ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 아이노드\ 로딩에\ 실패하면\ 즉시\ 종료한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00098}00098\ \ \ \textcolor{comment}{//\ 디렉터리\ 데이터\ 전체를\ 저장할\ 메모리\ 버퍼를\ 할당한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00099}00099\ \ \ \textcolor{keywordtype}{size\_t}\ buf\_size\ =\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}}\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00100}00100\ \ \ \textcolor{keywordtype}{void}\ *buf\ =\ malloc(buf\_size);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00101}00101\ \ \ \textcolor{keywordflow}{if}\ (!buf)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00102}00102\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/ENOMEM;\ \textcolor{comment}{//\ 메모리\ 할당\ 실패\ 시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00104}00104\ \ \ \textcolor{comment}{//\ 디스크로부터\ 디렉터리의\ 모든\ 직접\ 블록\ 데이터를\ 읽어온다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00105}00105\ \ \ res\ =\ \mbox{\hyperlink{dir_8c_ac2f55242043759c79ce3aaa895ffbd6b}{dir\_load}}(fd,\ sb,\ ino,\ buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00106}00106\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00107}00107\ \ \ \ \ free(buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00108}00108\ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 블록\ 로드\ 실패\ 시\ 메모리\ 해제\ 후\ 종료한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00109}00109\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00111}00111\ \ \ \textcolor{comment}{//\ 버퍼를\ 디렉터리\ 엔트리\ 배열로\ 해석하여\ 최대\ 엔트리\ 개수\ 산정}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00112}00112\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *ents\ =\ (\textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *)buf;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00113}00113\ \ \ uint32\_t\ max\_entries\ =\ buf\_size\ /\ \textcolor{keyword}{sizeof}(*ents);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00115}00115\ \ \ \textcolor{comment}{//\ 디렉터리\ 내의\ 빈\ 슬롯을\ 탐색하여\ 새\ 엔트리를\ 추가한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00116}00116\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 0;\ i\ <\ max\_entries;\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00117}00117\ \ \ \ \ \textcolor{keywordflow}{if}\ (ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ ==\ 0)\ \{\ \ \ \ \textcolor{comment}{//\ 빈\ 슬롯\ 발견\ (아이노드\ 번호가\ 0이면\ 빈\ 슬롯)}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00118}00118\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ =\ child\_ino;\ \textcolor{comment}{//\ 새\ 아이노드\ 번호를\ 할당}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00119}00119\ \ \ \ \ \ \ strncpy(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}},\ \mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}},\ \textcolor{keyword}{sizeof}(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}})\ -\/\ 1);\ \textcolor{comment}{//\ 엔트리\ 이름\ 복사}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00120}00120\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}}[\textcolor{keyword}{sizeof}(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}})\ -\/\ 1]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \textcolor{comment}{//\ 문자열의\ NULL\ 종단\ 보장}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00122}00122\ \ \ \ \ \ \ \textcolor{comment}{//\ 수정된\ 전체\ 디렉터리\ 데이터를\ 디스크의\ 직접\ 블록에\ 다시\ 기록한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00123}00123\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ b\ =\ 0;\ b\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ b++)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (inode.\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[b]\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \textcolor{comment}{//\ 사용되지\ 않은\ 블록은\ 건너뛴다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00127}00127\ \ \ \ \ \ \ \ \ res\ =\ \mbox{\hyperlink{block_8h_a68fff59f4eeded5f354caed94cd27f12}{write\_block}}(fd,\ inode.\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[b],}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *)buf\ +\ b\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ free(buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 블록\ 기록\ 실패\ 시\ 메모리\ 해제\ 후\ 종료한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00132}00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00133}00133\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00135}00135\ \ \ \ \ \ \ \textcolor{comment}{//\ 변경된\ 슈퍼블록과\ 블록\ 및\ 아이노드\ 비트맵을\ 디스크에\ 동기화한다.}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00136}00136\ \ \ \ \ \ \ \mbox{\hyperlink{super_8h_a90dace97e8d65a597b6d660e0d5b2170}{sb\_sync}}(fd,\ supermap);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00137}00137\ \ \ \ \ \ \ \mbox{\hyperlink{bitmap_8h_a227b256c17ea31f9c7743f3abc35966f}{bitmap\_sync}}(fd,\ sb-\/>\mbox{\hyperlink{structsfuse__super_a0f3c93e1295e95f48787c8b2d6adb7f5}{block\_bitmap\_start}},\ block\_map,\ sb-\/>\mbox{\hyperlink{structsfuse__super_a1beda11a6d52ccf0351e22d81b50a20d}{blocks\_count}}\ /\ 8);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00138}00138\ \ \ \ \ \ \ \mbox{\hyperlink{bitmap_8h_a227b256c17ea31f9c7743f3abc35966f}{bitmap\_sync}}(fd,\ sb-\/>\mbox{\hyperlink{structsfuse__super_ad08b4df84f43d7d6738c5f25b22e5829}{inode\_bitmap\_start}},\ inode\_map,\ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}}\ /\ 8);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00140}00140\ \ \ \ \ \ \ free(buf);\ \textcolor{comment}{//\ 작업이\ 완료되었으므로\ 메모리\ 해제}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00141}00141\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ \ \textcolor{comment}{//\ 성공적으로\ 엔트리\ 추가\ 완료}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00142}00142\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00143}00143\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00145}00145\ \ \ \textcolor{comment}{//\ 디렉터리\ 내\ 모든\ 슬롯이\ 사용\ 중이어서\ 추가\ 불가\ (공간\ 부족)}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00146}00146\ \ \ free(buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00147}00147\ \ \ \textcolor{keywordflow}{return}\ -\/ENOSPC;\ \textcolor{comment}{//\ 추가\ 공간\ 부족\ 오류\ 반환}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00148}00148\ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00162}\mbox{\hyperlink{dir_8h_a6d70dfe2356e0eefe891a57e11c62e16}{00162}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dir_8c_a6d70dfe2356e0eefe891a57e11c62e16}{dir\_remove\_entry}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint32\_t\ \mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}},}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}})\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00164}00164\ \ \ \textcolor{comment}{//\ 디렉터리\ 아이노드\ 로드}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00165}00165\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__inode}{sfuse\_inode}}\ inode;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00166}00166\ \ \ \textcolor{keywordtype}{int}\ res\ =\ \mbox{\hyperlink{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}{inode\_load}}(fd,\ sb,\ ino,\ \&inode);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00167}00167\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00168}00168\ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00170}00170\ \ \ \textcolor{comment}{//\ 디렉터리\ 데이터\ 블록\ 메모리에\ 로드}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00171}00171\ \ \ \textcolor{keywordtype}{size\_t}\ buf\_size\ =\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}}\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00172}00172\ \ \ \textcolor{keywordtype}{void}\ *buf\ =\ malloc(buf\_size);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00173}00173\ \ \ \textcolor{keywordflow}{if}\ (!buf)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00174}00174\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/ENOMEM;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00176}00176\ \ \ res\ =\ \mbox{\hyperlink{dir_8c_ac2f55242043759c79ce3aaa895ffbd6b}{dir\_load}}(fd,\ sb,\ ino,\ buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00177}00177\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00178}00178\ \ \ \ \ free(buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00179}00179\ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00180}00180\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00182}00182\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *ents\ =\ (\textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *)buf;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00183}00183\ \ \ uint32\_t\ max\_entries\ =\ buf\_size\ /\ \textcolor{keyword}{sizeof}(*ents);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00185}00185\ \ \ \textcolor{comment}{//\ 이름이\ 일치하는\ 엔트리\ 탐색\ 및\ 삭제}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00186}00186\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 0;\ i\ <\ max\_entries;\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00187}00187\ \ \ \ \ \textcolor{keywordflow}{if}\ (ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ !=\ 0\ \&\&\ strcmp(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}},\ \mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}})\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00188}00188\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00189}00189\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}}[0]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00191}00191\ \ \ \ \ \ \ \textcolor{comment}{//\ 수정된\ 디렉터리\ 데이터를\ 디스크에\ 기록}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00192}00192\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ b\ =\ 0;\ b\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ b++)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (inode.\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[b]\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00196}00196\ \ \ \ \ \ \ \ \ res\ =\ \mbox{\hyperlink{block_8h_a68fff59f4eeded5f354caed94cd27f12}{write\_block}}(fd,\ inode.\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[b],}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *)buf\ +\ b\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ free(buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00201}00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00202}00202\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00204}00204\ \ \ \ \ \ \ free(buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00205}00205\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00206}00206\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00207}00207\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00209}00209\ \ \ \textcolor{comment}{//\ 해당\ 이름의\ 엔트리가\ 없을\ 경우\ 메모리\ 해제\ 후\ 오류\ 반환}}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00210}00210\ \ \ free(buf);}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00211}00211\ \ \ \textcolor{keywordflow}{return}\ -\/ENOENT;}
+\DoxyCodeLine{\Hypertarget{dir_8c_source_l00212}00212\ \}}
+
+\end{DoxyCode}

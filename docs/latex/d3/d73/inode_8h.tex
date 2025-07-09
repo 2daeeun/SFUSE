@@ -1,0 +1,567 @@
+\doxysection{include/inode.h 파일 참조}
+\hypertarget{inode_8h}{}\label{inode_8h}\index{include/inode.h@{include/inode.h}}
+
+
+아이노드(inode) 구조체 정의 및 관리 함수 선언  
+
+
+{\ttfamily \#include "{}super.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+inode.\+h에 대한 include 의존 그래프
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{de/d89/inode_8h__incl}
+\end{center}
+\end{figure}
+이 그래프는 이 파일을 직/간접적으로 include 하는 파일들을 보여줍니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{dd/ddd/inode_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{데이터 구조}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}}
+\begin{DoxyCompactList}\small\item\em 파일의 메타데이터를 관리하는 아이노드 구조체 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{매크로}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\+\_\+\+NDIR\+\_\+\+BLOCKS}}~12
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} struct \doxylink{structsfuse__super}{sfuse\+\_\+super}, SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 정의 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{함수}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{inode_8h_a5416a6af7013809601f7be7803d2e226}{fs\+\_\+init\+\_\+inode}} (const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb, uint32\+\_\+t ino, mode\+\_\+t mode, uid\+\_\+t uid, gid\+\_\+t gid, struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}inode)
+\begin{DoxyCompactList}\small\item\em 새로운 아이노드를 기본 값으로 초기화한다. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}{inode\+\_\+load}} (int fd, const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb, uint32\+\_\+t ino, struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}inode)
+\begin{DoxyCompactList}\small\item\em 디스크에서 지정된 아이노드를 읽어 메모리에 로드한다. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{inode_8h_a4b04fa2e033f4171176700e3967af031}{inode\+\_\+sync}} (int fd, const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb, uint32\+\_\+t ino, const struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}inode)
+\begin{DoxyCompactList}\small\item\em 메모리에 저장된 아이노드 정보를 디스크에 기록한다. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{inode_8h_ac23d0b65c87524e63092a01ffc526acc}{logical\+\_\+to\+\_\+physical}} (int fd, const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb, const struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}inode, uint32\+\_\+t lbn, void \texorpdfstring{$\ast$}{*}buf, uint32\+\_\+t \texorpdfstring{$\ast$}{*}pbn\+\_\+out)
+\begin{DoxyCompactList}\small\item\em 논리 블록 번호(\+Logical Block Number)를 물리 블록 번호(\+Physical Block \+Number)로 변환한다. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{상세한 설명}
+아이노드(inode) 구조체 정의 및 관리 함수 선언 
+
+이 파일은 SFUSE 파일 시스템에서 파일 메타데이터를 관리하는 아이노드의 구조체를 정의하고, 아이노드를 디스크로부터 읽거나 쓰는 기능과 논리 블록 번호를 물리 블록 번호로 변환하는 함수들을 제공한다. 
+
+\mbox{\hyperlink{inode_8h_source}{inode.\+h}} 파일에서 정의되었습니다.
+
+
+
+\label{doc-define-members}
+\Hypertarget{inode_8h_doc-define-members}
+\doxysubsection{매크로 문서화}
+\Hypertarget{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}\index{inode.h@{inode.h}!SFUSE\_NDIR\_BLOCKS@{SFUSE\_NDIR\_BLOCKS}}
+\index{SFUSE\_NDIR\_BLOCKS@{SFUSE\_NDIR\_BLOCKS}!inode.h@{inode.h}}
+\doxysubsubsection{\texorpdfstring{SFUSE\_NDIR\_BLOCKS}{SFUSE\_NDIR\_BLOCKS}}
+{\footnotesize\ttfamily \label{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3} 
+\#define SFUSE\+\_\+\+NDIR\+\_\+\+BLOCKS~12}
+
+
+
+\texorpdfstring{$<$}{<} struct \doxylink{structsfuse__super}{sfuse\+\_\+super}, SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 정의 
+
+\texorpdfstring{$<$}{<} mode\+\_\+t, uid\+\_\+t, gid\+\_\+t 정의 Direct 블록 포인터 수 (12개) 
+
+\mbox{\hyperlink{inode_8h_source}{inode.\+h}} 파일의 \mbox{\hyperlink{inode_8h_source_l00018}{18}} 번째 라인에서 정의되었습니다.
+
+
+
+\label{doc-func-members}
+\Hypertarget{inode_8h_doc-func-members}
+\doxysubsection{함수 문서화}
+\Hypertarget{inode_8h_a5416a6af7013809601f7be7803d2e226}\index{inode.h@{inode.h}!fs\_init\_inode@{fs\_init\_inode}}
+\index{fs\_init\_inode@{fs\_init\_inode}!inode.h@{inode.h}}
+\doxysubsubsection{\texorpdfstring{fs\_init\_inode()}{fs\_init\_inode()}}
+{\footnotesize\ttfamily \label{inode_8h_a5416a6af7013809601f7be7803d2e226} 
+void fs\+\_\+init\+\_\+inode (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{, }\item[{uint32\+\_\+t}]{ino}{, }\item[{mode\+\_\+t}]{mode}{, }\item[{uid\+\_\+t}]{uid}{, }\item[{gid\+\_\+t}]{gid}{, }\item[{struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}}]{inode}{}\end{DoxyParamCaption})}
+
+
+
+새로운 아이노드를 기본 값으로 초기화한다. 
+
+새 아이노드는 주어진 모드, 사용자 ID, 그룹 ID로 초기화되며, 나머지 필드는 기본값(예\+: 크기 0, 링크 수 1)으로 설정된다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em sb} & 슈퍼블록 정보 포인터 (현재 사용되지 않음) \\
+\hline
+{\em ino} & 아이노드 번호 (현재 사용되지 않음) \\
+\hline
+{\em mode} & 새 파일의 타입 및 권한 \\
+\hline
+{\em uid} & 파일 소유자의 사용자 ID \\
+\hline
+{\em gid} & 파일 소유자의 그룹 ID \\
+\hline
+{\em inode} & 초기화할 아이노드 포인터\\
+\hline
+\end{DoxyParams}
+새로운 아이노드를 기본 값으로 초기화한다.
+
+\texorpdfstring{$<$}{<} 블록 읽기/쓰기 (read\+\_\+block/write\+\_\+block) 디스크 읽기/쓰기 함수 (disk\+\_\+read/disk\+\_\+write)
+
+새로운 아이노드를 기본 값으로 초기화한다.
+
+이 함수는 파일 시스템 내에서 새로운 아이노드를 생성할 때 호출된다. 아이노드는 파일 또는 디렉터리와 같은 객체의 메타데이터를 관리하는 핵심적인 구조체로, 이 함수는 아이노드를 사용 가능한 기본값으로 설정하여 초기 상태를 정의한다.
+
+세부적으로는 다음의 작업을 수행한다\+:
+\begin{DoxyItemize}
+\item 아이노드 메모리 영역을 모두 0으로 초기화한다.
+\item 파일의 접근 권한(mode), 소유자(uid), 그룹(gid)을 설정한다.
+\item 파일 크기를 0으로 설정한다 (새로 생성된 파일이므로 초기 크기는 0이다).
+\item 접근(atime), 수정(mtime), 상태 변경(ctime) 시간을 현재 시각으로 설정한다.
+\item 모든 Direct 블록 포인터를 0으로 초기화하여, 아직 데이터를 가리키지 않도록 설정한다.
+\item Single indirect, Double indirect 블록 포인터 역시 0으로 설정하여, 추가적인 데이터 블록 참조가 없음을 나타낸다.
+\item 링크 수(links)를 초기화한다. 만약 디렉터리라면 기본적으로 2개(자기 자신 \textquotesingle{}.\textquotesingle{}과 상위 디렉터리 \textquotesingle{}..\textquotesingle{}), 파일이라면 1개로 설정한다.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{매개변수}
+{\em sb} & 슈퍼블록 정보 포인터 (미사용 파라미터) \\
+\hline
+{\em ino} & 초기화할 아이노드 번호 (미사용 파라미터) \\
+\hline
+{\em mode} & 새 아이노드의 파일 타입(파일/디렉터리 등)과 접근 권한 \\
+\hline
+{\em uid} & 새 아이노드를 소유할 사용자의 사용자 ID \\
+\hline
+{\em gid} & 새 아이노드를 소유할 사용자의 그룹 ID \\
+\hline
+{\em inode} & 실제로 초기화할 아이노드 구조체 포인터 \\
+\hline
+\end{DoxyParams}
+
+
+\mbox{\hyperlink{inode_8c_source}{inode.\+c}} 파일의 \mbox{\hyperlink{inode_8c_source_l00047}{47}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ (void)sb;\ \ \textcolor{comment}{//\ 미사용\ 파라미터로\ 인한\ 컴파일러\ 경고\ 방지}}
+\DoxyCodeLine{00050\ \ \ (void)ino;\ \textcolor{comment}{//\ 미사용\ 파라미터로\ 인한\ 컴파일러\ 경고\ 방지}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \textcolor{comment}{//\ inode\ 메모리를\ 0으로\ 초기화하여\ 깨끗한\ 상태로\ 시작}}
+\DoxyCodeLine{00053\ \ \ memset(inode,\ 0,\ \textcolor{keyword}{sizeof}(*inode));}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \textcolor{comment}{//\ 파일\ 타입과\ 접근\ 권한(mode)을\ 설정}}
+\DoxyCodeLine{00056\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a615446922fb4369b86c548bd6a27a8b2}{mode}}\ =\ mode;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \textcolor{comment}{//\ 아이노드\ 소유자의\ 사용자(uid)와\ 그룹(gid)\ ID를\ 설정}}
+\DoxyCodeLine{00059\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_ab29868636ac693bd930eb8051d2a722c}{uid}}\ =\ uid;}
+\DoxyCodeLine{00060\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a38e8537191c32b5ad3959243316378f0}{gid}}\ =\ gid;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \textcolor{comment}{//\ 새로\ 생성된\ 파일/디렉터리이므로\ 크기를\ 0으로\ 설정}}
+\DoxyCodeLine{00063\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a8f67762b0e63a291da0db528b627922c}{size}}\ =\ 0;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \textcolor{comment}{//\ 접근(atime),\ 수정(mtime),\ 상태\ 변경(ctime)\ 시간을\ 현재\ 시각으로\ 초기화}}
+\DoxyCodeLine{00066\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a4ec8882c06d3f0935c3af6d551aee955}{atime}}\ =\ inode-\/>\mbox{\hyperlink{structsfuse__inode_ade8b0f59d2f96573797e6421d2a6e475}{mtime}}\ =\ inode-\/>\mbox{\hyperlink{structsfuse__inode_aff44930617e832c1a93af6b44de8059e}{ctime}}\ =\ (uint32\_t)time(NULL);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \textcolor{comment}{//\ Direct\ 블록\ 포인터를\ 모두\ 0으로\ 초기화하여\ 데이터\ 블록을\ 아직\ 가리키지\ 않음}}
+\DoxyCodeLine{00069\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ i++)}
+\DoxyCodeLine{00070\ \ \ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[i]\ =\ 0;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \textcolor{comment}{//\ Single\ indirect,\ Double\ indirect\ 블록\ 포인터도\ 데이터가\ 없음을\ 나타내기}}
+\DoxyCodeLine{00073\ \ \ \textcolor{comment}{//\ 위해\ 0\ 설정}}
+\DoxyCodeLine{00074\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a7bf0a3ca57adf077b272e29d40c1c45b}{indirect}}\ =\ 0;}
+\DoxyCodeLine{00075\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a22386050768744617549779e3845fa0e}{double\_indirect}}\ =\ 0;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \textcolor{comment}{//\ 디렉터리면\ 기본\ 링크\ 수를\ 2로,\ 파일이면\ 1로\ 설정}}
+\DoxyCodeLine{00078\ \ \ inode-\/>\mbox{\hyperlink{structsfuse__inode_a5b71225b19b66dea755dacbc92df2281}{links}}\ =\ (S\_ISDIR(mode)\ ?\ 2\ :\ 1);}
+\DoxyCodeLine{00079\ \}}
+
+\end{DoxyCode}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d73/inode_8h_a5416a6af7013809601f7be7803d2e226_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}\index{inode.h@{inode.h}!inode\_load@{inode\_load}}
+\index{inode\_load@{inode\_load}!inode.h@{inode.h}}
+\doxysubsubsection{\texorpdfstring{inode\_load()}{inode\_load()}}
+{\footnotesize\ttfamily \label{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe} 
+int inode\+\_\+load (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{, }\item[{uint32\+\_\+t}]{ino}{, }\item[{struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}}]{inode}{}\end{DoxyParamCaption})}
+
+
+
+디스크에서 지정된 아이노드를 읽어 메모리에 로드한다. 
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 포인터 \\
+\hline
+{\em ino} & 읽어올 아이노드 번호 \\
+\hline
+{\em inode} & 읽은 아이노드를 저장할 버퍼 포인터 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0, 실패 시 음수의 오류 코드 반환
+\end{DoxyReturn}
+디스크에서 지정된 아이노드를 읽어 메모리에 로드한다.
+
+파일 시스템에서 파일과 디렉터리의 메타데이터(크기, 권한, 소유자, 데이터 블록 위치 등)는 아이노드(inode)에 저장된다. 이 함수는 디스크에 저장된 아이노드 데이터를 읽어 메모리의 inode 구조체에 로드한다.
+
+아이노드를 로드하는 과정은 다음과 같다\+:
+
+
+\begin{DoxyEnumerate}
+\item 아이노드 번호(ino)의 유효성을 검사한다.
+\begin{DoxyItemize}
+\item ino 번호는 0이 아니어야 하고, 슈퍼블록의 inodes\+\_\+count보다 작아야 한다.
+\end{DoxyItemize}
+\item 디스크 내의 아이노드 위치(offset)를 계산한다.
+\begin{DoxyItemize}
+\item 슈퍼블록의 inode\+\_\+table\+\_\+start는 아이노드 테이블의 시작 위치를 나타내는 블록 번호이다.
+\item 아이노드의 크기(sizeof(\texorpdfstring{$\ast$}{*}inode))에 아이노드 번호를 곱해 정확한 위치를 계산한다.
+\end{DoxyItemize}
+\item 계산된 위치에서 아이노드 데이터를 읽어 inode 버퍼에 저장한다.
+\begin{DoxyItemize}
+\item 읽은 데이터의 크기가 아이노드 구조체 크기와 일치하지 않으면 입출력 오류(\+EIO)를 반환한다.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 포인터 (아이노드 테이블의 위치와 총 개수 정보 포함) \\
+\hline
+{\em ino} & 읽을 아이노드 번호 (0번 아이노드는 무효로 간주됨) \\
+\hline
+{\em inode} & 디스크에서 읽은 아이노드를 저장할 메모리 버퍼 포인터\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0 반환, 실패 시 음수의 오류 코드 반환 -\/EINVAL \+: 유효하지 않은 아이노드 번호(ino가 0이거나 유효 범위를 초과) -\/EIO \+: 아이노드 데이터를 읽는 중 입출력 오류 발생 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{inode_8c_source}{inode.\+c}} 파일의 \mbox{\hyperlink{inode_8c_source_l00113}{113}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \textcolor{comment}{/*\ [1단계]\ 아이노드\ 번호(ino)\ 유효성\ 검사\ */}}
+\DoxyCodeLine{00116\ \ \ \textcolor{keywordflow}{if}\ (ino\ ==\ 0\ ||\ ino\ >=\ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}})}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EINVAL;\ \textcolor{comment}{//\ ino가\ 유효하지\ 않음\ (0이거나\ 최대\ 범위\ 초과)}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \textcolor{comment}{/*\ [2단계]\ 디스크에서\ 아이노드가\ 저장된\ 위치(offset)\ 계산\ */}}
+\DoxyCodeLine{00120\ \ \ off\_t\ off\ =\ ((off\_t)sb-\/>\mbox{\hyperlink{structsfuse__super_a274c7bf26a003e667534185aef04f732}{inode\_table\_start}}\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}})\ +}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (ino\ *\ \textcolor{keyword}{sizeof}(*inode));}
+\DoxyCodeLine{00122\ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00123\ \textcolor{comment}{\ \ \ *\ inode\_table\_start\ 블록\ 번호를\ 실제\ 바이트\ 단위로\ 변환하기\ 위해\ 블록}}
+\DoxyCodeLine{00124\ \textcolor{comment}{\ \ \ *\ 크기(SFUSE\_BLOCK\_SIZE)를\ 곱함.\ 거기에\ inode\ 번호(ino)에\ inode}}
+\DoxyCodeLine{00125\ \textcolor{comment}{\ \ \ *\ 크기(sizeof(*inode))를\ 곱하여\ 정확한\ 위치\ 계산.}}
+\DoxyCodeLine{00126\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \textcolor{comment}{/*\ [3단계]\ 디스크에서\ 아이노드\ 데이터를\ 읽어\ 메모리에\ 로드\ */}}
+\DoxyCodeLine{00129\ \ \ ssize\_t\ ret\ =\ \mbox{\hyperlink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\_read}}(fd,\ inode,\ \textcolor{keyword}{sizeof}(*inode),\ off);}
+\DoxyCodeLine{00130\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;\ \textcolor{comment}{//\ 디스크\ 읽기\ 오류\ 발생\ 시\ 해당\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \textcolor{comment}{//\ 읽은\ 데이터\ 크기가\ 아이노드\ 크기와\ 불일치\ 시\ 입출력\ 오류\ 반환}}
+\DoxyCodeLine{00134\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \textcolor{keyword}{sizeof}(*inode))}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ 성공적으로\ 아이노드\ 로드\ 완료}}
+\DoxyCodeLine{00138\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{d3/d73/inode_8h_a72a6e85b07ee4130a233e0db78fc95fe_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d73/inode_8h_a72a6e85b07ee4130a233e0db78fc95fe_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{inode_8h_a4b04fa2e033f4171176700e3967af031}\index{inode.h@{inode.h}!inode\_sync@{inode\_sync}}
+\index{inode\_sync@{inode\_sync}!inode.h@{inode.h}}
+\doxysubsubsection{\texorpdfstring{inode\_sync()}{inode\_sync()}}
+{\footnotesize\ttfamily \label{inode_8h_a4b04fa2e033f4171176700e3967af031} 
+int inode\+\_\+sync (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{, }\item[{uint32\+\_\+t}]{ino}{, }\item[{const struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}}]{inode}{}\end{DoxyParamCaption})}
+
+
+
+메모리에 저장된 아이노드 정보를 디스크에 기록한다. 
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 포인터 \\
+\hline
+{\em ino} & 기록할 아이노드 번호 \\
+\hline
+{\em inode} & 디스크에 저장할 아이노드 정보 포인터 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0, 실패 시 음수의 오류 코드 반환
+\end{DoxyReturn}
+메모리에 저장된 아이노드 정보를 디스크에 기록한다.
+
+파일 시스템은 아이노드를 메모리 내에서 수정한 후, 변경된 내용을 디스크에 영구적으로 저장해야 한다. 이 함수는 메모리 상의 아이노드를 디스크의 올바른 위치에 정확하게 기록하여 파일의 메타데이터가 유지되도록 한다.
+
+아이노드를 디스크에 기록하는 과정은 다음과 같다\+:
+
+
+\begin{DoxyEnumerate}
+\item 아이노드 번호(ino)의 유효성을 검사한다.
+\begin{DoxyItemize}
+\item ino 번호는 반드시 0보다 크고 슈퍼블록의 총 아이노드 개수(inodes\+\_\+count)보다 작아야 한다.
+\end{DoxyItemize}
+\item 기록할 아이노드 데이터의 디스크 내 위치(offset)를 계산한다.
+\begin{DoxyItemize}
+\item 아이노드 테이블의 시작 위치(inode\+\_\+table\+\_\+start)를 블록 단위에서 바이트 단위로 변환하고, 여기에 아이노드 번호(ino)와 아이노드의 크기(sizeof(\texorpdfstring{$\ast$}{*}inode))를 곱하여 정확한 위치를 얻는다.
+\end{DoxyItemize}
+\item 메모리 상의 아이노드 데이터를 계산된 위치에 디스크로 기록한다.
+\begin{DoxyItemize}
+\item 기록 후, 실제로 기록된 바이트 수가 아이노드의 크기와 정확히 일치하는지 확인한다.
+\item 기록된 바이트 수가 일치하지 않거나 오류가 발생하면 적절한 오류 코드를 반환한다.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 (디스크 접근을 위한 식별자) \\
+\hline
+{\em sb} & 슈퍼블록 정보 (아이노드 테이블 위치 정보 포함) \\
+\hline
+{\em ino} & 디스크에 기록할 아이노드 번호 \\
+\hline
+{\em inode} & 메모리에 있는, 디스크에 기록될 아이노드 데이터 포인터\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0 반환, 실패 시 음수의 오류 코드 반환 -\/EINVAL \+: 유효하지 않은 아이노드 번호(0이거나 범위 초과) -\/EIO \+: 디스크 기록 과정에서 입출력 오류가 발생 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{inode_8c_source}{inode.\+c}} 파일의 \mbox{\hyperlink{inode_8c_source_l00173}{173}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00175\ \ \ \textcolor{comment}{/*\ [1단계]\ 아이노드\ 번호(ino)의\ 유효성\ 검사\ */}}
+\DoxyCodeLine{00176\ \ \ \textcolor{keywordflow}{if}\ (ino\ ==\ 0\ ||\ ino\ >=\ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}})}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EINVAL;\ \textcolor{comment}{//\ 아이노드\ 번호가\ 유효하지\ 않을\ 경우}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \textcolor{comment}{/*\ [2단계]\ 아이노드\ 데이터를\ 기록할\ 디스크의\ 정확한\ 위치(offset)\ 계산\ */}}
+\DoxyCodeLine{00180\ \ \ off\_t\ off\ =\ ((off\_t)sb-\/>\mbox{\hyperlink{structsfuse__super_a274c7bf26a003e667534185aef04f732}{inode\_table\_start}}\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}})\ +}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (ino\ *\ \textcolor{keyword}{sizeof}(*inode));}
+\DoxyCodeLine{00182\ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00183\ \textcolor{comment}{\ \ \ *\ inode\_table\_start는\ 블록\ 번호를\ 나타내므로\ 바이트\ 단위로\ 변환하기\ 위해}}
+\DoxyCodeLine{00184\ \textcolor{comment}{\ \ \ *\ SFUSE\_BLOCK\_SIZE를\ 곱한다.}}
+\DoxyCodeLine{00185\ \textcolor{comment}{\ \ \ *\ 아이노드\ 번호(ino)에\ 아이노드\ 크기를\ 곱해\ 정확한\ 바이트\ 오프셋을\ 결정한다.}}
+\DoxyCodeLine{00186\ \textcolor{comment}{\ \ \ */}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \textcolor{comment}{/*\ [3단계]\ 메모리의\ 아이노드를\ 디스크의\ 해당\ 위치에\ 기록\ */}}
+\DoxyCodeLine{00189\ \ \ ssize\_t\ ret\ =\ \mbox{\hyperlink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\_write}}(fd,\ inode,\ \textcolor{keyword}{sizeof}(*inode),\ off);}
+\DoxyCodeLine{00190\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;\ \textcolor{comment}{//\ 디스크\ 기록\ 오류가\ 발생했을\ 때\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \textcolor{keyword}{sizeof}(*inode))}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;\ \textcolor{comment}{//\ 기록된\ 데이터의\ 크기가\ 아이노드\ 크기와\ 다르면\ 입출력\ 오류}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 반환}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ 성공적으로\ 아이노드를\ 디스크에\ 기록함}}
+\DoxyCodeLine{00198\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=253pt]{d3/d73/inode_8h_a4b04fa2e033f4171176700e3967af031_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d73/inode_8h_a4b04fa2e033f4171176700e3967af031_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{inode_8h_ac23d0b65c87524e63092a01ffc526acc}\index{inode.h@{inode.h}!logical\_to\_physical@{logical\_to\_physical}}
+\index{logical\_to\_physical@{logical\_to\_physical}!inode.h@{inode.h}}
+\doxysubsubsection{\texorpdfstring{logical\_to\_physical()}{logical\_to\_physical()}}
+{\footnotesize\ttfamily \label{inode_8h_ac23d0b65c87524e63092a01ffc526acc} 
+int logical\+\_\+to\+\_\+physical (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{, }\item[{const struct \mbox{\hyperlink{structsfuse__inode}{sfuse\+\_\+inode}} \texorpdfstring{$\ast$}{*}}]{inode}{, }\item[{uint32\+\_\+t}]{lbn}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{pbn\+\_\+out}{}\end{DoxyParamCaption})}
+
+
+
+논리 블록 번호(\+Logical Block Number)를 물리 블록 번호(\+Physical Block \+Number)로 변환한다. 
+
+파일 내의 논리적 블록 위치를 실제 디스크 상의 물리적 블록 위치로 변환하여 데이터를 접근할 수 있도록 한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 포인터 \\
+\hline
+{\em inode} & 대상 아이노드 포인터 \\
+\hline
+{\em lbn} & 변환할 논리 블록 번호 \\
+\hline
+{\em buf} & 임시로 사용할 블록 크기의 버퍼 (크기는 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE) \\
+\hline
+{\em pbn\+\_\+out} & 결과로 변환된 물리 블록 번호를 저장할 포인터 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0, 실패 시 음수의 오류 코드 반환
+\end{DoxyReturn}
+논리 블록 번호(\+Logical Block Number)를 물리 블록 번호(\+Physical Block \+Number)로 변환한다.
+
+파일은 여러 블록에 걸쳐 데이터를 저장하며, 파일 내에서의 블록 위치는 논리적(\+LBN)으로 표현된다. 그러나 실제 디스크는 논리 블록을 직접적으로 알지 못하므로, 물리적인 블록 번호(\+PBN)로 변환해 접근해야 한다. 이 함수는 아이노드에 저장된 블록 주소를 참조하여 LBN을 PBN으로 변환해주는 역할을 수행한다.
+
+LBN에서 PBN 변환 방법\+:
+\begin{DoxyItemize}
+\item \mbox{[}Direct Block 처리\mbox{]}
+\begin{DoxyItemize}
+\item LBN이 SFUSE\+\_\+\+NDIR\+\_\+\+BLOCKS(보통 12개)보다 작으면, direct 배열에서 직접 찾아 반환한다.
+\end{DoxyItemize}
+\item \mbox{[}Single Indirect Block 처리\mbox{]}
+\begin{DoxyItemize}
+\item Direct 블록으로 표현할 수 있는 범위를 넘어가면, Single indirect 블록에서 찾는다.
+\item Single indirect 블록이 가리키는 블록 하나에는 여러 개의 블록 주소를 담을 수 있다.
+\end{DoxyItemize}
+\item \mbox{[}Double Indirect Block 처리\mbox{]}
+\begin{DoxyItemize}
+\item Single indirect 블록 범위도 초과하면, Double indirect 블록을 참조해야 한다.
+\item Double indirect 블록은 두 단계의 포인터를 거쳐 주소를 참조한다.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 (디스크 접근용) \\
+\hline
+{\em sb} & 슈퍼블록 정보 (현재 사용하지 않음) \\
+\hline
+{\em inode} & 대상 파일의 아이노드 포인터 \\
+\hline
+{\em lbn} & 변환하려는 논리 블록 번호 \\
+\hline
+{\em buf} & 블록 데이터를 읽기 위한 임시 버퍼 (크기\+: SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE) \\
+\hline
+{\em pbn\+\_\+out} & 변환된 물리 블록 번호를 저장할 출력 포인터\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0, 실패 시 음수의 오류 코드 반환 -\/ENOENT \+: 요청한 블록이 할당되지 않아 존재하지 않음 -\/EIO \+: 블록 데이터를 디스크에서 읽을 때 입출력 오류 발생 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{inode_8c_source}{inode.\+c}} 파일의 \mbox{\hyperlink{inode_8c_source_l00235}{235}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ (void)sb;\ \textcolor{comment}{//\ 미사용\ 파라미터로\ 인한\ 컴파일러\ 경고\ 방지}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \textcolor{comment}{/*\ -\/-\/-\/\ [1단계:\ Direct\ 블록\ 확인]\ -\/-\/-\/\ */}}
+\DoxyCodeLine{00242\ \ \ \textcolor{keywordflow}{if}\ (lbn\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}})\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{comment}{//\ 요청한\ 논리\ 블록\ 번호가\ Direct\ 블록의\ 범위\ 내에\ 있음}}
+\DoxyCodeLine{00244\ \ \ \ \ *pbn\_out\ =\ inode-\/>\mbox{\hyperlink{structsfuse__inode_a3ef3b4aabd3bccb64773d12ebc0617e7}{direct}}[lbn];\ \textcolor{comment}{//\ 직접적인\ 배열\ 참조로\ 즉시\ 얻을\ 수\ 있음}}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00246\ \ \ \}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \textcolor{comment}{/*\ -\/-\/-\/\ [2단계:\ Single\ Indirect\ 블록\ 확인]\ -\/-\/-\/\ */}}
+\DoxyCodeLine{00249\ \ \ lbn\ -\/=\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ \textcolor{comment}{//\ Direct\ 블록의\ 범위를\ 초과했으므로,\ Single}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ indirect\ 범위로\ 보정}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \ \ uint32\_t\ entries\ =\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}}\ /\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00253\ \ \ \textcolor{comment}{//\ 하나의\ 블록에\ 저장\ 가능한\ 블록\ 주소의\ 개수를\ 계산}}
+\DoxyCodeLine{00254\ \ \ \textcolor{comment}{//\ (예:\ 4096\ 바이트\ 블록\ /\ 4\ 바이트\ 주소\ =\ 1024개의\ 블록\ 주소\ 저장\ 가능)}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \textcolor{keywordflow}{if}\ (lbn\ <\ entries)\ \{}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{comment}{//\ Single\ indirect\ 블록에서\ 찾을\ 수\ 있는\ 범위\ 내에\ 있음}}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordflow}{if}\ (inode-\/>\mbox{\hyperlink{structsfuse__inode_a7bf0a3ca57adf077b272e29d40c1c45b}{indirect}}\ ==\ 0)}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/ENOENT;\ \textcolor{comment}{//\ Single\ indirect\ 블록\ 자체가\ 아직\ 할당되지\ 않은\ 상태}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{comment}{//\ indirect\ 블록\ 번호가\ 존재하면,\ 해당\ 블록을\ 디스크에서\ 읽는다}}
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\_block}}(fd,\ inode-\/>\mbox{\hyperlink{structsfuse__inode_a7bf0a3ca57adf077b272e29d40c1c45b}{indirect}},\ buf)\ <\ 0)}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;\ \textcolor{comment}{//\ indirect\ 블록을\ 읽는\ 도중\ 오류가\ 발생하면\ 입출력\ 오류\ 반환}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{comment}{//\ indirect\ 블록에서\ 블록\ 주소\ 배열을\ 가져옴}}
+\DoxyCodeLine{00266\ \ \ \ \ uint32\_t\ *ptrs\ =\ (uint32\_t\ *)buf;}
+\DoxyCodeLine{00267\ \ \ \ \ *pbn\_out\ =\ ptrs[lbn];\ \textcolor{comment}{//\ indirect\ 블록의\ 주소\ 배열에서\ 요청한\ 논리\ 블록의}}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 물리\ 블록\ 번호를\ 얻음}}
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00270\ \ \ \}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \textcolor{comment}{/*\ -\/-\/-\/\ [3단계:\ Double\ Indirect\ 블록\ 확인]\ -\/-\/-\/\ */}}
+\DoxyCodeLine{00273\ \ \ lbn\ -\/=\ entries;\ \textcolor{comment}{//\ Single\ indirect\ 블록의\ 범위를\ 초과하였으므로,\ Double}}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ indirect\ 블록을\ 처리하기\ 위해\ 보정}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \ \ uint32\_t\ idx1\ =\ lbn\ /\ entries;\ \textcolor{comment}{//\ Double\ indirect\ 첫\ 번째\ 레벨의\ 인덱스\ 계산}}
+\DoxyCodeLine{00277\ \ \ uint32\_t\ idx2\ =\ lbn\ \%\ entries;\ \textcolor{comment}{//\ Double\ indirect\ 두\ 번째\ 레벨의\ 인덱스\ 계산}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \textcolor{keywordflow}{if}\ (inode-\/>\mbox{\hyperlink{structsfuse__inode_a22386050768744617549779e3845fa0e}{double\_indirect}}\ ==\ 0)}
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/ENOENT;\ \textcolor{comment}{//\ Double\ indirect\ 블록\ 자체가\ 할당되지\ 않은\ 상태}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \textcolor{comment}{//\ double\ indirect의\ 첫\ 번째\ 레벨\ 블록을\ 읽는다.}}
+\DoxyCodeLine{00283\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\_block}}(fd,\ inode-\/>\mbox{\hyperlink{structsfuse__inode_a22386050768744617549779e3845fa0e}{double\_indirect}},\ buf)\ <\ 0)}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;\ \textcolor{comment}{//\ 첫\ 번째\ 레벨\ 블록을\ 읽을\ 때\ 오류\ 발생\ 시\ 입출력\ 오류\ 반환}}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \ \ uint32\_t\ *ptrs1\ =\ (uint32\_t\ *)buf;}
+\DoxyCodeLine{00287\ \ \ uint32\_t\ block2\ =\ ptrs1[idx1];\ \textcolor{comment}{//\ 두\ 번째\ 레벨\ 블록\ 번호를\ 얻음}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \textcolor{keywordflow}{if}\ (block2\ ==\ 0)}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/ENOENT;\ \textcolor{comment}{//\ 두\ 번째\ 레벨\ 블록이\ 할당되지\ 않은\ 경우}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \ \ \textcolor{comment}{//\ 두\ 번째\ 레벨\ 블록을\ 디스크에서\ 읽는다.}}
+\DoxyCodeLine{00293\ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\_block}}(fd,\ block2,\ buf)\ <\ 0)}
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;\ \textcolor{comment}{//\ 두\ 번째\ 레벨\ 블록을\ 읽을\ 때\ 오류\ 발생\ 시\ 입출력\ 오류\ 반환}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ uint32\_t\ *ptrs2\ =\ (uint32\_t\ *)buf;}
+\DoxyCodeLine{00297\ \ \ *pbn\_out\ =\ ptrs2[idx2];\ \textcolor{comment}{//\ 최종적으로\ 변환된\ 물리\ 블록\ 번호를\ 얻음}}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ 성공적으로\ 물리\ 블록\ 번호\ 변환\ 완료}}
+\DoxyCodeLine{00300\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d73/inode_8h_ac23d0b65c87524e63092a01ffc526acc_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{d3/d73/inode_8h_ac23d0b65c87524e63092a01ffc526acc_icgraph}
+\end{center}
+\end{figure}

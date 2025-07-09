@@ -1,0 +1,34 @@
+\doxysection{fs.\+h}
+\hypertarget{fs_8h_source}{}\label{fs_8h_source}\index{include/fs.h@{include/fs.h}}
+\mbox{\hyperlink{fs_8h}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00006}00006\ \textcolor{preprocessor}{\#ifndef\ SFUSE\_FS\_H}}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00007}00007\ \textcolor{preprocessor}{\#define\ SFUSE\_FS\_H}}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{super_8h}{super.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00027}\mbox{\hyperlink{fs_8h_a82e3f566d846871bb18ef0544c6b36ec}{00027}}\ \textcolor{preprocessor}{\#define\ SFUSE\_ROOT\_INO\ 1}}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00042}\mbox{\hyperlink{structsfuse__fs}{00042}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__fs}{sfuse\_fs}}\ \{}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00043}\mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{00043}}\ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00044}\mbox{\hyperlink{structsfuse__fs_a369e72e6fd3ef47271b5798ba9331474}{00044}}\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ \mbox{\hyperlink{structsfuse__fs_a369e72e6fd3ef47271b5798ba9331474}{sb}};\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00045}\mbox{\hyperlink{structsfuse__fs_a05768e2734ce9089a635c76bee05050e}{00045}}\ \ \ uint8\_t\ *\mbox{\hyperlink{structsfuse__fs_a05768e2734ce9089a635c76bee05050e}{block\_map}};\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00046}\mbox{\hyperlink{structsfuse__fs_acf32f94e60a26a564e104b01d3884db6}{00046}}\ \ \ uint8\_t\ *\mbox{\hyperlink{structsfuse__fs_acf32f94e60a26a564e104b01d3884db6}{inode\_map}};\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00047}00047\ \};}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00054}00054\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__fs}{sfuse\_fs}}\ *\mbox{\hyperlink{fs_8h_ac432498ca3711406676c5384e90f0c39}{get\_fs\_context}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00063}00063\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fs_8h_a3dc8c022bbe3b39f096940e91141d557}{fs\_initialize}}(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}});}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00071}00071\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{fs_8h_a982cfb4eb5cf4f812667ab2f0340e0d1}{fs\_destroy}}(\textcolor{keywordtype}{void}\ *private\_data);}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00082}00082\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{fs_8h_aba575ee5529edea958cfbb7926a4f6c0}{fs\_resolve\_path}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__fs}{sfuse\_fs}}\ *fs,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *path,\ uint32\_t\ *ino\_out);}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00096}00096\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{fs_8h_a7f58173fe2f2486a7dee9e5e78a9e998}{fs\_split\_path}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fullpath,\ uint32\_t\ *parent\_ino);}
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{fs_8h_source_l00098}00098\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ SFUSE\_FS\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

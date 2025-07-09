@@ -1,0 +1,120 @@
+\doxysection{bitmap.\+c}
+\hypertarget{bitmap_8c_source}{}\label{bitmap_8c_source}\index{src/bitmap.c@{src/bitmap.c}}
+\mbox{\hyperlink{bitmap_8c}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{bitmap_8h}{bitmap.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{disk_8h}{disk.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{super_8h}{super.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <errno.h>}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00035}\mbox{\hyperlink{bitmap_8h_a71d915e1f010b404d49923241427b0fd}{00035}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8c_a71d915e1f010b404d49923241427b0fd}{bitmap\_load}}(\textcolor{keywordtype}{int}\ fd,\ uint32\_t\ block\_no,\ uint8\_t\ *map,\ \textcolor{keywordtype}{size\_t}\ map\_size)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00036}00036\ \ \ ssize\_t\ ret;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00038}00038\ \ \ \textcolor{comment}{//\ 디스크에서\ 비트맵\ 데이터를\ 읽어\ 메모리(map)로\ 로드한다.}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00039}00039\ \ \ ret\ =\ \mbox{\hyperlink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\_read}}(fd,\ map,\ map\_size,\ (off\_t)block\_no\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00040}00040\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;\ \textcolor{comment}{//\ disk\_read\ 실패:\ 읽기\ 자체가\ 실패함}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00043}00043\ \ \ \textcolor{comment}{//\ 읽은\ 데이터\ 크기가\ 요청한\ 크기와\ 일치하는지\ 검증한다.}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00044}00044\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ map\_size)}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;\ \textcolor{comment}{//\ 읽은\ 데이터\ 크기가\ 예상\ 크기와\ 불일치}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00047}00047\ \ \ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ 정상\ 종료}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00048}00048\ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00068}\mbox{\hyperlink{bitmap_8h_a227b256c17ea31f9c7743f3abc35966f}{00068}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8c_a227b256c17ea31f9c7743f3abc35966f}{bitmap\_sync}}(\textcolor{keywordtype}{int}\ fd,\ uint32\_t\ block\_no,\ uint8\_t\ *map,\ \textcolor{keywordtype}{size\_t}\ map\_size)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00069}00069\ \ \ ssize\_t\ ret;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00071}00071\ \ \ \textcolor{comment}{//\ 메모리(map)의\ 비트맵\ 데이터를\ 디스크의\ 지정된\ 위치에\ 기록한다.}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00072}00072\ \ \ ret\ =\ \mbox{\hyperlink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\_write}}(fd,\ map,\ map\_size,\ (off\_t)block\_no\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00073}00073\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00074}00074\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;\ \textcolor{comment}{//\ disk\_write\ 실패:\ 기록\ 자체가\ 실패함}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00076}00076\ \ \ \textcolor{comment}{//\ 기록한\ 데이터\ 크기가\ 요청한\ 크기와\ 일치하는지\ 검증한다.}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00077}00077\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ map\_size)}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;\ \textcolor{comment}{//\ 기록한\ 데이터\ 크기가\ 예상\ 크기와\ 불일치\ (부분적\ 기록\ 발생)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00080}00080\ \ \ \textcolor{keywordflow}{return}\ 0;\ \textcolor{comment}{//\ 정상적으로\ 비트맵\ 데이터를\ 디스크에\ 기록\ 완료}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00081}00081\ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00099}\mbox{\hyperlink{bitmap_8h_af353a6dc75c8daa64776688e5a2d12eb}{00099}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8c_af353a6dc75c8daa64776688e5a2d12eb}{alloc\_block}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *block\_map)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00100}00100\ \ \ \textcolor{comment}{//\ 데이터\ 블록\ 영역에서\ 사용\ 가능한\ 총\ 블록\ 개수를\ 계산}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00101}00101\ \ \ uint32\_t\ total\ =\ sb-\/>\mbox{\hyperlink{structsfuse__super_a1beda11a6d52ccf0351e22d81b50a20d}{blocks\_count}}\ -\/\ sb-\/>\mbox{\hyperlink{structsfuse__super_a0af357d05a08b353bcc4f855e3c1a240}{data\_block\_start}};}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00103}00103\ \ \ \textcolor{comment}{//\ 비트맵을\ 처음부터\ 끝까지\ 탐색하며\ 빈\ 블록을\ 찾음}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00104}00104\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 0;\ i\ <\ total;\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00105}00105\ \ \ \ \ uint32\_t\ byte\_idx\ =\ i\ /\ 8;\ \textcolor{comment}{//\ 비트맵의\ 바이트\ 단위\ 인덱스}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00106}00106\ \ \ \ \ uint32\_t\ bit\_idx\ =\ i\ \%\ 8;\ \ \textcolor{comment}{//\ 바이트\ 내의\ 비트\ 위치\ (0\string~7)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00108}00108\ \ \ \ \ \textcolor{comment}{//\ 현재\ 블록(i)이\ 사용\ 가능한\ 상태인지\ 확인\ (비트\ 값이\ 0이면\ 사용\ 가능)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00109}00109\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(block\_map[byte\_idx]\ \&\ (1\ <<\ bit\_idx)))\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00110}00110\ \ \ \ \ \ \ \textcolor{comment}{//\ 사용\ 가능한\ 블록\ 발견\ 시\ 해당\ 비트를\ '1'로\ 설정하여\ 사용\ 중으로\ 표시}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00111}00111\ \ \ \ \ \ \ block\_map[byte\_idx]\ |=\ (1\ <<\ bit\_idx);}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00113}00113\ \ \ \ \ \ \ \textcolor{comment}{//\ 슈퍼블록에서\ 사용\ 가능한\ 블록\ 개수\ 1\ 감소}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00114}00114\ \ \ \ \ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_acaa02ed47b78c9a84c2f3622de95c44f}{free\_blocks}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00116}00116\ \ \ \ \ \ \ \textcolor{comment}{//\ 할당된\ 블록의\ 오프셋\ 반환\ (0부터\ 시작)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00117}00117\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})i;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00118}00118\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00119}00119\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00121}00121\ \ \ \textcolor{comment}{//\ 모든\ 블록이\ 이미\ 사용\ 중이면\ ENOSPC(공간\ 부족\ 오류)\ 반환}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00122}00122\ \ \ \textcolor{keywordflow}{return}\ -\/ENOSPC;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00123}00123\ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00142}\mbox{\hyperlink{bitmap_8h_a310935424c9bfe8e9e15de2ba38c8e2d}{00142}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bitmap_8c_a310935424c9bfe8e9e15de2ba38c8e2d}{free\_block}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *block\_map,\ uint32\_t\ offset)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00143}00143\ \ \ uint32\_t\ byte\_idx\ =\ offset\ /\ 8;\ \textcolor{comment}{//\ 비트맵\ 내의\ 바이트\ 단위\ 인덱스\ 계산}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00144}00144\ \ \ uint32\_t\ bit\_idx\ =\ offset\ \%\ 8;\ \ \textcolor{comment}{//\ 바이트\ 내에서의\ 비트\ 위치\ 계산\ (0\string~7)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00146}00146\ \ \ \textcolor{comment}{//\ 비트맵에서\ 해당\ 블록의\ 비트를\ '0'으로\ 설정\ (빈\ 상태로\ 표시)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00147}00147\ \ \ block\_map[byte\_idx]\ \&=\ \string~(1\ <<\ bit\_idx);}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00149}00149\ \ \ \textcolor{comment}{//\ 슈퍼블록\ 내\ 빈\ 블록\ 개수를\ 1\ 증가\ (가용\ 블록\ 수\ 갱신)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00150}00150\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_acaa02ed47b78c9a84c2f3622de95c44f}{free\_blocks}}++;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00151}00151\ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00172}\mbox{\hyperlink{bitmap_8h_ad48ce48ff2881ffb6beb7a8cd919b395}{00172}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8c_ad48ce48ff2881ffb6beb7a8cd919b395}{alloc\_inode}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *inode\_map)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00173}00173\ \ \ \textcolor{comment}{//\ 아이노드\ 0은\ 예약이므로\ 1부터\ 탐색을\ 시작}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00174}00174\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 1;\ i\ <\ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}};\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00175}00175\ \ \ \ \ uint32\_t\ byte\_idx\ =\ i\ /\ 8;\ \textcolor{comment}{//\ 비트맵\ 내의\ 바이트\ 인덱스\ 계산}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00176}00176\ \ \ \ \ uint32\_t\ bit\_idx\ =\ i\ \%\ 8;\ \ \textcolor{comment}{//\ 바이트\ 내의\ 비트\ 위치\ 계산\ (0\string~7)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00178}00178\ \ \ \ \ \textcolor{comment}{//\ 현재\ 아이노드(i)가\ 빈\ 상태인지\ 검사\ (0이면\ 빈\ 상태)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00179}00179\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(inode\_map[byte\_idx]\ \&\ (1\ <<\ bit\_idx)))\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00180}00180\ \ \ \ \ \ \ \textcolor{comment}{//\ 사용\ 가능한\ 아이노드를\ 발견하면,\ 비트맵에\ 사용\ 중으로\ 표시\ (비트=1)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00181}00181\ \ \ \ \ \ \ inode\_map[byte\_idx]\ |=\ (1\ <<\ bit\_idx);}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00183}00183\ \ \ \ \ \ \ \textcolor{comment}{//\ 슈퍼블록의\ 남은\ 빈\ 아이노드\ 수를\ 1\ 감소시킴}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00184}00184\ \ \ \ \ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_acd931caad1995d73e3dbf10d3023c424}{free\_inodes}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00186}00186\ \ \ \ \ \ \ \textcolor{comment}{//\ 할당된\ 아이노드\ 번호를\ 반환\ (번호는\ 1부터\ 시작)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00187}00187\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})i;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00188}00188\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00189}00189\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00191}00191\ \ \ \textcolor{comment}{//\ 빈\ 아이노드를\ 찾지\ 못했을\ 때\ 공간\ 부족(-\/ENOSPC)\ 오류\ 반환}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00192}00192\ \ \ \textcolor{keywordflow}{return}\ -\/ENOSPC;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00193}00193\ \}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00213}\mbox{\hyperlink{bitmap_8h_aab6ec916136e2fda6dc67227bc6b53d2}{00213}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bitmap_8c_aab6ec916136e2fda6dc67227bc6b53d2}{free\_inode}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *inode\_map,\ uint32\_t\ ino)\ \{}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00214}00214\ \ \ \textcolor{comment}{//\ 아이노드\ 번호\ 유효성\ 검사\ (0번\ 아이노드\ 및\ 유효\ 범위\ 초과\ 시\ 무시)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00215}00215\ \ \ \textcolor{keywordflow}{if}\ (ino\ ==\ 0\ ||\ ino\ >=\ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}})}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00216}00216\ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ 잘못된\ 아이노드\ 번호이므로\ 즉시\ 종료}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00218}00218\ \ \ uint32\_t\ byte\_idx\ =\ ino\ /\ 8;\ \textcolor{comment}{//\ 비트맵의\ 바이트\ 인덱스\ 계산}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00219}00219\ \ \ uint32\_t\ bit\_idx\ =\ ino\ \%\ 8;\ \ \textcolor{comment}{//\ 해당\ 바이트\ 내의\ 비트\ 위치\ 계산\ (0\string~7)}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00221}00221\ \ \ \textcolor{comment}{//\ 비트맵에서\ 해당\ 아이노드의\ 비트를\ 0으로\ 설정하여\ 빈\ 상태로\ 변경}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00222}00222\ \ \ inode\_map[byte\_idx]\ \&=\ \string~(1\ <<\ bit\_idx);}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00224}00224\ \ \ \textcolor{comment}{//\ 슈퍼블록의\ 빈\ 아이노드\ 개수를\ 1\ 증가시킴}}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00225}00225\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_acd931caad1995d73e3dbf10d3023c424}{free\_inodes}}++;}
+\DoxyCodeLine{\Hypertarget{bitmap_8c_source_l00226}00226\ \}}
+
+\end{DoxyCode}

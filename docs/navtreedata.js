@@ -27,9 +27,9 @@ var NAVTREE =
   [ "SFUSE_Documentation", "index.html", [
     [ "SFUSE", "index.html", null ],
     [ "SFUSE HISTORY", "d7/d43/md_HISTORY.html", [
-      [ "v0.0.1 (2024년 12월 30일)", "d7/d43/md_HISTORY.html#autotoc_md12", [
-        [ "New Features", "d7/d43/md_HISTORY.html#autotoc_md13", null ],
-        [ "Bug Fixes", "d7/d43/md_HISTORY.html#autotoc_md14", null ]
+      [ "v0.0.1 (2024년 12월 30일)", "d7/d43/md_HISTORY.html#autotoc_md1", [
+        [ "New Features", "d7/d43/md_HISTORY.html#autotoc_md2", null ],
+        [ "Bug Fixes", "d7/d43/md_HISTORY.html#autotoc_md3", null ]
       ] ]
     ] ],
     [ "실험 결과", "dd/db0/md_benchmark_2result.html", null ],

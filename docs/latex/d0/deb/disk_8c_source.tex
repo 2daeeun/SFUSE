@@ -1,0 +1,41 @@
+\doxysection{disk.\+c}
+\hypertarget{disk_8c_source}{}\label{disk_8c_source}\index{src/disk.c@{src/disk.c}}
+\mbox{\hyperlink{disk_8c}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{disk_8h}{disk.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <errno.h>}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00032}\mbox{\hyperlink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{00032}}\ ssize\_t\ \mbox{\hyperlink{disk_8c_a4e89c1e25d4c77895abb816855df3ab1}{disk\_read}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keywordtype}{void}\ *buf,\ \textcolor{keywordtype}{size\_t}\ count,\ off\_t\ off)\ \{}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00033}00033\ \ \ \textcolor{comment}{//\ 지정된\ 위치로\ 디스크\ 포인터\ 이동}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00034}00034\ \ \ \textcolor{keywordflow}{if}\ (lseek(fd,\ off,\ SEEK\_SET)\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00035}00035\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ lseek\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00037}00037\ \ \ \textcolor{comment}{//\ 데이터를\ 실제로\ 읽음}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00038}00038\ \ \ ssize\_t\ ret\ =\ read(fd,\ buf,\ count);}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00039}00039\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ 읽기\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00042}00042\ \ \ \textcolor{keywordflow}{return}\ ret;\ \textcolor{comment}{//\ 읽기\ 성공\ 시\ 읽은\ 바이트\ 수\ 반환}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00043}00043\ \}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00061}\mbox{\hyperlink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{00061}}\ ssize\_t\ \mbox{\hyperlink{disk_8c_a4d5c112b4fd7cbc953ce25361c0fc5ce}{disk\_write}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buf,\ \textcolor{keywordtype}{size\_t}\ count,\ off\_t\ off)\ \{}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00062}00062\ \ \ \textcolor{comment}{//\ 지정된\ 위치로\ 디스크\ 포인터\ 이동}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00063}00063\ \ \ \textcolor{keywordflow}{if}\ (lseek(fd,\ off,\ SEEK\_SET)\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ lseek\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00066}00066\ \ \ \textcolor{comment}{//\ 데이터를\ 실제로\ 기록함}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00067}00067\ \ \ ssize\_t\ ret\ =\ write(fd,\ buf,\ count);}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00068}00068\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00069}00069\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ 기록\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00071}00071\ \ \ \textcolor{keywordflow}{return}\ ret;\ \textcolor{comment}{//\ 기록\ 성공\ 시\ 기록한\ 바이트\ 수\ 반환}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00074}00074\ \textcolor{comment}{//\ NOTE:\ read\_block()과\ write\_block()\ 함수는\ 중복\ 코드를\ 방지하기\ 위해}}
+\DoxyCodeLine{\Hypertarget{disk_8c_source_l00075}00075\ \textcolor{comment}{//\ block.c에구현되어\ 있다.}}
+
+\end{DoxyCode}

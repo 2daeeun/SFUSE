@@ -1,0 +1,28 @@
+\doxysection{bitmap.\+h}
+\hypertarget{bitmap_8h_source}{}\label{bitmap_8h_source}\index{include/bitmap.h@{include/bitmap.h}}
+\mbox{\hyperlink{bitmap_8h}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00010}00010\ \textcolor{preprocessor}{\#ifndef\ SFUSE\_BITMAP\_H}}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00011}00011\ \textcolor{preprocessor}{\#define\ SFUSE\_BITMAP\_H}}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{super_8h}{super.h}}"{}}\ \textcolor{comment}{//\ struct\ sfuse\_super\ 정의}}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00028}00028\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8h_a71d915e1f010b404d49923241427b0fd}{bitmap\_load}}(\textcolor{keywordtype}{int}\ fd,\ uint32\_t\ block\_no,\ uint8\_t\ *map,\ \textcolor{keywordtype}{size\_t}\ map\_size);}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00041}00041\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8h_a227b256c17ea31f9c7743f3abc35966f}{bitmap\_sync}}(\textcolor{keywordtype}{int}\ fd,\ uint32\_t\ block\_no,\ uint8\_t\ *map,\ \textcolor{keywordtype}{size\_t}\ map\_size);}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00052}00052\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8h_af353a6dc75c8daa64776688e5a2d12eb}{alloc\_block}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *block\_map);}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00063}00063\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bitmap_8h_a310935424c9bfe8e9e15de2ba38c8e2d}{free\_block}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *block\_map,\ uint32\_t\ offset);}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00074}00074\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{bitmap_8h_ad48ce48ff2881ffb6beb7a8cd919b395}{alloc\_inode}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *inode\_map);}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00085}00085\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{bitmap_8h_aab6ec916136e2fda6dc67227bc6b53d2}{free\_inode}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint8\_t\ *inode\_map,\ uint32\_t\ ino);}
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{bitmap_8h_source_l00087}00087\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SFUSE\_BITMAP\_H}}
+
+\end{DoxyCode}

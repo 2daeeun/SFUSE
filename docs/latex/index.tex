@@ -1,0 +1,98 @@
+\chapter{SFUSE }
+\hypertarget{index}{}\label{index}\index{SFUSE@{SFUSE}}
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+
+
+SFUSE는 {\bfseries{Simple FUSE}}의 약자입니다.
+
+파일 읽기 및 삭제, 디렉토리 탐색과 같은 기본적인 파일 시스템의 동작을 {\bfseries{FUSE}}(Filesystem in Userspace)를 사용하여 구현한 간단한 파일 시스템입니다. ~\newline
+
+
+주요 기능 및 코드 설명은 \href{https://2daeeun.github.io/SFUSE/}{\texttt{SFUSE Doxygen}} 문서를 참고바랍니다. ~\newline
+ SFUSE의 버전에 따른 특징은 \href{./}{\texttt{HISTORY.\+md}} 문서를 참고바랍니다.\hypertarget{index_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{SFUSE 미리보기}{SFUSE 미리보기}}\label{index_autotoc_md5}
+ 
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md7}{}\doxysubsection{\texorpdfstring{사용 방법}{사용 방법}}\label{index_autotoc_md7}
+\hypertarget{index_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{1. 다운로드}{1. 다운로드}}\label{index_autotoc_md8}
+이 코드를 실행하기 위한 {\bfseries{필요한 패키지 설치}}와 {\bfseries{프로젝트 다운로드}}를 하는 명령어입니다.
+\begin{DoxyItemize}
+\item {\bfseries{Ubuntu}}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt\ install\ git\ build-\/essential\ cmake\ pkg-\/config\ fuse3\ libfuse3-\/dev\ -\/y\ \&\&\ \(\backslash\)}
+\DoxyCodeLine{git\ clone\ https://github.com/2daeeun/SFUSE.git\ \&\&\ \(\backslash\)}
+\DoxyCodeLine{cd\ SFUSE}
+
+\end{DoxyCode}
+
+\item {\bfseries{Arch Linux}}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ pacman\ -\/S\ git\ cmake\ fuse3\ \&\&\ \(\backslash\)}
+\DoxyCodeLine{git\ clone\ https://github.com/2daeeun/SFUSE.git\ \&\&\ \(\backslash\)}
+\DoxyCodeLine{cd\ SFUSE}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{index_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{2. 코드 컴파일 및 마운트}{2. 코드 컴파일 및 마운트}}\label{index_autotoc_md9}
+run.\+sh는 컴파일과 마운트 작업을 도와주는 셸 스크립트입니다. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./run.sh}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{3. 언마운트 방법}{3. 언마운트 방법}}\label{index_autotoc_md10}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{umount\ sfuse\_filesystem\ \&\&\ rmdir\ sfuse\_filesystem}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md12}{}\doxysubsubsection{\texorpdfstring{Reference}{Reference}}\label{index_autotoc_md12}
+
+\begin{DoxyItemize}
+\item {\bfseries{참조한 VSFS 소스코드}}
+\begin{DoxyItemize}
+\item \href{https://github.com/leo-tronic/OS-Simple-File-System}{\texttt{OS-\/\+Simple-\/\+File-\/\+System}}
+\item \href{https://github.com/macauleyp/tiny-file-system}{\texttt{tiny-\/file-\/system}}
+\item \href{https://github.com/jmdieguez/fisopfs}{\texttt{fisopfs (Origin)}}
+\item \href{https://github.com/2daeeun/fisopfs}{\texttt{fisopfs (Korean)}}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item {\bfseries{참조한 VSFS 관련 문서}}
+\begin{DoxyItemize}
+\item \href{https://www3.nd.edu/~pbui/teaching/cse.30341.fa18/project06.html}{\texttt{{\bfseries{Project 06\+: Simple File System}}\+: 노터데임 대학교 CSE 30341 운영 체제 원리(2024년 가을)}}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Doxygen 설치}} (HTML and PDF)
+\begin{DoxyItemize}
+\item {\bfseries{Arch Linux}}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ pacman\ -\/S\ doxygen\ graphviz}
+\DoxyCodeLine{yay\ -\/S\ texlive-\/core\ texlive-\/bin\ texlive-\/fontsextra\ texlive-\/latexextra\ texlive-\/latexrecommended\ texlive-\/luatex\ texlive-\/xetex\ texlive-\/lang\ texlive-\/listofitems\ texlive-\/fontsrecommended\ ttf-\/texgyre}
+\DoxyCodeLine{\#\ fmt\ 생성}
+\DoxyCodeLine{sudo\ fmtutil-\/sys\ -\/-\/all}
+\DoxyCodeLine{\#\ pdf\ 생성}
+\DoxyCodeLine{cd\ docs/latex}
+\DoxyCodeLine{make\ clean}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md14}{}\doxysubsubsection{\texorpdfstring{NOTE}{NOTE}}\label{index_autotoc_md14}
+
+\begin{DoxyItemize}
+\item 본 프로젝트의 실험은 Arch Linux의 FUSE v3.\+16.\+2에서 진행하였으며, Ubuntu 24.\+04의 FUSE v3.\+14에서도 작동을 확인하였습니다. (2024년 11월 20일 확인)
+\item 본 프로젝트는 추후 파일 쓰기와 삭제 기능을 추가 할 예정이며, 더 나아가 I/O 최적화와 로그 시스템 연구에 쓰일 예정입니다. 
+\end{DoxyItemize}

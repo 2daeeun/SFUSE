@@ -1,0 +1,163 @@
+\doxysection{src/disk.c 파일 참조}
+\hypertarget{disk_8c}{}\label{disk_8c}\index{src/disk.c@{src/disk.c}}
+
+
+원시 디바이스에 직접 접근하는 저수준 I/O 연산 구현  
+
+
+{\ttfamily \#include "{}disk.\+h"{}}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+disk.\+c에 대한 include 의존 그래프
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d9/dd9/disk_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{함수}
+\begin{DoxyCompactItemize}
+\item 
+ssize\+\_\+t \mbox{\hyperlink{disk_8c_a4e89c1e25d4c77895abb816855df3ab1}{disk\+\_\+read}} (int fd, void \texorpdfstring{$\ast$}{*}buf, size\+\_\+t count, off\+\_\+t off)
+\begin{DoxyCompactList}\small\item\em 원시 디바이스의 지정된 offset에서 데이터를 읽는다. \end{DoxyCompactList}\item 
+ssize\+\_\+t \mbox{\hyperlink{disk_8c_a4d5c112b4fd7cbc953ce25361c0fc5ce}{disk\+\_\+write}} (int fd, const void \texorpdfstring{$\ast$}{*}buf, size\+\_\+t count, off\+\_\+t off)
+\begin{DoxyCompactList}\small\item\em 원시 디바이스의 지정된 offset에 데이터를 기록한다. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{상세한 설명}
+원시 디바이스에 직접 접근하는 저수준 I/O 연산 구현 
+
+이 파일은 disk.\+h에서 선언된 \doxylink{disk_8c_a4e89c1e25d4c77895abb816855df3ab1}{disk\+\_\+read()}와 \doxylink{disk_8c_a4d5c112b4fd7cbc953ce25361c0fc5ce}{disk\+\_\+write()}를 구현하며, 주어진 원시 디바이스에 직접 접근하여 데이터를 읽고 쓰는 기능을 제공한다.
+
+\begin{DoxyNote}{주의}
+\doxylink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\+\_\+block()}과 \doxylink{block_8h_a68fff59f4eeded5f354caed94cd27f12}{write\+\_\+block()} 함수는 중복 코드를 방지하기 위해 별도의 파일(\doxylink{block_8c}{block.\+c})에 구현되어 있다. 
+\end{DoxyNote}
+
+
+\mbox{\hyperlink{disk_8c_source}{disk.\+c}} 파일에서 정의되었습니다.
+
+
+
+\label{doc-func-members}
+\Hypertarget{disk_8c_doc-func-members}
+\doxysubsection{함수 문서화}
+\Hypertarget{disk_8c_a4e89c1e25d4c77895abb816855df3ab1}\index{disk.c@{disk.c}!disk\_read@{disk\_read}}
+\index{disk\_read@{disk\_read}!disk.c@{disk.c}}
+\doxysubsubsection{\texorpdfstring{disk\_read()}{disk\_read()}}
+{\footnotesize\ttfamily \label{disk_8c_a4e89c1e25d4c77895abb816855df3ab1} 
+ssize\+\_\+t disk\+\_\+read (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{size\+\_\+t}]{count}{, }\item[{off\+\_\+t}]{off}{}\end{DoxyParamCaption})}
+
+
+
+원시 디바이스의 지정된 offset에서 데이터를 읽는다. 
+
+원시 디바이스에서 특정 offset으로부터 데이터를 읽는다.
+
+본 함수는 lseek를 통해 디스크 내 원하는 위치(offset)로 이동한 뒤, read를 통해 데이터를 읽는다. offset은 파일의 시작 위치로부터 바이트 단위로 계산된다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em buf} & 읽은 데이터를 저장할 버퍼 포인터 \\
+\hline
+{\em count} & 읽을 데이터의 크기(바이트 단위) \\
+\hline
+{\em off} & 읽기 시작할 위치 (바이트 단위 오프셋)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 실제로 읽은 바이트 수 반환. 실패 시 음수(-\/errno) 반환.
+\end{DoxyReturn}
+\begin{DoxyNote}{주의}
+반환된 바이트 수는 요청한 count 값보다 작을 수 있다. 
+\end{DoxyNote}
+
+
+\mbox{\hyperlink{disk_8c_source}{disk.\+c}} 파일의 \mbox{\hyperlink{disk_8c_source_l00032}{32}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00033\ \ \ \textcolor{comment}{//\ 지정된\ 위치로\ 디스크\ 포인터\ 이동}}
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordflow}{if}\ (lseek(fd,\ off,\ SEEK\_SET)\ <\ 0)}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ lseek\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \textcolor{comment}{//\ 데이터를\ 실제로\ 읽음}}
+\DoxyCodeLine{00038\ \ \ ssize\_t\ ret\ =\ read(fd,\ buf,\ count);}
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ 읽기\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \textcolor{keywordflow}{return}\ ret;\ \textcolor{comment}{//\ 읽기\ 성공\ 시\ 읽은\ 바이트\ 수\ 반환}}
+\DoxyCodeLine{00043\ \}}
+
+\end{DoxyCode}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/deb/disk_8c_a4e89c1e25d4c77895abb816855df3ab1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disk_8c_a4d5c112b4fd7cbc953ce25361c0fc5ce}\index{disk.c@{disk.c}!disk\_write@{disk\_write}}
+\index{disk\_write@{disk\_write}!disk.c@{disk.c}}
+\doxysubsubsection{\texorpdfstring{disk\_write()}{disk\_write()}}
+{\footnotesize\ttfamily \label{disk_8c_a4d5c112b4fd7cbc953ce25361c0fc5ce} 
+ssize\+\_\+t disk\+\_\+write (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{size\+\_\+t}]{count}{, }\item[{off\+\_\+t}]{off}{}\end{DoxyParamCaption})}
+
+
+
+원시 디바이스의 지정된 offset에 데이터를 기록한다. 
+
+원시 디바이스의 특정 오프셋(offset)에 데이터를 쓴다.
+
+본 함수는 lseek를 통해 디스크 내 원하는 위치(offset)로 이동한 뒤, write를 통해 데이터를 쓴다. offset은 파일의 시작 위치로부터 바이트 단위로 계산된다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em buf} & 기록할 데이터가 저장된 버퍼 포인터 \\
+\hline
+{\em count} & 기록할 데이터 크기(바이트 단위) \\
+\hline
+{\em off} & 기록을 시작할 위치 (바이트 단위 오프셋)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 실제로 기록된 바이트 수 반환. 실패 시 음수(-\/errno) 반환.
+\end{DoxyReturn}
+\begin{DoxyNote}{주의}
+기록된 바이트 수가 요청한 count 값보다 작을 수 있다. 디스크가 꽉 차는 등의 상황에서는 ENOSPC 오류가 발생할 수 있다. 
+\end{DoxyNote}
+
+
+\mbox{\hyperlink{disk_8c_source}{disk.\+c}} 파일의 \mbox{\hyperlink{disk_8c_source_l00061}{61}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \textcolor{comment}{//\ 지정된\ 위치로\ 디스크\ 포인터\ 이동}}
+\DoxyCodeLine{00063\ \ \ \textcolor{keywordflow}{if}\ (lseek(fd,\ off,\ SEEK\_SET)\ <\ 0)}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ lseek\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \textcolor{comment}{//\ 데이터를\ 실제로\ 기록함}}
+\DoxyCodeLine{00067\ \ \ ssize\_t\ ret\ =\ write(fd,\ buf,\ count);}
+\DoxyCodeLine{00068\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/errno;\ \textcolor{comment}{//\ 기록\ 실패\ 시\ errno\ 반환}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \textcolor{keywordflow}{return}\ ret;\ \textcolor{comment}{//\ 기록\ 성공\ 시\ 기록한\ 바이트\ 수\ 반환}}
+\DoxyCodeLine{00072\ \}}
+
+\end{DoxyCode}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d0/deb/disk_8c_a4d5c112b4fd7cbc953ce25361c0fc5ce_icgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,106 @@
+\doxysection{main.\+c}
+\hypertarget{main_8c_source}{}\label{main_8c_source}\index{src/main.c@{src/main.c}}
+\mbox{\hyperlink{main_8c}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fs_8h}{fs.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ops_8h}{ops.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <errno.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <fcntl.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <fuse.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <fuse\_opt.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <sys/stat.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00038}\mbox{\hyperlink{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{00038}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ *argv[])\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00039}00039\ \ \ \textcolor{keywordflow}{if}\ (argc\ >=\ 2\ \&\&\ (!strcmp(argv[1],\ \textcolor{stringliteral}{"{}-\/h"{}})\ ||\ !strcmp(argv[1],\ \textcolor{stringliteral}{"{}-\/-\/help"{}})))\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00040}00040\ \ \ \ \ fprintf(stdout,}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}사용법\ :\ sudo\ \%s\ <device>\ <mountpoint>\ [options]\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(사용예:\ sudo\ ./sfuse\ /dev/sdx\ /mnt/partition\ -\/f\ -\/s\ -\/d\ -\/o\ "{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}allow\_other,default\_permissions\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)n기본\ 옵션들:\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/f:\ FUSE\ 파일시스템을\ 포그라운드에서\ 실행한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/s:\ 싱글\ 스레드\ 모드로\ 실행한다(디버깅\ 용이).\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/d:\ 디버그\ 모드를\ 활성화하여\ 파일시스템의\ 상세한\ 동작\ 정보를\ "{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}출력한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ allow\_other:\ 모든\ 사용자가\ 파일시스템에\ 접근\ 가능하도록\ "{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}허용한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ default\_permissions:\ 기본\ UNIX\ 권한\ 체크를\ 활성화하여\ 파일\ "{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}접근\ 권한을\ 관리한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)n추가로\ 사용할\ 수\ 있는\ FUSE\ 옵션들:\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/h,\ -\/-\/help:\ FUSE\ 사용법과\ 옵션\ 목록을\ 출력한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/V,\ -\/-\/version:\ FUSE\ 라이브러리의\ 버전\ 정보를\ 출력한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ ro:\ 읽기\ 전용으로\ 파일시스템을\ 마운트한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ rw:\ 읽기\ 및\ 쓰기\ 모드로\ 마운트한다(기본값).\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ fsname=NAME:\ 파일시스템의\ 이름을\ 설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ uid=N:\ 파일의\ 소유자\ UID를\ 설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ gid=N:\ 파일의\ 그룹\ GID를\ 설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ umask=MASK:\ 파일\ 및\ 디렉토리\ 생성\ 시\ 적용할\ 권한\ 마스크를\ "{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ nonempty:\ 마운트\ 지점이\ 비어있지\ 않아도\ 마운트를\ 허용한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ direct\_io:\ 커널\ 페이지\ 캐시를\ 우회하여\ 직접\ 입출력을\ "{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}활성화한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ auto\_unmount:\ 프로그램\ 종료\ 시\ 자동으로\ 마운트를\ 해제한다.\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ argv[0]);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_SUCCESS;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00069}00069\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00071}00071\ \ \ \textcolor{keywordflow}{if}\ (argc\ <\ 3)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00072}00072\ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}사용법:\ sudo\ \%s\ <device>\ <mountpoint>\ [options]\(\backslash\)n"{}},}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ argv[0]);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00074}00074\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00075}00075\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00078}00078\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *dev\_path\ =\ argv[1];}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00080}00080\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *mountpoint\ =\ argv[2];}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00089}00089\ \ \ \textcolor{keywordtype}{int}\ backing\_fd\ =\ open(dev\_path,\ O\_RDWR\ |\ O\_SYNC);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00090}00090\ \ \ \textcolor{keywordflow}{if}\ (backing\_fd\ <\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00091}00091\ \ \ \ \ perror(\textcolor{stringliteral}{"{}디바이스\ 열기\ 실패"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00092}00092\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00093}00093\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00101}00101\ \ \ \textcolor{keyword}{struct\ }stat\ st;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00102}00102\ \ \ \textcolor{keywordflow}{if}\ (fstat(backing\_fd,\ \&st)\ <\ 0\ ||\ !S\_ISBLK(st.st\_mode))\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00103}00103\ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}\%s는\ 블록\ 디바이스가\ 아닙니다.\(\backslash\)n"{}},\ dev\_path);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00104}00104\ \ \ \ \ close(backing\_fd);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00105}00105\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00106}00106\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00113}00113\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__fs}{sfuse\_fs}}\ *fs\ =\ calloc(1,\ \textcolor{keyword}{sizeof}(*fs));}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00114}00114\ \ \ \textcolor{keywordflow}{if}\ (!fs)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00115}00115\ \ \ \ \ perror(\textcolor{stringliteral}{"{}메모리\ 할당\ 실패"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00116}00116\ \ \ \ \ close(\mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00117}00117\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00118}00118\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00121}00121\ \ \ fs-\/>\mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}}\ =\ \mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}};}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00126}00126\ \ \ \textcolor{keyword}{struct\ }fuse\_args\ args\ =\ FUSE\_ARGS\_INIT(0,\ NULL);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00132}00132\ \ \ fuse\_opt\_add\_arg(\&args,\ argv[0]);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00133}00133\ \ \ fuse\_opt\_add\_arg(\&args,\ mountpoint);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00138}00138\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 3;\ i\ <\ argc;\ i++)\ \{}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00139}00139\ \ \ \ \ fuse\_opt\_add\_arg(\&args,\ argv[i]);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00140}00140\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00152}00152\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}-\/o"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00153}00153\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}allow\_other"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00154}00154\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}default\_permissions"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00155}00155\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}-\/d"{}});}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00160}00160\ \ \ \textcolor{keywordtype}{int}\ ret\ =\ fuse\_main(args.argc,\ args.argv,\ \&\mbox{\hyperlink{ops_8h_a8a3005b535e830b2ef6316cc752b7d4a}{sfuse\_ops}},\ fs);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00168}00168\ \ \ fuse\_opt\_free\_args(\&args);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00169}00169\ \ \ close(backing\_fd);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00170}00170\ \ \ free(fs);}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00172}00172\ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{\Hypertarget{main_8c_source_l00173}00173\ \}}
+
+\end{DoxyCode}

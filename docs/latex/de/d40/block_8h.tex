@@ -1,0 +1,203 @@
+\doxysection{include/block.h 파일 참조}
+\hypertarget{block_8h}{}\label{block_8h}\index{include/block.h@{include/block.h}}
+
+
+블록 단위 읽기 및 쓰기를 위한 인터페이스 정의  
+
+
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+block.\+h에 대한 include 의존 그래프
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=170pt]{d8/d3d/block_8h__incl}
+\end{center}
+\end{figure}
+이 그래프는 이 파일을 직/간접적으로 include 하는 파일들을 보여줍니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{db/d59/block_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{함수}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\+\_\+block}} (int fd, uint32\+\_\+t block\+\_\+no, void \texorpdfstring{$\ast$}{*}buf)
+\begin{DoxyCompactList}\small\item\em 디바이스에서 블록 단위(4\+KB)로 읽기 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{block_8h_a68fff59f4eeded5f354caed94cd27f12}{write\+\_\+block}} (int fd, uint32\+\_\+t block\+\_\+no, const void \texorpdfstring{$\ast$}{*}buf)
+\begin{DoxyCompactList}\small\item\em 디바이스에 블록 단위(4\+KB)로 쓰기 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{상세한 설명}
+블록 단위 읽기 및 쓰기를 위한 인터페이스 정의 
+
+디바이스와의 입출력을 블록 단위로 처리하기 위한 인터페이스를 제공한다. 블록 크기는 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE (일반적으로 4KB)로 고정된다. 
+
+\mbox{\hyperlink{block_8h_source}{block.\+h}} 파일에서 정의되었습니다.
+
+
+
+\label{doc-func-members}
+\Hypertarget{block_8h_doc-func-members}
+\doxysubsection{함수 문서화}
+\Hypertarget{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}\index{block.h@{block.h}!read\_block@{read\_block}}
+\index{read\_block@{read\_block}!block.h@{block.h}}
+\doxysubsubsection{\texorpdfstring{read\_block()}{read\_block()}}
+{\footnotesize\ttfamily \label{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795} 
+int read\+\_\+block (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{uint32\+\_\+t}]{block\+\_\+no}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{buf}{}\end{DoxyParamCaption})}
+
+
+
+디바이스에서 블록 단위(4\+KB)로 읽기 
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em block\+\_\+no} & 읽을 블록 번호 (0부터 시작) \\
+\hline
+{\em buf} & SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 바이트 버퍼 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+0 성공, 음수 오류코드
+\end{DoxyReturn}
+디바이스에서 블록 단위(4\+KB)로 읽기
+
+블록 번호를 이용하여 디바이스 파일의 정확한 위치(offset)를 계산한 후, \doxylink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\+\_\+read()}를 호출하여 해당 위치에서 블록 단위의 데이터를 읽는다. 읽기 작업은 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 단위로 이루어진다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em block\+\_\+no} & 읽을 블록 번호 (0부터 시작) \\
+\hline
+{\em buf} & 읽은 데이터를 저장할 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 크기의 버퍼 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+0 성공, 음수 오류 코드 -\/EIO\+: 읽은 데이터 크기가 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE와 다를 경우 \doxylink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\+\_\+read()}에서 반환된 음수의 오류 코드 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{block_8c_source}{block.\+c}} 파일의 \mbox{\hyperlink{block_8c_source_l00030}{30}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \textcolor{comment}{//\ 블록\ 번호를\ 실제\ 파일의\ 바이트\ 오프셋으로\ 변환}}
+\DoxyCodeLine{00032\ \ \ off\_t\ offset\ =\ (off\_t)block\_no\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \textcolor{comment}{//\ 계산된\ 오프셋에서\ 블록\ 크기만큼\ 데이터를\ 읽기}}
+\DoxyCodeLine{00035\ \ \ ssize\_t\ ret\ =\ \mbox{\hyperlink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\_read}}(fd,\ buf,\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}},\ offset);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \textcolor{comment}{//\ disk\_read\ 실패\ 시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{comment}{//\ 읽은\ 데이터가\ 요청한\ 블록\ 크기와\ 일치하지\ 않을\ 경우\ EIO\ 오류\ 반환}}
+\DoxyCodeLine{00042\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}})}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00046\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{de/d40/block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d40/block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{block_8h_a68fff59f4eeded5f354caed94cd27f12}\index{block.h@{block.h}!write\_block@{write\_block}}
+\index{write\_block@{write\_block}!block.h@{block.h}}
+\doxysubsubsection{\texorpdfstring{write\_block()}{write\_block()}}
+{\footnotesize\ttfamily \label{block_8h_a68fff59f4eeded5f354caed94cd27f12} 
+int write\+\_\+block (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{uint32\+\_\+t}]{block\+\_\+no}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{buf}{}\end{DoxyParamCaption})}
+
+
+
+디바이스에 블록 단위(4\+KB)로 쓰기 
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em block\+\_\+no} & 쓸 블록 번호 (0부터 시작) \\
+\hline
+{\em buf} & SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 바이트 데이터 버퍼 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+0 성공, 음수 오류코드
+\end{DoxyReturn}
+디바이스에 블록 단위(4\+KB)로 쓰기
+
+블록 번호를 기반으로 디바이스 파일 내의 정확한 위치(offset)를 계산한 후, \doxylink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\+\_\+write()}를 호출하여 해당 위치에 블록 크기의 데이터를 기록한다. 쓰기 작업은 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 단위로 이루어진다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em block\+\_\+no} & 기록할 블록 번호 (0부터 시작) \\
+\hline
+{\em buf} & 기록할 데이터를 담고 있는 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE 크기의 버퍼 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+0 성공, 음수 오류 코드 -\/EIO\+: 기록한 데이터 크기가 SFUSE\+\_\+\+BLOCK\+\_\+\+SIZE와 다를 경우 \doxylink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\+\_\+write()}에서 반환된 음수의 오류 코드 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{block_8c_source}{block.\+c}} 파일의 \mbox{\hyperlink{block_8c_source_l00062}{62}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \textcolor{comment}{//\ 블록\ 번호를\ 실제\ 파일의\ 바이트\ 오프셋으로\ 변환}}
+\DoxyCodeLine{00064\ \ \ off\_t\ offset\ =\ (off\_t)block\_no\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \textcolor{comment}{//\ 계산된\ 오프셋에서\ 블록\ 크기만큼\ 데이터를\ 쓰기}}
+\DoxyCodeLine{00067\ \ \ ssize\_t\ ret\ =\ \mbox{\hyperlink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\_write}}(fd,\ buf,\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}},\ offset);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \textcolor{comment}{//\ disk\_write\ 실패\ 시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \textcolor{comment}{//\ 기록한\ 데이터가\ 요청한\ 블록\ 크기와\ 일치하지\ 않을\ 경우\ EIO\ 오류\ 반환}}
+\DoxyCodeLine{00074\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}})}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00078\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{de/d40/block_8h_a68fff59f4eeded5f354caed94cd27f12_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{de/d40/block_8h_a68fff59f4eeded5f354caed94cd27f12_icgraph}
+\end{center}
+\end{figure}

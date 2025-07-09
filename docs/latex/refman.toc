@@ -1,0 +1,224 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}SFUSE }{1}{chapter.1}%
+\contentsline {subsubsection}{\numberline {1.0.0.1}SFUSE 미리보기}{1}{subsubsection.1.0.0.1}%
+\contentsline {subsection}{\numberline {1.0.1}사용 방법}{1}{subsection.1.0.1}%
+\contentsline {subsubsection}{\numberline {1.0.1.1}1. 다운로드}{1}{subsubsection.1.0.1.1}%
+\contentsline {subsubsection}{\numberline {1.0.1.2}2. 코드 컴파일 및 마운트}{1}{subsubsection.1.0.1.2}%
+\contentsline {subsubsection}{\numberline {1.0.1.3}3. 언마운트 방법}{1}{subsubsection.1.0.1.3}%
+\contentsline {subsubsection}{\numberline {1.0.1.4}Reference}{2}{subsubsection.1.0.1.4}%
+\contentsline {subsubsection}{\numberline {1.0.1.5}NOTE}{2}{subsubsection.1.0.1.5}%
+\contentsline {chapter}{\numberline {2}SFUSE HISTORY }{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}v0.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}0.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}1 (2024년 12월 30일)}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}New Features}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Bug Fixes}{3}{subsection.2.1.2}%
+\contentsline {chapter}{\numberline {3}실험 결과 }{5}{chapter.3}%
+\contentsline {subsection}{\numberline {3.0.1}실험 결과 그래프}{5}{subsection.3.0.1}%
+\contentsline {chapter}{\numberline {4}fio 워크플로우 }{7}{chapter.4}%
+\contentsline {subsection}{\numberline {4.0.1}SFUSE의 워크플로우 결과}{7}{subsection.4.0.1}%
+\contentsline {subsection}{\numberline {4.0.2}Ext4의 워크플로우 결과}{9}{subsection.4.0.2}%
+\contentsline {chapter}{\numberline {5}데이터 구조 색인}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}데이터 구조}{11}{section.5.1}%
+\contentsline {chapter}{\numberline {6}파일 색인}{13}{chapter.6}%
+\contentsline {section}{\numberline {6.1}파일 목록}{13}{section.6.1}%
+\contentsline {chapter}{\numberline {7}데이터 구조 문서화}{15}{chapter.7}%
+\contentsline {section}{\numberline {7.1}sfuse\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dirent 구조체 참조}{15}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}상세한 설명}{15}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}필드 문서화}{15}{subsection.7.1.2}%
+\contentsline {subsubsection}{\numberline {7.1.2.1}ino}{15}{subsubsection.7.1.2.1}%
+\contentsline {subsubsection}{\numberline {7.1.2.2}name}{15}{subsubsection.7.1.2.2}%
+\contentsline {section}{\numberline {7.2}sfuse\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}fs 구조체 참조}{15}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}상세한 설명}{16}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}필드 문서화}{16}{subsection.7.2.2}%
+\contentsline {subsubsection}{\numberline {7.2.2.1}backing\_fd}{16}{subsubsection.7.2.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2.2}block\_map}{16}{subsubsection.7.2.2.2}%
+\contentsline {subsubsection}{\numberline {7.2.2.3}inode\_map}{16}{subsubsection.7.2.2.3}%
+\contentsline {subsubsection}{\numberline {7.2.2.4}sb}{17}{subsubsection.7.2.2.4}%
+\contentsline {section}{\numberline {7.3}sfuse\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}inode 구조체 참조}{17}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}상세한 설명}{17}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}필드 문서화}{17}{subsection.7.3.2}%
+\contentsline {subsubsection}{\numberline {7.3.2.1}atime}{17}{subsubsection.7.3.2.1}%
+\contentsline {subsubsection}{\numberline {7.3.2.2}ctime}{18}{subsubsection.7.3.2.2}%
+\contentsline {subsubsection}{\numberline {7.3.2.3}direct}{18}{subsubsection.7.3.2.3}%
+\contentsline {subsubsection}{\numberline {7.3.2.4}double\_indirect}{18}{subsubsection.7.3.2.4}%
+\contentsline {subsubsection}{\numberline {7.3.2.5}gid}{18}{subsubsection.7.3.2.5}%
+\contentsline {subsubsection}{\numberline {7.3.2.6}indirect}{18}{subsubsection.7.3.2.6}%
+\contentsline {subsubsection}{\numberline {7.3.2.7}links}{18}{subsubsection.7.3.2.7}%
+\contentsline {subsubsection}{\numberline {7.3.2.8}mode}{18}{subsubsection.7.3.2.8}%
+\contentsline {subsubsection}{\numberline {7.3.2.9}mtime}{18}{subsubsection.7.3.2.9}%
+\contentsline {subsubsection}{\numberline {7.3.2.10}size}{18}{subsubsection.7.3.2.10}%
+\contentsline {subsubsection}{\numberline {7.3.2.11}uid}{18}{subsubsection.7.3.2.11}%
+\contentsline {section}{\numberline {7.4}sfuse\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}super 구조체 참조}{19}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}상세한 설명}{19}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}필드 문서화}{19}{subsection.7.4.2}%
+\contentsline {subsubsection}{\numberline {7.4.2.1}block\_bitmap\_start}{19}{subsubsection.7.4.2.1}%
+\contentsline {subsubsection}{\numberline {7.4.2.2}blocks\_count}{19}{subsubsection.7.4.2.2}%
+\contentsline {subsubsection}{\numberline {7.4.2.3}data\_block\_start}{19}{subsubsection.7.4.2.3}%
+\contentsline {subsubsection}{\numberline {7.4.2.4}free\_blocks}{19}{subsubsection.7.4.2.4}%
+\contentsline {subsubsection}{\numberline {7.4.2.5}free\_inodes}{19}{subsubsection.7.4.2.5}%
+\contentsline {subsubsection}{\numberline {7.4.2.6}inode\_bitmap\_start}{20}{subsubsection.7.4.2.6}%
+\contentsline {subsubsection}{\numberline {7.4.2.7}inode\_table\_start}{20}{subsubsection.7.4.2.7}%
+\contentsline {subsubsection}{\numberline {7.4.2.8}inodes\_count}{20}{subsubsection.7.4.2.8}%
+\contentsline {subsubsection}{\numberline {7.4.2.9}magic}{20}{subsubsection.7.4.2.9}%
+\contentsline {chapter}{\numberline {8}파일 문서화}{21}{chapter.8}%
+\contentsline {section}{\numberline {8.1}benchmark/result.md 파일 참조}{21}{section.8.1}%
+\contentsline {section}{\numberline {8.2}benchmark/workflow.md 파일 참조}{21}{section.8.2}%
+\contentsline {section}{\numberline {8.3}HISTORY.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}md 파일 참조}{21}{section.8.3}%
+\contentsline {section}{\numberline {8.4}include/bitmap.h 파일 참조}{21}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}상세한 설명}{22}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}함수 문서화}{22}{subsection.8.4.2}%
+\contentsline {subsubsection}{\numberline {8.4.2.1}alloc\_block()}{22}{subsubsection.8.4.2.1}%
+\contentsline {subsubsection}{\numberline {8.4.2.2}alloc\_inode()}{24}{subsubsection.8.4.2.2}%
+\contentsline {subsubsection}{\numberline {8.4.2.3}bitmap\_load()}{25}{subsubsection.8.4.2.3}%
+\contentsline {subsubsection}{\numberline {8.4.2.4}bitmap\_sync()}{26}{subsubsection.8.4.2.4}%
+\contentsline {subsubsection}{\numberline {8.4.2.5}free\_block()}{28}{subsubsection.8.4.2.5}%
+\contentsline {subsubsection}{\numberline {8.4.2.6}free\_inode()}{29}{subsubsection.8.4.2.6}%
+\contentsline {section}{\numberline {8.5}bitmap.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{30}{section.8.5}%
+\contentsline {section}{\numberline {8.6}include/block.h 파일 참조}{31}{section.8.6}%
+\contentsline {subsection}{\numberline {8.6.1}상세한 설명}{31}{subsection.8.6.1}%
+\contentsline {subsection}{\numberline {8.6.2}함수 문서화}{31}{subsection.8.6.2}%
+\contentsline {subsubsection}{\numberline {8.6.2.1}read\_block()}{31}{subsubsection.8.6.2.1}%
+\contentsline {subsubsection}{\numberline {8.6.2.2}write\_block()}{34}{subsubsection.8.6.2.2}%
+\contentsline {section}{\numberline {8.7}block.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{36}{section.8.7}%
+\contentsline {section}{\numberline {8.8}include/dir.h 파일 참조}{36}{section.8.8}%
+\contentsline {subsection}{\numberline {8.8.1}상세한 설명}{37}{subsection.8.8.1}%
+\contentsline {subsection}{\numberline {8.8.2}매크로 문서화}{37}{subsection.8.8.2}%
+\contentsline {subsubsection}{\numberline {8.8.2.1}SFUSE\_NAME\_LEN}{37}{subsubsection.8.8.2.1}%
+\contentsline {subsection}{\numberline {8.8.3}함수 문서화}{37}{subsection.8.8.3}%
+\contentsline {subsubsection}{\numberline {8.8.3.1}dir\_add\_entry()}{37}{subsubsection.8.8.3.1}%
+\contentsline {subsubsection}{\numberline {8.8.3.2}dir\_load()}{40}{subsubsection.8.8.3.2}%
+\contentsline {subsubsection}{\numberline {8.8.3.3}dir\_remove\_entry()}{42}{subsubsection.8.8.3.3}%
+\contentsline {section}{\numberline {8.9}dir.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{44}{section.8.9}%
+\contentsline {section}{\numberline {8.10}include/disk.h 파일 참조}{45}{section.8.10}%
+\contentsline {subsection}{\numberline {8.10.1}상세한 설명}{45}{subsection.8.10.1}%
+\contentsline {subsection}{\numberline {8.10.2}함수 문서화}{46}{subsection.8.10.2}%
+\contentsline {subsubsection}{\numberline {8.10.2.1}disk\_read()}{46}{subsubsection.8.10.2.1}%
+\contentsline {subsubsection}{\numberline {8.10.2.2}disk\_write()}{47}{subsubsection.8.10.2.2}%
+\contentsline {section}{\numberline {8.11}disk.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{49}{section.8.11}%
+\contentsline {section}{\numberline {8.12}include/fs.h 파일 참조}{50}{section.8.12}%
+\contentsline {subsection}{\numberline {8.12.1}상세한 설명}{51}{subsection.8.12.1}%
+\contentsline {subsection}{\numberline {8.12.2}매크로 문서화}{51}{subsection.8.12.2}%
+\contentsline {subsubsection}{\numberline {8.12.2.1}SFUSE\_ROOT\_INO}{51}{subsubsection.8.12.2.1}%
+\contentsline {subsection}{\numberline {8.12.3}함수 문서화}{51}{subsection.8.12.3}%
+\contentsline {subsubsection}{\numberline {8.12.3.1}fs\_destroy()}{51}{subsubsection.8.12.3.1}%
+\contentsline {subsubsection}{\numberline {8.12.3.2}fs\_initialize()}{52}{subsubsection.8.12.3.2}%
+\contentsline {subsubsection}{\numberline {8.12.3.3}fs\_resolve\_path()}{57}{subsubsection.8.12.3.3}%
+\contentsline {subsubsection}{\numberline {8.12.3.4}fs\_split\_path()}{61}{subsubsection.8.12.3.4}%
+\contentsline {subsubsection}{\numberline {8.12.3.5}get\_fs\_context()}{63}{subsubsection.8.12.3.5}%
+\contentsline {section}{\numberline {8.13}fs.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{64}{section.8.13}%
+\contentsline {section}{\numberline {8.14}include/inode.h 파일 참조}{65}{section.8.14}%
+\contentsline {subsection}{\numberline {8.14.1}상세한 설명}{66}{subsection.8.14.1}%
+\contentsline {subsection}{\numberline {8.14.2}매크로 문서화}{66}{subsection.8.14.2}%
+\contentsline {subsubsection}{\numberline {8.14.2.1}SFUSE\_NDIR\_BLOCKS}{66}{subsubsection.8.14.2.1}%
+\contentsline {subsection}{\numberline {8.14.3}함수 문서화}{67}{subsection.8.14.3}%
+\contentsline {subsubsection}{\numberline {8.14.3.1}fs\_init\_inode()}{67}{subsubsection.8.14.3.1}%
+\contentsline {subsubsection}{\numberline {8.14.3.2}inode\_load()}{68}{subsubsection.8.14.3.2}%
+\contentsline {subsubsection}{\numberline {8.14.3.3}inode\_sync()}{70}{subsubsection.8.14.3.3}%
+\contentsline {subsubsection}{\numberline {8.14.3.4}logical\_to\_physical()}{72}{subsubsection.8.14.3.4}%
+\contentsline {section}{\numberline {8.15}inode.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{75}{section.8.15}%
+\contentsline {section}{\numberline {8.16}include/ops.h 파일 참조}{76}{section.8.16}%
+\contentsline {subsection}{\numberline {8.16.1}변수 문서화}{76}{subsection.8.16.1}%
+\contentsline {subsubsection}{\numberline {8.16.1.1}sfuse\_ops}{76}{subsubsection.8.16.1.1}%
+\contentsline {section}{\numberline {8.17}ops.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{77}{section.8.17}%
+\contentsline {section}{\numberline {8.18}include/super.h 파일 참조}{77}{section.8.18}%
+\contentsline {subsection}{\numberline {8.18.1}상세한 설명}{78}{subsection.8.18.1}%
+\contentsline {subsection}{\numberline {8.18.2}매크로 문서화}{78}{subsection.8.18.2}%
+\contentsline {subsubsection}{\numberline {8.18.2.1}SFUSE\_BLOCK\_BITMAP\_BLOCK}{78}{subsubsection.8.18.2.1}%
+\contentsline {subsubsection}{\numberline {8.18.2.2}SFUSE\_BLOCK\_SIZE}{78}{subsubsection.8.18.2.2}%
+\contentsline {subsubsection}{\numberline {8.18.2.3}SFUSE\_BLOCKS\_COUNT}{79}{subsubsection.8.18.2.3}%
+\contentsline {subsubsection}{\numberline {8.18.2.4}SFUSE\_DATA\_BLOCK\_START}{79}{subsubsection.8.18.2.4}%
+\contentsline {subsubsection}{\numberline {8.18.2.5}SFUSE\_INODE\_BITMAP\_BLOCK}{79}{subsubsection.8.18.2.5}%
+\contentsline {subsubsection}{\numberline {8.18.2.6}SFUSE\_INODE\_TABLE\_BLOCK}{79}{subsubsection.8.18.2.6}%
+\contentsline {subsubsection}{\numberline {8.18.2.7}SFUSE\_INODES\_COUNT}{79}{subsubsection.8.18.2.7}%
+\contentsline {subsubsection}{\numberline {8.18.2.8}SFUSE\_MAGIC}{79}{subsubsection.8.18.2.8}%
+\contentsline {subsubsection}{\numberline {8.18.2.9}SFUSE\_SUPERBLOCK\_OFFSET}{79}{subsubsection.8.18.2.9}%
+\contentsline {subsection}{\numberline {8.18.3}함수 문서화}{79}{subsection.8.18.3}%
+\contentsline {subsubsection}{\numberline {8.18.3.1}sb\_format()}{79}{subsubsection.8.18.3.1}%
+\contentsline {subsubsection}{\numberline {8.18.3.2}sb\_load()}{80}{subsubsection.8.18.3.2}%
+\contentsline {subsubsection}{\numberline {8.18.3.3}sb\_sync()}{81}{subsubsection.8.18.3.3}%
+\contentsline {section}{\numberline {8.19}super.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{83}{section.8.19}%
+\contentsline {section}{\numberline {8.20}benchmark/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}README.md 파일 참조}{84}{section.8.20}%
+\contentsline {section}{\numberline {8.21}README.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}md 파일 참조}{84}{section.8.21}%
+\contentsline {section}{\numberline {8.22}src/bitmap.c 파일 참조}{84}{section.8.22}%
+\contentsline {subsection}{\numberline {8.22.1}상세한 설명}{85}{subsection.8.22.1}%
+\contentsline {subsection}{\numberline {8.22.2}함수 문서화}{85}{subsection.8.22.2}%
+\contentsline {subsubsection}{\numberline {8.22.2.1}alloc\_block()}{85}{subsubsection.8.22.2.1}%
+\contentsline {subsubsection}{\numberline {8.22.2.2}alloc\_inode()}{86}{subsubsection.8.22.2.2}%
+\contentsline {subsubsection}{\numberline {8.22.2.3}bitmap\_load()}{87}{subsubsection.8.22.2.3}%
+\contentsline {subsubsection}{\numberline {8.22.2.4}bitmap\_sync()}{88}{subsubsection.8.22.2.4}%
+\contentsline {subsubsection}{\numberline {8.22.2.5}free\_block()}{89}{subsubsection.8.22.2.5}%
+\contentsline {subsubsection}{\numberline {8.22.2.6}free\_inode()}{90}{subsubsection.8.22.2.6}%
+\contentsline {section}{\numberline {8.23}bitmap.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{91}{section.8.23}%
+\contentsline {section}{\numberline {8.24}src/block.c 파일 참조}{93}{section.8.24}%
+\contentsline {subsection}{\numberline {8.24.1}상세한 설명}{93}{subsection.8.24.1}%
+\contentsline {subsection}{\numberline {8.24.2}함수 문서화}{93}{subsection.8.24.2}%
+\contentsline {subsubsection}{\numberline {8.24.2.1}read\_block()}{93}{subsubsection.8.24.2.1}%
+\contentsline {subsubsection}{\numberline {8.24.2.2}write\_block()}{95}{subsubsection.8.24.2.2}%
+\contentsline {section}{\numberline {8.25}block.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{96}{section.8.25}%
+\contentsline {section}{\numberline {8.26}src/dir.c 파일 참조}{97}{section.8.26}%
+\contentsline {subsection}{\numberline {8.26.1}상세한 설명}{98}{subsection.8.26.1}%
+\contentsline {subsection}{\numberline {8.26.2}함수 문서화}{98}{subsection.8.26.2}%
+\contentsline {subsubsection}{\numberline {8.26.2.1}dir\_add\_entry()}{98}{subsubsection.8.26.2.1}%
+\contentsline {subsubsection}{\numberline {8.26.2.2}dir\_load()}{100}{subsubsection.8.26.2.2}%
+\contentsline {subsubsection}{\numberline {8.26.2.3}dir\_remove\_entry()}{102}{subsubsection.8.26.2.3}%
+\contentsline {section}{\numberline {8.27}dir.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{103}{section.8.27}%
+\contentsline {section}{\numberline {8.28}src/disk.c 파일 참조}{105}{section.8.28}%
+\contentsline {subsection}{\numberline {8.28.1}상세한 설명}{106}{subsection.8.28.1}%
+\contentsline {subsection}{\numberline {8.28.2}함수 문서화}{106}{subsection.8.28.2}%
+\contentsline {subsubsection}{\numberline {8.28.2.1}disk\_read()}{106}{subsubsection.8.28.2.1}%
+\contentsline {subsubsection}{\numberline {8.28.2.2}disk\_write()}{107}{subsubsection.8.28.2.2}%
+\contentsline {section}{\numberline {8.29}disk.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{108}{section.8.29}%
+\contentsline {section}{\numberline {8.30}src/fs.c 파일 참조}{109}{section.8.30}%
+\contentsline {subsection}{\numberline {8.30.1}상세한 설명}{110}{subsection.8.30.1}%
+\contentsline {subsection}{\numberline {8.30.2}함수 문서화}{110}{subsection.8.30.2}%
+\contentsline {subsubsection}{\numberline {8.30.2.1}fs\_destroy()}{110}{subsubsection.8.30.2.1}%
+\contentsline {subsubsection}{\numberline {8.30.2.2}fs\_initialize()}{111}{subsubsection.8.30.2.2}%
+\contentsline {subsubsection}{\numberline {8.30.2.3}fs\_resolve\_path()}{116}{subsubsection.8.30.2.3}%
+\contentsline {subsubsection}{\numberline {8.30.2.4}fs\_split\_path()}{118}{subsubsection.8.30.2.4}%
+\contentsline {subsubsection}{\numberline {8.30.2.5}get\_fs\_context()}{120}{subsubsection.8.30.2.5}%
+\contentsline {section}{\numberline {8.31}fs.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{121}{section.8.31}%
+\contentsline {section}{\numberline {8.32}src/inode.c 파일 참조}{127}{section.8.32}%
+\contentsline {subsection}{\numberline {8.32.1}상세한 설명}{128}{subsection.8.32.1}%
+\contentsline {subsection}{\numberline {8.32.2}함수 문서화}{128}{subsection.8.32.2}%
+\contentsline {subsubsection}{\numberline {8.32.2.1}fs\_init\_inode()}{128}{subsubsection.8.32.2.1}%
+\contentsline {subsubsection}{\numberline {8.32.2.2}inode\_load()}{129}{subsubsection.8.32.2.2}%
+\contentsline {subsubsection}{\numberline {8.32.2.3}inode\_sync()}{131}{subsubsection.8.32.2.3}%
+\contentsline {subsubsection}{\numberline {8.32.2.4}logical\_to\_physical()}{133}{subsubsection.8.32.2.4}%
+\contentsline {section}{\numberline {8.33}inode.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{135}{section.8.33}%
+\contentsline {section}{\numberline {8.34}src/main.c 파일 참조}{137}{section.8.34}%
+\contentsline {subsection}{\numberline {8.34.1}상세한 설명}{138}{subsection.8.34.1}%
+\contentsline {subsection}{\numberline {8.34.2}함수 문서화}{138}{subsection.8.34.2}%
+\contentsline {subsubsection}{\numberline {8.34.2.1}main()}{138}{subsubsection.8.34.2.1}%
+\contentsline {section}{\numberline {8.35}main.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{140}{section.8.35}%
+\contentsline {section}{\numberline {8.36}src/ops.c 파일 참조}{141}{section.8.36}%
+\contentsline {subsection}{\numberline {8.36.1}함수 문서화}{142}{subsection.8.36.1}%
+\contentsline {subsubsection}{\numberline {8.36.1.1}sfuse\_access\_cb()}{142}{subsubsection.8.36.1.1}%
+\contentsline {subsubsection}{\numberline {8.36.1.2}sfuse\_create\_cb()}{143}{subsubsection.8.36.1.2}%
+\contentsline {subsubsection}{\numberline {8.36.1.3}sfuse\_destroy\_cb()}{143}{subsubsection.8.36.1.3}%
+\contentsline {subsubsection}{\numberline {8.36.1.4}sfuse\_flush\_cb()}{144}{subsubsection.8.36.1.4}%
+\contentsline {subsubsection}{\numberline {8.36.1.5}sfuse\_fsync\_cb()}{144}{subsubsection.8.36.1.5}%
+\contentsline {subsubsection}{\numberline {8.36.1.6}sfuse\_getattr\_cb()}{145}{subsubsection.8.36.1.6}%
+\contentsline {subsubsection}{\numberline {8.36.1.7}sfuse\_getxattr\_cb()}{145}{subsubsection.8.36.1.7}%
+\contentsline {subsubsection}{\numberline {8.36.1.8}sfuse\_init\_cb()}{146}{subsubsection.8.36.1.8}%
+\contentsline {subsubsection}{\numberline {8.36.1.9}sfuse\_listxattr\_cb()}{146}{subsubsection.8.36.1.9}%
+\contentsline {subsubsection}{\numberline {8.36.1.10}sfuse\_mkdir\_cb()}{147}{subsubsection.8.36.1.10}%
+\contentsline {subsubsection}{\numberline {8.36.1.11}sfuse\_open\_cb()}{148}{subsubsection.8.36.1.11}%
+\contentsline {subsubsection}{\numberline {8.36.1.12}sfuse\_read\_cb()}{148}{subsubsection.8.36.1.12}%
+\contentsline {subsubsection}{\numberline {8.36.1.13}sfuse\_readdir\_cb()}{149}{subsubsection.8.36.1.13}%
+\contentsline {subsubsection}{\numberline {8.36.1.14}sfuse\_rename\_cb()}{150}{subsubsection.8.36.1.14}%
+\contentsline {subsubsection}{\numberline {8.36.1.15}sfuse\_rmdir\_cb()}{151}{subsubsection.8.36.1.15}%
+\contentsline {subsubsection}{\numberline {8.36.1.16}sfuse\_statfs\_cb()}{152}{subsubsection.8.36.1.16}%
+\contentsline {subsubsection}{\numberline {8.36.1.17}sfuse\_truncate\_cb()}{153}{subsubsection.8.36.1.17}%
+\contentsline {subsubsection}{\numberline {8.36.1.18}sfuse\_unlink\_cb()}{154}{subsubsection.8.36.1.18}%
+\contentsline {subsubsection}{\numberline {8.36.1.19}sfuse\_utimens\_cb()}{155}{subsubsection.8.36.1.19}%
+\contentsline {subsubsection}{\numberline {8.36.1.20}sfuse\_write\_cb()}{156}{subsubsection.8.36.1.20}%
+\contentsline {subsection}{\numberline {8.36.2}변수 문서화}{157}{subsection.8.36.2}%
+\contentsline {subsubsection}{\numberline {8.36.2.1}sfuse\_ops}{157}{subsubsection.8.36.2.1}%
+\contentsline {section}{\numberline {8.37}ops.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{157}{section.8.37}%
+\contentsline {section}{\numberline {8.38}src/super.c 파일 참조}{164}{section.8.38}%
+\contentsline {subsection}{\numberline {8.38.1}상세한 설명}{165}{subsection.8.38.1}%
+\contentsline {subsection}{\numberline {8.38.2}함수 문서화}{165}{subsection.8.38.2}%
+\contentsline {subsubsection}{\numberline {8.38.2.1}sb\_format()}{165}{subsubsection.8.38.2.1}%
+\contentsline {subsubsection}{\numberline {8.38.2.2}sb\_load()}{166}{subsubsection.8.38.2.2}%
+\contentsline {subsubsection}{\numberline {8.38.2.3}sb\_sync()}{167}{subsubsection.8.38.2.3}%
+\contentsline {section}{\numberline {8.39}super.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c}{168}{section.8.39}%
+\contentsline {chapter}{Index}{171}{section*.155}%

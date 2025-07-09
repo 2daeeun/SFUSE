@@ -1,0 +1,197 @@
+\doxysection{src/main.c 파일 참조}
+\hypertarget{main_8c}{}\label{main_8c}\index{src/main.c@{src/main.c}}
+
+
+SFUSE 파일시스템의 메인 진입점  
+
+
+{\ttfamily \#include "{}fs.\+h"{}}\newline
+{\ttfamily \#include "{}ops.\+h"{}}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$fcntl.\+h$>$}\newline
+{\ttfamily \#include $<$fuse.\+h$>$}\newline
+{\ttfamily \#include $<$fuse\+\_\+opt.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+main.\+c에 대한 include 의존 그래프
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d4/d10/main_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{함수}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em 프로그램 메인 함수 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{상세한 설명}
+SFUSE 파일시스템의 메인 진입점 
+
+블록 디바이스를 사용하여 SFUSE 파일시스템을 마운트하는 프로그램의 메인 함수를 구현한다. 파일시스템의 초기화, 디바이스 유효성 검사 및 FUSE 인자 설정 후 실행된다. 
+
+\mbox{\hyperlink{main_8c_source}{main.\+c}} 파일에서 정의되었습니다.
+
+
+
+\label{doc-func-members}
+\Hypertarget{main_8c_doc-func-members}
+\doxysubsection{함수 문서화}
+\Hypertarget{main_8c_a0ddf1224851353fc92bfbff6f499fa97}\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8c_a0ddf1224851353fc92bfbff6f499fa97} 
+int main (\begin{DoxyParamCaption}\item[{int}]{argc}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{argv}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+프로그램 메인 함수 
+
+SFUSE 파일시스템을 지정된 블록 디바이스에 마운트하고, FUSE를 통해 사용자의 추가 옵션과 함께 운영한다. 블록 디바이스 유효성을 확인하고 메모리 및 자원을 관리한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em argc} & 명령줄 인자의 개수 \\
+\hline
+{\em argv} & 명령줄 인자 배열\+:
+\begin{DoxyItemize}
+\item argv\mbox{[}0\mbox{]}\+: 프로그램 이름
+\item argv\mbox{[}1\mbox{]}\+: 블록 디바이스 경로
+\item argv\mbox{[}2\mbox{]}\+: 파일시스템 마운트 지점
+\item argv\mbox{[}3...n\mbox{]}\+: FUSE 추가 옵션들
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+프로그램 성공 시 EXIT\+\_\+\+SUCCESS 반환, 실패 시 EXIT\+\_\+\+FAILURE 반환 
+\end{DoxyReturn}
+마운트할 블록 디바이스의 경로를 저장하는 포인터
+
+SFUSE 파일시스템을 마운트할 디렉토리 경로를 저장하는 포인터
+
+블록 디바이스 파일을 열고 파일 디스크립터를 획득한다.
+
+open 함수는 파일이나 디바이스를 열 때 사용하며, O\+\_\+\+RDWR는 읽기 및 쓰기 모드, O\+\_\+\+SYNC는 데이터를 즉시 디스크에 쓰는 동기화 모드를 설정한다.
+
+열린 디바이스가 올바른 블록 디바이스인지 확인한다.
+
+fstat 함수는 파일 디스크립터의 상태를 stat 구조체에 저장하며, S\+\_\+\+ISBLK 매크로를 사용하여 블록 디바이스 여부를 검사한다.
+
+SFUSE 파일시스템 관리를 위한 구조체(sfuse\+\_\+fs)에 메모리를 할당하고 초기화한다. calloc 사용하여 메모리를 0으로 초기화한다.
+
+SFUSE 파일시스템에서 사용할 디바이스 파일 디스크립터를 저장
+
+FUSE 라이브러리에 전달할 인자 구조체를 초기화한다. FUSE\+\_\+\+ARGS\+\_\+\+INIT 매크로는 구조체를 안전하게 초기화하는데 사용된다.
+
+FUSE에 프로그램 이름과 마운트 포인트를 기본 인자로 설정하여 전달한다. argv\mbox{[}0\mbox{]}은 프로그램 이름을 나타내며, argv\mbox{[}2\mbox{]}는 파일시스템 마운트 지점이다.
+
+명령줄에서 추가로 입력된 모든 옵션을 FUSE 인자에 추가한다. 이를 통해 사용자는 FUSE의 다양한 기능을 옵션으로 활성화할 수 있다.
+
+필수 옵션을 추가하여 SFUSE 운영에 필요한 기본 설정을 활성화한다. -\/o\+: FUSE에 옵션을 전달할 때 사용하는 플래그이다. 여러 옵션을 쉼표로 구분하여 함께 전달할 수 있다.
+\begin{DoxyItemize}
+\item allow\+\_\+other\+: 다른 사용자가 마운트된 파일시스템에 접근할 수 있도록 허용한다.
+\item default\+\_\+permissions\+: 파일시스템의 기본적인 권한 관리를 FUSE가 수행하도록 -\/d\+: 파일시스템의 동작과 관련된 자세한 디버깅 정보를 출력한다. 한다.
+\end{DoxyItemize}
+
+FUSE 메인 루프를 실행하여 파일시스템의 실제 마운트 및 운영을 시작한다. sfuse\+\_\+ops는 파일시스템 작업을 처리하는 함수 포인터를 포함한 구조체이다.
+
+사용한 모든 자원을 정리하고 메모리를 해제한 뒤 프로그램을 종료한다. fuse\+\_\+opt\+\_\+free\+\_\+args\+: FUSE 인자 관련 메모리 해제 close\+: 파일 디스크립터 닫기 free\+: 동적 할당된 메모리 해제
+
+\mbox{\hyperlink{main_8c_source}{main.\+c}} 파일의 \mbox{\hyperlink{main_8c_source_l00038}{38}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \textcolor{keywordflow}{if}\ (argc\ >=\ 2\ \&\&\ (!strcmp(argv[1],\ \textcolor{stringliteral}{"{}-\/h"{}})\ ||\ !strcmp(argv[1],\ \textcolor{stringliteral}{"{}-\/-\/help"{}})))\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ fprintf(stdout,}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}사용법\ :\ sudo\ \%s\ <device>\ <mountpoint>\ [options]\(\backslash\)n"{}}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}(사용예:\ sudo\ ./sfuse\ /dev/sdx\ /mnt/partition\ -\/f\ -\/s\ -\/d\ -\/o\ "{}}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}allow\_other,default\_permissions\(\backslash\)n"{}}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)n기본\ 옵션들:\(\backslash\)n"{}}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/f:\ FUSE\ 파일시스템을\ 포그라운드에서\ 실행한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/s:\ 싱글\ 스레드\ 모드로\ 실행한다(디버깅\ 용이).\(\backslash\)n"{}}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/d:\ 디버그\ 모드를\ 활성화하여\ 파일시스템의\ 상세한\ 동작\ 정보를\ "{}}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}출력한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ allow\_other:\ 모든\ 사용자가\ 파일시스템에\ 접근\ 가능하도록\ "{}}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}허용한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ default\_permissions:\ 기본\ UNIX\ 권한\ 체크를\ 활성화하여\ 파일\ "{}}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}접근\ 권한을\ 관리한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\(\backslash\)n추가로\ 사용할\ 수\ 있는\ FUSE\ 옵션들:\(\backslash\)n"{}}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/h,\ -\/-\/help:\ FUSE\ 사용법과\ 옵션\ 목록을\ 출력한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/V,\ -\/-\/version:\ FUSE\ 라이브러리의\ 버전\ 정보를\ 출력한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ ro:\ 읽기\ 전용으로\ 파일시스템을\ 마운트한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ rw:\ 읽기\ 및\ 쓰기\ 모드로\ 마운트한다(기본값).\(\backslash\)n"{}}}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ fsname=NAME:\ 파일시스템의\ 이름을\ 설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ uid=N:\ 파일의\ 소유자\ UID를\ 설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ gid=N:\ 파일의\ 그룹\ GID를\ 설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ umask=MASK:\ 파일\ 및\ 디렉토리\ 생성\ 시\ 적용할\ 권한\ 마스크를\ "{}}}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}설정한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ nonempty:\ 마운트\ 지점이\ 비어있지\ 않아도\ 마운트를\ 허용한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ direct\_io:\ 커널\ 페이지\ 캐시를\ 우회하여\ 직접\ 입출력을\ "{}}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}활성화한다.\(\backslash\)n"{}}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ \ -\/o\ auto\_unmount:\ 프로그램\ 종료\ 시\ 자동으로\ 마운트를\ 해제한다.\(\backslash\)n"{}},}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ argv[0]);}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_SUCCESS;}
+\DoxyCodeLine{00069\ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \textcolor{keywordflow}{if}\ (argc\ <\ 3)\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}사용법:\ sudo\ \%s\ <device>\ <mountpoint>\ [options]\(\backslash\)n"{}},}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ argv[0]);}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{00075\ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00078\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *dev\_path\ =\ argv[1];}
+\DoxyCodeLine{00080\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *mountpoint\ =\ argv[2];}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00089\ \ \ \textcolor{keywordtype}{int}\ backing\_fd\ =\ open(dev\_path,\ O\_RDWR\ |\ O\_SYNC);}
+\DoxyCodeLine{00090\ \ \ \textcolor{keywordflow}{if}\ (backing\_fd\ <\ 0)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ perror(\textcolor{stringliteral}{"{}디바이스\ 열기\ 실패"{}});}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{00093\ \ \ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00101\ \ \ \textcolor{keyword}{struct\ }stat\ st;}
+\DoxyCodeLine{00102\ \ \ \textcolor{keywordflow}{if}\ (fstat(backing\_fd,\ \&st)\ <\ 0\ ||\ !S\_ISBLK(st.st\_mode))\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}\%s는\ 블록\ 디바이스가\ 아닙니다.\(\backslash\)n"{}},\ dev\_path);}
+\DoxyCodeLine{00104\ \ \ \ \ close(backing\_fd);}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{00106\ \ \ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00113\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__fs}{sfuse\_fs}}\ *fs\ =\ calloc(1,\ \textcolor{keyword}{sizeof}(*fs));}
+\DoxyCodeLine{00114\ \ \ \textcolor{keywordflow}{if}\ (!fs)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ perror(\textcolor{stringliteral}{"{}메모리\ 할당\ 실패"{}});}
+\DoxyCodeLine{00116\ \ \ \ \ close(\mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}});}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{00118\ \ \ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00121\ \ \ fs-\/>\mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}}\ =\ \mbox{\hyperlink{structsfuse__fs_af14cab3f6994b0e91e858ddffc424140}{backing\_fd}};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00126\ \ \ \textcolor{keyword}{struct\ }fuse\_args\ args\ =\ FUSE\_ARGS\_INIT(0,\ NULL);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00132\ \ \ fuse\_opt\_add\_arg(\&args,\ argv[0]);}
+\DoxyCodeLine{00133\ \ \ fuse\_opt\_add\_arg(\&args,\ mountpoint);}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00138\ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 3;\ i\ <\ argc;\ i++)\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ fuse\_opt\_add\_arg(\&args,\ argv[i]);}
+\DoxyCodeLine{00140\ \ \ \}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00152\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}-\/o"{}});}
+\DoxyCodeLine{00153\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}allow\_other"{}});}
+\DoxyCodeLine{00154\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}default\_permissions"{}});}
+\DoxyCodeLine{00155\ \ \ fuse\_opt\_add\_arg(\&args,\ \textcolor{stringliteral}{"{}-\/d"{}});}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00160\ \ \ \textcolor{keywordtype}{int}\ ret\ =\ fuse\_main(args.argc,\ args.argv,\ \&\mbox{\hyperlink{ops_8h_a8a3005b535e830b2ef6316cc752b7d4a}{sfuse\_ops}},\ fs);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00168\ \ \ fuse\_opt\_free\_args(\&args);}
+\DoxyCodeLine{00169\ \ \ close(backing\_fd);}
+\DoxyCodeLine{00170\ \ \ free(fs);}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00173\ \}}
+
+\end{DoxyCode}

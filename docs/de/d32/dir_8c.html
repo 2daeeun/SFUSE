@@ -91,10 +91,12 @@ $(function(){initNavTree('de/d32/dir_8c.html','../../',''); });
   <div class="headertitle"><div class="title">dir.c 파일 참조</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>디렉터리 엔트리 로드, 추가, 삭제 기능 구현  
+<a href="#details">더 자세히 ...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="../../df/d9c/dir_8h_source.html">dir.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../da/dcb/bitmap_8h_source.html">bitmap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../de/d40/block_8h_source.html">block.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../df/d1d/img_8h_source.html">img.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d3/d73/inode_8h_source.html">inode.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../db/d98/super_8h_source.html">super.h</a>&quot;</code><br />
 <code>#include &lt;errno.h&gt;</code><br />
@@ -107,46 +109,41 @@ dir.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d9/d52/dir_8c__incl.png" border="0" usemap="#asrc_2dir_8c" loading="lazy" alt=""/></div>
 <map name="asrc_2dir_8c" id="asrc_2dir_8c">
-<area shape="rect" title=" " alt="" coords="622,5,694,33"/>
-<area shape="rect" href="../../df/d9c/dir_8h.html" title=" " alt="" coords="202,81,253,109"/>
-<area shape="poly" title=" " alt="" coords="622,27,469,48,272,84,268,85,267,79,271,78,468,43,621,22"/>
-<area shape="rect" href="../../d3/d73/inode_8h.html" title=" " alt="" coords="82,157,152,184"/>
-<area shape="poly" title=" " alt="" coords="622,24,524,30,398,40,276,58,227,69,192,83,174,96,158,112,133,145,129,142,154,108,170,92,189,79,225,64,275,52,397,35,524,24,621,19"/>
-<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="320,232,389,260"/>
-<area shape="poly" title=" " alt="" coords="622,27,525,45,469,61,414,83,357,112,337,129,319,158,316,173,318,189,335,219,330,222,313,191,311,173,315,156,333,126,354,107,412,79,467,56,524,40,621,22"/>
-<area shape="rect" title=" " alt="" coords="455,308,526,336"/>
-<area shape="poly" title=" " alt="" coords="680,31,715,58,751,95,766,117,775,139,776,163,769,186,748,215,723,239,694,260,662,277,598,301,542,315,540,310,597,296,660,272,691,255,719,235,744,211,764,183,771,162,769,140,761,119,747,99,711,62,677,35"/>
-<area shape="rect" href="../../da/dcb/bitmap_8h.html" title=" " alt="" coords="425,81,505,109"/>
-<area shape="poly" title=" " alt="" coords="625,36,514,78,512,73,623,31"/>
-<area shape="rect" href="../../de/d40/block_8h.html" title=" " alt="" coords="532,232,600,260"/>
-<area shape="poly" title=" " alt="" coords="650,35,619,82,592,155,575,218,570,217,587,153,615,80,646,32"/>
-<area shape="rect" href="../../df/d1d/img_8h.html" title=" " alt="" coords="629,81,688,109"/>
-<area shape="poly" title=" " alt="" coords="661,34,661,65,656,65,656,34"/>
-<area shape="rect" title=" " alt="" coords="680,157,754,184"/>
-<area shape="poly" title=" " alt="" coords="672,32,688,54,702,80,712,111,717,141,712,142,707,112,697,82,683,56,667,35"/>
-<area shape="rect" title=" " alt="" coords="821,81,888,109"/>
-<area shape="poly" title=" " alt="" coords="694,31,807,73,805,78,692,36"/>
-<area shape="rect" title=" " alt="" coords="912,81,981,109"/>
-<area shape="poly" title=" " alt="" coords="695,27,897,78,896,83,694,32"/>
-<area shape="rect" title=" " alt="" coords="1004,81,1075,109"/>
-<area shape="poly" title=" " alt="" coords="695,23,822,45,990,78,989,83,821,50,694,29"/>
-<area shape="poly" title=" " alt="" coords="209,111,150,150,147,146,206,107"/>
-<area shape="poly" title=" " alt="" coords="234,108,249,144,274,183,296,204,320,222,316,226,292,208,270,186,245,146,230,110"/>
-<area shape="poly" title=" " alt="" coords="231,109,237,144,250,183,274,226,309,258,341,276,375,291,441,309,439,315,373,296,339,281,306,262,269,229,245,185,232,145,226,110"/>
-<area shape="rect" title=" " alt="" coords="328,157,402,184"/>
-<area shape="poly" title=" " alt="" coords="253,107,329,147,326,152,251,112"/>
-<area shape="poly" title=" " alt="" coords="153,180,305,227,304,232,151,185"/>
-<area shape="poly" title=" " alt="" coords="123,183,140,221,154,241,172,258,192,268,220,278,292,294,440,313,439,319,291,299,219,283,190,273,169,262,150,245,136,224,118,185"/>
+<area shape="rect" title="디렉터리 엔트리 로드, 추가, 삭제 기능 구현" alt="" coords="544,5,616,33"/>
+<area shape="rect" href="../../df/d9c/dir_8h.html" title="파일 시스템의 디렉터리 관리 기능 정의" alt="" coords="257,81,308,109"/>
+<area shape="poly" title=" " alt="" coords="544,32,323,86,322,81,543,27"/>
+<area shape="rect" href="../../d3/d73/inode_8h.html" title="아이노드(inode) 구조체 정의 및 관리 함수 선언" alt="" coords="74,157,144,184"/>
+<area shape="poly" title=" " alt="" coords="544,25,455,30,343,40,236,57,194,69,164,83,149,96,137,111,120,144,116,141,133,108,145,92,161,79,192,64,235,52,342,35,455,24,543,19"/>
+<area shape="rect" href="../../db/d98/super_8h.html" title="SFUSE 파일 시스템의 슈퍼블록 관련 구조 및 함수 정의" alt="" coords="176,232,245,260"/>
+<area shape="poly" title=" " alt="" coords="543,25,470,30,381,40,299,58,268,69,247,83,226,113,214,149,210,185,210,217,205,217,205,185,209,148,221,111,243,79,265,65,298,53,380,35,469,25,543,19"/>
+<area shape="rect" title=" " alt="" coords="347,308,418,336"/>
+<area shape="poly" title=" " alt="" coords="588,32,598,61,608,99,612,142,604,185,590,210,573,233,529,268,479,294,433,311,431,306,477,289,526,264,569,229,586,208,598,183,606,142,603,100,593,62,583,34"/>
+<area shape="rect" href="../../da/dcb/bitmap_8h.html" title="비트맵 관리 함수 선언" alt="" coords="415,81,494,109"/>
+<area shape="poly" title=" " alt="" coords="559,36,491,75,488,71,556,31"/>
+<area shape="rect" href="../../de/d40/block_8h.html" title="블록 단위 읽기 및 쓰기를 위한 인터페이스 정의" alt="" coords="520,157,588,184"/>
+<area shape="poly" title=" " alt="" coords="580,34,562,142,556,141,575,33"/>
+<area shape="rect" title=" " alt="" coords="642,81,709,109"/>
+<area shape="poly" title=" " alt="" coords="598,31,648,69,645,73,595,36"/>
+<area shape="rect" title=" " alt="" coords="733,81,802,109"/>
+<area shape="poly" title=" " alt="" coords="614,31,721,73,719,78,612,36"/>
+<area shape="rect" title=" " alt="" coords="826,81,896,109"/>
+<area shape="poly" title=" " alt="" coords="617,27,811,77,810,83,616,32"/>
+<area shape="rect" title=" " alt="" coords="920,81,994,109"/>
+<area shape="poly" title=" " alt="" coords="617,24,741,45,906,78,905,83,740,51,616,29"/>
+<area shape="poly" title=" " alt="" coords="258,109,155,153,153,148,256,104"/>
+<area shape="poly" title=" " alt="" coords="279,110,226,219,221,217,274,108"/>
+<area shape="poly" title=" " alt="" coords="288,108,311,183,340,243,368,293,364,296,335,245,307,185,283,110"/>
+<area shape="rect" title=" " alt="" coords="320,157,394,184"/>
+<area shape="poly" title=" " alt="" coords="298,107,335,144,331,147,294,111"/>
+<area shape="poly" title=" " alt="" coords="129,183,182,221,179,225,126,187"/>
+<area shape="poly" title=" " alt="" coords="116,184,134,221,148,241,165,258,205,281,249,298,293,308,332,314,331,320,292,314,248,303,203,286,162,262,144,244,129,224,111,186"/>
 <area shape="rect" title=" " alt="" coords="5,232,101,260"/>
-<area shape="poly" title=" " alt="" coords="108,187,76,222,72,219,104,183"/>
-<area shape="poly" title=" " alt="" coords="380,258,454,298,452,303,377,263"/>
-<area shape="poly" title=" " alt="" coords="461,110,443,145,416,186,382,223,378,220,412,183,438,142,457,108"/>
-<area shape="poly" title=" " alt="" coords="469,109,490,292,484,293,464,109"/>
-<area shape="poly" title=" " alt="" coords="449,111,396,150,393,145,446,107"/>
-<area shape="poly" title=" " alt="" coords="555,262,516,299,513,295,551,259"/>
-<area shape="poly" title=" " alt="" coords="633,111,396,228,393,223,631,107"/>
-<area shape="poly" title=" " alt="" coords="661,109,659,139,652,179,638,222,615,262,599,278,580,291,541,309,539,304,578,286,596,273,611,258,633,220,647,178,653,139,656,109"/>
-<area shape="poly" title=" " alt="" coords="671,108,699,143,695,146,667,111"/>
+<area shape="poly" title=" " alt="" coords="101,187,74,222,70,218,97,183"/>
+<area shape="poly" title=" " alt="" coords="242,258,339,299,337,304,240,263"/>
+<area shape="poly" title=" " alt="" coords="453,110,438,148,425,168,408,186,373,209,335,225,261,243,260,237,333,220,371,204,405,182,421,165,433,145,448,108"/>
+<area shape="poly" title=" " alt="" coords="455,109,440,185,419,244,397,295,392,293,414,243,434,184,450,108"/>
+<area shape="poly" title=" " alt="" coords="439,111,388,150,384,145,435,107"/>
+<area shape="poly" title=" " alt="" coords="552,186,533,223,503,262,469,287,433,305,430,300,466,282,499,258,529,220,547,184"/>
 </map>
 </div>
 </div>
@@ -155,13 +152,18 @@ dir.c에 대한 include 의존 그래프</div>
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 함수</h2></td></tr>
 <tr class="memitem:ac2f55242043759c79ce3aaa895ffbd6b" id="r_ac2f55242043759c79ce3aaa895ffbd6b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2f55242043759c79ce3aaa895ffbd6b">dir_load</a> (int fd, const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint32_t ino, void *buf)</td></tr>
-<tr class="memdesc:ac2f55242043759c79ce3aaa895ffbd6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">디렉터리 블록들을 모두 읽어들임  <br /></td></tr>
+<tr class="memdesc:ac2f55242043759c79ce3aaa895ffbd6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">지정된 디렉터리 아이노드의 모든 직접(direct) 데이터 블록을 메모리에 읽어들인다.  <br /></td></tr>
 <tr class="memitem:a46039c7666b2dae1401a0b3e8ad5f1f1" id="r_a46039c7666b2dae1401a0b3e8ad5f1f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46039c7666b2dae1401a0b3e8ad5f1f1">dir_add_entry</a> (int fd, const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint32_t ino, const char *name, uint32_t child_ino, uint8_t *block_map, uint8_t *inode_map, struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *supermap)</td></tr>
-<tr class="memdesc:a46039c7666b2dae1401a0b3e8ad5f1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">디렉터리에 새 엔트리 추가  <br /></td></tr>
+<tr class="memdesc:a46039c7666b2dae1401a0b3e8ad5f1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">디렉터리에 새 파일 또는 디렉터리 엔트리를 추가한다.  <br /></td></tr>
 <tr class="memitem:a6d70dfe2356e0eefe891a57e11c62e16" id="r_a6d70dfe2356e0eefe891a57e11c62e16"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d70dfe2356e0eefe891a57e11c62e16">dir_remove_entry</a> (int fd, const struct <a class="el" href="../../da/d50/structsfuse__super.html">sfuse_super</a> *sb, uint32_t ino, const char *name)</td></tr>
-<tr class="memdesc:a6d70dfe2356e0eefe891a57e11c62e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">디렉터리 엔트리 삭제  <br /></td></tr>
+<tr class="memdesc:a6d70dfe2356e0eefe891a57e11c62e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">디렉터리에서 특정 엔트리를 삭제한다.  <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">상세한 설명</h2>
+<div class="textblock"><p>디렉터리 엔트리 로드, 추가, 삭제 기능 구현 </p>
+<p>디렉터리의 데이터를 로드하거나 새 엔트리를 추가하고, 기존의 엔트리를 삭제하는 기능을 구현한 파일이다. </p>
+
+<p class="definition"><a class="el" href="../../de/d32/dir_8c_source.html">dir.c</a> 파일에서 정의되었습니다.</p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
 <a id="a46039c7666b2dae1401a0b3e8ad5f1f1" name="a46039c7666b2dae1401a0b3e8ad5f1f1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a46039c7666b2dae1401a0b3e8ad5f1f1">&#9670;&#160;</a></span>dir_add_entry()</h2>
 
@@ -211,101 +213,123 @@ dir.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>디렉터리에 새 엔트리 추가 </p>
-<p>dir_add_entry: 디렉터리에 새 엔트리 추가 </p>
+<p>디렉터리에 새 파일 또는 디렉터리 엔트리를 추가한다. </p>
+<p>디렉터리에 새로운 엔트리를 추가한다.</p>
+<p>지정된 디렉터리 아이노드가 관리하는 직접 블록에서 빈 슬롯을 찾아, 새로운 파일 또는 디렉터리 엔트리를 추가한다. 엔트리 추가 후 수정된 디렉터리 데이터를 디스크에 기록하고, 파일시스템의 슈퍼블록 및 블록/아이노드 비트맵도 최신 상태로 동기화한다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 (디스크 접근용) </td></tr>
+    <tr><td class="paramname">sb</td><td>슈퍼블록 구조체 포인터 (파일시스템의 정보 참조용) </td></tr>
+    <tr><td class="paramname">ino</td><td>부모 디렉터리 아이노드 번호 (엔트리를 추가할 디렉터리) </td></tr>
+    <tr><td class="paramname">name</td><td>추가할 새 엔트리의 이름 </td></tr>
+    <tr><td class="paramname">child_ino</td><td>새 엔트리에 연결될 아이노드 번호 </td></tr>
+    <tr><td class="paramname">block_map</td><td>블록 사용 정보를 나타내는 비트맵 버퍼 </td></tr>
+    <tr><td class="paramname">inode_map</td><td>아이노드 사용 정보를 나타내는 비트맵 버퍼 </td></tr>
+    <tr><td class="paramname">supermap</td><td>슈퍼블록 복사본 (변경 사항 동기화 시 사용)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>성공 시 0 반환, 빈 슬롯이 없어 추가가 불가능하면 -ENOSPC 반환, 메모리 할당 실패 시 -ENOMEM, 기타 입출력 오류 발생 시 음수 오류 코드 반환 </dd></dl>
 
-<p class="definition"><a class="el" href="../../de/d32/dir_8c_source.html">dir.c</a> 파일의 <a class="el" href="../../de/d32/dir_8c_source.html#l00035">35</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   37</span>                                                                    {</div>
-<div class="line"><span class="lineno">   38</span>  <span class="comment">// 디렉터리 아이노드 로드</span></div>
-<div class="line"><span class="lineno">   39</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> inode;</div>
-<div class="line"><span class="lineno">   40</span>  <span class="keywordtype">int</span> res = <a class="code hl_function" href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a>(fd, sb, ino, &amp;inode);</div>
-<div class="line"><span class="lineno">   41</span>  <span class="keywordflow">if</span> (res &lt; 0)</div>
-<div class="line"><span class="lineno">   42</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>  <span class="comment">// 디렉터리 블록 전체 로드</span></div>
-<div class="line"><span class="lineno">   45</span>  <span class="keywordtype">size_t</span> buf_size = <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a> * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>;</div>
-<div class="line"><span class="lineno">   46</span>  <span class="keywordtype">void</span> *buf = malloc(buf_size);</div>
-<div class="line"><span class="lineno">   47</span>  <span class="keywordflow">if</span> (!buf)</div>
-<div class="line"><span class="lineno">   48</span>    <span class="keywordflow">return</span> -ENOMEM;</div>
-<div class="line"><span class="lineno">   49</span>  res = <a class="code hl_function" href="#ac2f55242043759c79ce3aaa895ffbd6b">dir_load</a>(fd, sb, ino, buf);</div>
-<div class="line"><span class="lineno">   50</span>  <span class="keywordflow">if</span> (res &lt; 0) {</div>
-<div class="line"><span class="lineno">   51</span>    free(buf);</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">   53</span>  }</div>
-<div class="line"><span class="lineno">   54</span> </div>
-<div class="line"><span class="lineno">   55</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *ents = (<span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *)buf;</div>
-<div class="line"><span class="lineno">   56</span>  uint32_t max_entries = buf_size / <span class="keyword">sizeof</span>(*ents);</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>  <span class="comment">// 빈 슬롯 찾기</span></div>
-<div class="line"><span class="lineno">   59</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; max_entries; i++) {</div>
-<div class="line"><span class="lineno">   60</span>    <span class="keywordflow">if</span> (ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> == 0) {</div>
-<div class="line"><span class="lineno">   61</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> = child_ino;</div>
-<div class="line"><span class="lineno">   62</span>      strncpy(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>, <a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>, <span class="keyword">sizeof</span>(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>) - 1);</div>
-<div class="line"><span class="lineno">   63</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>[<span class="keyword">sizeof</span>(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>) - 1] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="lineno">   64</span> </div>
-<div class="line"><span class="lineno">   65</span>      <span class="comment">// 모든 블록에 다시 기록</span></div>
-<div class="line"><span class="lineno">   66</span>      <span class="keywordflow">for</span> (uint32_t b = 0; b &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>; b++) {</div>
-<div class="line"><span class="lineno">   67</span>        <span class="keywordflow">if</span> (inode.direct[b] == 0)</div>
-<div class="line"><span class="lineno">   68</span>          <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   69</span>        res = <a class="code hl_function" href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a>(fd, inode.direct[b],</div>
-<div class="line"><span class="lineno">   70</span>                          (<span class="keywordtype">char</span> *)buf + b * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
-<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">if</span> (res &lt; 0) {</div>
-<div class="line"><span class="lineno">   72</span>          free(buf);</div>
-<div class="line"><span class="lineno">   73</span>          <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">   74</span>        }</div>
-<div class="line"><span class="lineno">   75</span>      }</div>
-<div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>      <span class="comment">// 슈퍼블록 및 비트맵 동기화</span></div>
-<div class="line"><span class="lineno">   78</span>      <a class="code hl_function" href="../../db/d98/super_8h.html#a90dace97e8d65a597b6d660e0d5b2170">sb_sync</a>(fd, supermap);</div>
-<div class="line"><span class="lineno">   79</span>      <a class="code hl_function" href="../../da/dcb/bitmap_8h.html#a227b256c17ea31f9c7743f3abc35966f">bitmap_sync</a>(fd, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a0f3c93e1295e95f48787c8b2d6adb7f5">block_bitmap_start</a>, block_map, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">blocks_count</a> / 8);</div>
-<div class="line"><span class="lineno">   80</span>      <a class="code hl_function" href="../../da/dcb/bitmap_8h.html#a227b256c17ea31f9c7743f3abc35966f">bitmap_sync</a>(fd, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#ad08b4df84f43d7d6738c5f25b22e5829">inode_bitmap_start</a>, inode_map, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a> / 8);</div>
-<div class="line"><span class="lineno">   81</span>      free(buf);</div>
-<div class="line"><span class="lineno">   82</span>      <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   83</span>    }</div>
-<div class="line"><span class="lineno">   84</span>  }</div>
-<div class="line"><span class="lineno">   85</span>  free(buf);</div>
-<div class="line"><span class="lineno">   86</span>  <span class="keywordflow">return</span> -ENOSPC;</div>
-<div class="line"><span class="lineno">   87</span>}</div>
-<div class="ttc" id="abitmap_8h_html_a227b256c17ea31f9c7743f3abc35966f"><div class="ttname"><a href="../../da/dcb/bitmap_8h.html#a227b256c17ea31f9c7743f3abc35966f">bitmap_sync</a></div><div class="ttdeci">int bitmap_sync(int fd, uint32_t block_no, uint8_t *map, size_t map_size)</div><div class="ttdoc">비트맵 데이터를 디스크에 기록</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9a/bitmap_8c_source.html#l00035">bitmap.c:35</a></div></div>
-<div class="ttc" id="ablock_8h_html_a68fff59f4eeded5f354caed94cd27f12"><div class="ttname"><a href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a></div><div class="ttdeci">int write_block(int fd, uint32_t block_no, const void *buf)</div><div class="ttdoc">디바이스에 블록 단위(4KB)로 쓰기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00033">block.c:33</a></div></div>
-<div class="ttc" id="adir_8c_html_ac2f55242043759c79ce3aaa895ffbd6b"><div class="ttname"><a href="#ac2f55242043759c79ce3aaa895ffbd6b">dir_load</a></div><div class="ttdeci">int dir_load(int fd, const struct sfuse_super *sb, uint32_t ino, void *buf)</div><div class="ttdoc">디렉터리 블록들을 모두 읽어들임</div><div class="ttdef"><b>Definition</b> <a href="../../de/d32/dir_8c_source.html#l00017">dir.c:17</a></div></div>
-<div class="ttc" id="ainode_8h_html_a72a6e85b07ee4130a233e0db78fc95fe"><div class="ttname"><a href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a></div><div class="ttdeci">int inode_load(int fd, const struct sfuse_super *sb, uint32_t ino, struct sfuse_inode *inode)</div><div class="ttdoc">디스크에서 아이노드 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d2b/inode_8c_source.html#l00013">inode.c:13</a></div></div>
-<div class="ttc" id="ainode_8h_html_ad8e7218c1f4e716d890d13bcba484ea3"><div class="ttname"><a href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a></div><div class="ttdeci">#define SFUSE_NDIR_BLOCKS</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00010">inode.h:10</a></div></div>
-<div class="ttc" id="astructsfuse__dirent_html"><div class="ttname"><a href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a></div><div class="ttdoc">디렉터리 엔트리 구조체 ino: 저장된 아이노드 번호 (0이면 빈 슬롯) name: NULL 종단 문자열 (최대 SFUSE_NAME_LEN)</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9c/dir_8h_source.html#l00017">dir.h:17</a></div></div>
-<div class="ttc" id="astructsfuse__dirent_html_a7f18e59aff64f060b49301cb9ac50bab"><div class="ttname"><a href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">sfuse_dirent::name</a></div><div class="ttdeci">char name[255+1]</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9c/dir_8h_source.html#l00019">dir.h:19</a></div></div>
-<div class="ttc" id="astructsfuse__dirent_html_a99c72c6a3e99c1f963e6cac40c25533a"><div class="ttname"><a href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">sfuse_dirent::ino</a></div><div class="ttdeci">uint32_t ino</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9c/dir_8h_source.html#l00018">dir.h:18</a></div></div>
-<div class="ttc" id="astructsfuse__inode_html"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a></div><div class="ttdoc">아이노드 구조체</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00015">inode.h:15</a></div></div>
-<div class="ttc" id="astructsfuse__super_html_a0f3c93e1295e95f48787c8b2d6adb7f5"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a0f3c93e1295e95f48787c8b2d6adb7f5">sfuse_super::block_bitmap_start</a></div><div class="ttdeci">uint32_t block_bitmap_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00029">super.h:29</a></div></div>
-<div class="ttc" id="astructsfuse__super_html_a1beda11a6d52ccf0351e22d81b50a20d"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">sfuse_super::blocks_count</a></div><div class="ttdeci">uint32_t blocks_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00025">super.h:25</a></div></div>
-<div class="ttc" id="astructsfuse__super_html_a6ea0f291f1292da7a86611336d28d36f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">sfuse_super::inodes_count</a></div><div class="ttdeci">uint32_t inodes_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00024">super.h:24</a></div></div>
-<div class="ttc" id="astructsfuse__super_html_ad08b4df84f43d7d6738c5f25b22e5829"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#ad08b4df84f43d7d6738c5f25b22e5829">sfuse_super::inode_bitmap_start</a></div><div class="ttdeci">uint32_t inode_bitmap_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00028">super.h:28</a></div></div>
-<div class="ttc" id="asuper_8h_html_a0f31825083a6f1e0e2f5b5a2fd1181aa"><div class="ttname"><a href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a></div><div class="ttdeci">#define SFUSE_BLOCK_SIZE</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00008">super.h:8</a></div></div>
-<div class="ttc" id="asuper_8h_html_a90dace97e8d65a597b6d660e0d5b2170"><div class="ttname"><a href="../../db/d98/super_8h.html#a90dace97e8d65a597b6d660e0d5b2170">sb_sync</a></div><div class="ttdeci">int sb_sync(int fd, const struct sfuse_super *sb)</div><div class="ttdoc">슈퍼블록 구조체를 디스크에 기록</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d1d/super_8c_source.html#l00031">super.c:31</a></div></div>
+<p class="definition"><a class="el" href="../../de/d32/dir_8c_source.html">dir.c</a> 파일의 <a class="el" href="../../de/d32/dir_8c_source.html#l00089">89</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   91</span>                                                                    {</div>
+<div class="line"><span class="lineno">   92</span>  <span class="comment">// 부모 디렉터리의 아이노드를 로드하여 inode 구조체에 저장한다.</span></div>
+<div class="line"><span class="lineno">   93</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> inode;</div>
+<div class="line"><span class="lineno">   94</span>  <span class="keywordtype">int</span> res = <a class="code hl_function" href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a>(fd, sb, ino, &amp;inode);</div>
+<div class="line"><span class="lineno">   95</span>  <span class="keywordflow">if</span> (res &lt; 0)</div>
+<div class="line"><span class="lineno">   96</span>    <span class="keywordflow">return</span> res; <span class="comment">// 아이노드 로딩에 실패하면 즉시 종료한다.</span></div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>  <span class="comment">// 디렉터리 데이터 전체를 저장할 메모리 버퍼를 할당한다.</span></div>
+<div class="line"><span class="lineno">   99</span>  <span class="keywordtype">size_t</span> buf_size = <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a> * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>;</div>
+<div class="line"><span class="lineno">  100</span>  <span class="keywordtype">void</span> *buf = malloc(buf_size);</div>
+<div class="line"><span class="lineno">  101</span>  <span class="keywordflow">if</span> (!buf)</div>
+<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">return</span> -ENOMEM; <span class="comment">// 메모리 할당 실패 시 오류 코드 반환</span></div>
+<div class="line"><span class="lineno">  103</span> </div>
+<div class="line"><span class="lineno">  104</span>  <span class="comment">// 디스크로부터 디렉터리의 모든 직접 블록 데이터를 읽어온다.</span></div>
+<div class="line"><span class="lineno">  105</span>  res = <a class="code hl_function" href="#ac2f55242043759c79ce3aaa895ffbd6b">dir_load</a>(fd, sb, ino, buf);</div>
+<div class="line"><span class="lineno">  106</span>  <span class="keywordflow">if</span> (res &lt; 0) {</div>
+<div class="line"><span class="lineno">  107</span>    free(buf);</div>
+<div class="line"><span class="lineno">  108</span>    <span class="keywordflow">return</span> res; <span class="comment">// 블록 로드 실패 시 메모리 해제 후 종료한다.</span></div>
+<div class="line"><span class="lineno">  109</span>  }</div>
+<div class="line"><span class="lineno">  110</span> </div>
+<div class="line"><span class="lineno">  111</span>  <span class="comment">// 버퍼를 디렉터리 엔트리 배열로 해석하여 최대 엔트리 개수 산정</span></div>
+<div class="line"><span class="lineno">  112</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *ents = (<span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *)buf;</div>
+<div class="line"><span class="lineno">  113</span>  uint32_t max_entries = buf_size / <span class="keyword">sizeof</span>(*ents);</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>  <span class="comment">// 디렉터리 내의 빈 슬롯을 탐색하여 새 엔트리를 추가한다.</span></div>
+<div class="line"><span class="lineno">  116</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; max_entries; i++) {</div>
+<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">if</span> (ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> == 0) {    <span class="comment">// 빈 슬롯 발견 (아이노드 번호가 0이면 빈 슬롯)</span></div>
+<div class="line"><span class="lineno">  118</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> = child_ino; <span class="comment">// 새 아이노드 번호를 할당</span></div>
+<div class="line"><span class="lineno">  119</span>      strncpy(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>, <a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>, <span class="keyword">sizeof</span>(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>) - 1); <span class="comment">// 엔트리 이름 복사</span></div>
+<div class="line"><span class="lineno">  120</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>[<span class="keyword">sizeof</span>(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>) - 1] = <span class="charliteral">&#39;\0&#39;</span>; <span class="comment">// 문자열의 NULL 종단 보장</span></div>
+<div class="line"><span class="lineno">  121</span> </div>
+<div class="line"><span class="lineno">  122</span>      <span class="comment">// 수정된 전체 디렉터리 데이터를 디스크의 직접 블록에 다시 기록한다.</span></div>
+<div class="line"><span class="lineno">  123</span>      <span class="keywordflow">for</span> (uint32_t b = 0; b &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>; b++) {</div>
+<div class="line"><span class="lineno">  124</span>        <span class="keywordflow">if</span> (inode.direct[b] == 0)</div>
+<div class="line"><span class="lineno">  125</span>          <span class="keywordflow">continue</span>; <span class="comment">// 사용되지 않은 블록은 건너뛴다.</span></div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>        res = <a class="code hl_function" href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a>(fd, inode.direct[b],</div>
+<div class="line"><span class="lineno">  128</span>                          (<span class="keywordtype">char</span> *)buf + b * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
+<div class="line"><span class="lineno">  129</span>        <span class="keywordflow">if</span> (res &lt; 0) {</div>
+<div class="line"><span class="lineno">  130</span>          free(buf);</div>
+<div class="line"><span class="lineno">  131</span>          <span class="keywordflow">return</span> res; <span class="comment">// 블록 기록 실패 시 메모리 해제 후 종료한다.</span></div>
+<div class="line"><span class="lineno">  132</span>        }</div>
+<div class="line"><span class="lineno">  133</span>      }</div>
+<div class="line"><span class="lineno">  134</span> </div>
+<div class="line"><span class="lineno">  135</span>      <span class="comment">// 변경된 슈퍼블록과 블록 및 아이노드 비트맵을 디스크에 동기화한다.</span></div>
+<div class="line"><span class="lineno">  136</span>      <a class="code hl_function" href="../../db/d98/super_8h.html#a90dace97e8d65a597b6d660e0d5b2170">sb_sync</a>(fd, supermap);</div>
+<div class="line"><span class="lineno">  137</span>      <a class="code hl_function" href="../../da/dcb/bitmap_8h.html#a227b256c17ea31f9c7743f3abc35966f">bitmap_sync</a>(fd, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a0f3c93e1295e95f48787c8b2d6adb7f5">block_bitmap_start</a>, block_map, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">blocks_count</a> / 8);</div>
+<div class="line"><span class="lineno">  138</span>      <a class="code hl_function" href="../../da/dcb/bitmap_8h.html#a227b256c17ea31f9c7743f3abc35966f">bitmap_sync</a>(fd, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#ad08b4df84f43d7d6738c5f25b22e5829">inode_bitmap_start</a>, inode_map, sb-&gt;<a class="code hl_variable" href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">inodes_count</a> / 8);</div>
+<div class="line"><span class="lineno">  139</span> </div>
+<div class="line"><span class="lineno">  140</span>      free(buf); <span class="comment">// 작업이 완료되었으므로 메모리 해제</span></div>
+<div class="line"><span class="lineno">  141</span>      <span class="keywordflow">return</span> 0;  <span class="comment">// 성공적으로 엔트리 추가 완료</span></div>
+<div class="line"><span class="lineno">  142</span>    }</div>
+<div class="line"><span class="lineno">  143</span>  }</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>  <span class="comment">// 디렉터리 내 모든 슬롯이 사용 중이어서 추가 불가 (공간 부족)</span></div>
+<div class="line"><span class="lineno">  146</span>  free(buf);</div>
+<div class="line"><span class="lineno">  147</span>  <span class="keywordflow">return</span> -ENOSPC; <span class="comment">// 추가 공간 부족 오류 반환</span></div>
+<div class="line"><span class="lineno">  148</span>}</div>
+<div class="ttc" id="abitmap_8h_html_a227b256c17ea31f9c7743f3abc35966f"><div class="ttname"><a href="../../da/dcb/bitmap_8h.html#a227b256c17ea31f9c7743f3abc35966f">bitmap_sync</a></div><div class="ttdeci">int bitmap_sync(int fd, uint32_t block_no, uint8_t *map, size_t map_size)</div><div class="ttdoc">비트맵 데이터를 디스크에 기록</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9a/bitmap_8c_source.html#l00068">bitmap.c:68</a></div></div>
+<div class="ttc" id="ablock_8h_html_a68fff59f4eeded5f354caed94cd27f12"><div class="ttname"><a href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a></div><div class="ttdeci">int write_block(int fd, uint32_t block_no, const void *buf)</div><div class="ttdoc">디바이스에 블록 단위(4KB)로 쓰기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00062">block.c:62</a></div></div>
+<div class="ttc" id="adir_8c_html_ac2f55242043759c79ce3aaa895ffbd6b"><div class="ttname"><a href="#ac2f55242043759c79ce3aaa895ffbd6b">dir_load</a></div><div class="ttdeci">int dir_load(int fd, const struct sfuse_super *sb, uint32_t ino, void *buf)</div><div class="ttdoc">지정된 디렉터리 아이노드의 모든 직접(direct) 데이터 블록을 메모리에 읽어들인다.</div><div class="ttdef"><b>Definition</b> <a href="../../de/d32/dir_8c_source.html#l00042">dir.c:42</a></div></div>
+<div class="ttc" id="ainode_8h_html_a72a6e85b07ee4130a233e0db78fc95fe"><div class="ttname"><a href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a></div><div class="ttdeci">int inode_load(int fd, const struct sfuse_super *sb, uint32_t ino, struct sfuse_inode *inode)</div><div class="ttdoc">디스크에서 지정된 아이노드를 읽어 메모리에 로드한다.</div><div class="ttdef"><b>Definition</b> <a href="../../d8/d2b/inode_8c_source.html#l00113">inode.c:113</a></div></div>
+<div class="ttc" id="ainode_8h_html_ad8e7218c1f4e716d890d13bcba484ea3"><div class="ttname"><a href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a></div><div class="ttdeci">#define SFUSE_NDIR_BLOCKS</div><div class="ttdoc">&lt; struct sfuse_super, SFUSE_BLOCK_SIZE 정의</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00018">inode.h:18</a></div></div>
+<div class="ttc" id="astructsfuse__dirent_html"><div class="ttname"><a href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a></div><div class="ttdoc">디렉터리 엔트리 정보를 저장하는 구조체</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9c/dir_8h_source.html#l00027">dir.h:27</a></div></div>
+<div class="ttc" id="astructsfuse__dirent_html_a7f18e59aff64f060b49301cb9ac50bab"><div class="ttname"><a href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">sfuse_dirent::name</a></div><div class="ttdeci">char name[255+1]</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9c/dir_8h_source.html#l00029">dir.h:29</a></div></div>
+<div class="ttc" id="astructsfuse__dirent_html_a99c72c6a3e99c1f963e6cac40c25533a"><div class="ttname"><a href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">sfuse_dirent::ino</a></div><div class="ttdeci">uint32_t ino</div><div class="ttdef"><b>Definition</b> <a href="../../df/d9c/dir_8h_source.html#l00028">dir.h:28</a></div></div>
+<div class="ttc" id="astructsfuse__inode_html"><div class="ttname"><a href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a></div><div class="ttdoc">파일의 메타데이터를 관리하는 아이노드 구조체</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d73/inode_8h_source.html#l00027">inode.h:27</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a0f3c93e1295e95f48787c8b2d6adb7f5"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a0f3c93e1295e95f48787c8b2d6adb7f5">sfuse_super::block_bitmap_start</a></div><div class="ttdeci">uint32_t block_bitmap_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00052">super.h:52</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a1beda11a6d52ccf0351e22d81b50a20d"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d">sfuse_super::blocks_count</a></div><div class="ttdeci">uint32_t blocks_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00048">super.h:48</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_a6ea0f291f1292da7a86611336d28d36f"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#a6ea0f291f1292da7a86611336d28d36f">sfuse_super::inodes_count</a></div><div class="ttdeci">uint32_t inodes_count</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00047">super.h:47</a></div></div>
+<div class="ttc" id="astructsfuse__super_html_ad08b4df84f43d7d6738c5f25b22e5829"><div class="ttname"><a href="../../da/d50/structsfuse__super.html#ad08b4df84f43d7d6738c5f25b22e5829">sfuse_super::inode_bitmap_start</a></div><div class="ttdeci">uint32_t inode_bitmap_start</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00051">super.h:51</a></div></div>
+<div class="ttc" id="asuper_8h_html_a0f31825083a6f1e0e2f5b5a2fd1181aa"><div class="ttname"><a href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a></div><div class="ttdeci">#define SFUSE_BLOCK_SIZE</div><div class="ttdoc">블록 크기 (바이트)</div><div class="ttdef"><b>Definition</b> <a href="../../db/d98/super_8h_source.html#l00018">super.h:18</a></div></div>
+<div class="ttc" id="asuper_8h_html_a90dace97e8d65a597b6d660e0d5b2170"><div class="ttname"><a href="../../db/d98/super_8h.html#a90dace97e8d65a597b6d660e0d5b2170">sb_sync</a></div><div class="ttdeci">int sb_sync(int fd, const struct sfuse_super *sb)</div><div class="ttdoc">슈퍼블록을 디스크에 동기화(쓰기)하는 함수</div><div class="ttdef"><b>Definition</b> <a href="../../d2/d1d/super_8c_source.html#l00063">super.c:63</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_cgraph.png" border="0" usemap="#ade/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_cgraph" loading="lazy" alt=""/></div>
 <map name="ade/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_cgraph" id="ade/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_cgraph">
-<area shape="rect" title="디렉터리에 새 엔트리 추가" alt="" coords="5,109,116,137"/>
+<area shape="rect" title="디렉터리에 새 파일 또는 디렉터리 엔트리를 추가한다." alt="" coords="5,109,116,137"/>
 <area shape="rect" href="../../df/d9a/bitmap_8c.html#a227b256c17ea31f9c7743f3abc35966f" title="비트맵 데이터를 디스크에 기록" alt="" coords="164,5,268,33"/>
 <area shape="poly" title=" " alt="" coords="77,107,115,77,162,44,170,39,173,43,165,48,119,81,81,111"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#ac2f55242043759c79ce3aaa895ffbd6b" title="디렉터리 블록들을 모두 읽어들임" alt="" coords="179,161,252,189"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#ac2f55242043759c79ce3aaa895ffbd6b" title="지정된 디렉터리 아이노드의 모든 직접(direct) 데이터 블록을 메모리에 읽어들인다." alt="" coords="179,161,252,189"/>
 <area shape="poly" title=" " alt="" coords="105,135,165,156,164,161,103,140"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#a72a6e85b07ee4130a233e0db78fc95fe" title="디스크에서 아이노드 읽기" alt="" coords="316,212,408,240"/>
+<area shape="rect" href="../../d8/d2b/inode_8c.html#a72a6e85b07ee4130a233e0db78fc95fe" title="디스크에서 지정된 아이노드를 읽어 메모리에 로드한다." alt="" coords="316,212,408,240"/>
 <area shape="poly" title=" " alt="" coords="77,135,115,168,139,185,165,198,198,209,234,217,301,223,300,229,233,222,197,214,163,203,136,189,111,172,74,139"/>
-<area shape="rect" href="../../d2/d1d/super_8c.html#a90dace97e8d65a597b6d660e0d5b2170" title="슈퍼블록 구조체를 디스크에 기록" alt="" coords="179,57,252,85"/>
+<area shape="rect" href="../../d2/d1d/super_8c.html#a90dace97e8d65a597b6d660e0d5b2170" title="슈퍼블록을 디스크에 동기화(쓰기)하는 함수" alt="" coords="179,57,252,85"/>
 <area shape="poly" title=" " alt="" coords="103,106,164,86,165,91,105,111"/>
 <area shape="rect" href="../../d3/d1c/block_8c.html#a68fff59f4eeded5f354caed94cd27f12" title="디바이스에 블록 단위(4KB)로 쓰기" alt="" coords="168,109,264,137"/>
 <area shape="poly" title=" " alt="" coords="116,120,152,120,152,126,116,126"/>
-<area shape="rect" href="../../d1/d3e/img_8c.html#ad1abb87bbd6acc052bc498cd3d8f3278" title="원시 디바이스에 특정 오프셋만큼 쓰기" alt="" coords="319,57,405,85"/>
+<area shape="rect" href="../../d0/deb/disk_8c.html#a4d5c112b4fd7cbc953ce25361c0fc5ce" title="원시 디바이스의 특정 오프셋(offset)에 데이터를 쓴다." alt="" coords="318,57,406,85"/>
 <area shape="poly" title=" " alt="" coords="258,31,308,49,306,54,256,36"/>
 <area shape="poly" title=" " alt="" coords="254,185,306,204,305,209,252,190"/>
 <area shape="rect" href="../../d3/d1c/block_8c.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795" title="디바이스에서 블록 단위(4KB)로 읽기" alt="" coords="316,160,408,188"/>
 <area shape="poly" title=" " alt="" coords="253,172,300,172,301,177,253,178"/>
-<area shape="rect" href="../../d1/d3e/img_8c.html#ab5f174b2ac56c4370d34760eebb328ad" title="원시 디바이스에서 특정 오프셋만큼 읽기" alt="" coords="456,187,539,214"/>
-<area shape="poly" title=" " alt="" coords="408,215,441,208,442,214,409,220"/>
-<area shape="poly" title=" " alt="" coords="409,180,442,187,441,192,408,186"/>
-<area shape="poly" title=" " alt="" coords="253,68,304,68,304,74,253,74"/>
+<area shape="rect" href="../../d0/deb/disk_8c.html#a4e89c1e25d4c77895abb816855df3ab1" title="원시 디바이스에서 특정 offset으로부터 데이터를 읽는다." alt="" coords="456,187,541,214"/>
+<area shape="poly" title=" " alt="" coords="408,215,441,209,442,214,409,220"/>
+<area shape="poly" title=" " alt="" coords="409,180,442,187,441,192,408,185"/>
+<area shape="poly" title=" " alt="" coords="253,68,303,68,303,74,253,74"/>
 <area shape="poly" title=" " alt="" coords="256,106,306,88,308,93,258,111"/>
 </map>
 </div>
@@ -314,7 +338,7 @@ dir.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_icgraph.png" border="0" usemap="#ade/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_icgraph" loading="lazy" alt=""/></div>
 <map name="ade/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_icgraph" id="ade/d32/dir_8c_a46039c7666b2dae1401a0b3e8ad5f1f1_icgraph">
-<area shape="rect" title="디렉터리에 새 엔트리 추가" alt="" coords="189,57,299,85"/>
+<area shape="rect" title="디렉터리에 새 파일 또는 디렉터리 엔트리를 추가한다." alt="" coords="189,57,299,85"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title=" " alt="" coords="10,5,136,33"/>
 <area shape="poly" title=" " alt="" coords="181,55,120,36,122,31,182,50"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acac9f9c69134190f86e015e89e39d43f" title=" " alt="" coords="11,57,135,85"/>
@@ -355,36 +379,58 @@ dir.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>디렉터리 블록들을 모두 읽어들임 </p>
-<p>dir_load: 디렉터리 데이터 블록들을 모두 읽어서 버퍼에 로드 </p>
+<p>지정된 디렉터리 아이노드의 모든 직접(direct) 데이터 블록을 메모리에 읽어들인다. </p>
+<p>디렉터리의 모든 블록을 디스크에서 읽어들인다.</p>
+<p>주어진 아이노드 번호(ino)에 해당하는 디렉터리의 아이노드 정보를 먼저 디스크에서 읽어온다. 이 아이노드에는 해당 디렉터리의 실제 데이터가 저장된 데이터 블록의 번호들이 저장되어 있다.</p>
+<p>이 함수는 직접(direct) 블록 포인터만을 처리하며, 각 블록이 0인 경우(미할당)는 무시한다. 각 블록을 순서대로 디스크에서 읽어, 버퍼의 알맞은 위치에 복사하여 최종적으로 메모리에 디렉터리 전체 데이터를 적재한다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 (데이터를 읽을 원본 디바이스를 나타냄) </td></tr>
+    <tr><td class="paramname">sb</td><td>슈퍼블록 정보 구조체 포인터 (파일 시스템의 레이아웃 정보 제공) </td></tr>
+    <tr><td class="paramname">ino</td><td>데이터를 읽어올 디렉터리의 아이노드 번호 </td></tr>
+    <tr><td class="paramname">buf</td><td>읽어온 디렉터리 데이터를 저장할 버퍼 (충분한 크기가 미리 할당되어 있어야 함)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>성공적으로 모든 블록을 읽었다면 0을 반환하고, inode_load 또는 read_block 수행 중 오류가 발생하면 음수의 오류 코드 반환 </dd></dl>
 
-<p class="definition"><a class="el" href="../../de/d32/dir_8c_source.html">dir.c</a> 파일의 <a class="el" href="../../de/d32/dir_8c_source.html#l00017">17</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   17</span>                                                                            {</div>
-<div class="line"><span class="lineno">   18</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> inode;</div>
-<div class="line"><span class="lineno">   19</span>  <span class="keywordtype">int</span> res = <a class="code hl_function" href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a>(fd, sb, ino, &amp;inode);</div>
-<div class="line"><span class="lineno">   20</span>  <span class="keywordflow">if</span> (res &lt; 0)</div>
-<div class="line"><span class="lineno">   21</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">   22</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>; i++) {</div>
-<div class="line"><span class="lineno">   23</span>    <span class="keywordflow">if</span> (inode.direct[i] == 0)</div>
-<div class="line"><span class="lineno">   24</span>      <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   25</span>    res = <a class="code hl_function" href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a>(fd, inode.direct[i], (<span class="keywordtype">char</span> *)buf + i * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
-<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">if</span> (res &lt; 0)</div>
-<div class="line"><span class="lineno">   27</span>      <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">   28</span>  }</div>
-<div class="line"><span class="lineno">   29</span>  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   30</span>}</div>
-<div class="ttc" id="ablock_8h_html_a8a7cedcc55adf1eeb0a4d2d05cf4b795"><div class="ttname"><a href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a></div><div class="ttdeci">int read_block(int fd, uint32_t block_no, void *buf)</div><div class="ttdoc">디바이스에서 블록 단위(4KB)로 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00016">block.c:16</a></div></div>
+<p class="definition"><a class="el" href="../../de/d32/dir_8c_source.html">dir.c</a> 파일의 <a class="el" href="../../de/d32/dir_8c_source.html#l00042">42</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   42</span>                                                                            {</div>
+<div class="line"><span class="lineno">   43</span>  <span class="comment">// 디스크에서 주어진 아이노드 번호(ino)의 아이노드 메타데이터를 로드하여 inode</span></div>
+<div class="line"><span class="lineno">   44</span>  <span class="comment">// 변수에 저장</span></div>
+<div class="line"><span class="lineno">   45</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> inode;</div>
+<div class="line"><span class="lineno">   46</span>  <span class="keywordtype">int</span> res = <a class="code hl_function" href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a>(fd, sb, ino, &amp;inode);</div>
+<div class="line"><span class="lineno">   47</span>  <span class="keywordflow">if</span> (res &lt; 0)</div>
+<div class="line"><span class="lineno">   48</span>    <span class="keywordflow">return</span> res; <span class="comment">// 아이노드 로딩 실패 시 즉시 오류 코드 반환</span></div>
+<div class="line"><span class="lineno">   49</span> </div>
+<div class="line"><span class="lineno">   50</span>  <span class="comment">// 아이노드가 참조하는 모든 직접(direct) 블록들을 순회하며 디스크에서 읽는다</span></div>
+<div class="line"><span class="lineno">   51</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>; i++) {</div>
+<div class="line"><span class="lineno">   52</span>    <span class="comment">// 현재 블록 번호가 0이면 미할당 상태이므로 건너뜀</span></div>
+<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">if</span> (inode.direct[i] == 0)</div>
+<div class="line"><span class="lineno">   54</span>      <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>    <span class="comment">// i번째 블록을 읽어 buf의 i번째 블록 위치로 이동한 메모리 주소에 저장</span></div>
+<div class="line"><span class="lineno">   57</span>    <span class="comment">// 각 블록 크기(SFUSE_BLOCK_SIZE)를 곱해 정확한 위치 계산</span></div>
+<div class="line"><span class="lineno">   58</span>    res = <a class="code hl_function" href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a>(fd, inode.direct[i], (<span class="keywordtype">char</span> *)buf + i * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
+<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">if</span> (res &lt; 0)</div>
+<div class="line"><span class="lineno">   60</span>      <span class="keywordflow">return</span> res; <span class="comment">// 블록 읽기 중 오류 발생 시 즉시 오류 코드 반환</span></div>
+<div class="line"><span class="lineno">   61</span>  }</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>  <span class="comment">// 모든 직접 블록을 성공적으로 읽었으면 0 반환</span></div>
+<div class="line"><span class="lineno">   64</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   65</span>}</div>
+<div class="ttc" id="ablock_8h_html_a8a7cedcc55adf1eeb0a4d2d05cf4b795"><div class="ttname"><a href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a></div><div class="ttdeci">int read_block(int fd, uint32_t block_no, void *buf)</div><div class="ttdoc">디바이스에서 블록 단위(4KB)로 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00030">block.c:30</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_cgraph.png" border="0" usemap="#ade/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_cgraph" loading="lazy" alt=""/></div>
 <map name="ade/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_cgraph" id="ade/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_cgraph">
-<area shape="rect" title="디렉터리 블록들을 모두 읽어들임" alt="" coords="5,32,79,60"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#a72a6e85b07ee4130a233e0db78fc95fe" title="디스크에서 아이노드 읽기" alt="" coords="127,5,219,33"/>
+<area shape="rect" title="지정된 디렉터리 아이노드의 모든 직접(direct) 데이터 블록을 메모리에 읽어들인다." alt="" coords="5,32,79,60"/>
+<area shape="rect" href="../../d8/d2b/inode_8c.html#a72a6e85b07ee4130a233e0db78fc95fe" title="디스크에서 지정된 아이노드를 읽어 메모리에 로드한다." alt="" coords="127,5,219,33"/>
 <area shape="poly" title=" " alt="" coords="78,36,111,29,112,34,80,41"/>
 <area shape="rect" href="../../d3/d1c/block_8c.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795" title="디바이스에서 블록 단위(4KB)로 읽기" alt="" coords="127,57,219,85"/>
 <area shape="poly" title=" " alt="" coords="80,50,112,57,111,62,79,56"/>
-<area shape="rect" href="../../d1/d3e/img_8c.html#ab5f174b2ac56c4370d34760eebb328ad" title="원시 디바이스에서 특정 오프셋만큼 읽기" alt="" coords="267,32,349,60"/>
+<area shape="rect" href="../../d0/deb/disk_8c.html#a4e89c1e25d4c77895abb816855df3ab1" title="원시 디바이스에서 특정 offset으로부터 데이터를 읽는다." alt="" coords="267,32,351,60"/>
 <area shape="poly" title=" " alt="" coords="220,26,252,32,251,37,219,31"/>
 <area shape="poly" title=" " alt="" coords="219,60,251,54,252,59,220,65"/>
 </map>
@@ -394,12 +440,12 @@ dir.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_icgraph.png" border="0" usemap="#ade/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_icgraph" loading="lazy" alt=""/></div>
 <map name="ade/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_icgraph" id="ade/d32/dir_8c_ac2f55242043759c79ce3aaa895ffbd6b_icgraph">
-<area shape="rect" title="디렉터리 블록들을 모두 읽어들임" alt="" coords="548,160,622,188"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#a46039c7666b2dae1401a0b3e8ad5f1f1" title="디렉터리에 새 엔트리 추가" alt="" coords="203,7,314,34"/>
+<area shape="rect" title="지정된 디렉터리 아이노드의 모든 직접(direct) 데이터 블록을 메모리에 읽어들인다." alt="" coords="548,160,622,188"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#a46039c7666b2dae1401a0b3e8ad5f1f1" title="디렉터리에 새로운 엔트리를 추가한다." alt="" coords="203,7,314,34"/>
 <area shape="poly" title=" " alt="" coords="542,155,445,105,327,50,297,37,299,32,329,45,447,100,545,150"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#a6d70dfe2356e0eefe891a57e11c62e16" title="디렉터리 엔트리 삭제" alt="" coords="190,160,326,188"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#a6d70dfe2356e0eefe891a57e11c62e16" title="디렉터리에서 지정된 이름의 엔트리를 삭제한다." alt="" coords="190,160,326,188"/>
 <area shape="poly" title=" " alt="" coords="533,176,327,176,327,171,533,171"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#aba575ee5529edea958cfbb7926a4f6c0" title="경로를 아이노드 번호로 해석" alt="" coords="376,368,500,396"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#aba575ee5529edea958cfbb7926a4f6c0" title="주어진 경로를 아이노드 번호로 변환한다." alt="" coords="376,368,500,396"/>
 <area shape="poly" title=" " alt="" coords="567,202,452,369,447,366,563,199"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#a6dc52b86f2cef1906558a324213cac6e" title=" " alt="" coords="10,57,136,85"/>
 <area shape="poly" title=" " alt="" coords="192,41,127,59,126,54,190,36"/>
@@ -415,7 +461,7 @@ dir.c에 대한 include 의존 그래프</div>
 <area shape="poly" title=" " alt="" coords="430,353,420,307,400,251,370,195,350,171,327,151,283,129,234,117,186,114,141,116,141,110,186,108,235,112,285,124,329,146,354,167,374,192,405,249,425,306,435,352"/>
 <area shape="poly" title=" " alt="" coords="431,411,417,447,396,488,367,527,350,544,329,557,291,575,257,583,223,577,187,557,151,524,123,483,103,437,88,390,74,302,71,241,77,241,79,302,94,389,108,435,128,480,155,520,190,553,225,572,257,577,290,570,327,553,346,540,363,523,392,485,413,445,426,409"/>
 <area shape="poly" title=" " alt="" coords="425,411,388,466,361,493,329,514,290,530,255,539,221,534,187,513,170,496,157,477,146,440,147,402,155,363,163,323,167,283,161,243,152,224,139,204,124,191,128,187,143,200,157,221,166,242,172,283,169,324,160,364,153,403,151,440,162,475,174,492,190,509,223,529,255,533,288,525,327,509,358,489,384,463,421,408"/>
-<area shape="rect" href="../../d2/d5a/fs_8c.html#a7f58173fe2f2486a7dee9e5e78a9e998" title="전체 경로를 부모 아이노드와 이름으로 분할" alt="" coords="206,59,310,86"/>
+<area shape="rect" href="../../d2/d5a/fs_8c.html#a7f58173fe2f2486a7dee9e5e78a9e998" title="전체 경로를 부모 디렉터리의 아이노드와 마지막 구성요소의 이름으로 분할한다." alt="" coords="206,59,310,86"/>
 <area shape="poly" title=" " alt="" coords="430,354,419,302,400,236,370,168,350,135,326,106,302,89,305,85,330,103,354,132,374,165,405,235,425,301,435,352"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4" title=" " alt="" coords="194,624,323,652"/>
 <area shape="poly" title=" " alt="" coords="432,411,419,453,398,505,368,559,330,608,304,626,301,621,326,604,364,556,393,503,414,452,427,409"/>
@@ -472,72 +518,91 @@ dir.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p>디렉터리 엔트리 삭제 </p>
-<p>dir_remove_entry: 디렉터리에서 엔트리 삭제 </p>
+<p>디렉터리에서 특정 엔트리를 삭제한다. </p>
+<p>디렉터리에서 지정된 이름의 엔트리를 삭제한다.</p>
+<p>이름이 일치하는 엔트리를 찾아 해당 슬롯을 비운 후 디스크에 데이터를 기록한다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fd</td><td>디바이스 파일 디스크립터 </td></tr>
+    <tr><td class="paramname">sb</td><td>슈퍼블록 정보 구조체 포인터 </td></tr>
+    <tr><td class="paramname">ino</td><td>부모 디렉터리 아이노드 번호 </td></tr>
+    <tr><td class="paramname">name</td><td>삭제할 엔트리의 이름 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>성공 시 0, 엔트리가 존재하지 않으면 -ENOENT, 기타 오류 발생 시 음수 오류 코드 </dd></dl>
 
-<p class="definition"><a class="el" href="../../de/d32/dir_8c_source.html">dir.c</a> 파일의 <a class="el" href="../../de/d32/dir_8c_source.html#l00092">92</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   93</span>                                       {</div>
-<div class="line"><span class="lineno">   94</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> inode;</div>
-<div class="line"><span class="lineno">   95</span>  <span class="keywordtype">int</span> res = <a class="code hl_function" href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a>(fd, sb, ino, &amp;inode);</div>
-<div class="line"><span class="lineno">   96</span>  <span class="keywordflow">if</span> (res &lt; 0)</div>
-<div class="line"><span class="lineno">   97</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>  <span class="keywordtype">size_t</span> buf_size = <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a> * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>;</div>
-<div class="line"><span class="lineno">  100</span>  <span class="keywordtype">void</span> *buf = malloc(buf_size);</div>
-<div class="line"><span class="lineno">  101</span>  <span class="keywordflow">if</span> (!buf)</div>
-<div class="line"><span class="lineno">  102</span>    <span class="keywordflow">return</span> -ENOMEM;</div>
-<div class="line"><span class="lineno">  103</span>  res = <a class="code hl_function" href="#ac2f55242043759c79ce3aaa895ffbd6b">dir_load</a>(fd, sb, ino, buf);</div>
-<div class="line"><span class="lineno">  104</span>  <span class="keywordflow">if</span> (res &lt; 0) {</div>
-<div class="line"><span class="lineno">  105</span>    free(buf);</div>
-<div class="line"><span class="lineno">  106</span>    <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">  107</span>  }</div>
-<div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *ents = (<span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *)buf;</div>
-<div class="line"><span class="lineno">  110</span>  uint32_t max_entries = buf_size / <span class="keyword">sizeof</span>(*ents);</div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; max_entries; i++) {</div>
-<div class="line"><span class="lineno">  113</span>    <span class="keywordflow">if</span> (ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> != 0 &amp;&amp; strcmp(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>, <a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>) == 0) {</div>
-<div class="line"><span class="lineno">  114</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> = 0;</div>
-<div class="line"><span class="lineno">  115</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>[0] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>      <span class="comment">// 해당 블록들에 기록</span></div>
-<div class="line"><span class="lineno">  118</span>      <span class="keywordflow">for</span> (uint32_t b = 0; b &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>; b++) {</div>
-<div class="line"><span class="lineno">  119</span>        <span class="keywordflow">if</span> (inode.direct[b] == 0)</div>
-<div class="line"><span class="lineno">  120</span>          <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  121</span>        res = <a class="code hl_function" href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a>(fd, inode.direct[b],</div>
-<div class="line"><span class="lineno">  122</span>                          (<span class="keywordtype">char</span> *)buf + b * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
-<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">if</span> (res &lt; 0) {</div>
-<div class="line"><span class="lineno">  124</span>          free(buf);</div>
-<div class="line"><span class="lineno">  125</span>          <span class="keywordflow">return</span> res;</div>
-<div class="line"><span class="lineno">  126</span>        }</div>
-<div class="line"><span class="lineno">  127</span>      }</div>
-<div class="line"><span class="lineno">  128</span>      free(buf);</div>
-<div class="line"><span class="lineno">  129</span>      <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  130</span>    }</div>
-<div class="line"><span class="lineno">  131</span>  }</div>
-<div class="line"><span class="lineno">  132</span>  free(buf);</div>
-<div class="line"><span class="lineno">  133</span>  <span class="keywordflow">return</span> -ENOENT;</div>
-<div class="line"><span class="lineno">  134</span>}</div>
+<p class="definition"><a class="el" href="../../de/d32/dir_8c_source.html">dir.c</a> 파일의 <a class="el" href="../../de/d32/dir_8c_source.html#l00162">162</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">  163</span>                                       {</div>
+<div class="line"><span class="lineno">  164</span>  <span class="comment">// 디렉터리 아이노드 로드</span></div>
+<div class="line"><span class="lineno">  165</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d2/d13/structsfuse__inode.html">sfuse_inode</a> inode;</div>
+<div class="line"><span class="lineno">  166</span>  <span class="keywordtype">int</span> res = <a class="code hl_function" href="../../d3/d73/inode_8h.html#a72a6e85b07ee4130a233e0db78fc95fe">inode_load</a>(fd, sb, ino, &amp;inode);</div>
+<div class="line"><span class="lineno">  167</span>  <span class="keywordflow">if</span> (res &lt; 0)</div>
+<div class="line"><span class="lineno">  168</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><span class="lineno">  169</span> </div>
+<div class="line"><span class="lineno">  170</span>  <span class="comment">// 디렉터리 데이터 블록 메모리에 로드</span></div>
+<div class="line"><span class="lineno">  171</span>  <span class="keywordtype">size_t</span> buf_size = <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a> * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>;</div>
+<div class="line"><span class="lineno">  172</span>  <span class="keywordtype">void</span> *buf = malloc(buf_size);</div>
+<div class="line"><span class="lineno">  173</span>  <span class="keywordflow">if</span> (!buf)</div>
+<div class="line"><span class="lineno">  174</span>    <span class="keywordflow">return</span> -ENOMEM;</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>  res = <a class="code hl_function" href="#ac2f55242043759c79ce3aaa895ffbd6b">dir_load</a>(fd, sb, ino, buf);</div>
+<div class="line"><span class="lineno">  177</span>  <span class="keywordflow">if</span> (res &lt; 0) {</div>
+<div class="line"><span class="lineno">  178</span>    free(buf);</div>
+<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><span class="lineno">  180</span>  }</div>
+<div class="line"><span class="lineno">  181</span> </div>
+<div class="line"><span class="lineno">  182</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *ents = (<span class="keyword">struct </span><a class="code hl_struct" href="../../d8/d1a/structsfuse__dirent.html">sfuse_dirent</a> *)buf;</div>
+<div class="line"><span class="lineno">  183</span>  uint32_t max_entries = buf_size / <span class="keyword">sizeof</span>(*ents);</div>
+<div class="line"><span class="lineno">  184</span> </div>
+<div class="line"><span class="lineno">  185</span>  <span class="comment">// 이름이 일치하는 엔트리 탐색 및 삭제</span></div>
+<div class="line"><span class="lineno">  186</span>  <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; max_entries; i++) {</div>
+<div class="line"><span class="lineno">  187</span>    <span class="keywordflow">if</span> (ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> != 0 &amp;&amp; strcmp(ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>, <a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>) == 0) {</div>
+<div class="line"><span class="lineno">  188</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a99c72c6a3e99c1f963e6cac40c25533a">ino</a> = 0;</div>
+<div class="line"><span class="lineno">  189</span>      ents[i].<a class="code hl_variable" href="../../d8/d1a/structsfuse__dirent.html#a7f18e59aff64f060b49301cb9ac50bab">name</a>[0] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  191</span>      <span class="comment">// 수정된 디렉터리 데이터를 디스크에 기록</span></div>
+<div class="line"><span class="lineno">  192</span>      <span class="keywordflow">for</span> (uint32_t b = 0; b &lt; <a class="code hl_define" href="../../d3/d73/inode_8h.html#ad8e7218c1f4e716d890d13bcba484ea3">SFUSE_NDIR_BLOCKS</a>; b++) {</div>
+<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">if</span> (inode.direct[b] == 0)</div>
+<div class="line"><span class="lineno">  194</span>          <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  195</span> </div>
+<div class="line"><span class="lineno">  196</span>        res = <a class="code hl_function" href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a>(fd, inode.direct[b],</div>
+<div class="line"><span class="lineno">  197</span>                          (<span class="keywordtype">char</span> *)buf + b * <a class="code hl_define" href="../../db/d98/super_8h.html#a0f31825083a6f1e0e2f5b5a2fd1181aa">SFUSE_BLOCK_SIZE</a>);</div>
+<div class="line"><span class="lineno">  198</span>        <span class="keywordflow">if</span> (res &lt; 0) {</div>
+<div class="line"><span class="lineno">  199</span>          free(buf);</div>
+<div class="line"><span class="lineno">  200</span>          <span class="keywordflow">return</span> res;</div>
+<div class="line"><span class="lineno">  201</span>        }</div>
+<div class="line"><span class="lineno">  202</span>      }</div>
+<div class="line"><span class="lineno">  203</span> </div>
+<div class="line"><span class="lineno">  204</span>      free(buf);</div>
+<div class="line"><span class="lineno">  205</span>      <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  206</span>    }</div>
+<div class="line"><span class="lineno">  207</span>  }</div>
+<div class="line"><span class="lineno">  208</span> </div>
+<div class="line"><span class="lineno">  209</span>  <span class="comment">// 해당 이름의 엔트리가 없을 경우 메모리 해제 후 오류 반환</span></div>
+<div class="line"><span class="lineno">  210</span>  free(buf);</div>
+<div class="line"><span class="lineno">  211</span>  <span class="keywordflow">return</span> -ENOENT;</div>
+<div class="line"><span class="lineno">  212</span>}</div>
 </div><!-- fragment --><div class="dynheader">
 이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_cgraph.png" border="0" usemap="#ade/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_cgraph" loading="lazy" alt=""/></div>
 <map name="ade/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_cgraph" id="ade/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_cgraph">
-<area shape="rect" title="디렉터리 엔트리 삭제" alt="" coords="5,57,142,85"/>
-<area shape="rect" href="../../de/d32/dir_8c.html#ac2f55242043759c79ce3aaa895ffbd6b" title="디렉터리 블록들을 모두 읽어들임" alt="" coords="201,57,274,85"/>
+<area shape="rect" title="디렉터리에서 특정 엔트리를 삭제한다." alt="" coords="5,57,142,85"/>
+<area shape="rect" href="../../de/d32/dir_8c.html#ac2f55242043759c79ce3aaa895ffbd6b" title="지정된 디렉터리 아이노드의 모든 직접(direct) 데이터 블록을 메모리에 읽어들인다." alt="" coords="201,57,274,85"/>
 <area shape="poly" title=" " alt="" coords="142,68,186,68,186,74,142,74"/>
-<area shape="rect" href="../../d8/d2b/inode_8c.html#a72a6e85b07ee4130a233e0db78fc95fe" title="디스크에서 아이노드 읽기" alt="" coords="334,5,426,33"/>
+<area shape="rect" href="../../d8/d2b/inode_8c.html#a72a6e85b07ee4130a233e0db78fc95fe" title="디스크에서 지정된 아이노드를 읽어 메모리에 로드한다." alt="" coords="334,5,426,33"/>
 <area shape="poly" title=" " alt="" coords="136,54,189,43,318,24,319,29,190,48,137,59"/>
 <area shape="rect" href="../../d3/d1c/block_8c.html#a68fff59f4eeded5f354caed94cd27f12" title="디바이스에 블록 단위(4KB)로 쓰기" alt="" coords="190,109,286,137"/>
 <area shape="poly" title=" " alt="" coords="121,83,178,102,177,107,119,88"/>
 <area shape="poly" title=" " alt="" coords="274,55,325,36,327,41,276,60"/>
 <area shape="rect" href="../../d3/d1c/block_8c.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795" title="디바이스에서 블록 단위(4KB)로 읽기" alt="" coords="334,57,426,85"/>
 <area shape="poly" title=" " alt="" coords="275,68,318,68,318,74,275,74"/>
-<area shape="rect" href="../../d1/d3e/img_8c.html#ab5f174b2ac56c4370d34760eebb328ad" title="원시 디바이스에서 특정 오프셋만큼 읽기" alt="" coords="474,32,557,60"/>
+<area shape="rect" href="../../d0/deb/disk_8c.html#a4e89c1e25d4c77895abb816855df3ab1" title="원시 디바이스에서 특정 offset으로부터 데이터를 읽는다." alt="" coords="474,32,559,60"/>
 <area shape="poly" title=" " alt="" coords="427,26,460,32,459,37,426,31"/>
 <area shape="poly" title=" " alt="" coords="426,60,459,54,460,59,427,65"/>
-<area shape="rect" href="../../d1/d3e/img_8c.html#ad1abb87bbd6acc052bc498cd3d8f3278" title="원시 디바이스에 특정 오프셋만큼 쓰기" alt="" coords="337,109,423,137"/>
-<area shape="poly" title=" " alt="" coords="286,120,322,120,322,126,286,126"/>
+<area shape="rect" href="../../d0/deb/disk_8c.html#a4d5c112b4fd7cbc953ce25361c0fc5ce" title="원시 디바이스의 특정 오프셋(offset)에 데이터를 쓴다." alt="" coords="336,109,424,137"/>
+<area shape="poly" title=" " alt="" coords="286,120,320,120,320,126,286,126"/>
 </map>
 </div>
 <div class="dynheader">
@@ -545,7 +610,7 @@ dir.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_icgraph.png" border="0" usemap="#ade/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_icgraph" loading="lazy" alt=""/></div>
 <map name="ade/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_icgraph" id="ade/d32/dir_8c_a6d70dfe2356e0eefe891a57e11c62e16_icgraph">
-<area shape="rect" title="디렉터리 엔트리 삭제" alt="" coords="189,57,325,85"/>
+<area shape="rect" title="디렉터리에서 특정 엔트리를 삭제한다." alt="" coords="189,57,325,85"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#a40eb26b6c59a422e4ad1e906dff00037" title=" " alt="" coords="5,5,141,33"/>
 <area shape="poly" title=" " alt="" coords="190,55,124,36,125,31,191,50"/>
 <area shape="rect" href="../../d9/d70/ops_8c.html#acf89b7cf9e32fbd2b7c749abb1b89234" title=" " alt="" coords="13,57,133,85"/>

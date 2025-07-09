@@ -1,0 +1,50 @@
+\doxysection{super.\+h}
+\hypertarget{super_8h_source}{}\label{super_8h_source}\index{include/super.h@{include/super.h}}
+\mbox{\hyperlink{super_8h}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00009}00009\ \textcolor{preprocessor}{\#ifndef\ SFUSE\_SUPER\_H}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00010}00010\ \textcolor{preprocessor}{\#define\ SFUSE\_SUPER\_H}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00015}\mbox{\hyperlink{super_8h_ab3e43b63579c20a44aa0d16000a99599}{00015}}\ \textcolor{preprocessor}{\#define\ SFUSE\_MAGIC\ 0xEF53}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00018}\mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{00018}}\ \textcolor{preprocessor}{\#define\ SFUSE\_BLOCK\_SIZE\ 4096}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00021}\mbox{\hyperlink{super_8h_a8f980a90fb514405450dda0d386a5b9c}{00021}}\ \textcolor{preprocessor}{\#define\ SFUSE\_SUPERBLOCK\_OFFSET\ 1024}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00024}\mbox{\hyperlink{super_8h_a1a7579057c736252c2970de8b08bc0be}{00024}}\ \textcolor{preprocessor}{\#define\ SFUSE\_INODES\_COUNT\ 1024}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00027}\mbox{\hyperlink{super_8h_a3b65a139f624923ccab2746cffbcc6eb}{00027}}\ \textcolor{preprocessor}{\#define\ SFUSE\_BLOCKS\_COUNT\ 8192}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00030}\mbox{\hyperlink{super_8h_a0c9854b462f752d899459ebea354a6a8}{00030}}\ \textcolor{preprocessor}{\#define\ SFUSE\_INODE\_BITMAP\_BLOCK\ 2}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00033}\mbox{\hyperlink{super_8h_afcdad36e2839b5556ccf5e4a5ac88da1}{00033}}\ \textcolor{preprocessor}{\#define\ SFUSE\_BLOCK\_BITMAP\_BLOCK\ 3}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00036}\mbox{\hyperlink{super_8h_a947631697bf6e54c64996e0fc27e5193}{00036}}\ \textcolor{preprocessor}{\#define\ SFUSE\_INODE\_TABLE\_BLOCK\ 4}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00039}\mbox{\hyperlink{super_8h_ae04fce338c69fbfacacff2bd02562722}{00039}}\ \textcolor{preprocessor}{\#define\ SFUSE\_DATA\_BLOCK\_START\ 100}}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00045}\mbox{\hyperlink{structsfuse__super}{00045}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ \{}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00046}\mbox{\hyperlink{structsfuse__super_aacaf3200149af8e6c55c404d82beca9b}{00046}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_aacaf3200149af8e6c55c404d82beca9b}{magic}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00047}\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{00047}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00048}\mbox{\hyperlink{structsfuse__super_a1beda11a6d52ccf0351e22d81b50a20d}{00048}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_a1beda11a6d52ccf0351e22d81b50a20d}{blocks\_count}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00049}\mbox{\hyperlink{structsfuse__super_acd931caad1995d73e3dbf10d3023c424}{00049}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_acd931caad1995d73e3dbf10d3023c424}{free\_inodes}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00050}\mbox{\hyperlink{structsfuse__super_acaa02ed47b78c9a84c2f3622de95c44f}{00050}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_acaa02ed47b78c9a84c2f3622de95c44f}{free\_blocks}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00051}\mbox{\hyperlink{structsfuse__super_ad08b4df84f43d7d6738c5f25b22e5829}{00051}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_ad08b4df84f43d7d6738c5f25b22e5829}{inode\_bitmap\_start}};\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00052}\mbox{\hyperlink{structsfuse__super_a0f3c93e1295e95f48787c8b2d6adb7f5}{00052}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_a0f3c93e1295e95f48787c8b2d6adb7f5}{block\_bitmap\_start}};\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00053}\mbox{\hyperlink{structsfuse__super_a274c7bf26a003e667534185aef04f732}{00053}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_a274c7bf26a003e667534185aef04f732}{inode\_table\_start}};\ \ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00054}\mbox{\hyperlink{structsfuse__super_a0af357d05a08b353bcc4f855e3c1a240}{00054}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__super_a0af357d05a08b353bcc4f855e3c1a240}{data\_block\_start}};\ \ \ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00055}00055\ \};}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00066}00066\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{super_8h_acb20fd13c57054e02c476a54d26bf02b}{sb\_load}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb);}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00077}00077\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{super_8h_a90dace97e8d65a597b6d660e0d5b2170}{sb\_sync}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb);}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00086}00086\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{super_8h_aa737a6d4041679388e2313079608a194}{sb\_format}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb);}
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{super_8h_source_l00088}00088\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SFUSE\_SUPER\_H}}
+
+\end{DoxyCode}

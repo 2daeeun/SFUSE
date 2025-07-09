@@ -1,0 +1,429 @@
+\doxysection{include/dir.h 파일 참조}
+\hypertarget{dir_8h}{}\label{dir_8h}\index{include/dir.h@{include/dir.h}}
+
+
+파일 시스템의 디렉터리 관리 기능 정의  
+
+
+{\ttfamily \#include "{}inode.\+h"{}}\newline
+{\ttfamily \#include "{}super.\+h"{}}\newline
+{\ttfamily \#include $<$stddef.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+dir.\+h에 대한 include 의존 그래프
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d3/d12/dir_8h__incl}
+\end{center}
+\end{figure}
+이 그래프는 이 파일을 직/간접적으로 include 하는 파일들을 보여줍니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{d0/d0c/dir_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{데이터 구조}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsfuse__dirent}{sfuse\+\_\+dirent}}
+\begin{DoxyCompactList}\small\item\em 디렉터리 엔트리 정보를 저장하는 구조체 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{매크로}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{dir_8h_ac3fe75f2b09bf78dfede04c657450460}{SFUSE\+\_\+\+NAME\+\_\+\+LEN}}~255
+\end{DoxyCompactItemize}
+\doxysubsubsection*{함수}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{dir_8h_ac2f55242043759c79ce3aaa895ffbd6b}{dir\+\_\+load}} (int fd, const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb, uint32\+\_\+t ino, void \texorpdfstring{$\ast$}{*}buf)
+\begin{DoxyCompactList}\small\item\em 디렉터리의 모든 블록을 디스크에서 읽어들인다. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dir_8h_a46039c7666b2dae1401a0b3e8ad5f1f1}{dir\+\_\+add\+\_\+entry}} (int fd, const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb, uint32\+\_\+t ino, const char \texorpdfstring{$\ast$}{*}name, uint32\+\_\+t child\+\_\+ino, uint8\+\_\+t \texorpdfstring{$\ast$}{*}block\+\_\+map, uint8\+\_\+t \texorpdfstring{$\ast$}{*}inode\+\_\+map, struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}supermap)
+\begin{DoxyCompactList}\small\item\em 디렉터리에 새로운 엔트리를 추가한다. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{dir_8h_a6d70dfe2356e0eefe891a57e11c62e16}{dir\+\_\+remove\+\_\+entry}} (int fd, const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb, uint32\+\_\+t ino, const char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em 디렉터리에서 지정된 이름의 엔트리를 삭제한다. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{상세한 설명}
+파일 시스템의 디렉터리 관리 기능 정의 
+
+디렉터리의 생성, 읽기, 추가 및 삭제와 같은 관리 작업을 처리하는 함수와 구조체 정의. 디렉터리 엔트리는 파일이나 하위 디렉터리를 나타낸다. 
+
+\mbox{\hyperlink{dir_8h_source}{dir.\+h}} 파일에서 정의되었습니다.
+
+
+
+\label{doc-define-members}
+\Hypertarget{dir_8h_doc-define-members}
+\doxysubsection{매크로 문서화}
+\Hypertarget{dir_8h_ac3fe75f2b09bf78dfede04c657450460}\index{dir.h@{dir.h}!SFUSE\_NAME\_LEN@{SFUSE\_NAME\_LEN}}
+\index{SFUSE\_NAME\_LEN@{SFUSE\_NAME\_LEN}!dir.h@{dir.h}}
+\doxysubsubsection{\texorpdfstring{SFUSE\_NAME\_LEN}{SFUSE\_NAME\_LEN}}
+{\footnotesize\ttfamily \label{dir_8h_ac3fe75f2b09bf78dfede04c657450460} 
+\#define SFUSE\+\_\+\+NAME\+\_\+\+LEN~255}
+
+
+
+\mbox{\hyperlink{dir_8h_source}{dir.\+h}} 파일의 \mbox{\hyperlink{dir_8h_source_l00018}{18}} 번째 라인에서 정의되었습니다.
+
+
+
+\label{doc-func-members}
+\Hypertarget{dir_8h_doc-func-members}
+\doxysubsection{함수 문서화}
+\Hypertarget{dir_8h_a46039c7666b2dae1401a0b3e8ad5f1f1}\index{dir.h@{dir.h}!dir\_add\_entry@{dir\_add\_entry}}
+\index{dir\_add\_entry@{dir\_add\_entry}!dir.h@{dir.h}}
+\doxysubsubsection{\texorpdfstring{dir\_add\_entry()}{dir\_add\_entry()}}
+{\footnotesize\ttfamily \label{dir_8h_a46039c7666b2dae1401a0b3e8ad5f1f1} 
+int dir\+\_\+add\+\_\+entry (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{, }\item[{uint32\+\_\+t}]{ino}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{, }\item[{uint32\+\_\+t}]{child\+\_\+ino}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{block\+\_\+map}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{inode\+\_\+map}{, }\item[{struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{supermap}{}\end{DoxyParamCaption})}
+
+
+
+디렉터리에 새로운 엔트리를 추가한다. 
+
+부모 디렉터리에 파일 또는 디렉터리를 나타내는 엔트리를 추가하며, 추가 과정에서 블록 및 아이노드 비트맵과 슈퍼블록을 적절히 갱신한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 구조체 포인터 \\
+\hline
+{\em ino} & 부모 디렉터리의 아이노드 번호 \\
+\hline
+{\em name} & 추가할 파일 또는 디렉터리의 이름 \\
+\hline
+{\em child\+\_\+ino} & 추가될 엔트리에 연결될 새로운 아이노드 번호 \\
+\hline
+{\em block\+\_\+map} & 블록 비트맵 버퍼 (사용된 블록 관리용) \\
+\hline
+{\em inode\+\_\+map} & 아이노드 비트맵 버퍼 (사용된 아이노드 관리용) \\
+\hline
+{\em supermap} & 갱신 후 슈퍼블록의 변경 사항 동기화를 위한 슈퍼블록 복사본 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0 반환, 실패 시 음수의 오류 코드 반환
+\end{DoxyReturn}
+디렉터리에 새로운 엔트리를 추가한다.
+
+지정된 디렉터리 아이노드가 관리하는 직접 블록에서 빈 슬롯을 찾아, 새로운 파일 또는 디렉터리 엔트리를 추가한다. 엔트리 추가 후 수정된 디렉터리 데이터를 디스크에 기록하고, 파일시스템의 슈퍼블록 및 블록/아이노드 비트맵도 최신 상태로 동기화한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 (디스크 접근용) \\
+\hline
+{\em sb} & 슈퍼블록 구조체 포인터 (파일시스템의 정보 참조용) \\
+\hline
+{\em ino} & 부모 디렉터리 아이노드 번호 (엔트리를 추가할 디렉터리) \\
+\hline
+{\em name} & 추가할 새 엔트리의 이름 \\
+\hline
+{\em child\+\_\+ino} & 새 엔트리에 연결될 아이노드 번호 \\
+\hline
+{\em block\+\_\+map} & 블록 사용 정보를 나타내는 비트맵 버퍼 \\
+\hline
+{\em inode\+\_\+map} & 아이노드 사용 정보를 나타내는 비트맵 버퍼 \\
+\hline
+{\em supermap} & 슈퍼블록 복사본 (변경 사항 동기화 시 사용)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0 반환, 빈 슬롯이 없어 추가가 불가능하면 -\/ENOSPC 반환, 메모리 할당 실패 시 -\/ENOMEM, 기타 입출력 오류 발생 시 음수 오류 코드 반환 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{dir_8c_source}{dir.\+c}} 파일의 \mbox{\hyperlink{dir_8c_source_l00089}{89}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \textcolor{comment}{//\ 부모\ 디렉터리의\ 아이노드를\ 로드하여\ inode\ 구조체에\ 저장한다.}}
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__inode}{sfuse\_inode}}\ inode;}
+\DoxyCodeLine{00094\ \ \ \textcolor{keywordtype}{int}\ res\ =\ \mbox{\hyperlink{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}{inode\_load}}(fd,\ sb,\ ino,\ \&inode);}
+\DoxyCodeLine{00095\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 아이노드\ 로딩에\ 실패하면\ 즉시\ 종료한다.}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \textcolor{comment}{//\ 디렉터리\ 데이터\ 전체를\ 저장할\ 메모리\ 버퍼를\ 할당한다.}}
+\DoxyCodeLine{00099\ \ \ \textcolor{keywordtype}{size\_t}\ buf\_size\ =\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}}\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{00100\ \ \ \textcolor{keywordtype}{void}\ *buf\ =\ malloc(buf\_size);}
+\DoxyCodeLine{00101\ \ \ \textcolor{keywordflow}{if}\ (!buf)}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/ENOMEM;\ \textcolor{comment}{//\ 메모리\ 할당\ 실패\ 시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \textcolor{comment}{//\ 디스크로부터\ 디렉터리의\ 모든\ 직접\ 블록\ 데이터를\ 읽어온다.}}
+\DoxyCodeLine{00105\ \ \ res\ =\ \mbox{\hyperlink{dir_8c_ac2f55242043759c79ce3aaa895ffbd6b}{dir\_load}}(fd,\ sb,\ ino,\ buf);}
+\DoxyCodeLine{00106\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ free(buf);}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 블록\ 로드\ 실패\ 시\ 메모리\ 해제\ 후\ 종료한다.}}
+\DoxyCodeLine{00109\ \ \ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \textcolor{comment}{//\ 버퍼를\ 디렉터리\ 엔트리\ 배열로\ 해석하여\ 최대\ 엔트리\ 개수\ 산정}}
+\DoxyCodeLine{00112\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *ents\ =\ (\textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *)buf;}
+\DoxyCodeLine{00113\ \ \ uint32\_t\ max\_entries\ =\ buf\_size\ /\ \textcolor{keyword}{sizeof}(*ents);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \textcolor{comment}{//\ 디렉터리\ 내의\ 빈\ 슬롯을\ 탐색하여\ 새\ 엔트리를\ 추가한다.}}
+\DoxyCodeLine{00116\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 0;\ i\ <\ max\_entries;\ i++)\ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{if}\ (ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ ==\ 0)\ \{\ \ \ \ \textcolor{comment}{//\ 빈\ 슬롯\ 발견\ (아이노드\ 번호가\ 0이면\ 빈\ 슬롯)}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ =\ child\_ino;\ \textcolor{comment}{//\ 새\ 아이노드\ 번호를\ 할당}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ strncpy(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}},\ \mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}},\ \textcolor{keyword}{sizeof}(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}})\ -\/\ 1);\ \textcolor{comment}{//\ 엔트리\ 이름\ 복사}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}}[\textcolor{keyword}{sizeof}(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}})\ -\/\ 1]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};\ \textcolor{comment}{//\ 문자열의\ NULL\ 종단\ 보장}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \textcolor{comment}{//\ 수정된\ 전체\ 디렉터리\ 데이터를\ 디스크의\ 직접\ 블록에\ 다시\ 기록한다.}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ b\ =\ 0;\ b\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ b++)\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (inode.direct[b]\ ==\ 0)}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \textcolor{comment}{//\ 사용되지\ 않은\ 블록은\ 건너뛴다.}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ res\ =\ \mbox{\hyperlink{block_8h_a68fff59f4eeded5f354caed94cd27f12}{write\_block}}(fd,\ inode.direct[b],}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *)buf\ +\ b\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ free(buf);}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 블록\ 기록\ 실패\ 시\ 메모리\ 해제\ 후\ 종료한다.}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \textcolor{comment}{//\ 변경된\ 슈퍼블록과\ 블록\ 및\ 아이노드\ 비트맵을\ 디스크에\ 동기화한다.}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \mbox{\hyperlink{super_8h_a90dace97e8d65a597b6d660e0d5b2170}{sb\_sync}}(fd,\ supermap);}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \mbox{\hyperlink{bitmap_8h_a227b256c17ea31f9c7743f3abc35966f}{bitmap\_sync}}(fd,\ sb-\/>\mbox{\hyperlink{structsfuse__super_a0f3c93e1295e95f48787c8b2d6adb7f5}{block\_bitmap\_start}},\ block\_map,\ sb-\/>\mbox{\hyperlink{structsfuse__super_a1beda11a6d52ccf0351e22d81b50a20d}{blocks\_count}}\ /\ 8);}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \mbox{\hyperlink{bitmap_8h_a227b256c17ea31f9c7743f3abc35966f}{bitmap\_sync}}(fd,\ sb-\/>\mbox{\hyperlink{structsfuse__super_ad08b4df84f43d7d6738c5f25b22e5829}{inode\_bitmap\_start}},\ inode\_map,\ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}}\ /\ 8);}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ free(buf);\ \textcolor{comment}{//\ 작업이\ 완료되었으므로\ 메모리\ 해제}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;\ \ \textcolor{comment}{//\ 성공적으로\ 엔트리\ 추가\ 완료}}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \textcolor{comment}{//\ 디렉터리\ 내\ 모든\ 슬롯이\ 사용\ 중이어서\ 추가\ 불가\ (공간\ 부족)}}
+\DoxyCodeLine{00146\ \ \ free(buf);}
+\DoxyCodeLine{00147\ \ \ \textcolor{keywordflow}{return}\ -\/ENOSPC;\ \textcolor{comment}{//\ 추가\ 공간\ 부족\ 오류\ 반환}}
+\DoxyCodeLine{00148\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d9c/dir_8h_a46039c7666b2dae1401a0b3e8ad5f1f1_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=300pt]{df/d9c/dir_8h_a46039c7666b2dae1401a0b3e8ad5f1f1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dir_8h_ac2f55242043759c79ce3aaa895ffbd6b}\index{dir.h@{dir.h}!dir\_load@{dir\_load}}
+\index{dir\_load@{dir\_load}!dir.h@{dir.h}}
+\doxysubsubsection{\texorpdfstring{dir\_load()}{dir\_load()}}
+{\footnotesize\ttfamily \label{dir_8h_ac2f55242043759c79ce3aaa895ffbd6b} 
+int dir\+\_\+load (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{, }\item[{uint32\+\_\+t}]{ino}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{buf}{}\end{DoxyParamCaption})}
+
+
+
+디렉터리의 모든 블록을 디스크에서 읽어들인다. 
+
+지정된 아이노드 번호(디렉터리)에 해당하는 데이터를 연속적인 블록으로 읽어서 버퍼에 저장한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 구조체 포인터 \\
+\hline
+{\em ino} & 디렉터리 아이노드 번호 \\
+\hline
+{\em buf} & 읽은 디렉터리 데이터(연속 블록)를 저장할 버퍼 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0 반환, 실패 시 음수의 오류 코드 반환
+\end{DoxyReturn}
+디렉터리의 모든 블록을 디스크에서 읽어들인다.
+
+주어진 아이노드 번호(ino)에 해당하는 디렉터리의 아이노드 정보를 먼저 디스크에서 읽어온다. 이 아이노드에는 해당 디렉터리의 실제 데이터가 저장된 데이터 블록의 번호들이 저장되어 있다.
+
+이 함수는 직접(direct) 블록 포인터만을 처리하며, 각 블록이 0인 경우(미할당)는 무시한다. 각 블록을 순서대로 디스크에서 읽어, 버퍼의 알맞은 위치에 복사하여 최종적으로 메모리에 디렉터리 전체 데이터를 적재한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 (데이터를 읽을 원본 디바이스를 나타냄) \\
+\hline
+{\em sb} & 슈퍼블록 정보 구조체 포인터 (파일 시스템의 레이아웃 정보 제공) \\
+\hline
+{\em ino} & 데이터를 읽어올 디렉터리의 아이노드 번호 \\
+\hline
+{\em buf} & 읽어온 디렉터리 데이터를 저장할 버퍼 (충분한 크기가 미리 할당되어 있어야 함)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공적으로 모든 블록을 읽었다면 0을 반환하고, inode\+\_\+load 또는 read\+\_\+block 수행 중 오류가 발생하면 음수의 오류 코드 반환 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{dir_8c_source}{dir.\+c}} 파일의 \mbox{\hyperlink{dir_8c_source_l00042}{42}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \textcolor{comment}{//\ 디스크에서\ 주어진\ 아이노드\ 번호(ino)의\ 아이노드\ 메타데이터를\ 로드하여\ inode}}
+\DoxyCodeLine{00044\ \ \ \textcolor{comment}{//\ 변수에\ 저장}}
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__inode}{sfuse\_inode}}\ inode;}
+\DoxyCodeLine{00046\ \ \ \textcolor{keywordtype}{int}\ res\ =\ \mbox{\hyperlink{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}{inode\_load}}(fd,\ sb,\ ino,\ \&inode);}
+\DoxyCodeLine{00047\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 아이노드\ 로딩\ 실패\ 시\ 즉시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \textcolor{comment}{//\ 아이노드가\ 참조하는\ 모든\ 직접(direct)\ 블록들을\ 순회하며\ 디스크에서\ 읽는다}}
+\DoxyCodeLine{00051\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 0;\ i\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ i++)\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{comment}{//\ 현재\ 블록\ 번호가\ 0이면\ 미할당\ 상태이므로\ 건너뜀}}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (inode.direct[i]\ ==\ 0)}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ i번째\ 블록을\ 읽어\ buf의\ i번째\ 블록\ 위치로\ 이동한\ 메모리\ 주소에\ 저장}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{comment}{//\ 각\ 블록\ 크기(SFUSE\_BLOCK\_SIZE)를\ 곱해\ 정확한\ 위치\ 계산}}
+\DoxyCodeLine{00058\ \ \ \ \ res\ =\ \mbox{\hyperlink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\_block}}(fd,\ inode.direct[i],\ (\textcolor{keywordtype}{char}\ *)buf\ +\ i\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res;\ \textcolor{comment}{//\ 블록\ 읽기\ 중\ 오류\ 발생\ 시\ 즉시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{00061\ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \textcolor{comment}{//\ 모든\ 직접\ 블록을\ 성공적으로\ 읽었으면\ 0\ 반환}}
+\DoxyCodeLine{00064\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00065\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{df/d9c/dir_8h_ac2f55242043759c79ce3aaa895ffbd6b_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d9c/dir_8h_ac2f55242043759c79ce3aaa895ffbd6b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{dir_8h_a6d70dfe2356e0eefe891a57e11c62e16}\index{dir.h@{dir.h}!dir\_remove\_entry@{dir\_remove\_entry}}
+\index{dir\_remove\_entry@{dir\_remove\_entry}!dir.h@{dir.h}}
+\doxysubsubsection{\texorpdfstring{dir\_remove\_entry()}{dir\_remove\_entry()}}
+{\footnotesize\ttfamily \label{dir_8h_a6d70dfe2356e0eefe891a57e11c62e16} 
+int dir\+\_\+remove\+\_\+entry (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{, }\item[{uint32\+\_\+t}]{ino}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{}\end{DoxyParamCaption})}
+
+
+
+디렉터리에서 지정된 이름의 엔트리를 삭제한다. 
+
+부모 디렉터리에서 지정된 이름의 엔트리를 삭제하여 파일이나 하위 디렉터리를 제거한다. 삭제 시 해당 엔트리가 차지한 블록과 아이노드는 별도의 처리가 필요하다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 구조체 포인터 \\
+\hline
+{\em ino} & 부모 디렉터리의 아이노드 번호 \\
+\hline
+{\em name} & 삭제할 디렉터리 엔트리의 이름 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0 반환, 실패 시 음수의 오류 코드 반환
+\end{DoxyReturn}
+디렉터리에서 지정된 이름의 엔트리를 삭제한다.
+
+이름이 일치하는 엔트리를 찾아 해당 슬롯을 비운 후 디스크에 데이터를 기록한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 슈퍼블록 정보 구조체 포인터 \\
+\hline
+{\em ino} & 부모 디렉터리 아이노드 번호 \\
+\hline
+{\em name} & 삭제할 엔트리의 이름 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0, 엔트리가 존재하지 않으면 -\/ENOENT, 기타 오류 발생 시 음수 오류 코드 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{dir_8c_source}{dir.\+c}} 파일의 \mbox{\hyperlink{dir_8c_source_l00162}{162}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \textcolor{comment}{//\ 디렉터리\ 아이노드\ 로드}}
+\DoxyCodeLine{00165\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__inode}{sfuse\_inode}}\ inode;}
+\DoxyCodeLine{00166\ \ \ \textcolor{keywordtype}{int}\ res\ =\ \mbox{\hyperlink{inode_8h_a72a6e85b07ee4130a233e0db78fc95fe}{inode\_load}}(fd,\ sb,\ ino,\ \&inode);}
+\DoxyCodeLine{00167\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \textcolor{comment}{//\ 디렉터리\ 데이터\ 블록\ 메모리에\ 로드}}
+\DoxyCodeLine{00171\ \ \ \textcolor{keywordtype}{size\_t}\ buf\_size\ =\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}}\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{00172\ \ \ \textcolor{keywordtype}{void}\ *buf\ =\ malloc(buf\_size);}
+\DoxyCodeLine{00173\ \ \ \textcolor{keywordflow}{if}\ (!buf)}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/ENOMEM;}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ res\ =\ \mbox{\hyperlink{dir_8c_ac2f55242043759c79ce3aaa895ffbd6b}{dir\_load}}(fd,\ sb,\ ino,\ buf);}
+\DoxyCodeLine{00177\ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ free(buf);}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{00180\ \ \ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *ents\ =\ (\textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ *)buf;}
+\DoxyCodeLine{00183\ \ \ uint32\_t\ max\_entries\ =\ buf\_size\ /\ \textcolor{keyword}{sizeof}(*ents);}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \textcolor{comment}{//\ 이름이\ 일치하는\ 엔트리\ 탐색\ 및\ 삭제}}
+\DoxyCodeLine{00186\ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ i\ =\ 0;\ i\ <\ max\_entries;\ i++)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordflow}{if}\ (ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ !=\ 0\ \&\&\ strcmp(ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}},\ \mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}})\ ==\ 0)\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}}\ =\ 0;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ ents[i].\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}}[0]\ =\ \textcolor{charliteral}{'\(\backslash\)0'};}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \textcolor{comment}{//\ 수정된\ 디렉터리\ 데이터를\ 디스크에\ 기록}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ b\ =\ 0;\ b\ <\ \mbox{\hyperlink{inode_8h_ad8e7218c1f4e716d890d13bcba484ea3}{SFUSE\_NDIR\_BLOCKS}};\ b++)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (inode.direct[b]\ ==\ 0)}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ res\ =\ \mbox{\hyperlink{block_8h_a68fff59f4eeded5f354caed94cd27f12}{write\_block}}(fd,\ inode.direct[b],}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keywordtype}{char}\ *)buf\ +\ b\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}});}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (res\ <\ 0)\ \{}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ free(buf);}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res;}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ \ \ free(buf);}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00206\ \ \ \ \ \}}
+\DoxyCodeLine{00207\ \ \ \}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \textcolor{comment}{//\ 해당\ 이름의\ 엔트리가\ 없을\ 경우\ 메모리\ 해제\ 후\ 오류\ 반환}}
+\DoxyCodeLine{00210\ \ \ free(buf);}
+\DoxyCodeLine{00211\ \ \ \textcolor{keywordflow}{return}\ -\/ENOENT;}
+\DoxyCodeLine{00212\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{df/d9c/dir_8h_a6d70dfe2356e0eefe891a57e11c62e16_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=320pt]{df/d9c/dir_8h_a6d70dfe2356e0eefe891a57e11c62e16_icgraph}
+\end{center}
+\end{figure}

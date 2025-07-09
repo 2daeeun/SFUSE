@@ -1,0 +1,65 @@
+\doxysection{include/ops.h 파일 참조}
+\hypertarget{ops_8h}{}\label{ops_8h}\index{include/ops.h@{include/ops.h}}
+{\ttfamily \#include $<$fuse.\+h$>$}\newline
+ops.\+h에 대한 include 의존 그래프
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=161pt]{dc/dc5/ops_8h__incl}
+\end{center}
+\end{figure}
+이 그래프는 이 파일을 직/간접적으로 include 하는 파일들을 보여줍니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{d8/d21/ops_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{변수}
+\begin{DoxyCompactItemize}
+\item 
+const struct fuse\+\_\+operations \mbox{\hyperlink{ops_8h_a8a3005b535e830b2ef6316cc752b7d4a}{sfuse\+\_\+ops}}
+\end{DoxyCompactItemize}
+
+
+\label{doc-var-members}
+\Hypertarget{ops_8h_doc-var-members}
+\doxysubsection{변수 문서화}
+\Hypertarget{ops_8h_a8a3005b535e830b2ef6316cc752b7d4a}\index{ops.h@{ops.h}!sfuse\_ops@{sfuse\_ops}}
+\index{sfuse\_ops@{sfuse\_ops}!ops.h@{ops.h}}
+\doxysubsubsection{\texorpdfstring{sfuse\_ops}{sfuse\_ops}}
+{\footnotesize\ttfamily \label{ops_8h_a8a3005b535e830b2ef6316cc752b7d4a} 
+const struct fuse\+\_\+operations sfuse\+\_\+ops\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+\mbox{\hyperlink{ops_8c_source}{ops.\+c}} 파일의 \mbox{\hyperlink{ops_8c_source_l00562}{562}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00563\ \ \ \ \ .init\ =\ \mbox{\hyperlink{ops_8c_abee68f41bd184eba48e4372de1fc35c6}{sfuse\_init\_cb}},}
+\DoxyCodeLine{00564\ \ \ \ \ .destroy\ =\ \mbox{\hyperlink{ops_8c_a36e43ee6e49751c8ddaf5dec0941a734}{sfuse\_destroy\_cb}},}
+\DoxyCodeLine{00565\ \ \ \ \ .getattr\ =\ \mbox{\hyperlink{ops_8c_a6c01c3409d41549c5ca34b9a2f64ccfe}{sfuse\_getattr\_cb}},}
+\DoxyCodeLine{00566\ \ \ \ \ .access\ =\ \mbox{\hyperlink{ops_8c_acf365c5992fb91ebb3982a04fbbdf3b4}{sfuse\_access\_cb}},}
+\DoxyCodeLine{00567\ \ \ \ \ .readdir\ =\ \mbox{\hyperlink{ops_8c_acdaffbb59b5fe7d0ceda916714ddc3ad}{sfuse\_readdir\_cb}},}
+\DoxyCodeLine{00568\ \ \ \ \ .open\ =\ \mbox{\hyperlink{ops_8c_a62bb834f4955786318b1c8588cbb0135}{sfuse\_open\_cb}},}
+\DoxyCodeLine{00569\ \ \ \ \ .read\ =\ \mbox{\hyperlink{ops_8c_a4e8379279e62363763d8c7da873361d7}{sfuse\_read\_cb}},}
+\DoxyCodeLine{00570\ \ \ \ \ .write\ =\ \mbox{\hyperlink{ops_8c_aad4c968c1ab3a4b7e7c8b36054266f59}{sfuse\_write\_cb}},}
+\DoxyCodeLine{00571\ \ \ \ \ .create\ =\ \mbox{\hyperlink{ops_8c_a6dc52b86f2cef1906558a324213cac6e}{sfuse\_create\_cb}},}
+\DoxyCodeLine{00572\ \ \ \ \ .mkdir\ =\ \mbox{\hyperlink{ops_8c_acac9f9c69134190f86e015e89e39d43f}{sfuse\_mkdir\_cb}},}
+\DoxyCodeLine{00573\ \ \ \ \ .unlink\ =\ \mbox{\hyperlink{ops_8c_aad351f0b0a44bc288b2400fd405cef8c}{sfuse\_unlink\_cb}},}
+\DoxyCodeLine{00574\ \ \ \ \ .rmdir\ =\ \mbox{\hyperlink{ops_8c_acf89b7cf9e32fbd2b7c749abb1b89234}{sfuse\_rmdir\_cb}},}
+\DoxyCodeLine{00575\ \ \ \ \ .rename\ =\ \mbox{\hyperlink{ops_8c_a40eb26b6c59a422e4ad1e906dff00037}{sfuse\_rename\_cb}},}
+\DoxyCodeLine{00576\ \ \ \ \ .truncate\ =\ \mbox{\hyperlink{ops_8c_a042aaedab092b188556e193b25a81e9f}{sfuse\_truncate\_cb}},}
+\DoxyCodeLine{00577\ \ \ \ \ .utimens\ =\ \mbox{\hyperlink{ops_8c_a7e84e199a67a156f1c4f3b9a85d46ad9}{sfuse\_utimens\_cb}},}
+\DoxyCodeLine{00578\ \ \ \ \ .flush\ =\ \mbox{\hyperlink{ops_8c_ae6af7e792b2c9c0e5b3f1d29d0d22925}{sfuse\_flush\_cb}},}
+\DoxyCodeLine{00579\ \ \ \ \ .fsync\ =\ \mbox{\hyperlink{ops_8c_a1fddf11f9d0514cb1ba55bddd68e3d7f}{sfuse\_fsync\_cb}},}
+\DoxyCodeLine{00580\ \ \ \ \ .statfs\ =\ \mbox{\hyperlink{ops_8c_a6ded7598f77b718498e6f1092289ff8f}{sfuse\_statfs\_cb}},}
+\DoxyCodeLine{00581\ \ \ \ \ .getxattr\ =\ \mbox{\hyperlink{ops_8c_a4b9be8a155f8ffdb47a5e25c0b5ce8db}{sfuse\_getxattr\_cb}},}
+\DoxyCodeLine{00582\ \ \ \ \ .listxattr\ =\ \mbox{\hyperlink{ops_8c_af668898be22c3486021654c5eae38832}{sfuse\_listxattr\_cb}},}
+\DoxyCodeLine{00583\ \};}
+
+\end{DoxyCode}

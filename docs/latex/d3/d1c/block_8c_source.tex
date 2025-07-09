@@ -1,0 +1,50 @@
+\doxysection{block.\+c}
+\hypertarget{block_8c_source}{}\label{block_8c_source}\index{src/block.c@{src/block.c}}
+\mbox{\hyperlink{block_8c}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{block_8h}{block.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{disk_8h}{disk.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{super_8h}{super.h}}"{}}\ \textcolor{comment}{//\ SFUSE\_BLOCK\_SIZE}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <errno.h>}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00030}\mbox{\hyperlink{block_8h_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{00030}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{block_8c_a8a7cedcc55adf1eeb0a4d2d05cf4b795}{read\_block}}(\textcolor{keywordtype}{int}\ fd,\ uint32\_t\ block\_no,\ \textcolor{keywordtype}{void}\ *buf)\ \{}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00031}00031\ \ \ \textcolor{comment}{//\ 블록\ 번호를\ 실제\ 파일의\ 바이트\ 오프셋으로\ 변환}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00032}00032\ \ \ off\_t\ offset\ =\ (off\_t)block\_no\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00034}00034\ \ \ \textcolor{comment}{//\ 계산된\ 오프셋에서\ 블록\ 크기만큼\ 데이터를\ 읽기}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00035}00035\ \ \ ssize\_t\ ret\ =\ \mbox{\hyperlink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\_read}}(fd,\ buf,\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}},\ offset);}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00037}00037\ \ \ \textcolor{comment}{//\ disk\_read\ 실패\ 시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00038}00038\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00041}00041\ \ \ \textcolor{comment}{//\ 읽은\ 데이터가\ 요청한\ 블록\ 크기와\ 일치하지\ 않을\ 경우\ EIO\ 오류\ 반환}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00042}00042\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}})}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00043}00043\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00045}00045\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00046}00046\ \}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00062}\mbox{\hyperlink{block_8h_a68fff59f4eeded5f354caed94cd27f12}{00062}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{block_8c_a68fff59f4eeded5f354caed94cd27f12}{write\_block}}(\textcolor{keywordtype}{int}\ fd,\ uint32\_t\ block\_no,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buf)\ \{}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00063}00063\ \ \ \textcolor{comment}{//\ 블록\ 번호를\ 실제\ 파일의\ 바이트\ 오프셋으로\ 변환}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00064}00064\ \ \ off\_t\ offset\ =\ (off\_t)block\_no\ *\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}};}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00066}00066\ \ \ \textcolor{comment}{//\ 계산된\ 오프셋에서\ 블록\ 크기만큼\ 데이터를\ 쓰기}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00067}00067\ \ \ ssize\_t\ ret\ =\ \mbox{\hyperlink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\_write}}(fd,\ buf,\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}},\ offset);}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00069}00069\ \ \ \textcolor{comment}{//\ disk\_write\ 실패\ 시\ 오류\ 코드\ 반환}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00070}00070\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00071}00071\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})ret;}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00073}00073\ \ \ \textcolor{comment}{//\ 기록한\ 데이터가\ 요청한\ 블록\ 크기와\ 일치하지\ 않을\ 경우\ EIO\ 오류\ 반환}}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00074}00074\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \mbox{\hyperlink{super_8h_a0f31825083a6f1e0e2f5b5a2fd1181aa}{SFUSE\_BLOCK\_SIZE}})}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00075}00075\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00077}00077\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{block_8c_source_l00078}00078\ \}}
+
+\end{DoxyCode}

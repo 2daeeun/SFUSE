@@ -91,18 +91,20 @@ $(function(){initNavTree('de/d40/block_8h_source.html','../../',''); });
   <div class="headertitle"><div class="title">block.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../de/d40/block_8h.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SFUSE_BLOCK_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SFUSE_BLOCK_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keywordtype">int</span> <a class="code hl_function" href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a>(<span class="keywordtype">int</span> fd, uint32_t block_no, <span class="keywordtype">void</span> *buf);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordtype">int</span> <a class="code hl_function" href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a>(<span class="keywordtype">int</span> fd, uint32_t block_no, <span class="keyword">const</span> <span class="keywordtype">void</span> *buf);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#endif </span><span class="comment">// SFUSE_BLOCK_H</span></div>
-<div class="ttc" id="ablock_8h_html_a68fff59f4eeded5f354caed94cd27f12"><div class="ttname"><a href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a></div><div class="ttdeci">int write_block(int fd, uint32_t block_no, const void *buf)</div><div class="ttdoc">디바이스에 블록 단위(4KB)로 쓰기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00033">block.c:33</a></div></div>
-<div class="ttc" id="ablock_8h_html_a8a7cedcc55adf1eeb0a4d2d05cf4b795"><div class="ttname"><a href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a></div><div class="ttdeci">int read_block(int fd, uint32_t block_no, void *buf)</div><div class="ttdoc">디바이스에서 블록 단위(4KB)로 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00016">block.c:16</a></div></div>
+<a href="../../de/d40/block_8h.html">이 파일의 문서화 페이지로 가기</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#ifndef SFUSE_BLOCK_H</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define SFUSE_BLOCK_H</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keywordtype">int</span> <a class="code hl_function" href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a>(<span class="keywordtype">int</span> fd, uint32_t block_no, <span class="keywordtype">void</span> *buf);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keywordtype">int</span> <a class="code hl_function" href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a>(<span class="keywordtype">int</span> fd, uint32_t block_no, <span class="keyword">const</span> <span class="keywordtype">void</span> *buf);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif </span><span class="comment">// SFUSE_BLOCK_H</span></div>
+<div class="ttc" id="ablock_8h_html_a68fff59f4eeded5f354caed94cd27f12"><div class="ttname"><a href="../../de/d40/block_8h.html#a68fff59f4eeded5f354caed94cd27f12">write_block</a></div><div class="ttdeci">int write_block(int fd, uint32_t block_no, const void *buf)</div><div class="ttdoc">디바이스에 블록 단위(4KB)로 쓰기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00062">block.c:62</a></div></div>
+<div class="ttc" id="ablock_8h_html_a8a7cedcc55adf1eeb0a4d2d05cf4b795"><div class="ttname"><a href="../../de/d40/block_8h.html#a8a7cedcc55adf1eeb0a4d2d05cf4b795">read_block</a></div><div class="ttdeci">int read_block(int fd, uint32_t block_no, void *buf)</div><div class="ttdoc">디바이스에서 블록 단위(4KB)로 읽기</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d1c/block_8c_source.html#l00030">block.c:30</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

@@ -5,7 +5,7 @@ var indexSectionsWithContent =
   2: "bdfhimorsw",
   3: "abdfgilmrsw",
   4: "abcdfgilmnsu",
-  5: "fs",
+  5: "s",
   6: "0123befhnrsv결그다마미및방사실언워컴코"
 };
 

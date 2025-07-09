@@ -6,7 +6,7 @@ var searchData=
   ['sb_5fsync_3',['sb_sync',['../db/d98/super_8h.html#a90dace97e8d65a597b6d660e0d5b2170',1,'sb_sync(int fd, const struct sfuse_super *sb):&#160;super.c'],['../d2/d1d/super_8c.html#a90dace97e8d65a597b6d660e0d5b2170',1,'sb_sync(int fd, const struct sfuse_super *sb):&#160;super.c']]],
   ['sfuse의_20워크플로우_20결과_4',['SFUSE의 워크플로우 결과',['../db/d1d/md_benchmark_2workflow.html#autotoc_md20',1,'']]],
   ['sfuse_5',['SFUSE',['../index.html',1,'']]],
-  ['sfuse_20미리보기_6',['SFUSE 미리보기',['../index.html#autotoc_md1',1,'']]],
+  ['sfuse_20미리보기_6',['SFUSE 미리보기',['../index.html#autotoc_md5',1,'']]],
   ['sfuse_20history_7',['SFUSE HISTORY',['../d7/d43/md_HISTORY.html',1,'']]],
   ['sfuse_5faccess_5fcb_8',['sfuse_access_cb',['../d9/d70/ops_8c.html#acf365c5992fb91ebb3982a04fbbdf3b4',1,'ops.c']]],
   ['sfuse_5fblock_5fbitmap_5fblock_9',['SFUSE_BLOCK_BITMAP_BLOCK',['../db/d98/super_8h.html#afcdad36e2839b5556ccf5e4a5ac88da1',1,'super.h']]],

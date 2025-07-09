@@ -1,0 +1,222 @@
+\doxysection{src/super.c 파일 참조}
+\hypertarget{super_8c}{}\label{super_8c}\index{src/super.c@{src/super.c}}
+
+
+SFUSE 파일 시스템의 슈퍼블록 관리 함수 구현  
+
+
+{\ttfamily \#include "{}super.\+h"{}}\newline
+{\ttfamily \#include "{}disk.\+h"{}}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+super.\+c에 대한 include 의존 그래프
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/d36/super_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{함수}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{super_8c_acb20fd13c57054e02c476a54d26bf02b}{sb\+\_\+load}} (int fd, struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb)
+\begin{DoxyCompactList}\small\item\em 디스크에서 슈퍼블록을 읽어오는 함수 \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{super_8c_a90dace97e8d65a597b6d660e0d5b2170}{sb\+\_\+sync}} (int fd, const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb)
+\begin{DoxyCompactList}\small\item\em 슈퍼블록 구조체를 디스크에 쓰기(동기화)하는 함수 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{super_8c_aa737a6d4041679388e2313079608a194}{sb\+\_\+format}} (struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}sb)
+\begin{DoxyCompactList}\small\item\em 슈퍼블록 구조체를 기본값으로 초기화(포맷)하는 함수 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{상세한 설명}
+SFUSE 파일 시스템의 슈퍼블록 관리 함수 구현 
+
+이 소스 파일은 슈퍼블록을 로드, 동기화, 포맷하는 함수를 구현한다. 
+
+\mbox{\hyperlink{super_8c_source}{super.\+c}} 파일에서 정의되었습니다.
+
+
+
+\label{doc-func-members}
+\Hypertarget{super_8c_doc-func-members}
+\doxysubsection{함수 문서화}
+\Hypertarget{super_8c_aa737a6d4041679388e2313079608a194}\index{super.c@{super.c}!sb\_format@{sb\_format}}
+\index{sb\_format@{sb\_format}!super.c@{super.c}}
+\doxysubsubsection{\texorpdfstring{sb\_format()}{sb\_format()}}
+{\footnotesize\ttfamily \label{super_8c_aa737a6d4041679388e2313079608a194} 
+void sb\+\_\+format (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{}\end{DoxyParamCaption})}
+
+
+
+슈퍼블록 구조체를 기본값으로 초기화(포맷)하는 함수 
+
+슈퍼블록 구조체를 기본 값으로 초기화하는 함수
+
+이 함수는 파일 시스템을 처음 생성할 때 호출되며, 슈퍼블록 구조체에 초기 설정값을 채워서 파일 시스템의 메타데이터를 초기화한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em sb} & 초기화할 슈퍼블록 구조체의 포인터 \\
+\hline
+\end{DoxyParams}
+
+
+\mbox{\hyperlink{super_8c_source}{super.\+c}} 파일의 \mbox{\hyperlink{super_8c_source_l00089}{89}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00090\ \ \ memset(sb,\ 0,\ \textcolor{keyword}{sizeof}(*sb));}
+\DoxyCodeLine{00091\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_aacaf3200149af8e6c55c404d82beca9b}{magic}}\ =\ \mbox{\hyperlink{super_8h_ab3e43b63579c20a44aa0d16000a99599}{SFUSE\_MAGIC}};}
+\DoxyCodeLine{00092\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}}\ =\ \mbox{\hyperlink{super_8h_a1a7579057c736252c2970de8b08bc0be}{SFUSE\_INODES\_COUNT}};}
+\DoxyCodeLine{00093\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_a1beda11a6d52ccf0351e22d81b50a20d}{blocks\_count}}\ =\ \mbox{\hyperlink{super_8h_a3b65a139f624923ccab2746cffbcc6eb}{SFUSE\_BLOCKS\_COUNT}};}
+\DoxyCodeLine{00094\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_acd931caad1995d73e3dbf10d3023c424}{free\_inodes}}\ =\ sb-\/>\mbox{\hyperlink{structsfuse__super_a6ea0f291f1292da7a86611336d28d36f}{inodes\_count}}\ -\/\ 1;}
+\DoxyCodeLine{00095\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_acaa02ed47b78c9a84c2f3622de95c44f}{free\_blocks}}\ =\ sb-\/>\mbox{\hyperlink{structsfuse__super_a1beda11a6d52ccf0351e22d81b50a20d}{blocks\_count}}\ -\/\ \mbox{\hyperlink{super_8h_ae04fce338c69fbfacacff2bd02562722}{SFUSE\_DATA\_BLOCK\_START}};}
+\DoxyCodeLine{00096\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_ad08b4df84f43d7d6738c5f25b22e5829}{inode\_bitmap\_start}}\ =\ \mbox{\hyperlink{super_8h_a0c9854b462f752d899459ebea354a6a8}{SFUSE\_INODE\_BITMAP\_BLOCK}};}
+\DoxyCodeLine{00097\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_a0f3c93e1295e95f48787c8b2d6adb7f5}{block\_bitmap\_start}}\ =\ \mbox{\hyperlink{super_8h_afcdad36e2839b5556ccf5e4a5ac88da1}{SFUSE\_BLOCK\_BITMAP\_BLOCK}};}
+\DoxyCodeLine{00098\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_a274c7bf26a003e667534185aef04f732}{inode\_table\_start}}\ =\ \mbox{\hyperlink{super_8h_a947631697bf6e54c64996e0fc27e5193}{SFUSE\_INODE\_TABLE\_BLOCK}};}
+\DoxyCodeLine{00099\ \ \ sb-\/>\mbox{\hyperlink{structsfuse__super_a0af357d05a08b353bcc4f855e3c1a240}{data\_block\_start}}\ =\ \mbox{\hyperlink{super_8h_ae04fce338c69fbfacacff2bd02562722}{SFUSE\_DATA\_BLOCK\_START}};}
+\DoxyCodeLine{00100\ \}}
+
+\end{DoxyCode}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/d1d/super_8c_aa737a6d4041679388e2313079608a194_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{super_8c_acb20fd13c57054e02c476a54d26bf02b}\index{super.c@{super.c}!sb\_load@{sb\_load}}
+\index{sb\_load@{sb\_load}!super.c@{super.c}}
+\doxysubsubsection{\texorpdfstring{sb\_load()}{sb\_load()}}
+{\footnotesize\ttfamily \label{super_8c_acb20fd13c57054e02c476a54d26bf02b} 
+int sb\+\_\+load (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{}\end{DoxyParamCaption})}
+
+
+
+디스크에서 슈퍼블록을 읽어오는 함수 
+
+디스크의 정해진 위치에서 슈퍼블록을 읽어 메모리로 로드하고, 읽은 데이터가 정상적인지 유효성을 검사한다. 유효성 검사는 읽은 데이터 크기와 슈퍼블록 매직 넘버를 이용하여 수행된다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 (열린 블록 디바이스 파일) \\
+\hline
+{\em sb} & 읽어온 슈퍼블록을 저장할 구조체 포인터 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0을 반환, 실패 시 음수 오류 코드 반환 -\/EIO\+: 디스크에서 읽은 바이트 수가 요청한 크기와 일치하지 않음 -\/EINVAL\+: 슈퍼블록의 매직 넘버가 예상 값과 다름 (슈퍼블록이 손상되었거나 올바르지 않은 디바이스) 기타 음수 값\+: disk\+\_\+read 함수 자체가 반환한 오류 코드 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{super_8c_source}{super.\+c}} 파일의 \mbox{\hyperlink{super_8c_source_l00029}{29}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ ssize\_t\ ret;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \textcolor{comment}{//\ 슈퍼블록을\ 디스크(SFUSE\_SUPERBLOCK\_OFFSET)에서\ 읽어\ 메모리(sb)에\ 저장한다.}}
+\DoxyCodeLine{00033\ \ \ ret\ =\ \mbox{\hyperlink{disk_8h_aed9256f13804e31b18a64f2f88f72879}{disk\_read}}(fd,\ sb,\ \textcolor{keyword}{sizeof}(*sb),\ \mbox{\hyperlink{super_8h_a8f980a90fb514405450dda0d386a5b9c}{SFUSE\_SUPERBLOCK\_OFFSET}});}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \textcolor{comment}{//\ disk\_read가\ 실패하면\ 반환된\ 음수\ 오류\ 값을\ 그대로\ 반환한다.}}
+\DoxyCodeLine{00036\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{comment}{//\ 요청한\ 슈퍼블록\ 크기만큼\ 정확히\ 읽었는지\ 확인한다.}}
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \textcolor{keyword}{sizeof}(*sb))}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;\ \textcolor{comment}{//\ 읽은\ 데이터\ 크기가\ 슈퍼블록\ 크기와\ 다름\ (입출력\ 오류)}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \textcolor{comment}{//\ 슈퍼블록의\ 매직\ 넘버를\ 검사하여\ 슈퍼블록\ 유효성\ 검사를\ 수행한다.}}
+\DoxyCodeLine{00044\ \ \ \textcolor{keywordflow}{if}\ (sb-\/>\mbox{\hyperlink{structsfuse__super_aacaf3200149af8e6c55c404d82beca9b}{magic}}\ !=\ \mbox{\hyperlink{super_8h_ab3e43b63579c20a44aa0d16000a99599}{SFUSE\_MAGIC}})}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EINVAL;\ \textcolor{comment}{//\ 잘못된\ 매직\ 넘버}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{comment}{//\ 성공적으로\ 슈퍼블록을\ 읽고\ 유효성을\ 확인했으므로\ 0\ 반환.}}
+\DoxyCodeLine{00048\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00049\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=233pt]{d2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/d1d/super_8c_acb20fd13c57054e02c476a54d26bf02b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{super_8c_a90dace97e8d65a597b6d660e0d5b2170}\index{super.c@{super.c}!sb\_sync@{sb\_sync}}
+\index{sb\_sync@{sb\_sync}!super.c@{super.c}}
+\doxysubsubsection{\texorpdfstring{sb\_sync()}{sb\_sync()}}
+{\footnotesize\ttfamily \label{super_8c_a90dace97e8d65a597b6d660e0d5b2170} 
+int sb\+\_\+sync (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{const struct \mbox{\hyperlink{structsfuse__super}{sfuse\+\_\+super}} \texorpdfstring{$\ast$}{*}}]{sb}{}\end{DoxyParamCaption})}
+
+
+
+슈퍼블록 구조체를 디스크에 쓰기(동기화)하는 함수 
+
+슈퍼블록을 디스크에 동기화(쓰기)하는 함수
+
+메모리 상의 슈퍼블록 구조체의 내용을 디스크의 지정된 위치에 기록하여, 파일 시스템의 메타데이터를 영구적으로 저장한다.
+
+
+\begin{DoxyParams}{매개변수}
+{\em fd} & 디바이스 파일 디스크립터 \\
+\hline
+{\em sb} & 디스크에 기록할 슈퍼블록 구조체의 포인터 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{반환값}
+성공 시 0, 실패 시 음수 오류 코드 반환 -\/EIO\+: 기록된 바이트 수가 슈퍼블록의 크기와 일치하지 않음 기타 음수 값\+: disk\+\_\+write 함수 자체에서 반환한 오류 코드 
+\end{DoxyReturn}
+
+
+\mbox{\hyperlink{super_8c_source}{super.\+c}} 파일의 \mbox{\hyperlink{super_8c_source_l00063}{63}} 번째 라인에서 정의되었습니다.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ ssize\_t\ ret;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \textcolor{comment}{//\ 슈퍼블록\ 내용을\ 디스크(SFUSE\_SUPERBLOCK\_OFFSET)에\ 기록}}
+\DoxyCodeLine{00067\ \ \ ret\ =\ \mbox{\hyperlink{disk_8h_afdef6f103ef91e2bb59916239b18d93f}{disk\_write}}(fd,\ sb,\ \textcolor{keyword}{sizeof}(*sb),\ \mbox{\hyperlink{super_8h_a8f980a90fb514405450dda0d386a5b9c}{SFUSE\_SUPERBLOCK\_OFFSET}});}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \textcolor{comment}{//\ 쓰기\ 실패\ 시,\ disk\_write\ 함수가\ 반환한\ 음수\ 오류\ 코드를\ 반환}}
+\DoxyCodeLine{00070\ \ \ \textcolor{keywordflow}{if}\ (ret\ <\ 0)}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \textcolor{comment}{//\ 요청한\ 슈퍼블록\ 크기만큼\ 정확히\ 기록되었는지\ 확인}}
+\DoxyCodeLine{00074\ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{size\_t})ret\ !=\ \textcolor{keyword}{sizeof}(*sb))}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/EIO;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \textcolor{comment}{//\ 정상적으로\ 슈퍼블록이\ 디스크에\ 저장됨}}
+\DoxyCodeLine{00078\ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00079\ \}}
+
+\end{DoxyCode}
+이 함수 내부에서 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{d2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_cgraph}
+\end{center}
+\end{figure}
+이 함수를 호출하는 함수들에 대한 그래프입니다.\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{d2/d1d/super_8c_a90dace97e8d65a597b6d660e0d5b2170_icgraph}
+\end{center}
+\end{figure}

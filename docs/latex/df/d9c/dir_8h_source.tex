@@ -1,0 +1,34 @@
+\doxysection{dir.\+h}
+\hypertarget{dir_8h_source}{}\label{dir_8h_source}\index{include/dir.h@{include/dir.h}}
+\mbox{\hyperlink{dir_8h}{이 파일의 문서화 페이지로 가기}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00009}00009\ \textcolor{preprocessor}{\#ifndef\ SFUSE\_DIR\_H}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00010}00010\ \textcolor{preprocessor}{\#define\ SFUSE\_DIR\_H}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{inode_8h}{inode.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{super_8h}{super.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00017}00017\ \textcolor{comment}{//\ 디렉터리\ 엔트리의\ 최대\ 이름\ 길이}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00018}\mbox{\hyperlink{dir_8h_ac3fe75f2b09bf78dfede04c657450460}{00018}}\ \textcolor{preprocessor}{\#define\ SFUSE\_NAME\_LEN\ 255}}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00027}\mbox{\hyperlink{structsfuse__dirent}{00027}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structsfuse__dirent}{sfuse\_dirent}}\ \{}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00028}\mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{00028}}\ \ \ uint32\_t\ \mbox{\hyperlink{structsfuse__dirent_a99c72c6a3e99c1f963e6cac40c25533a}{ino}};\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00029}\mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{00029}}\ \ \ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{structsfuse__dirent_a7f18e59aff64f060b49301cb9ac50bab}{name}}[\mbox{\hyperlink{dir_8h_ac3fe75f2b09bf78dfede04c657450460}{SFUSE\_NAME\_LEN}}\ +\ 1];\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00031}00031\ \};}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00045}00045\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dir_8h_ac2f55242043759c79ce3aaa895ffbd6b}{dir\_load}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint32\_t\ ino,\ \textcolor{keywordtype}{void}\ *buf);}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00063}00063\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dir_8h_a46039c7666b2dae1401a0b3e8ad5f1f1}{dir\_add\_entry}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint32\_t\ ino,}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name,\ uint32\_t\ child\_ino,\ uint8\_t\ *block\_map,}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ *inode\_map,\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *supermap);}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00080}00080\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{dir_8h_a6d70dfe2356e0eefe891a57e11c62e16}{dir\_remove\_entry}}(\textcolor{keywordtype}{int}\ fd,\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct}\ \mbox{\hyperlink{structsfuse__super}{sfuse\_super}}\ *sb,\ uint32\_t\ ino,}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name);}
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{dir_8h_source_l00083}00083\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SFUSE\_DIR\_H}}
+
+\end{DoxyCode}

@@ -10,5 +10,5 @@ var searchData=
   ['block_5fbitmap_5fstart_7',['block_bitmap_start',['../da/d50/structsfuse__super.html#a0f3c93e1295e95f48787c8b2d6adb7f5',1,'sfuse_super']]],
   ['block_5fmap_8',['block_map',['../df/dc5/structsfuse__fs.html#a05768e2734ce9089a635c76bee05050e',1,'sfuse_fs']]],
   ['blocks_5fcount_9',['blocks_count',['../da/d50/structsfuse__super.html#a1beda11a6d52ccf0351e22d81b50a20d',1,'sfuse_super']]],
-  ['bug_20fixes_10',['Bug Fixes',['../d7/d43/md_HISTORY.html#autotoc_md14',1,'']]]
+  ['bug_20fixes_10',['Bug Fixes',['../d7/d43/md_HISTORY.html#autotoc_md3',1,'']]]
 ];

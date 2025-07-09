@@ -91,6 +91,9 @@ $(function(){initNavTree('d0/d29/main_8c.html','../../',''); });
   <div class="headertitle"><div class="title">main.c 파일 참조</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>SFUSE 파일시스템의 메인 진입점  
+<a href="#details">더 자세히 ...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="../../df/d26/fs_8h_source.html">fs.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../de/d00/ops_8h_source.html">ops.h</a>&quot;</code><br />
 <code>#include &lt;errno.h&gt;</code><br />
@@ -107,8 +110,8 @@ main.c에 대한 include 의존 그래프</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d4/d10/main_8c__incl.png" border="0" usemap="#asrc_2main_8c" loading="lazy" alt=""/></div>
 <map name="asrc_2main_8c" id="asrc_2main_8c">
-<area shape="rect" title=" " alt="" coords="449,5,538,33"/>
-<area shape="rect" href="../../df/d26/fs_8h.html" title=" " alt="" coords="71,81,116,109"/>
+<area shape="rect" title="SFUSE 파일시스템의 메인 진입점" alt="" coords="449,5,538,33"/>
+<area shape="rect" href="../../df/d26/fs_8h.html" title="SFUSE 파일 시스템의 핵심 구조 및 연산 정의" alt="" coords="71,81,116,109"/>
 <area shape="poly" title=" " alt="" coords="449,28,311,47,223,63,132,83,131,78,222,57,310,42,449,23"/>
 <area shape="rect" href="../../de/d00/ops_8h.html" title=" " alt="" coords="140,81,196,109"/>
 <area shape="poly" title=" " alt="" coords="449,32,215,84,212,84,211,79,214,78,448,27"/>
@@ -130,7 +133,7 @@ main.c에 대한 include 의존 그래프</div>
 <area shape="poly" title=" " alt="" coords="538,25,825,78,824,83,537,31"/>
 <area shape="rect" title=" " alt="" coords="947,81,1021,109"/>
 <area shape="poly" title=" " alt="" coords="538,22,708,42,933,78,932,83,707,47,537,27"/>
-<area shape="rect" href="../../db/d98/super_8h.html" title=" " alt="" coords="5,157,75,184"/>
+<area shape="rect" href="../../db/d98/super_8h.html" title="SFUSE 파일 시스템의 슈퍼블록 관련 구조 및 함수 정의" alt="" coords="5,157,75,184"/>
 <area shape="poly" title=" " alt="" coords="86,111,61,146,56,142,82,108"/>
 <area shape="rect" title=" " alt="" coords="41,232,111,260"/>
 <area shape="poly" title=" " alt="" coords="95,109,89,185,84,217,79,217,84,184,90,109"/>
@@ -144,8 +147,14 @@ main.c에 대한 include 의존 그래프</div>
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 함수</h2></td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97" id="r_a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:a0ddf1224851353fc92bfbff6f499fa97"><td class="mdescLeft">&#160;</td><td class="mdescRight">프로그램 메인 함수  <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">상세한 설명</h2>
+<div class="textblock"><p>SFUSE 파일시스템의 메인 진입점 </p>
+<p>블록 디바이스를 사용하여 SFUSE 파일시스템을 마운트하는 프로그램의 메인 함수를 구현한다. 파일시스템의 초기화, 디바이스 유효성 검사 및 FUSE 인자 설정 후 실행된다. </p>
+
+<p class="definition"><a class="el" href="../../d0/d29/main_8c_source.html">main.c</a> 파일에서 정의되었습니다.</p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">함수 문서화</h2>
 <a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0ddf1224851353fc92bfbff6f499fa97">&#9670;&#160;</a></span>main()</h2>
 
@@ -165,66 +174,130 @@ main.c에 대한 include 의존 그래프</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition"><a class="el" href="../../d0/d29/main_8c_source.html">main.c</a> 파일의 <a class="el" href="../../d0/d29/main_8c_source.html#l00013">13</a> 번째 라인에서 정의되었습니다.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>                                 {</div>
-<div class="line"><span class="lineno">   14</span>  <span class="keywordflow">if</span> (argc &lt; 3) {</div>
-<div class="line"><span class="lineno">   15</span>    fprintf(stderr, <span class="stringliteral">&quot;사용법: %s &lt;device&gt; &lt;mountpoint&gt; [options]\n&quot;</span>, argv[0]);</div>
-<div class="line"><span class="lineno">   16</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><span class="lineno">   17</span>  }</div>
-<div class="line"><span class="lineno">   18</span> </div>
-<div class="line"><span class="lineno">   19</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *dev_path = argv[1];</div>
-<div class="line"><span class="lineno">   20</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *mountpoint = argv[2];</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>  <span class="keywordtype">int</span> backing_fd = open(dev_path, O_RDWR | O_SYNC);</div>
-<div class="line"><span class="lineno">   23</span>  <span class="keywordflow">if</span> (backing_fd &lt; 0) {</div>
-<div class="line"><span class="lineno">   24</span>    perror(<span class="stringliteral">&quot;디바이스 열기 실패&quot;</span>);</div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><span class="lineno">   26</span>  }</div>
-<div class="line"><span class="lineno">   27</span> </div>
-<div class="line"><span class="lineno">   28</span>  <span class="keyword">struct </span>stat st;</div>
-<div class="line"><span class="lineno">   29</span>  <span class="keywordflow">if</span> (fstat(backing_fd, &amp;st) &lt; 0 || !S_ISBLK(st.st_mode)) {</div>
-<div class="line"><span class="lineno">   30</span>    fprintf(stderr, <span class="stringliteral">&quot;%s는 올바른 블록 디바이스가 아닙니다.\n&quot;</span>, dev_path);</div>
-<div class="line"><span class="lineno">   31</span>    close(backing_fd);</div>
-<div class="line"><span class="lineno">   32</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><span class="lineno">   33</span>  }</div>
-<div class="line"><span class="lineno">   34</span> </div>
-<div class="line"><span class="lineno">   35</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a> *fs = calloc(1, <span class="keyword">sizeof</span>(*fs));</div>
-<div class="line"><span class="lineno">   36</span>  <span class="keywordflow">if</span> (!fs) {</div>
-<div class="line"><span class="lineno">   37</span>    perror(<span class="stringliteral">&quot;메모리 할당 실패&quot;</span>);</div>
-<div class="line"><span class="lineno">   38</span>    close(<a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a>);</div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><span class="lineno">   40</span>  }</div>
-<div class="line"><span class="lineno">   41</span>  fs-&gt;<a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a> = <a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a>;</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>  <span class="keyword">struct </span>fuse_args args = FUSE_ARGS_INIT(0, NULL);</div>
-<div class="line"><span class="lineno">   44</span>  fuse_opt_add_arg(&amp;args, argv[0]);    <span class="comment">// 프로그램 이름</span></div>
-<div class="line"><span class="lineno">   45</span>  fuse_opt_add_arg(&amp;args, mountpoint); <span class="comment">// 마운트 포인트</span></div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>  <span class="comment">// 명령줄에서 전달된 옵션 정확히 FUSE로 전달</span></div>
-<div class="line"><span class="lineno">   48</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 3; i &lt; argc; i++) {</div>
-<div class="line"><span class="lineno">   49</span>    fuse_opt_add_arg(&amp;args, argv[i]);</div>
-<div class="line"><span class="lineno">   50</span>  }</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>  <span class="comment">// 명확히 필요한 기본 옵션 추가</span></div>
-<div class="line"><span class="lineno">   53</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;-o&quot;</span>);</div>
-<div class="line"><span class="lineno">   54</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;allow_other&quot;</span>);</div>
-<div class="line"><span class="lineno">   55</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;-o&quot;</span>);</div>
-<div class="line"><span class="lineno">   56</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;default_permissions&quot;</span>);</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>  <span class="comment">// 디버깅 옵션을 항상 켜고 싶다면(선택 사항)</span></div>
-<div class="line"><span class="lineno">   59</span>  <span class="comment">// fuse_opt_add_arg(&amp;args, &quot;-d&quot;);</span></div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>  <span class="keywordtype">int</span> ret = fuse_main(args.argc, args.argv, &amp;<a class="code hl_variable" href="../../de/d00/ops_8h.html#a8a3005b535e830b2ef6316cc752b7d4a">sfuse_ops</a>, fs);</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>  fuse_opt_free_args(&amp;args);</div>
-<div class="line"><span class="lineno">   64</span>  close(backing_fd);</div>
-<div class="line"><span class="lineno">   65</span>  free(fs);</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>  <span class="keywordflow">return</span> ret;</div>
-<div class="line"><span class="lineno">   68</span>}</div>
+<p>프로그램 메인 함수 </p>
+<p>SFUSE 파일시스템을 지정된 블록 디바이스에 마운트하고, FUSE를 통해 사용자의 추가 옵션과 함께 운영한다. 블록 디바이스 유효성을 확인하고 메모리 및 자원을 관리한다.</p>
+<dl class="params"><dt>매개변수</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argc</td><td>명령줄 인자의 개수 </td></tr>
+    <tr><td class="paramname">argv</td><td>명령줄 인자 배열:<ul>
+<li>argv[0]: 프로그램 이름</li>
+<li>argv[1]: 블록 디바이스 경로</li>
+<li>argv[2]: 파일시스템 마운트 지점</li>
+<li>argv[3...n]: FUSE 추가 옵션들</li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>반환값</dt><dd>프로그램 성공 시 EXIT_SUCCESS 반환, 실패 시 EXIT_FAILURE 반환 </dd></dl>
+<p>마운트할 블록 디바이스의 경로를 저장하는 포인터</p>
+<p>SFUSE 파일시스템을 마운트할 디렉토리 경로를 저장하는 포인터</p>
+<p>블록 디바이스 파일을 열고 파일 디스크립터를 획득한다.</p>
+<p>open 함수는 파일이나 디바이스를 열 때 사용하며, O_RDWR는 읽기 및 쓰기 모드, O_SYNC는 데이터를 즉시 디스크에 쓰는 동기화 모드를 설정한다.</p>
+<p>열린 디바이스가 올바른 블록 디바이스인지 확인한다.</p>
+<p>fstat 함수는 파일 디스크립터의 상태를 stat 구조체에 저장하며, S_ISBLK 매크로를 사용하여 블록 디바이스 여부를 검사한다.</p>
+<p>SFUSE 파일시스템 관리를 위한 구조체(sfuse_fs)에 메모리를 할당하고 초기화한다. calloc 사용하여 메모리를 0으로 초기화한다.</p>
+<p>SFUSE 파일시스템에서 사용할 디바이스 파일 디스크립터를 저장</p>
+<p>FUSE 라이브러리에 전달할 인자 구조체를 초기화한다. FUSE_ARGS_INIT 매크로는 구조체를 안전하게 초기화하는데 사용된다.</p>
+<p>FUSE에 프로그램 이름과 마운트 포인트를 기본 인자로 설정하여 전달한다. argv[0]은 프로그램 이름을 나타내며, argv[2]는 파일시스템 마운트 지점이다.</p>
+<p>명령줄에서 추가로 입력된 모든 옵션을 FUSE 인자에 추가한다. 이를 통해 사용자는 FUSE의 다양한 기능을 옵션으로 활성화할 수 있다.</p>
+<p>필수 옵션을 추가하여 SFUSE 운영에 필요한 기본 설정을 활성화한다. -o: FUSE에 옵션을 전달할 때 사용하는 플래그이다. 여러 옵션을 쉼표로 구분하여 함께 전달할 수 있다.</p><ul>
+<li>allow_other: 다른 사용자가 마운트된 파일시스템에 접근할 수 있도록 허용한다.</li>
+<li>default_permissions: 파일시스템의 기본적인 권한 관리를 FUSE가 수행하도록 -d: 파일시스템의 동작과 관련된 자세한 디버깅 정보를 출력한다. 한다.</li>
+</ul>
+<p>FUSE 메인 루프를 실행하여 파일시스템의 실제 마운트 및 운영을 시작한다. sfuse_ops는 파일시스템 작업을 처리하는 함수 포인터를 포함한 구조체이다.</p>
+<p>사용한 모든 자원을 정리하고 메모리를 해제한 뒤 프로그램을 종료한다. fuse_opt_free_args: FUSE 인자 관련 메모리 해제 close: 파일 디스크립터 닫기 free: 동적 할당된 메모리 해제</p>
+
+<p class="definition"><a class="el" href="../../d0/d29/main_8c_source.html">main.c</a> 파일의 <a class="el" href="../../d0/d29/main_8c_source.html#l00038">38</a> 번째 라인에서 정의되었습니다.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>                                 {</div>
+<div class="line"><span class="lineno">   39</span>  <span class="keywordflow">if</span> (argc &gt;= 2 &amp;&amp; (!strcmp(argv[1], <span class="stringliteral">&quot;-h&quot;</span>) || !strcmp(argv[1], <span class="stringliteral">&quot;--help&quot;</span>))) {</div>
+<div class="line"><span class="lineno">   40</span>    fprintf(stdout,</div>
+<div class="line"><span class="lineno">   41</span>            <span class="stringliteral">&quot;사용법 : sudo %s &lt;device&gt; &lt;mountpoint&gt; [options]\n&quot;</span></div>
+<div class="line"><span class="lineno">   42</span>            <span class="stringliteral">&quot;(사용예: sudo ./sfuse /dev/sdx /mnt/partition -f -s -d -o &quot;</span></div>
+<div class="line"><span class="lineno">   43</span>            <span class="stringliteral">&quot;allow_other,default_permissions\n&quot;</span></div>
+<div class="line"><span class="lineno">   44</span>            <span class="stringliteral">&quot;\n기본 옵션들:\n&quot;</span></div>
+<div class="line"><span class="lineno">   45</span>            <span class="stringliteral">&quot;  -f: FUSE 파일시스템을 포그라운드에서 실행한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   46</span>            <span class="stringliteral">&quot;  -s: 싱글 스레드 모드로 실행한다(디버깅 용이).\n&quot;</span></div>
+<div class="line"><span class="lineno">   47</span>            <span class="stringliteral">&quot;  -d: 디버그 모드를 활성화하여 파일시스템의 상세한 동작 정보를 &quot;</span></div>
+<div class="line"><span class="lineno">   48</span>            <span class="stringliteral">&quot;출력한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   49</span>            <span class="stringliteral">&quot;  -o allow_other: 모든 사용자가 파일시스템에 접근 가능하도록 &quot;</span></div>
+<div class="line"><span class="lineno">   50</span>            <span class="stringliteral">&quot;허용한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   51</span>            <span class="stringliteral">&quot;  -o default_permissions: 기본 UNIX 권한 체크를 활성화하여 파일 &quot;</span></div>
+<div class="line"><span class="lineno">   52</span>            <span class="stringliteral">&quot;접근 권한을 관리한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   53</span>            <span class="stringliteral">&quot;\n추가로 사용할 수 있는 FUSE 옵션들:\n&quot;</span></div>
+<div class="line"><span class="lineno">   54</span>            <span class="stringliteral">&quot;  -h, --help: FUSE 사용법과 옵션 목록을 출력한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   55</span>            <span class="stringliteral">&quot;  -V, --version: FUSE 라이브러리의 버전 정보를 출력한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   56</span>            <span class="stringliteral">&quot;  -o ro: 읽기 전용으로 파일시스템을 마운트한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   57</span>            <span class="stringliteral">&quot;  -o rw: 읽기 및 쓰기 모드로 마운트한다(기본값).\n&quot;</span></div>
+<div class="line"><span class="lineno">   58</span>            <span class="stringliteral">&quot;  -o fsname=NAME: 파일시스템의 이름을 설정한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   59</span>            <span class="stringliteral">&quot;  -o uid=N: 파일의 소유자 UID를 설정한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   60</span>            <span class="stringliteral">&quot;  -o gid=N: 파일의 그룹 GID를 설정한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   61</span>            <span class="stringliteral">&quot;  -o umask=MASK: 파일 및 디렉토리 생성 시 적용할 권한 마스크를 &quot;</span></div>
+<div class="line"><span class="lineno">   62</span>            <span class="stringliteral">&quot;설정한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   63</span>            <span class="stringliteral">&quot;  -o nonempty: 마운트 지점이 비어있지 않아도 마운트를 허용한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   64</span>            <span class="stringliteral">&quot;  -o direct_io: 커널 페이지 캐시를 우회하여 직접 입출력을 &quot;</span></div>
+<div class="line"><span class="lineno">   65</span>            <span class="stringliteral">&quot;활성화한다.\n&quot;</span></div>
+<div class="line"><span class="lineno">   66</span>            <span class="stringliteral">&quot;  -o auto_unmount: 프로그램 종료 시 자동으로 마운트를 해제한다.\n&quot;</span>,</div>
+<div class="line"><span class="lineno">   67</span>            argv[0]);</div>
+<div class="line"><span class="lineno">   68</span>    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line"><span class="lineno">   69</span>  }</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>  <span class="keywordflow">if</span> (argc &lt; 3) {</div>
+<div class="line"><span class="lineno">   72</span>    fprintf(stderr, <span class="stringliteral">&quot;사용법: sudo %s &lt;device&gt; &lt;mountpoint&gt; [options]\n&quot;</span>,</div>
+<div class="line"><span class="lineno">   73</span>            argv[0]);</div>
+<div class="line"><span class="lineno">   74</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">   75</span>  }</div>
+<div class="line"><span class="lineno">   76</span></div>
+<div class="line"><span class="lineno">   78</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *dev_path = argv[1];</div>
+<div class="line"><span class="lineno">   80</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *mountpoint = argv[2];</div>
+<div class="line"><span class="lineno">   81</span></div>
+<div class="line"><span class="lineno">   89</span>  <span class="keywordtype">int</span> backing_fd = open(dev_path, O_RDWR | O_SYNC);</div>
+<div class="line"><span class="lineno">   90</span>  <span class="keywordflow">if</span> (backing_fd &lt; 0) {</div>
+<div class="line"><span class="lineno">   91</span>    perror(<span class="stringliteral">&quot;디바이스 열기 실패&quot;</span>);</div>
+<div class="line"><span class="lineno">   92</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">   93</span>  }</div>
+<div class="line"><span class="lineno">   94</span></div>
+<div class="line"><span class="lineno">  101</span>  <span class="keyword">struct </span>stat st;</div>
+<div class="line"><span class="lineno">  102</span>  <span class="keywordflow">if</span> (fstat(backing_fd, &amp;st) &lt; 0 || !S_ISBLK(st.st_mode)) {</div>
+<div class="line"><span class="lineno">  103</span>    fprintf(stderr, <span class="stringliteral">&quot;%s는 블록 디바이스가 아닙니다.\n&quot;</span>, dev_path);</div>
+<div class="line"><span class="lineno">  104</span>    close(backing_fd);</div>
+<div class="line"><span class="lineno">  105</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">  106</span>  }</div>
+<div class="line"><span class="lineno">  107</span></div>
+<div class="line"><span class="lineno">  113</span>  <span class="keyword">struct </span><a class="code hl_struct" href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a> *fs = calloc(1, <span class="keyword">sizeof</span>(*fs));</div>
+<div class="line"><span class="lineno">  114</span>  <span class="keywordflow">if</span> (!fs) {</div>
+<div class="line"><span class="lineno">  115</span>    perror(<span class="stringliteral">&quot;메모리 할당 실패&quot;</span>);</div>
+<div class="line"><span class="lineno">  116</span>    close(<a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a>);</div>
+<div class="line"><span class="lineno">  117</span>    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><span class="lineno">  118</span>  }</div>
+<div class="line"><span class="lineno">  119</span></div>
+<div class="line"><span class="lineno">  121</span>  fs-&gt;<a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a> = <a class="code hl_variable" href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">backing_fd</a>;</div>
+<div class="line"><span class="lineno">  122</span></div>
+<div class="line"><span class="lineno">  126</span>  <span class="keyword">struct </span>fuse_args args = FUSE_ARGS_INIT(0, NULL);</div>
+<div class="line"><span class="lineno">  127</span></div>
+<div class="line"><span class="lineno">  132</span>  fuse_opt_add_arg(&amp;args, argv[0]);</div>
+<div class="line"><span class="lineno">  133</span>  fuse_opt_add_arg(&amp;args, mountpoint);</div>
+<div class="line"><span class="lineno">  134</span></div>
+<div class="line"><span class="lineno">  138</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 3; i &lt; argc; i++) {</div>
+<div class="line"><span class="lineno">  139</span>    fuse_opt_add_arg(&amp;args, argv[i]);</div>
+<div class="line"><span class="lineno">  140</span>  }</div>
+<div class="line"><span class="lineno">  141</span></div>
+<div class="line"><span class="lineno">  152</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;-o&quot;</span>);</div>
+<div class="line"><span class="lineno">  153</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;allow_other&quot;</span>);</div>
+<div class="line"><span class="lineno">  154</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;default_permissions&quot;</span>);</div>
+<div class="line"><span class="lineno">  155</span>  fuse_opt_add_arg(&amp;args, <span class="stringliteral">&quot;-d&quot;</span>);</div>
+<div class="line"><span class="lineno">  156</span></div>
+<div class="line"><span class="lineno">  160</span>  <span class="keywordtype">int</span> ret = fuse_main(args.argc, args.argv, &amp;<a class="code hl_variable" href="../../de/d00/ops_8h.html#a8a3005b535e830b2ef6316cc752b7d4a">sfuse_ops</a>, fs);</div>
+<div class="line"><span class="lineno">  161</span></div>
+<div class="line"><span class="lineno">  168</span>  fuse_opt_free_args(&amp;args);</div>
+<div class="line"><span class="lineno">  169</span>  close(backing_fd);</div>
+<div class="line"><span class="lineno">  170</span>  free(fs);</div>
+<div class="line"><span class="lineno">  171</span> </div>
+<div class="line"><span class="lineno">  172</span>  <span class="keywordflow">return</span> ret;</div>
+<div class="line"><span class="lineno">  173</span>}</div>
 <div class="ttc" id="aops_8h_html_a8a3005b535e830b2ef6316cc752b7d4a"><div class="ttname"><a href="../../de/d00/ops_8h.html#a8a3005b535e830b2ef6316cc752b7d4a">sfuse_ops</a></div><div class="ttdeci">const struct fuse_operations sfuse_ops</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d70/ops_8c_source.html#l00562">ops.c:562</a></div></div>
-<div class="ttc" id="astructsfuse__fs_html"><div class="ttname"><a href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d26/fs_8h_source.html#l00011">fs.h:11</a></div></div>
-<div class="ttc" id="astructsfuse__fs_html_af14cab3f6994b0e91e858ddffc424140"><div class="ttname"><a href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">sfuse_fs::backing_fd</a></div><div class="ttdeci">int backing_fd</div><div class="ttdef"><b>Definition</b> <a href="../../df/d26/fs_8h_source.html#l00012">fs.h:12</a></div></div>
+<div class="ttc" id="astructsfuse__fs_html"><div class="ttname"><a href="../../df/dc5/structsfuse__fs.html">sfuse_fs</a></div><div class="ttdoc">SFUSE 파일 시스템의 전역 컨텍스트를 나타내는 구조체</div><div class="ttdef"><b>Definition</b> <a href="../../df/d26/fs_8h_source.html#l00042">fs.h:42</a></div></div>
+<div class="ttc" id="astructsfuse__fs_html_af14cab3f6994b0e91e858ddffc424140"><div class="ttname"><a href="../../df/dc5/structsfuse__fs.html#af14cab3f6994b0e91e858ddffc424140">sfuse_fs::backing_fd</a></div><div class="ttdeci">int backing_fd</div><div class="ttdef"><b>Definition</b> <a href="../../df/d26/fs_8h_source.html#l00043">fs.h:43</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
