@@ -1,204 +1,98 @@
-// File: include/fs.h
+/**
+ * @file include/fs.h
+ * @brief SFUSE 파일 시스템의 핵심 구조 및 연산 정의
+ */
 
 #ifndef SFUSE_FS_H
 #define SFUSE_FS_H
 
 #include "super.h"
-#include <fuse3/fuse.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <time.h>
-
-/* 전방 선언 */
-struct sfuse_bitmaps;
-struct sfuse_inode_block;
+#include <stdint.h>
 
 /**
- * @brief SFUSE 파일 시스템 컨텍스트 구조체
+ * @def SFUSE_ROOT_INO
+ * @brief 파일 시스템 루트 디렉터리의 고정된 아이노드(inode) 번호 (일반적으로 1)
+ *
+ * @details
+ * SFUSE 파일 시스템의 루트 디렉터리('/')를 나타내기 위한 아이노드 번호로,
+ * 파일 시스템 내부에서 모든 경로 탐색 및 해석의 출발점(entry point)으로
+ * 활용된다. 루트 아이노드는 파일 시스템 초기화 시 반드시 생성되어야 하며,
+ * 아이노드 테이블 내에서 항상 아이노드 번호 1번에 위치한다.
+ *
+ * @note 대부분의 Unix 기반 파일 시스템에서는 관례적으로 루트 디렉터리의
+ * 아이노드 번호를 1로 고정한다. 이러한 고정 번호를 사용하면 루트 디렉터리를
+ * 참조할 때 추가적인 탐색 과정 없이 즉각적으로 접근할 수 있어 파일 시스템 성능
+ * 및 효율성을 높이는 데 기여한다.
+ */
+#define SFUSE_ROOT_INO 1
+
+/**
+ * @struct sfuse_fs
+ * @brief SFUSE 파일 시스템의 전역 컨텍스트를 나타내는 구조체
+ *
+ * @details
+ * SFUSE 파일 시스템의 핵심 상태와 데이터를 관리하는 중심 구조체이다.
+ * 블록 디바이스 접근을 위한 파일 디스크립터(backing_fd)를 저장하며,
+ * 슈퍼블록(sb)을 통해 파일 시스템의 메타데이터를 관리한다.
+ * 또한 블록과 아이노드의 할당 상태를 각각 비트맵 형태(block_map, inode_map)로
+ * 저장하여, 데이터 블록과 아이노드의 효율적인 관리와 할당을 지원한다. 이
+ * 구조체는 파일 시스템의 마운트 시 초기화되어 FUSE 연산 수행 시 전역적으로
+ * 사용된다.
  */
 struct sfuse_fs {
-  int backing_fd;                        /**< 디스크 이미지 파일 디스크립터 */
-  struct sfuse_superblock sb;            /**< 슈퍼블록 정보 */
-  struct sfuse_bitmaps *bmaps;           /**< 아이노드/블록 비트맵 포인터 */
-  struct sfuse_inode_block *inode_table; /**< 아이노드 테이블 블록들 */
+  int backing_fd;        /**< 블록 디바이스의 파일 디스크립터 */
+  struct sfuse_super sb; /**< 슈퍼블록 구조체 */
+  uint8_t *block_map;    /**< 블록 비트맵 버퍼 포인터 */
+  uint8_t *inode_map;    /**< 아이노드 비트맵 버퍼 포인터 */
 };
 
 /**
- * @brief 파일 시스템 초기화
- * @param image_path 디스크 이미지 파일 경로
- * @param error_out 오류 코드를 저장할 포인터
- * @return 초기화된 sfuse_fs 포인터 또는 NULL
+ * @brief FUSE 콜백 함수 내에서 전역 파일 시스템 컨텍스트를 얻는다.
+ *
+ * @return 파일 시스템의 전역 컨텍스트(struct sfuse_fs*) 포인터
  */
-struct sfuse_fs *fs_initialize(const char *image_path, int *error_out);
+struct sfuse_fs *get_fs_context(void);
 
 /**
- * @brief 파일 시스템 정리
- * @param fs 해제할 파일 시스템 컨텍스트
+ * @brief SFUSE 파일 시스템을 초기화하고 슈퍼블록 및 비트맵을 로드한다.
+ *
+ * @param backing_fd 초기화할 블록 디바이스의 파일 디스크립터
+ *
+ * @return 성공 시 0, 실패 시 음수 오류 코드
  */
-void fs_teardown(struct sfuse_fs *fs);
+int fs_initialize(int backing_fd);
 
 /**
- * @brief 경로를 inode 번호로 변환
- * @param fs 파일 시스템 컨텍스트
+ * @brief SFUSE 파일 시스템을 정리하고 언마운트한다.
+ *
+ * @param private_data get_fs_context()가 반환한 파일 시스템 전역 컨텍스트
+ * 포인터
+ */
+void fs_destroy(void *private_data);
+
+/**
+ * @brief 주어진 경로를 아이노드 번호로 변환한다.
+ *
+ * @param fs 파일 시스템의 전역 컨텍스트
  * @param path 변환할 경로 문자열
- * @param out_ino 변환된 inode 번호 저장 위치
+ * @param ino_out 결과 아이노드 번호를 저장할 포인터
+ *
  * @return 성공 시 0, 실패 시 음수 오류 코드
  */
-int fs_resolve_path(struct sfuse_fs *fs, const char *path, uint32_t *out_ino);
-
-/* 고수준 FUSE 연동 함수 선언 */
+int fs_resolve_path(struct sfuse_fs *fs, const char *path, uint32_t *ino_out);
 
 /**
- * @brief 파일/디렉터리 속성 조회
- * @param fs 파일 시스템 컨텍스트
- * @param path 대상 경로
- * @param stbuf 출력할 stat 구조체 포인터
- * @return 성공 시 0, 실패 시 음수 오류 코드
+ * @brief 전체 경로를 부모 디렉터리의 아이노드와 마지막 구성요소의 이름으로
+ * 분할한다.
+ *
+ * 예: "/foo/bar" → 부모 디렉터리 아이노드와 "bar"를 분리하여 반환한다.
+ * 반환된 이름은 동적으로 할당되므로 사용 후 free()로 메모리를 해제해야 한다.
+ *
+ * @param fullpath 분할할 전체 경로 문자열
+ * @param parent_ino 부모 디렉터리 아이노드 번호를 저장할 포인터
+ *
+ * @return 마지막 구성요소의 이름을 담은 문자열 (동적 할당)
  */
-int fs_getattr(struct sfuse_fs *fs, const char *path, struct stat *stbuf);
-
-/**
- * @brief 접근 권한 검사
- * @param fs 파일 시스템 컨텍스트
- * @param path 대상 경로
- * @param mask 검사할 접근 마스크
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_access(struct sfuse_fs *fs, const char *path, int mask);
-
-/**
- * @brief 디렉터리 내용 읽기
- * @param fs 파일 시스템 컨텍스트
- * @param path 디렉터리 경로
- * @param buf FUSE가 제공하는 버퍼
- * @param filler 디렉터리 엔트리 추가 콜백
- * @param offset 읽기 오프셋
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_readdir(struct sfuse_fs *fs, const char *path, void *buf,
-               fuse_fill_dir_t filler, off_t offset);
-
-/**
- * @brief 파일 열기
- * @param fs 파일 시스템 컨텍스트
- * @param path 파일 경로
- * @param fi FUSE 파일 정보 구조체
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_open(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi);
-
-/**
- * @brief 파일 읽기
- * @param fs 파일 시스템 컨텍스트
- * @param path 파일 경로
- * @param buf 읽은 데이터를 저장할 버퍼
- * @param size 읽을 바이트 수
- * @param offset 읽기 오프셋
- * @return 읽은 바이트 수 또는 음수 오류 코드
- */
-int fs_read(struct sfuse_fs *fs, const char *path, char *buf, size_t size,
-            off_t offset);
-
-/**
- * @brief 파일 쓰기
- * @param fs 파일 시스템 컨텍스트
- * @param path 파일 경로
- * @param buf 쓸 데이터 버퍼
- * @param size 쓸 바이트 수
- * @param offset 쓰기 오프셋
- * @return 쓴 바이트 수 또는 음수 오류 코드
- */
-int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
-             size_t size, off_t offset);
-
-/**
- * @brief 파일 생성
- * @param fs 파일 시스템 컨텍스트
- * @param path 생성할 파일 경로
- * @param mode 생성 모드 (퍼미션)
- * @param fi FUSE 파일 정보 구조체
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_create(struct sfuse_fs *fs, const char *path, mode_t mode,
-              struct fuse_file_info *fi);
-
-/**
- * @brief 디렉터리 생성
- * @param fs 파일 시스템 컨텍스트
- * @param path 생성할 디렉터리 경로
- * @param mode 생성 모드 (퍼미션)
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_mkdir(struct sfuse_fs *fs, const char *path, mode_t mode);
-
-/**
- * @brief 파일 삭제
- * @param fs 파일 시스템 컨텍스트
- * @param path 삭제할 파일 경로
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_unlink(struct sfuse_fs *fs, const char *path);
-
-/**
- * @brief 디렉터리 삭제
- * @param fs 파일 시스템 컨텍스트
- * @param path 삭제할 디렉터리 경로
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_rmdir(struct sfuse_fs *fs, const char *path);
-
-/**
- * @brief 파일 또는 디렉터리 이름 변경
- * @param fs 파일 시스템 컨텍스트
- * @param from 원본 경로
- * @param to 대상 경로
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_rename(struct sfuse_fs *fs, const char *from, const char *to);
-
-/**
- * @brief 파일 크기 조정 (truncate)
- * @param fs 파일 시스템 컨텍스트
- * @param path 대상 파일 경로
- * @param size 새로운 파일 크기
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_truncate(struct sfuse_fs *fs, const char *path, off_t size);
-
-/**
- * @brief 파일의 시간 속성 변경 (utimens)
- * @param fs 파일 시스템 컨텍스트
- * @param path 대상 경로
- * @param tv [0]=접근 시간, [1]=변경 시간
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_utimens(struct sfuse_fs *fs, const char *path,
-               const struct timespec tv[2]);
-
-/**
- * @brief FUSE에서 플러시 요청 처리
- * @param fs 파일 시스템 컨텍스트
- * @param path 대상 파일 경로
- * @param fi FUSE 파일 정보 구조체
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_flush(struct sfuse_fs *fs, const char *path, struct fuse_file_info *fi);
-
-/**
- * @brief FUSE에서 fsync 요청 처리
- * @param fs 파일 시스템 컨텍스트
- * @param path 대상 파일 경로
- * @param datasync 데이터 sync 플래그
- * @param fi FUSE 파일 정보 구조체
- * @return 성공 시 0, 실패 시 음수 오류 코드
- */
-int fs_fsync(struct sfuse_fs *fs, const char *path, int datasync,
-             struct fuse_file_info *fi);
-
-/**
- * @brief SFUSE용 FUSE operations 구조체 반환
- * @return 설정된 fuse_operations 포인터
- */
-struct fuse_operations *sfuse_get_operations(void);
+char *fs_split_path(const char *fullpath, uint32_t *parent_ino);
 
 #endif /* SFUSE_FS_H */
