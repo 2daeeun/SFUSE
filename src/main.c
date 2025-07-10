@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
    */
   fuse_opt_add_arg(&args, "-o");
   fuse_opt_add_arg(&args, "allow_other");
-  fuse_opt_add_arg(&args, "default_permissions");
+  // fuse_opt_add_arg(&args, "default_permissions");
   fuse_opt_add_arg(&args, "-d");
 
   /** FUSE 메인 루프를 실행하여 파일시스템의 실제 마운트 및 운영을 시작한다.

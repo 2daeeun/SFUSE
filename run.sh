@@ -102,9 +102,11 @@ MOUNT() {
   echo -e "마운트를 실행합니다."
   echo -e "\n"
   echo -e "마운트 명령어:"
-  echo -e "sudo ./sfuse /dev/nvme0n1p7 /mnt/Partition7_ext2 -f -s -d -o allow_other,default_permissions"
+  # echo -e "sudo ./sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other,default_permissions"
+  echo -e "sudo ./sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other"
   echo -e "\n"
-  sudo ./build/sfuse /dev/nvme0n1p7 /mnt/Partition7_ext2 -f -s -d -o allow_other,default_permissions
+  # sudo ./build/sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other,default_permissions
+  sudo ./build/sfuse /dev/nvme0n1p4 /mnt/partition_04_200MB -f -s -d -o allow_other
 
   # 언마운트
   # sudo fusermount3 -u /tmp/sfuse
