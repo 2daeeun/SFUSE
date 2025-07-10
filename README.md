@@ -53,6 +53,21 @@ umount sfuse_filesystem && rmdir sfuse_filesystem
 * **참조한 VSFS 관련 문서**
   * [**Project 06: Simple File System**: 노터데임 대학교 CSE 30341 운영 체제 원리(2024년 가을)](https://www3.nd.edu/~pbui/teaching/cse.30341.fa18/project06.html)
 
+  </br>
+
+* **Doxygen 설치** (HTML and PDF)
+  - <b>Arch Linux</b>:
+    ```bash
+    sudo pacman -S doxygen graphviz
+    yay -S texlive-core texlive-bin texlive-fontsextra texlive-latexextra texlive-latexrecommended texlive-luatex texlive-xetex texlive-lang texlive-listofitems texlive-fontsrecommended ttf-texgyre
+    # fmt 생성
+    sudo fmtutil-sys --all
+    # pdf 생성
+    cd docs/latex
+    make clean
+    make
+    ```
+
 ---
 #### NOTE
 * 본 프로젝트의 실험은 Arch Linux의 FUSE v3.16.2에서 진행하였으며, Ubuntu 24.04의 FUSE v3.14에서도 작동을 확인하였습니다. (2024년 11월 20일 확인)
