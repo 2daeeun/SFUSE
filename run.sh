@@ -110,6 +110,13 @@ MOUNT() {
 
   # 언마운트
   # sudo fusermount3 -u /tmp/sfuse
+  #
+  #
+  #
+  # sudo umount /mnt/Partition7_ext2
+  # sudo dd if=/dev/zero of=/dev/nvme0n1p7 bs=4M status=progress && sync
+  # sudo mkfs.ext2 /dev/nvme0n1p7
+  # sudo mount /dev/nvme0n1p4 /mnt/partition_04_200MB
 }
 
 # 옵션 출력
