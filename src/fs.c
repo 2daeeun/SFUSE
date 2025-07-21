@@ -36,8 +36,9 @@ static int fs_format_filesystem(int fd, struct sfuse_superblock *sb) {
     return -1;
   uint32_t total_all = st.st_size / SFUSE_BLOCK_SIZE;
 
-  /* 비트맵 블록 수 계산 */
-  uint32_t bm_blocks = (total_all > 32768 ? 2 : 1);
+  /* 비트맵 블록 수 계산 (이미지 크기에 따라 동적 결정) */
+  uint32_t bits_per_block = SFUSE_BLOCK_SIZE * 8;
+  uint32_t bm_blocks = (total_all + bits_per_block - 1) / bits_per_block;
   uint32_t inodes_per_block = SFUSE_BLOCK_SIZE / sizeof(struct sfuse_inode);
   uint32_t it_blocks =
       (SFUSE_MAX_INODES + inodes_per_block - 1) / inodes_per_block;

@@ -18,10 +18,10 @@ struct sfuse_inode_bitmap {
 };
 
 /**
- * @brief 데이터 블록 할당 비트맵 (2블록)
+ * @brief 데이터 블록 할당 비트맵 (32블록, 4GB 지원)
  */
 struct sfuse_block_bitmap {
-  uint8_t map[SFUSE_BLOCK_SIZE * 2];
+  uint8_t map[SFUSE_BLOCK_SIZE * 32];
 };
 
 /**

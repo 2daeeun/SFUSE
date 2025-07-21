@@ -74,9 +74,9 @@ MOUNT() {
     echo "디스크 이미지(.img) 파일이 이미 존재합니다."
   else
     mkdir -p ./build
-    truncate -s 200M ./build/sfuse.img
+    truncate -s 4096M ./build/sfuse.img
     echo -e "\n"
-    echo -e "200MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
+    echo -e "4096MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
     echo -e "(이미지 파일 위치: ./build/sfuse.img) "
   fi
 

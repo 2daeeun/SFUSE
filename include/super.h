@@ -30,8 +30,9 @@
  * @brief 최대 데이터 블록 수
  *
  * 파일 시스템에서 허용하는 최대 데이터 블록 개수입니다.
+ * (1048576 블록 × 4KB/블록 = 4194304KB = 4096MB = 4GB)
  */
-#define SFUSE_MAX_BLOCKS 65536
+#define SFUSE_MAX_BLOCKS 1048576
 
 /**
  * @brief 슈퍼블록 구조체
@@ -49,15 +50,15 @@
  * - data_block_start    : 데이터 블록 시작 블록 번호
  */
 struct sfuse_superblock {
-    uint32_t magic;              /**< 파일 시스템 식별자 (매직 넘버) */
-    uint32_t total_inodes;       /**< 전체 아이노드 수 */
-    uint32_t total_blocks;       /**< 전체 데이터 블록 수 */
-    uint32_t free_inodes;        /**< 사용 가능한 아이노드 수 */
-    uint32_t free_blocks;        /**< 사용 가능한 데이터 블록 수 */
-    uint32_t inode_bitmap_start; /**< 아이노드 비트맵 시작 블록 번호 */
-    uint32_t block_bitmap_start; /**< 블록 비트맵 시작 블록 번호 */
-    uint32_t inode_table_start;  /**< 아이노드 테이블 시작 블록 번호 */
-    uint32_t data_block_start;   /**< 데이터 블록 시작 블록 번호 */
+  uint32_t magic;              /**< 파일 시스템 식별자 (매직 넘버) */
+  uint32_t total_inodes;       /**< 전체 아이노드 수 */
+  uint32_t total_blocks;       /**< 전체 데이터 블록 수 */
+  uint32_t free_inodes;        /**< 사용 가능한 아이노드 수 */
+  uint32_t free_blocks;        /**< 사용 가능한 데이터 블록 수 */
+  uint32_t inode_bitmap_start; /**< 아이노드 비트맵 시작 블록 번호 */
+  uint32_t block_bitmap_start; /**< 블록 비트맵 시작 블록 번호 */
+  uint32_t inode_table_start;  /**< 아이노드 테이블 시작 블록 번호 */
+  uint32_t data_block_start;   /**< 데이터 블록 시작 블록 번호 */
 };
 
 /**
