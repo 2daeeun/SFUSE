@@ -990,10 +990,11 @@ found_entry:
 }
 
 /**
- * @brief 비어 있는 디렉터리 삭제
+ * @brief 비어있는 디렉터리를 삭제
  *
- * 지정된 경로의 디렉터리가 비어 있는지 확인한 후, fs_unlink 로직을 재사용하여
- * 디렉터리를 제거한다.
+ * 지정된 경로의 디렉터리가 비어 있는지 확인 후,
+ * 해당 디렉터리의 inode와 데이터 블록을 해제하고
+ * 상위 디렉터리에서 엔트리를 삭제한다.
  *
  * @param fs   파일 시스템 컨텍스트 포인터
  * @param path 삭제할 디렉터리 경로 (null-terminated 문자열)
@@ -1001,39 +1002,96 @@ found_entry:
  */
 int fs_rmdir(struct sfuse_fs *fs, const char *path) {
   uint32_t ino;
-  if (fs_resolve_path(fs, path, &ino) < 0) {
+  if (fs_resolve_path(fs, path, &ino) < 0)
     return -ENOENT;
-  }
 
   struct sfuse_inode inode;
   inode_load(fs->backing_fd, &fs->sb, ino, &inode);
-  /* 디렉터리인지 확인 */
-  if ((inode.mode & S_IFDIR) == 0) {
-    return -ENOTDIR;
-  }
 
-  /* 비어 있는지 확인 */
+  /* 디렉터리인지 확인 */
+  if (!(inode.mode & S_IFDIR))
+    return -ENOTDIR;
+
+  /* 디렉터리 비어 있는지 확인 */
   uint8_t block[SFUSE_BLOCK_SIZE];
   for (int i = 0; i < 12; ++i) {
     if (inode.direct[i] == 0)
       continue;
     if (read_block(fs->backing_fd, inode.direct[i], block) < 0)
-      continue;
+      return -EIO;
     struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
     for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
-      if (entries[j].inode != 0) {
+      if (entries[j].inode != 0)
         return -ENOTEMPTY;
+    }
+  }
+
+  /* 상위 디렉터리 및 파일 이름 분리 */
+  char *path_copy = strdup(path);
+  if (!path_copy)
+    return -ENOMEM;
+  char *name = strrchr(path_copy, '/');
+  *name = '\0';
+  char *parent_path = (*path_copy == '\0') ? "/" : path_copy;
+  name++;
+
+  /* 상위 디렉터리 inode 조회 */
+  uint32_t parent_ino;
+  if (fs_resolve_path(fs, parent_path, &parent_ino) < 0) {
+    free(path_copy);
+    return -ENOENT;
+  }
+
+  struct sfuse_inode parent_inode;
+  inode_load(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
+
+  /* 상위 디렉터리에서 엔트리 제거 */
+  bool removed = false;
+  for (uint32_t i = 0; i < 12 && !removed; ++i) {
+    if (parent_inode.direct[i] == 0)
+      continue;
+    read_block(fs->backing_fd, parent_inode.direct[i], block);
+    struct sfuse_dirent *entries = (struct sfuse_dirent *)block;
+    for (uint32_t j = 0; j < DENTS_PER_BLOCK; ++j) {
+      if (entries[j].inode == ino &&
+          strncmp(entries[j].name, name, SFUSE_NAME_MAX) == 0) {
+        memset(&entries[j], 0, sizeof(entries[j]));
+        write_block(fs->backing_fd, parent_inode.direct[i], block);
+        removed = true;
+        break;
       }
     }
   }
 
-  /* fs_unlink 로직 재사용 */
-  char *dummy_path = strdup(path);
-  if (!dummy_path)
-    return -ENOMEM;
-  int res = fs_unlink(fs, path);
-  free(dummy_path);
-  return res;
+  if (!removed) {
+    free(path_copy);
+    return -ENOENT;
+  }
+
+  /* 디렉터리의 직접 블록 해제 */
+  uint8_t zero_block[SFUSE_BLOCK_SIZE] = {0};
+  for (int i = 0; i < 12; ++i) {
+    if (inode.direct[i]) {
+      write_block(fs->backing_fd, inode.direct[i], zero_block);
+      free_block(&fs->sb, &fs->bmaps->block,
+                 inode.direct[i] - fs->sb.data_block_start);
+      inode.direct[i] = 0;
+    }
+  }
+
+  /* 아이노드 해제 및 초기화 */
+  free_inode(&fs->sb, &fs->bmaps->inode, ino);
+  struct sfuse_inode empty_inode = {0};
+  inode_sync(fs->backing_fd, &fs->sb, ino, &empty_inode);
+
+  /* 상위 디렉터리 메타데이터 갱신 */
+  time_t now = time(NULL);
+  parent_inode.mtime = (uint32_t)now;
+  parent_inode.ctime = (uint32_t)now;
+  inode_sync(fs->backing_fd, &fs->sb, parent_ino, &parent_inode);
+
+  free(path_copy);
+  return 0;
 }
 
 /**
