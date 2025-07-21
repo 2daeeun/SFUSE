@@ -8,13 +8,14 @@ GENERATE_COMPILE_COMMANDS() {
   # 빌드 디렉토리 이름
   BUILD_DIR="build"
 
-  # 빌드 디렉토리 생성
-  if [ ! -d "$BUILD_DIR" ]; then
-    echo "build 디렉토리를 생성합니다."
-    mkdir "$BUILD_DIR"
-  else
-    echo "build 디렉토리가 이미 존재합니다."
+  # 기존 build 디렉토리가 존재하면 삭제 후 재생성
+  if [ -d "$BUILD_DIR" ]; then
+    echo "기존 build 디렉토리를 삭제합니다."
+    rm -rf "$BUILD_DIR"
   fi
+
+  echo "build 디렉토리를 생성합니다."
+  mkdir "$BUILD_DIR"
 
   # CMake 실행 및 compile_commands.json 생성
   echo "CMake를 실행하여 compile_commands.json을 생성합니다..."
@@ -40,6 +41,7 @@ GENERATE_COMPILE_COMMANDS() {
 
 # 2) compile 함수
 COMPILE() {
+
   # compile_commands.json 파일 확인
   if [ ! -f "compile_commands.json" ]; then
     echo "compile_commands.json 파일이 없습니다. 생성합니다..."
@@ -48,8 +50,11 @@ COMPILE() {
     echo "compile_commands.json 파일이 이미 존재합니다."
   fi
 
-  # build 디렉토리 생성
-  rm -r build
+  # build 디렉토리 초기화
+  if [ -d "build" ]; then
+    echo "기존 build 디렉토리를 삭제합니다."
+    rm -rf build
+  fi
   mkdir build
 
   # cmake 실행
@@ -69,40 +74,46 @@ COMPILE() {
 # 3) mount 함수
 MOUNT() {
   # 디스크 이미지(.img) 파일 생성
-  if [[ -f ./build/sfuse.img ]]; then
-    echo -e "\n"
-    echo "디스크 이미지(.img) 파일이 이미 존재합니다."
-  else
-    mkdir -p ./build
-    truncate -s 200M ./build/sfuse.img
-    echo -e "\n"
-    echo -e "200MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
-    echo -e "(이미지 파일 위치: ./build/sfuse.img) "
-  fi
+  # if [[ -f ./build/sfuse.img ]]; then
+  #   echo -e "\n"
+  #   echo "디스크 이미지(.img) 파일이 이미 존재합니다."
+  # else
+  #   mkdir -p ./build
+  #   truncate -s 200M ./build/sfuse.img
+  #   echo -e "\n"
+  #   echo -e "200MB 크기의 디스크 이미지(.img) 파일 생성이 완료되었습니다!"
+  #   echo -e "(이미지 파일 위치: ./build/sfuse.img) "
+  # fi
 
   # 마운트 포인트 생성
-  if [[ -d /run/media/leedaeeun/sfuse ]]; then
-    echo -e "\n"
-    echo -e "마운트 포인트에 디렉토리가 이미 존재합니다"
-    echo -e "(마운트 포인트 위치: /tmp/sfuse) "
-  else
-    sudo mkdir -p /run/media/leedaeeun/sfuse
-    echo -e "\n"
-    echo -e "마운트 포인트 생성이 완료되었습니다!"
-    echo -e "(마운트 포인트 위치: /run/media/leedaeeun/sfuse) "
-  fi
+  # if [[ -d /run/media/leedaeeun/sfuse ]]; then
+  #   echo -e "\n"
+  #   echo -e "마운트 포인트에 디렉토리가 이미 존재합니다"
+  #   echo -e "(마운트 포인트 위치: /tmp/sfuse) "
+  # else
+  #   sudo mkdir -p /run/media/leedaeeun/sfuse
+  #   echo -e "\n"
+  #   echo -e "마운트 포인트 생성이 완료되었습니다!"
+  #   echo -e "(마운트 포인트 위치: /run/media/leedaeeun/sfuse) "
+  # fi
 
   # 마운트 실행
   echo -e "\n"
   echo -e "마운트를 실행합니다."
   echo -e "\n"
   echo -e "마운트 명령어:"
-  echo -e "cd build && sudo ./sfuse -F sfuse.img /run/media/leedaeeun/sfuse -f -s -d"
+  # echo -e "sudo ./sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other,default_permissions"
+  echo -e "sudo ./sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other"
   echo -e "\n"
-  sudo ./build/sfuse -F ./build/sfuse.img /run/media/leedaeeun/sfuse -f -s -d
+  # sudo ./build/sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other,default_permissions
+  sudo ./build/sfuse /dev/nvme0n1p4 /mnt/partition_04_200MB -f -s -d -o allow_other
 
   # 언마운트
   # sudo fusermount3 -u /tmp/sfuse
+  # sudo umount /mnt/Partition7_ext2
+  # sudo dd if=/dev/zero of=/dev/nvme0n1p7 bs=4M status=progress && sync
+  # sudo mkfs.ext2 /dev/nvme0n1p7
+  # sudo mount /dev/nvme0n1p4 /mnt/partition_04_200MB
 }
 
 # 옵션 출력
