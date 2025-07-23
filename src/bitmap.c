@@ -94,9 +94,10 @@ void free_bit(uint8_t *map, uint32_t idx) {
  */
 int alloc_inode(struct sfuse_superblock *sb, struct sfuse_inode_bitmap *imap) {
   int ino = alloc_bit(imap->map, sb->total_inodes);
-  if (ino >= 0) {
-    sb->free_inodes -= 1;
+  if (ino <= 0) {
+    return -ENOSPC; // 반드시 inode 번호 1부터 시작 (0번 금지)
   }
+  sb->free_inodes -= 1;
   return ino;
 }
 
@@ -120,9 +121,10 @@ void free_inode(struct sfuse_superblock *sb, struct sfuse_inode_bitmap *imap,
  */
 int alloc_block(struct sfuse_superblock *sb, struct sfuse_block_bitmap *bmap) {
   int blk = alloc_bit(bmap->map, sb->total_blocks);
-  if (blk >= 0) {
-    sb->free_blocks -= 1;
+  if (blk < 0) {
+    return -ENOSPC; // 음수로 명확히 실패 표시
   }
+  sb->free_blocks -= 1;
   return blk;
 }
 

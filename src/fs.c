@@ -236,29 +236,26 @@ void fs_teardown(struct sfuse_fs *fs) {
  */
 int fs_resolve_path(struct sfuse_fs *fs, const char *path, uint32_t *out_ino) {
   if (strcmp(path, "/") == 0) {
-    *out_ino = 1; /* 루트 inode */
+    *out_ino = 1;
     return 0;
   }
-
-  /* 경로 복사 및 분할 */
   char *path_copy = strdup(path);
   if (!path_copy)
     return -ENOMEM;
-
-  uint32_t current = 1; /* 루트부터 시작 */
-  char *token = strtok(path_copy, "/");
+  uint32_t current = 1; // 루트 아이노드부터 시작
+  char *saveptr;
+  char *token = strtok_r(path_copy, "/", &saveptr);
   while (token) {
     uint32_t next;
     int ret = dir_lookup(fs, current, token, &next);
     if (ret < 0) {
       free(path_copy);
-      return ret;
+      return ret; // 오류 전파
     }
     current = next;
-    token = strtok(NULL, "/");
+    token = strtok_r(NULL, "/", &saveptr);
   }
   free(path_copy);
-
   *out_ino = current;
   return 0;
 }
@@ -589,8 +586,9 @@ int fs_write(struct sfuse_fs *fs, const char *path, const char *buf,
     inode.size = offset + bytes_written;
   inode.mtime = time(NULL);  /**< 수정 시간 갱신 */
   inode.ctime = inode.mtime; /**< 변경 시간 갱신 */
-  if (inode_sync(fs->backing_fd, &fs->sb, ino, &inode) < 0)
-    return -EIO;
+  // if (inode_sync(fs->backing_fd, &fs->sb, ino, &inode) < 0)
+  //   return -EIO;
+  inode_mark_dirty(ino, &inode); // 즉시 디스크 기록 대신 dirty로 마킹
 
   return bytes_written;
 }

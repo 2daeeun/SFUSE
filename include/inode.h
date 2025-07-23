@@ -17,19 +17,24 @@
 #define SFUSE_PTRS_PER_BLOCK (SFUSE_BLOCK_SIZE / sizeof(uint32_t))
 
 /**
+ * @brief 직접 블록 포인터 수
+ */
+#define SFUSE_NDIR_BLOCKS 12
+
+/**
  * @brief 디스크에 저장되는 아이노드 구조체
  */
 struct sfuse_inode {
-  uint32_t mode;            /**< 파일 타입 및 권한 */
-  uint32_t uid;             /**< 소유자 사용자 ID */
-  uint32_t gid;             /**< 소유자 그룹 ID */
-  uint32_t size;            /**< 파일 크기 (바이트 단위) */
-  uint32_t atime;           /**< 마지막 접근 시간 (epoch) */
-  uint32_t mtime;           /**< 마지막 수정 시간 (epoch) */
-  uint32_t ctime;           /**< 메타데이터 변경 시간 (epoch) */
-  uint32_t direct[12];      /**< 직접 데이터 블록 포인터 배열 */
-  uint32_t indirect;        /**< 단일 간접 블록 포인터 */
-  uint32_t double_indirect; /**< 이중 간접 블록 포인터 */
+  uint32_t mode;                      /**< 파일 타입 및 권한 */
+  uint32_t uid;                       /**< 소유자 사용자 ID */
+  uint32_t gid;                       /**< 소유자 그룹 ID */
+  uint32_t size;                      /**< 파일 크기 (바이트 단위) */
+  uint32_t atime;                     /**< 마지막 접근 시간 (epoch) */
+  uint32_t mtime;                     /**< 마지막 수정 시간 (epoch) */
+  uint32_t ctime;                     /**< 메타데이터 변경 시간 (epoch) */
+  uint32_t direct[SFUSE_NDIR_BLOCKS]; /**< 직접 데이터 블록 포인터 배열 */
+  uint32_t indirect;                  /**< 단일 간접 블록 포인터 */
+  uint32_t double_indirect;           /**< 이중 간접 블록 포인터 */
 };
 
 /**
@@ -60,5 +65,11 @@ int inode_load(int fd, const struct sfuse_superblock *sb, uint32_t ino,
  */
 int inode_sync(int fd, const struct sfuse_superblock *sb, uint32_t ino,
                const struct sfuse_inode *in);
+
+// inode를 dirty로 마킹하는 함수
+void inode_mark_dirty(uint32_t ino, struct sfuse_inode *inode);
+
+// inode가 dirty 상태인지 확인하고 동기화하는 함수
+int inode_sync_if_dirty(int fd, struct sfuse_superblock *sb, uint32_t ino);
 
 #endif /* SFUSE_INODE_H */
