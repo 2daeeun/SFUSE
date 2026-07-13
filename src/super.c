@@ -7,7 +7,7 @@
 
 #include "super.h"
 #include "disk.h"
-#include <errno.h>
+#include <linux/errno.h>
 #include <string.h>
 #include <unistd.h>
 

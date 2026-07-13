@@ -21,10 +21,11 @@ add_executable(${TARGET_NAME} ${SOURCE_FILES})
 target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include
                                                   ${FUSE3_INCLUDE_DIRS})
 
-# 링커 및 컴파일 플래그
+# 링커 및 컴파일 플래그 (계측용 추가)
 target_link_libraries(${TARGET_NAME} PRIVATE ${FUSE3_LIBRARIES})
-target_compile_options(${TARGET_NAME} PRIVATE ${FUSE3_CFLAGS_OTHER} -Wall
-                                              -Wextra -Wpedantic)
+target_compile_options(${TARGET_NAME} PRIVATE ${FUSE3_CFLAGS_OTHER}
+                                              -Wall -Wextra -Wpedantic
+                                              -g -O0 -pg -fno-omit-frame-pointer)
 
 # FUSE API 버전 명시
 target_compile_definitions(${TARGET_NAME} PRIVATE FUSE_USE_VERSION=31)

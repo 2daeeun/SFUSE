@@ -106,14 +106,17 @@ MOUNT() {
   echo -e "sudo ./sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other"
   echo -e "\n"
   # sudo ./build/sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other,default_permissions
-  sudo ./build/sfuse /dev/nvme0n1p4 /mnt/partition_04_200MB -f -s -d -o allow_other
+  sudo ./build/sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other
+
+  # uftrace
+  # sudo uftrace record ./build/sfuse /dev/nvme0n1p6 /mnt/partition_06_4GB -f -s -d -o allow_other
 
   # 언마운트
   # sudo fusermount3 -u /tmp/sfuse
-  # sudo umount /mnt/Partition7_ext2
-  # sudo dd if=/dev/zero of=/dev/nvme0n1p7 bs=4M status=progress && sync
-  # sudo mkfs.ext2 /dev/nvme0n1p7
-  # sudo mount /dev/nvme0n1p4 /mnt/partition_04_200MB
+  # sudo umount /mnt/partition_06_4GB/
+  # sudo dd if=/dev/zero of=/dev/nvme0n1p6 bs=4M status=progress && sync
+  # sudo mkfs.ext2 /dev/nvme0n1p6
+  # sudo mount /dev/nvme0n1p6 /mnt/partition_06_4GB
 }
 
 # 옵션 출력

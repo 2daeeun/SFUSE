@@ -1,0 +1,3 @@
+SESS timestamp=1591.102426335 pid=63010 sid=8b024150c9e54bf3 exename="/home/leedaeeun/Documents/github/SFUSE/build/sfuse"
+TASK timestamp=1591.102487276 tid=63010 pid=63010
+FORK timestamp=1591.103261472 pid=63016 ppid=63010
